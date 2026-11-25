@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r100-progression-poll-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/productionSharedFinalReconciliation\\.js$",
+    "^js/productionSharedTerminalClose\\.js$",
+    "^tests/contracts/r100\\-progression\\-poll\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-progression\\-poll\\-contracts\\.json$"
+  ]
+}

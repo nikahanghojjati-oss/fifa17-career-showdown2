@@ -156,7 +156,7 @@ async function run(){
             assert.equal(connectedProof.runtime.authInitialized, true, "Opening production Settings must initialize optional Firebase Auth successfully.");
             assert.equal(connectedProof.runtime.firestoreInitialized, true, "Opening production Settings must initialize memory-only Firestore successfully.");
             assert.equal(connectedProof.runtime.persistentFirestoreCache, false, "Connected Account must keep persistent Firestore cache disabled.");
-            assert.equal(connectedProof.runtime.authPersistence, "browserSessionPersistence", "Connected Account must preserve session-only Auth persistence.");
+            assert.equal(connectedProof.runtime.authPersistence, "remembered-on-device", "Connected Account must keep the reviewed remembered Auth persistence (r100 W4).");
             assert.equal(connectedProof.account.initialized, true, "Connected Account state must finish initialization in production Settings.");
             assert.equal(connectedProof.account.status, "signed-out", "A fresh production audit context must settle to signed-out rather than runtime-unavailable.");
             assert.equal(connectedProof.account.signedIn, false, "The headless production audit must not fabricate a signed-in Google user.");

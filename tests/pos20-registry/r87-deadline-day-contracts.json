@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r87-deadline-day-contracts.cjs",
+  "patterns": [
+    "^js/(deadlineDay|transferScreenV10)\\.js$",
+    "^data/deadlineDayLines\\.js$",
+    "^css/v10Transfer\\.css$",
+    "^service-worker\\.js$",
+    "^tests/contracts/r87-deadline-day-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-deadline\\-day\\-contracts\\.json$"
+  ]
+}

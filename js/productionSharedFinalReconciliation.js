@@ -74,6 +74,9 @@
   async function pfrRefreshNow(request=pfrRequest(),generation=authorityGeneration){
     if(!request||!pfrAuthorityMatches(request,generation))return pfrDiscard(request,generation);
     await pfrEnsureDependencies();if(!pfrAuthorityMatches(request,generation))return pfrDiscard(request,generation);
+    // r100 read cut (B4): while Multi Season holds a season that is not terminal and only a setup, Career Start, season-start or
+    // Transfer War screen shows, no final can be due (a season is accepted only on Season Results / Review): keep what is held, read nothing.
+    if(typeof multiApi.quietNow==="function"&&multiApi.quietNow())return pfrCurrentView();
     const multiState=await multiApi.refresh();if(!pfrAuthorityMatches(request,generation))return pfrDiscard(request,generation);
     const historyState=await historyApi.refresh();if(!pfrAuthorityMatches(request,generation))return pfrDiscard(request,generation);
     const localState=localApi.refresh();if(!pfrAuthorityMatches(request,generation)||!pfrSnapshotsMatch(request,multiState,historyState,localState))return pfrDiscard(request,generation);

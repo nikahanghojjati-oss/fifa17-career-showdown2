@@ -129,7 +129,7 @@ assert.equal(bootstrap.ownerZeroBillingAuthorization?.blazeMayBeEnabled,false,"B
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudRunAllowed,false,"Cloud Run must remain forbidden under the zero-billing architecture.");
 assert.equal(bootstrap.ownerZeroBillingAuthorization?.cloudFunctionsAllowed,false,"Cloud Functions must remain forbidden under the zero-billing architecture.");
 assert.equal(bootstrap.liveRuntime?.firestorePersistence,"memory-only","Current authority must preserve memory-only Firestore after the historical Phase 1F boundary.");
-assert.equal(bootstrap.liveRuntime?.googleAuthPersistence,"browserSessionPersistence-popup-only-no-extra-scopes","Current authority must preserve popup-only browser-session Auth with no extra scopes.");
+assert.equal(bootstrap.liveRuntime?.googleAuthPersistence,"remembered-on-device-popup-only-no-extra-scopes","Current authority must preserve popup-only browser-session Auth with no extra scopes.");
 assert.match(next, /evidence\/continuity publication only[\s\S]+zero RJR credit|earns zero RJR credit/i,"Current NEXT_TASK must preserve evidence-only RJR movement and forbid process credit.");
 assert.match(next, /Shared Showdown Journey Readiness|SSJR-1/i,"Current NEXT_TASK must route beyond completed RJR-1 only after clean publication and handoff.");
 

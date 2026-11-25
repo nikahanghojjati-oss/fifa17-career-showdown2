@@ -154,6 +154,8 @@
     if(state.phase==="CLOSED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="DELETED")ptcClearDrafts(state.rivalryId||request.rivalryId);
     if(state.phase==="CLOSED"||state.phase==="DELETED")ptcNoteEnded(state.rivalryId||request.rivalryId);
+    // Phoenix W3: a closed or ended Showdown never sends a noted tap again (js/sharedTapMemory.js); nothing to load for it.
+    if(state.phase==="CLOSED"||state.phase==="DELETED")try{root.CareerModeSharedTapMemory?.forgetShowdown?.(state.rivalryId||request.rivalryId);}catch(_error){}
     try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-terminal-close-state-change",{detail:{phase:state.phase,rivalryId:state.rivalryId||request.rivalryId,terminal:state.phase==="CLOSED"}}));}catch(_error){}
     if(state.phase==="DELETED"&&previousPhase!=="DELETED")ptcLeaveEndedShowdown(state.rivalryId||request.rivalryId);
     return state;
@@ -162,18 +164,25 @@
   // leaves it for Home once and says so; History keeps it as Ended early. Phase names stay (DELETED).
   // 2.4.0: the Squad Management stage (#sqStage) sits over the game screens, so it is taken down first, also when Home already
   // shows under it; its open screen ends with no write (js/squadSheetStep.js end()).
-  function ptcLeaveEndedShowdown(rivalryId){
+  // Phoenix r100 (B2, twotabs end-showdown): the notice shows once per ended Showdown on this page, whichever path leaves it.
+  // leaveEnded(rivalryId) is Journey Entry's path: a CONTINUE tapped on Home as END SHOWDOWN landed had found Home showing at
+  // that moment (so nothing left it), then opened the ended Showdown's Career Start. Journey Entry calls it only after Terminal
+  // Close itself holds the rivalry DELETED (a server read); it leaves for Home even when Home shows under the entry's layers.
+  const endedNoticeShown=new Set();
+  function ptcEndedNotice(rivalryId){const id=String(rivalryId||"");if(endedNoticeShown.has(id))return;endedNoticeShown.add(id);root.showAppNotice?.("This Showdown was ended for both players. Legacy keeps it as Ended early.","info",8000);}
+  function ptcLeaveEnded(rivalryId){const held=ptcCurrentState();if(!held||held.phase!=="DELETED"||!rivalryId||held.rivalryId!==rivalryId)return false;ptcLeaveEndedShowdown(rivalryId,true);return true;}
+  function ptcLeaveEndedShowdown(rivalryId,fromEntry=false){
     // #1449 the Squad stage; E1 (2.4.0, Fable re-check 2) the Chamber Men stage, the roulette's panel and stage and the Prime
     // Pack takeover: each run on screen for this Showdown ends at once (no write after it) and its stage goes, so the notice
     // below and Home are never covered.
     for(const step of ["CareerModeSquadSheetStep","CareerModeChamberMenStep","CareerModeRosterRouletteStep","CareerModeIconGuessStep"])try{root[step]?.end?.(rivalryId);}catch(_error){}
     try{
       const home=root.document?.getElementById("mainMenu");
-      if(home&&!home.classList.contains("hidden"))return;
+      if(home&&!home.classList.contains("hidden")&&!fromEntry)return;
       root.stopTransferTimerLoop?.();root.resetTransientSelectionOperations?.();root.resetNavigationState?.();
       if(typeof root.showScreen==="function")root.showScreen("mainMenu",false);else void root.navigateTo?.("mainMenu",{addToHistory:false});
       root.refreshMainMenuExperience?.();
-      root.showAppNotice?.("This Showdown was ended for both players. Legacy keeps it as Ended early.","info",8000);
+      ptcEndedNotice(rivalryId);
     }catch(_error){}
   }
   function ptcClear(){stateGeneration+=1;state=null;stateContextKey="";ptcRender();return null;}
@@ -184,7 +193,7 @@
     if(protocol.sameWitness(terminalRead.terminalWitness,intent))return true;
     try{const witness=protocol.verifyIntent(terminalRead.terminalWitness),held=protocol.verifyIntent(intent);return protocol.sameWitness({...witness,sessionId:held.sessionId},held);}catch(_error){return false;}
   }
-  function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
+  function ptcClosedState(request,terminalRead){const witness=protocol.verifyIntent(terminalRead.terminalWitness);return {phase:"CLOSED",rivalryId:request.rivalryId,sessionId:witness.sessionId,rivalryRevision:terminalRead.rivalryRevision,terminal:true,terminalWitness:ptcClone(witness),closedAtMs:Number.isFinite(terminalRead.closedAtMs)?terminalRead.closedAtMs:null,canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false};}
   function ptcBootstrap(){return ptcEnsureDependencies().then(()=>{if(!unsubscribeRemote&&typeof remoteApi?.subscribe==="function")unsubscribeRemote=remoteApi.subscribe(()=>ptcWake());});}
   function ptcOnOtherRivalry(request){try{const s=ptcRivalryApi()?.getState?.(),id=String(s?.rivalryId||"").trim().toLowerCase();return s?.attached===true&&/^pair_[0-9a-f]{64}$/.test(id)&&id!==request.rivalryId;}catch(_error){return false;}}
   // r80: right after END SHOWDOWN on this phone, START (or Nik's JOIN) opens a new save shell before its rivalry is attached.
@@ -367,6 +376,11 @@
   // (see CareerModeFirestoreBudget.watchContext); a change to either wakes this module at once.
   let contextWatchKey="";
   function ptcContextWake(){ptcWake({type:"career-mode-shared-wait-context-change"});}
+  // r100 B6 JOIN speed: the shared setup screen (League Roulette, Ball Game) asks for this watch on each of its checks, so the
+  // listener is there as soon as this Showdown's rivalry binding is known instead of on the next 15 s wake: with the faster
+  // JOIN, League Roulette now opens before that wake, and its checks read the rivalry and Session from the server until then.
+  // Only the watch is attached here; no check runs and nothing loads.
+  function ptcWatchEarly(){if(contextWatchKey||root.document?.visibilityState==="hidden")return false;let request=null;try{request=ptcRequest();}catch(_error){request=null;}if(!request)return false;ptcWatchContext(request);return Boolean(contextWatchKey);}
   function ptcWatchContext(request){
     const budget=root.CareerModeFirestoreBudget;if(!budget||typeof budget.watchContext!=="function")return;
     // A verified CLOSED (or deleted) Showdown never changes again: no context watch for it, so a phone unlock on the Champion
@@ -421,6 +435,6 @@
     contractVersion:1,feature:"ssjr-production-shared-terminal-close",productionEnabled:true,runtimeRevision:"1.9.1-r18",pollIntervalMs:POLL_MS,
     requiresFinalReconciliation:true,requiresExactActiveSessionToClose:true,sameWitnessRetry:true,terminalReadAfterReload:true,terminalSessionResurrection:false,
     canonicalStorageMutation:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
-    install:ptcInstall,refresh:ptcRefresh,reportUnlessClosed:ptcReportUnlessClosed,close:ptcClose,retry:ptcRetry,getState:ptcCurrentState,isBusy:()=>busy
+    install:ptcInstall,watchContextEarly:ptcWatchEarly,refresh:ptcRefresh,reportUnlessClosed:ptcReportUnlessClosed,close:ptcClose,retry:ptcRetry,getState:ptcCurrentState,isBusy:()=>busy,leaveEnded:ptcLeaveEnded
   });
 });

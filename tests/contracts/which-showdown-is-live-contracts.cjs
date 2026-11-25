@@ -113,7 +113,7 @@ await check("W5 no bounce: WAITING stays on the league wheel, no reverse trip to
 
 await check("W6 auto-continue after connect keeps START CAREER as the fallback and the createdShell rollback",()=>{
   const pairSource=read("js/persistentNikDanielPair.js");
-  const tick=pairSource.match(/async function pairWaitingPollTick\(\)\{[\s\S]*?\n  \}/)[0];
+  const tick=pairSource.match(/async function pairWaitingPollTick\(woken=false\)\{[\s\S]*?\n  \}/)[0];
   assert.match(tick,/await pairInitialize\(\{force:true\}\);[\s\S]*state\.connectionState==="active"&&state\.status==="paired"&&`\$\{state\.accountId\}\|\$\{state\.rivalryId\}`===key\)\{[^}]*\*\/const recording=pairRecordRealPairing\(state\.rivalryId,"playerOne"\);await pairAutoContinueAfterConnect\(\);await recording;\}/,"Daniel continues only for the rivalry he was waiting on (r79 PR3: a real first pairing is recorded alongside)");
   assert.match(pairSource,/async function pairJoinAndContinue\(capability,options=\{\}\)\{const wasActive=state\.connectionState==="active",joined=await pairJoinPairing\(capability,options\);if\(!wasActive&&options\.autoContinue!==false&&joined\?\.status==="paired"&&joined\.connectionState==="active"\)await pairAutoContinueAfterConnect\(\);return joined;\}/,"Nik continues after his own successful JOIN");
   assert.match(pairSource,/pairSyncWaitingPoll\(\);pairContinueAfterWaitEnded\(\);if\(endedHeldNow\)pairAnnounceEnded\(\);return state;\}/,"every settled state change can continue, not only the poll");
@@ -201,12 +201,14 @@ await check("W10 r79 PR3: Daniel's JOIN note routes Nik to JOIN only while it is
   // Home's JOIN redeems through the existing joinPairing (auto-continue) with the note's rivalry; a failure opens the code box
   const identity=read("js/onlinePlayerIdentity.js");
   // r79 PR4: a pair-again decision first resets this account's stale record, then START asks again; the JOIN routing is unchanged.
-  assert.match(identity,/let decision=await which\.read\(root\);\/\*[^*]*\*\/if\(decision\.action==="pair-again"\)\{await pairAgainFirst\(\);decision=await which\.read\(root\);\}if\(decision\.action==="join"&&decision\.rivalryId\)\{await openCanonicalNoteJoin\(decision\);return decision;\}/);
+  // r100 B6: the one automatic resend of a JOIN tap the network cut follows only the Showdown that tap named (tests/contracts/r100-b6-join-offline-contracts.cjs).
+  assert.match(identity,/let decision=await which\.read\(root\);\/\*[^*]*\*\/if\(decision\.action==="pair-again"\)\{await pairAgainFirst\(\);decision=await which\.read\(root\);\}\/\*[^*]*\*\/\/\*[^*]*\*\/if\(resendFor&&\(leftHomeSeq!==joinTapLeftHomeSeq\|\|!\(decision\.rivalryId===resendFor&&\(decision\.action==="join"\|\|decision\.action==="continue"\)\)\)\)\{configureOnlineProductSurface\(\);return decision;\}if\(decision\.action==="join"&&decision\.rivalryId\)\{await openCanonicalNoteJoin\(decision,\{tapSeq,leftHomeSeq,resend:Boolean\(resendFor\)\}\);return decision;\}/);
   // The entry's other START paths (reload recovery, locked-wheel CONTINUE) hand their decision over, so a note JOIN redeems there too;
   // the fallback to the paste panel passes no decision, so it cannot loop.
   assert.match(identity,/async function openCanonicalShowdownJoin\(options=\{\}\)\{\/\*[^*]*\*\/if\(options&&options\.decision&&options\.decision\.action==="join"&&options\.decision\.rivalryId\)return openCanonicalNoteJoin\(options\.decision\);/);
   assert.match(fs.readFileSync(path.join(ROOT,"js/productionSharedJourneyEntry.js"),"utf8"),/identity\.openJoin\(\{pair:decision\.pair\|\|null,decision\}\)/);
-  assert.match(identity,/async function openCanonicalNoteJoin\(decision\)\{[^\n]*joined=await pair\.joinPairing\(pair\.buildPlayerJoinCode\(decision\.rivalryId\),\{managerRole:"playerTwo"\}\);[^\n]*if\(!joined\|\|joined\.connectionState!=="active"\)await openCanonicalShowdownJoin\(/);
+  // r100 B6: a join the network cut (offline seen during the tap, no provider refusal) stays on Home instead of the code box.
+  assert.match(identity,/async function openCanonicalNoteJoin\(decision,tap=null\)\{[^\n]*joined=await pair\.joinPairing\(pair\.buildPlayerJoinCode\(decision\.rivalryId\),\{managerRole:"playerTwo"\}\);[^\n]*if\(!joined\|\|joined\.connectionState!=="active"\)\{\/\*[^*]*\*\/if\(tap&&state\.managerId==="nik"&&joinTapOffline\(tap\.tapSeq\)&&[^\n]*?\}await openCanonicalShowdownJoin\(/);
   assert.match(identity,/if\(decision\.action!=="continue"&&decision\.action!=="resume-waiting"&&decision\.action!=="close-then-new"\)\{await openCanonicalShowdownJoin\(/,"wait-for-daniel (the tile is the PASTE A CODE backup) opens the code box");
 });
 
@@ -218,7 +220,7 @@ await check("W7 the module is precached, lazy (not a startup file) and registere
   assert.ok(!html.includes("whichShowdownIsLive"),"not a startup script (startup budget)");
   assert.match(read("js/onlinePlayerIdentity.js"),/loadOnlineDependency\("which-showdown","js\/whichShowdownIsLive\.js",\(\)=>root\.CareerModeWhichShowdownIsLive\)/);
   assert.match(read("js/productionSharedJourneyEntry.js"),/loadScript\("which-showdown","js\/whichShowdownIsLive\.js",\(\)=>root\.CareerModeWhichShowdownIsLive\)/);
-  const registry=JSON.parse(read("POS20_SUPPLEMENTAL_PRODUCT_TESTS.json"));
+  const registry=require("../support/pos20-registry.cjs").loadPos20Registry(ROOT);
   assert.ok(registry.tests.some(entry=>entry.path==="tests/contracts/which-showdown-is-live-contracts.cjs"));
 });
 

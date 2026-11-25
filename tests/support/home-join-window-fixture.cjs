@@ -48,7 +48,7 @@ function world(){
       CareerModeCareerStartMarker:{readCurrentMarker:async()=>({status:"ready"})},
       CareerModeShowdownModes:{install(){},resolve:async()=>({mode:"real"}),getView:()=>({mode:"real"})},
       CareerModeSparkConnectedRivalry:{attachRivalry:async()=>({ok:true}),initialize:async()=>true},
-      CareerModeProductionSharedJourneyEntry:{install(){},openPanel:async()=>{entered++;return true;}},
+      CareerModeProductionSharedJourneyEntry:{install(){},openPanel:async()=>{entered++;return true;},/* START's CONTINUE of the live Showdown (r100 B6-16) */followStartDecision:async decision=>{assert.equal(decision.action,"continue","only a live Showdown is continued here");entered++;return "continue";}},
       CareerModeConnectPlayersScreenV10:{open:async()=>{fallbacks++;},close(){}}
     };
     vm.createContext(s);const load=file=>vm.runInContext(fs.readFileSync(`${ROOT}/js/${file}`,"utf8"),s,{filename:file});
@@ -67,7 +67,7 @@ function world(){
   return {page,docs,reads,writes,listeners,sdk,now:()=>now,jump:ms=>{now+=ms;},
     async advance(ms){const end=now+ms;for(;;){const due=[...timers].filter(([,t])=>t.at<=end).sort((a,b)=>a[1].at-b[1].at)[0];if(!due)break;timers.delete(due[0]);now=due[1].at;await due[1].fn();await settle();}now=end;await settle();},
     failListener(){for(const l of [...listeners])l.error(new Error("offline"));},
-    async start(){const daniel=page("daniel");await daniel.init();const waiting=await daniel.pair.startPairing({managerRole:"playerOne"});assert.equal(waiting.connectionState,"pending-pair",waiting.message);daniel.document.visibilityState="hidden";await settle();return waiting.rivalryId;}
+    async start(){const daniel=page("daniel");await daniel.init();const waiting=await daniel.pair.startPairing({managerRole:"playerOne"});assert.equal(waiting.connectionState,"pending-pair",waiting.message);/* Daniel's tab goes to the background as a browser does it (the event fires), so his waiting code lets its wait listener go (r100 B6 JOIN speed) */await daniel.visibility(false);await settle();return waiting.rivalryId;}
   };
 }
 

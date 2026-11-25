@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/season-entry-no-flash-contracts.cjs",
+  "patterns": [
+    "^js/v10Screens\\.js$",
+    "^js/seasonFinalV10\\.js$",
+    "^tests/contracts/season\\-entry\\-no\\-flash\\-contracts\\.cjs$",
+    "^tests/pos20-registry/season\\-entry\\-no\\-flash\\-contracts\\.json$"
+  ]
+}

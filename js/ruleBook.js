@@ -119,7 +119,7 @@ function createRuleBookScreen(){
             "Connect once before your first Showdown. After that, the same account and browser stay connected.",
             "A new browser may need to connect again.",
             "Daniel and Nik stay paired between Showdowns. UNPAIR in Settings ends the pairing.",
-            "Settings also picks your clubhouse: Wooden, Silver, Metallic Black or Premium Matte Black. Each phone or laptop keeps its own; it changes only the look, never the game.",
+            "Settings also picks your clubhouse: Wooden, Platinum, Metallic Black or Premium Matte Black. Each phone or laptop keeps its own; it changes only the look, never the game.",
             "Your Showdown is saved online. If a phone reloads or loses signal, open the game again and carry on from Home."
         ])
     );

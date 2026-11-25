@@ -13,6 +13,7 @@
 //   W6 shipped and offline: the step, the scene and the stylesheet are in the service worker; draw styles only apply in draw
 //      mode; no dimming; Team V's pack plate stays for old Setups and is off in draw mode
 //   W7 a stop the device storage refused stays the phone's only stop in memory and is still sent; a stored stop wins when storage works
+//   W9 the saved stop is forgotten once Firebase holds this manager's stop, even while the 3D draw is still loading (Phoenix tabkill)
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -256,6 +257,34 @@ async function main(){
     assert.match(STEP_SRC,/Math\.floor\(\(\(b\.front%360\)\+360\)%360\/cdsSectionFor\(b\.clubs\.length\)\)/,"and cycles them by their own slices");
     assert.match(CSS_SRC,/\.clubDrawFlatBall\[data-count="6"\] \.clubDrawFlatClub\{width:clamp\(44px,6\.4vw,92px\)\}/,"six smaller flat crests that wrap on a phone");
     ok("W8","the Ball Game (draw 3): six crests a ball, the club is candidates[role][floor(stop/60)] like the protocol, both balls mounted with six; the flat stand-in follows");
+  }
+  // W9 (Phoenix, B1 tabkill seed 4 FLAKY draw.savedStopCleared) --------------------------------------------------------------
+  // A tab closed between STOP and Firebase holding it, then reopened: the saved stop is sent again and lands. The slot on the
+  // device must go once Firebase holds this manager's stop, even when the 3D draw is still loading on the reopened tab (the
+  // draw's own accepted() waits for the scene) or Career Start already covers it. Run for real: the presentation's
+  // ssjpForgetHeldStop on the real step and storage; it is called on every Setup state the page takes in and when the step loads.
+  {
+    const storage=fakeStorage();const a=loadPage(storage);const setup=drawSetup();
+    await a.step.prepare(setup,CTX);a.step.sync(setup,CTX);assert.equal(a.step.tap(setup,CTX),137);
+    const slot=`${a.step.PENDING_KEY}:${CTX.rivalryId}:${CTX.role}`;assert.ok(storage.map.has(slot),"saved before anything is sent");
+    const b=loadPage(storage);assert.equal(b.step.isReady(setup,CTX),false,"the reopened tab's scene is not built yet");
+    const start=PRES_SRC.indexOf("  function ssjpForgetHeldStop(");const end=PRES_SRC.indexOf("\n  }",start)+4;assert.ok(start>0&&end>start);
+    const forget=vm.runInNewContext(`(drawStep=>{${PRES_SRC.slice(start,end)}\nreturn ssjpForgetHeldStop;})`,b.sandbox)(b.step);
+    const state=s=>({rivalryId:CTX.rivalryId,managerRole:CTX.role,setup:s});
+    assert.equal(forget(state(setup)),false,"not held yet: the saved stop stays (it is what gets sent again)");assert.ok(storage.map.has(slot));
+    assert.equal(forget({...state(drawSetup({confirmedRoles:["playerOne"],stops:[12]}))}),false,"the rival's stop alone never clears this phone's");assert.ok(storage.map.has(slot));
+    const held=drawSetup({phase:"SHOWDOWN_CONFIRMED",revision:6,confirmedRoles:["playerOne","playerTwo"],stops:[12,137]});
+    assert.equal(forget(state(held)),true);assert.equal(storage.map.has(slot),false,"held by Firebase: the slot is gone with no scene");
+    assert.equal(b.calls.some(c=>c[0]==="accept"),false,"nothing is shown: the draw's own accept still waits for its scene");
+    assert.equal(b.step.pending(CTX,held),null);
+    const other=fakeStorage();loadPage(other);other.setItem(slot,"x");other.setItem(`${a.step.PENDING_KEY}:pair_other:${CTX.role}`,"y");
+    const c=loadPage(other);const forgetC=vm.runInNewContext(`(drawStep=>{${PRES_SRC.slice(start,end)}\nreturn ssjpForgetHeldStop;})`,c.sandbox)(c.step);
+    forgetC({rivalryId:"pair_other",managerRole:"playerOne",setup:held});assert.equal(other.map.get(slot),"x","only this rivalry and role's slot");
+    assert.equal(forgetC({rivalryId:CTX.rivalryId,managerRole:CTX.role,setup:{...held,stops:undefined}}),false,"an old-shape Setup is not a draw");
+    assert.match(PRES_SRC,/presentationContextKey=nextKey\|\|presentationContextKey;state=next;ssjpForgetHeldStop\(next\);return state;/,"every Setup state the page takes in");
+    assert.match(PRES_SRC,/drawStep=root\.CareerModeClubDrawStep\|\|null;ssjpForgetHeldStop\(state\);/,"and the state already held when the step loads");
+    assert.doesNotMatch(PRES_SRC.slice(start,end),/ssjpMutate|refresh\(|\.read\(|writeStorageValue/,"no read, no write: it only forgets");
+    ok("W9","a saved STOP is forgotten as soon as Firebase holds this manager's stop, even before the 3D draw is ready");
   }
   console.log(`PASS R94-02 club draw wiring: ${passed} checks.`);
 }

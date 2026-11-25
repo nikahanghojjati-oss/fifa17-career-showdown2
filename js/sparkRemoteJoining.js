@@ -237,24 +237,41 @@
     const timer=root.setTimeout(async()=>{
       if(srjJoinWatchTimer!==timer)return;
       srjJoinWatchTimer=null;srjJoinWatchSessionId=null;
-      if(generation!==srjWaitGeneration||!srjHostWaitingForJoin(sessionId))return;
-      if(Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS){srjPauseWait();return;}
-      if(!srjState.busy&&root.document.visibilityState!=="hidden"){
+      if(generation!==srjWaitGeneration||!srjHostWaitingForJoin(sessionId)){srjWatchJoinWait(sessionId,generation);return;}
+      if(Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS){srjPauseWait();srjWatchJoinWait(sessionId,-1);return;}
+      const watched=srjWatchJoinWait(sessionId,generation),standDown=Date.now()-srjJoinCheckedAt<SRJ_WAIT_BACKSTOP_MS&&srjWatchHealthy(watched);
+      if(!standDown&&!srjState.busy&&srjJoinWaking!==generation&&root.document.visibilityState!=="hidden"){
         await srjCheckForJoin(sessionId,generation);
       }
-      if(generation===srjWaitGeneration)srjWatchForJoin(sessionId,startedAt,generation);
+      if(generation===srjWaitGeneration&&srjWatchForJoin(sessionId,startedAt,generation))return;
+      srjWatchJoinWait(sessionId,generation);
     },SRJ_JOIN_WATCH_MS);
     srjJoinWatchTimer=timer;
+    srjWatchJoinWait(sessionId,generation);
     return true;
   }
-  async function srjCheckForJoin(sessionId,generation){
+  /* r100 B6 JOIN speed: one join check at a time for the same wait (a wake during a check runs one more right after it). A check
+     of a retired wait (the page woke, a new window began) is never waited for: the new wait checks at once, as before. */
+  let srjJoinCheck=null;
+  function srjCheckForJoin(sessionId,generation){
+    const running=srjJoinCheck;
+    if(running&&running.generation===generation&&running.sessionId===sessionId){running.again=true;return running.promise;}
+    const run={sessionId,generation,again:false,promise:null};srjJoinCheck=run;
+    run.promise=(async()=>{try{do{run.again=false;await srjCheckForJoinOnce(sessionId,generation);}while(run.again&&srjJoinCheck===run&&generation===srjWaitGeneration&&!srjState.busy&&!srjState.waitRetry&&srjHostWaitingForJoin(sessionId));}finally{if(srjJoinCheck===run)srjJoinCheck=null;}})();
+    return run.promise;
+  }
+  async function srjCheckForJoinOnce(sessionId,generation){
+    /* r100 B6 JOIN speed: only a check that read the session lets the timed checks stand down (a failed read checks again on the next 4 s check) */
+    let settled=false;
     try{
       root.CareerModeFirestoreBudget?.wantFresh?.();
       const context=await srjResolveContext();
       if(generation!==srjWaitGeneration||!srjPendingContextMatches(context)||!srjHostWaitingForJoin(sessionId))return;
       const result=await context.protocol.readSession(srjOperationOptions(context,sessionId));
+      settled=Boolean(result&&result.ok===true);
       if(generation===srjWaitGeneration&&srjHostWaitingForJoin(sessionId)&&!srjState.busy&&result&&result.ok===true&&result.state!=="open")srjAcceptResult(result,context,"host",result.state==="active"?"The other manager joined. Private session is active with exactly the two paired rivalry accounts.":`Private session refreshed at revision ${result.revision}.`);
     }catch(_error){}
+    finally{srjJoinCheckedAt=settled?Date.now():0;}
   }
   async function srjRetryPendingOperation(){
     if(srjRetireEnded())return {ok:false,code:"REMOTE_JOINING_SHOWDOWN_ENDED",message:srjState.message};
@@ -385,6 +402,31 @@
   const SRJ_OFFER_POLL_MS=3000,SRJ_OFFER_POLL_LIMIT_MS=10*60*1000,SRJ_OFFER_MIN_LIFE_MS=60*1000;
   let srjAutoPromise=null,srjOfferTimer=null,srjPublishTimer=null,srjPublishRetry=null;
   let srjWaitGeneration=0,srjResumePromise=null;
+  /* r100 B6 JOIN speed: while Nik waits for Daniel's session offer, and while Daniel's session waits for Nik to join, the budget
+     layer's one wait listener watches the exact document the other phone writes (the offer pointer; the session), and its wake
+     runs the same check at once. The timed checks stay as the fallback: while the listener is healthy they stand down (a
+     backstop check still runs every 30 s), so each wait costs no more reads than before (fewer). */
+  const SRJ_WAIT_BACKSTOP_MS=30000;
+  /* Codex #1620: a wake's in-flight flag holds its own wait generation, so a read of a retired wait never silences the new
+     wait's timed checks; and a paused wait (its window ran out: TRY AGAIN) releases its listener until the wait resumes, and a
+     check still running when the wait paused joins nothing. */
+  let srjOfferWaitRivalryId=null,srjOfferCheckedAt=0,srjOfferWaking=null,srjJoinCheckedAt=0,srjJoinWaking=null;
+  function srjBudget(){const budget=root.CareerModeFirestoreBudget;return budget&&typeof budget.watchWaitPoint==="function"?budget:null;}
+  function srjWatchHealthy(path){const live=root.CareerModeFirestoreBudget?.stats?.();return Boolean(path&&live?.watchHealthy===true&&live.watching===path);}
+  function srjOfferWaitPath(generation){return srjOfferWaitRivalryId&&generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjState.waitRetry&&!srjHasNonterminalSession()&&root.document?.visibilityState!=="hidden"?`rivalries/${srjOfferWaitRivalryId}/sessionOffers/current`:null;}
+  function srjWatchOfferWait(generation){const budget=srjBudget();if(!budget)return null;let path=null;try{path=srjOfferWaitPath(generation);}catch(_error){path=null;}try{budget.watchWaitPoint("remote-join-offer",path,()=>srjOfferWake(generation));}catch(_error){}return path;}
+  function srjOfferWake(generation){
+    if(generation!==srjWaitGeneration||srjState.busy||srjState.auto!=="waiting"||srjState.waitRetry||srjHasNonterminalSession())return;
+    srjOfferWaking=generation;
+    void srjCheckForOffer(generation).finally(()=>{if(srjOfferWaking===generation)srjOfferWaking=null;if(generation===srjWaitGeneration)srjWatchOfferWait(generation);});
+  }
+  function srjJoinWaitPath(sessionId){return srjHostWaitingForJoin(sessionId)&&!srjState.waitRetry&&srjState.rivalryId&&root.document?.visibilityState!=="hidden"?`rivalries/${srjState.rivalryId}/sessions/${sessionId}`:null;}
+  function srjWatchJoinWait(sessionId,generation){const budget=srjBudget();if(!budget)return null;let path=null;try{path=generation===srjWaitGeneration?srjJoinWaitPath(sessionId):null;}catch(_error){path=null;}try{budget.watchWaitPoint("remote-join-session",path,()=>srjJoinWake(sessionId,generation));}catch(_error){}return path;}
+  function srjJoinWake(sessionId,generation){
+    if(generation!==srjWaitGeneration||srjState.busy||srjState.waitRetry||!srjHostWaitingForJoin(sessionId))return;
+    srjJoinWaking=generation;
+    void srjCheckForJoin(sessionId,generation).finally(()=>{if(srjJoinWaking===generation)srjJoinWaking=null;if(generation===srjWaitGeneration)srjWatchJoinWait(sessionId,generation);});
+  }
   function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
   // r79 gallery (Nik's JOIN after a deleted Showdown): the pointer is what a waiting phone polls for, so the budget layer must
   // not answer it from a copy. With any healthy wait-point listener on the page (the previous Showdown's shared setup kept one)
@@ -400,6 +442,7 @@
     return Object.freeze({sessionId:data.sessionId,hostAccountId:data.hostAccountId,expiresAtEpochMs:expiresAt});
   }
   async function srjReadOffer(context){
+    srjOfferWaitRivalryId=context.rivalryId||null;
     root.CareerModeFirestoreBudget?.wantFresh?.(`rivalries/${context.rivalryId}/sessionOffers/current`);
     const sdk=context.services.firestoreSdk;
     return sdk.runTransaction(context.services.firestore,async transaction=>srjOfferFromSnapshot(await transaction.get(srjOfferRef(context))));
@@ -454,14 +497,30 @@
   function srjPauseWait(message=srjState.message){
     srjSetState({auto:"waiting",waitRetry:true,message});
   }
-  async function srjCheckForOffer(generation){
+  /* r100 B6 JOIN speed: one offer check at a time for the same wait. A wake or timed check that comes while one runs waits for
+     it and, if the wait is still open, runs one more right after it (two at once could each try to join the same session).
+     A check of a retired wait (the page woke, a new window began) is never waited for: the new wait checks at once, as before. */
+  let srjOfferCheck=null;
+  function srjCheckForOffer(generation){
+    const running=srjOfferCheck;
+    if(running&&running.generation===generation){running.again=true;return running.promise;}
+    const run={generation,again:false,promise:null};srjOfferCheck=run;
+    run.promise=(async()=>{try{do{run.again=false;await srjCheckForOfferOnce(generation);}while(run.again&&srjOfferCheck===run&&generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjState.waitRetry&&!srjState.busy&&!srjHasNonterminalSession());}finally{if(srjOfferCheck===run)srjOfferCheck=null;}})();
+    return run.promise;
+  }
+  async function srjCheckForOfferOnce(generation){
+    /* r100 B6 JOIN speed: only a check that found nothing to do lets the timed checks stand down. A failed read, or an offer it
+       could not join (another tab of this phone joined it a moment earlier), is checked again on the next 3 s check as before:
+       the listener wakes only on a change, and none may come. */
+    let settled=false;
     try{
       const context=await srjResolveContext(),offer=await srjReadOffer(context);
-      if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>srjClockNow()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession()){
+      if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>srjClockNow()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.waitRetry&&!srjState.busy&&!srjHasNonterminalSession()){
         const adopted=await srjAdopt(context,offer.sessionId,"peer",true,generation);
-        if(adopted){srjSetState({auto:null,waitRetry:false});return;}
-      }
+        if(adopted){settled=true;srjSetState({auto:null,waitRetry:false});return;}
+      }else settled=true;
     }catch(_error){}
+    finally{srjOfferCheckedAt=settled?Date.now():0;}
   }
   function srjWaitForOffer(startedAt=Date.now(),generation=srjWaitGeneration){
     srjStopOfferWait();
@@ -469,12 +528,15 @@
     const timer=root.setTimeout(async()=>{
       if(srjOfferTimer!==timer)return;
       srjOfferTimer=null;
-      if(generation!==srjWaitGeneration||srjHasNonterminalSession()||srjState.auto!=="waiting")return;
-      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPauseWait();return;}
-      if(!srjState.busy&&(!root.document||root.document.visibilityState!=="hidden"))await srjCheckForOffer(generation);
+      if(generation!==srjWaitGeneration||srjHasNonterminalSession()||srjState.auto!=="waiting"){srjWatchOfferWait(generation);return;}
+      if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPauseWait();srjWatchOfferWait(generation);return;}
+      const watched=srjWatchOfferWait(generation),standDown=Date.now()-srjOfferCheckedAt<SRJ_WAIT_BACKSTOP_MS&&srjWatchHealthy(watched);
+      if(!standDown&&!srjState.busy&&srjOfferWaking!==generation&&(!root.document||root.document.visibilityState!=="hidden"))await srjCheckForOffer(generation);
       if(generation===srjWaitGeneration&&!srjHasNonterminalSession()&&srjState.auto==="waiting")srjWaitForOffer(startedAt,generation);
+      else srjWatchOfferWait(generation);
     },SRJ_OFFER_POLL_MS);
     srjOfferTimer=timer;
+    srjWatchOfferWait(generation);
   }
   // JOB-1 F2: a wake or retry owns one immediate read and a new ten-minute window. Retired callbacks cannot re-arm it.
   // Codex #974: an offer publish retry whose own window ran out while asleep gets a fresh window too.
@@ -607,10 +669,25 @@
     srjWaitForOffer();
     return {ok:true,kind:"waiting"};
   }
+  /* r100 B6 JOIN speed: two tabs of the same phone used to connect at different moments (each on its own timed check), so the
+     later tab found the earlier tab's session in the offer pointer and hosted that same session. With the JOIN waits woken by a
+     listener, both tabs now connect at the same moment: both found no offer, each opened its own session, and the tab whose
+     session Nik did not join was left waiting. One connect at a time per browser (Web Locks, shared by the tabs of this site)
+     keeps that order: the second tab reads the offer after the first tab wrote it. The wait for the other tab is bounded (10 s,
+     then it connects as before); without Web Locks or a timed abort nothing changes. */
+  const SRJ_CONNECT_LOCK="cms-remote-join-connect",SRJ_CONNECT_LOCK_WAIT_MS=10000;
+  function srjWithConnectLock(run){
+    const locks=root.navigator&&root.navigator.locks;
+    let signal=null;
+    try{signal=locks&&typeof locks.request==="function"&&root.AbortSignal&&typeof root.AbortSignal.timeout==="function"?root.AbortSignal.timeout(SRJ_CONNECT_LOCK_WAIT_MS):null;}catch(_error){signal=null;}
+    if(!signal)return run();
+    let ran=false;
+    return Promise.resolve().then(()=>locks.request(SRJ_CONNECT_LOCK,{signal},()=>{ran=true;return run();})).catch(error=>{if(ran)throw error;return run();});
+  }
   function srjAutoConnect(){
     if(srjAutoPromise)return srjAutoPromise;
     if(!srjHasNonterminalSession()&&!srjState.busy&&!srjState.pendingAction)srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});
-    srjAutoPromise=srjAutoConnectOnce().catch(error=>{
+    srjAutoPromise=srjWithConnectLock(srjAutoConnectOnce).catch(error=>{
       if(error?.code==="REMOTE_JOINING_READ_UNAVAILABLE"){srjConnectReadPending=true;srjPauseWait("Could not connect. Try again.");}
       else srjSetState({auto:null});
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_AUTO_FAILED",message:srjPlain(error,"Could not connect. Try again.")};
@@ -709,12 +786,14 @@
     feature:"stage5e-production-private-remote-joining-runtime",
     productionRulesPublished:true,
     providerIdentity:"standard-firebase-request-auth-uid",
-    authPersistence:"browserSessionPersistence",
+    authPersistence:"remembered-on-device",
     registeredDeviceAuthority:"account-owned-mutation-metadata",
     exactCapabilityBits:256,
     hostSessionTtlMs:SRJ_HOST_TTL_MS,
     clockNow:srjClockNow,
     serverNow:srjServerNow,
+    // Phoenix F3 (Codex on #1617): whether serverNow/clockNow carry a measured server offset (false: the device clock alone).
+    serverClockKnown:()=>srjClock.known===true,
     sessionCapabilityStorage:"page-memory-only",
     persistentFirestoreCache:false,
     publicDiscovery:false,

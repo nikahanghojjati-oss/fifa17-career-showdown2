@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/shared-journey-reload-resume-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedJourneyReconnect\\.js$",
+    "^js/productionSharedJourneyEntry\\.js$",
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/sparkRemoteJoining\\.js$",
+    "^tests/contracts/shared-journey-reload-resume-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-journey\\-reload\\-resume\\-contracts\\.json$"
+  ]
+}

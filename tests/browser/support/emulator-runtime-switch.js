@@ -63,10 +63,10 @@
         }
         services=Object.freeze({
           ok:true,auth,firestore,
-          authSdk:Object.freeze({GoogleAuthProvider:authModule.GoogleAuthProvider,signInWithPopup,signOut:authModule.signOut,onAuthStateChanged:authModule.onAuthStateChanged,setPersistence:authModule.setPersistence,browserSessionPersistence:authModule.browserSessionPersistence}),
+          authSdk:Object.freeze({GoogleAuthProvider:authModule.GoogleAuthProvider,signInWithPopup,signOut:authModule.signOut,onAuthStateChanged:authModule.onAuthStateChanged,setPersistence:authModule.setPersistence,rememberedPersistence:typeof root.indexedDB?.open==="function"?authModule.indexedDBLocalPersistence:authModule.browserLocalPersistence}),
           firestoreSdk:Object.freeze({Timestamp:firestoreModule.Timestamp,serverTimestamp:firestoreModule.serverTimestamp,doc:firestoreModule.doc,runTransaction:firestoreModule.runTransaction}),
           billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
-          persistentFirestoreCache:false,authPersistence:"browserSessionPersistence",provider:"google",signInFlow:"popup",
+          persistentFirestoreCache:false,authPersistence:"remembered-on-device",provider:"google",signInFlow:"popup",
           additionalGoogleScopes:0,writeScope:BROWSER_FIRESTORE_WRITE_SCOPE
         });
         state=Object.freeze({...state,authInitialized:true,firestoreInitialized:true});
@@ -77,7 +77,7 @@
     return Object.freeze({
       contractVersion:2,emulatorSwitch:true,firebaseFirestoreModule:`${SDK_BASE}firebase-firestore.js`,emulatorProjectId:PROJECT_ID,
       enforcementEnabled:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,
-      persistentFirestoreCache:false,authPersistence:"browserSessionPersistence",provider:"google",signInFlow:"popup",additionalGoogleScopes:0,
+      persistentFirestoreCache:false,authPersistence:"remembered-on-device",provider:"google",signInFlow:"popup",additionalGoogleScopes:0,
       browserFirestoreWrites:BROWSER_FIRESTORE_WRITE_SCOPE,
       classifyContext:()=>"eligible",
       initialize:async()=>state,
