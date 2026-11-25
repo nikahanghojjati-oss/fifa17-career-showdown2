@@ -466,3 +466,145 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 
 Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
 ```
+
+## HO-138 · Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint
+
+- Image 1: [ENV_COACHES_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_COACHES_PHONE_HC_V3.png)
+- Image 2: [REF_COACHES_BLACK_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_COACHES_BLACK_SWATCH.png) (Team G swatch c1777bfa)
+- Saves as `ENV_COACHES_PHONE_BLACK_P1`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the shelf with the old balls, the small wall lamp, the window with the pitch, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Lamp metal: polished gold; shades stay warm cream and lit. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps and a faint dark shape of the suits, never a sharp mirror image of faces, hands or papers.
+
+Every door, shelf, niche, table and frame takes the same material it has in image 2 (blackened steel, black chrome with gold lines, or polished black granite); no wood is left anywhere in the room. The stadium, crowd, seats and pitch inside the window stay exactly as they are in image 1, not redrawn.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Behind each man a broad soft warm reflection lies on the steel, clean and crisp-edged like a lamp seen in a black car door, with no glowing haze, so the black suits stand out from the wall. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no glow halo, no noise grain, no streaks, no swirl or crackle patterns. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-139 · Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint
+
+- Image 1: [ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)
+- Image 2: [REF_TUNNEL_BLACK_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_TUNNEL_BLACK_SWATCH.png) (Team G swatch c1777bfa)
+- Saves as `ENV_TUNNEL_PHONE_BLACK_P1`
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the tunnel receding to the pitch, the pillars and handrails, the counter edge, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps and a faint dark shape of the suits, never a sharp mirror image of faces, hands or papers.
+
+Every door, shelf, niche, table and frame takes the same material it has in image 2 (blackened steel, black chrome with gold lines, or polished black granite); no wood is left anywhere in the room. The pillars keep their exact square shape, with flat faces and straight sharp corners (never round columns); they are blackened steel whose corners each catch one thin, straight, even hairline of warm light, with no teardrop, flame or lens-shaped highlights on them.
+
+Light: It is night. No lamps are visible in this picture: light comes only from the floodlit pitch at the end of the tunnel and a soft warm light along the pillar edges and handrails. Add no lamps, sconces or wall lights anywhere. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Behind each man a broad soft warm reflection lies on the steel, clean and crisp-edged like a lamp seen in a black car door, with no glowing haze, so the black suits stand out from the wall. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps. The two men stay lit exactly as they are now.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no glow halo, no noise grain, no streaks, no swirl or crackle patterns. No new objects and no extra lamps anywhere, no text, no logos, no people other than the two men.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-140 · Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint
+
+- Image 1: [ENV_CLUB_PHONE_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_CLUB_PHONE_HC_V4.png)
+- Image 2: [REF_CLUB_BLACK_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_BLACK_SWATCH.png) (Team G swatch c1777bfa)
+- Saves as `ENV_CLUB_PHONE_BLACK_P1`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+
+Keep in the same places and at the same sizes: the two wall lamps, the window with the stadium, the panelled wall, the trophies and balls along the bottom. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Lamp metal: polished gold; shades stay warm cream and lit. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps, never a sharp mirror image.
+
+Every door, shelf, niche, table and frame takes the same material it has in image 2 (blackened steel, black chrome with gold lines, or polished black granite); no wood is left anywhere in the room. The stadium, crowd, seats and pitch inside the window stay exactly as they are in image 1, not redrawn.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no glow halo, no noise grain, no streaks, no swirl or crackle patterns. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-141 · Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint
+
+- Image 1: [ENV_LOADING_PHONE_HC.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_LOADING_PHONE_HC.png)
+- Image 2: [REF_LOADING_BLACK_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_LOADING_BLACK_SWATCH.png) (Team G swatch c1777bfa)
+- Saves as `ENV_LOADING_PHONE_BLACK_P1`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+
+Keep in the same places and at the same sizes: the tunnel receding to the pitch, the pillars and handrails. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps, never a sharp mirror image.
+
+Every door, shelf, niche, table and frame takes the same material it has in image 2 (blackened steel, black chrome with gold lines, or polished black granite); no wood is left anywhere in the room. The pillars keep their exact square shape, with flat faces and straight sharp corners (never round columns); they are blackened steel whose corners each catch one thin, straight, even hairline of warm light, with no teardrop, flame or lens-shaped highlights on them.
+
+Light: It is night. No lamps are visible in this picture: light comes only from the floodlit pitch at the end of the tunnel and a soft warm light along the pillar edges and handrails. Add no lamps, sconces or wall lights anywhere. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps.
+
+Objects keep their identity and their own colours and are relit by the new room.
+
+Finish: real materials, handcrafted, clean sharp detail; clear air, no fog, no glow halo, no noise grain, no streaks, no swirl or crackle patterns. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
+## HO-169 · Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways
+
+- Image 1: [ENV_CLUB_SIDEWAYS_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png)
+- Image 2: [REF_CLUB_BLACK_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_CLUB_BLACK_SWATCH.png) (Team G swatch c1777bfa)
+- Saves as `ENV_CLUB_SIDEWAYS_BLACK_P1`
+- No people: check that no trace of a person appears.
+
+```
+Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
+
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same 16:9 wide shape. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+
+Keep in the same places and at the same sizes: the two wall lamps with pleated shades along the top, the wide window on the left with the floodlit stadium, the two leather armchairs and the low table under the window, the tall wall panel on the right with the one hanging pennant banner, the gold trophy and the old leather ball on the low shelf at the lower right, and the counter strip along the bottom at exactly the same height.
+
+The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
+The wall panels become gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. The back wall below the window becomes gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. The window frames become black chrome with a thin polished gold inner line. The low shelf becomes blackened steel with a polished gold edge. The banner rod and lamp arms become polished gold; the shades stay warm cream and lit. The floor becomes mirror-polished black granite with dim true reflections of the lamps. The counter strip becomes polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps, never a sharp mirror image.
+
+Every door, shelf, niche, table and frame takes the same material it has in image 2 (blackened steel, black chrome with gold lines, or polished black granite); no wood is left anywhere in the room. The stadium, crowd, seats and pitch inside the window stay exactly as they are in image 1, not redrawn.
+
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. Every large surface stays near true black, deep and clean. Highlights are few, small and sharp, and always the warm gold of the lamps: hairlines on edges and pinpoint reflections, never white, never blue, never a grey sheen over a whole surface. Reflections of the lamps in the floor and counter are dim, about a third as bright as the real lamps.
+
+Objects keep their identity and their own colours (the gold trophies, the old leather balls, the leather armchairs, the dark banners) and are relit by the new room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, no people.
+
+Same wide framing as image 1 (about 2.16:1), nothing cropped or extended at any edge, largest size available.
+```
