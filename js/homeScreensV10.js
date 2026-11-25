@@ -81,7 +81,11 @@
       Object.freeze({key:"believeWhatISayFiveFootShort",title:"BELIEVE WHAT I SAY (FIVE FOOT SHORT REMIX)",artist:"Kanye West",audiusTrackId:"kGmpB"}),
       Object.freeze({key:"popSmokeSkeptaFlip",title:"POP SMOKE X SKEPTA FLIP",artist:"HE$H",audiusTrackId:"lZAz6"}),
       Object.freeze({key:"copsNRobbersHolly",title:"COPS N ROBBERS (HOLLY REMIX)",artist:"Sammy Virji x Skepta",audiusTrackId:"ogdxJKd"}),
-      Object.freeze({key:"wileyFlowMongo",title:"WILEY FLOW (MONGO BOOTLEG)",artist:"Stormzy",audiusTrackId:"7Mo47"})
+      Object.freeze({key:"wileyFlowMongo",title:"WILEY FLOW (MONGO BOOTLEG)",artist:"Stormzy",audiusTrackId:"7Mo47"}),
+      Object.freeze({key:"dmxWhereTheHoodAtCryJaxx",title:"WHERE THE HOOD AT (CRYJAXX COVER)",artist:"DMX, covered by CryJaxx ft. Junior Charles",audiusTrackId:"R0ZRqWG"}),
+      Object.freeze({key:"dmxXGonGiveItToYaRossy",title:"X GON' GIVE IT TO YA (ROSSY TRIBUTE EDIT)",artist:"DMX x N.EON",audiusTrackId:"17pVr"}),
+      Object.freeze({key:"dmxPartyUpNoizfiend",title:"PARTY UP (NOIZFIEND EDIT)",artist:"DMX x Sumthin Sumthin",audiusTrackId:"9p77o"}),
+      Object.freeze({key:"dmxRuffRydersAnthem",title:"RUFF RYDERS ANTHEM",artist:"DMX",audiusTrackId:"vJWoRxV"})
     ]),
     defaultTrack:"song2",
     audius:Object.freeze({apiBase:"https://api.audius.co/v1",appName:"CareerModeShowdown17"})
