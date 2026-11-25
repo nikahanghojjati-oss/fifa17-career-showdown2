@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24 7:41 PM Boston time (EST)",
+ "generated": "2026-11-24 7:46 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 536,
@@ -4847,7 +4847,7 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "933343b3",
+  "head": "933343b",
   "head_boston": "Tue 24 Nov 7:21 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
@@ -4876,7 +4876,7 @@
  },
  "two": {
   "live": {
-   "sha": "7dc0d48e",
+   "sha": "7dc0d48",
    "revision": "2.12.0-r99",
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
@@ -4891,7 +4891,7 @@
   },
   "physio": {
    "state": "barking",
-   "line": "Barking: Showdown Gate on #1604 has waited 187 min for a machine; Showdown Gate on #1605 has waited 180 min for a machine; Showdown Gate on #1602 has waited 53 min for a machine.",
+   "line": "Barking: Showdown Gate on #1604 has waited 203 min for a machine; Showdown Gate on #1602 has waited 69 min for a machine; POS20 on #312 has waited 24 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -5678,7 +5678,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24336
+    "waiting_min": 24342
    },
    {
     "id": "HO-059",
