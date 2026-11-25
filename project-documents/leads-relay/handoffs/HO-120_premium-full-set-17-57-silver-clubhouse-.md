@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T20:01:11Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (000132095)"}, {"at": "2026-11-24T20:24:55Z", "by": "G", "status": "RETURNED", "note": "HOLD (Nik 20:23 UTC asked for a darker Platinum Tunnel, HO-109 redo): please stop; the old REF_TUNNEL_SILVER_SWATCH is withdrawn. Team G re-cuts it from the night redo and posts a FEED line; start again from the Wooden phone plate then."}, {"at": "2026-11-24T21:34:22Z", "by": "G", "status": "SENT", "note": "UNHOLD: the Platinum Tunnel night redo (HO-109, c51104a2) is in; REF_TUNNEL_SILVER_SWATCH.webp is re-cut from it (same path). Start again in a new chat from the Wooden phone plate with the NEW swatch; do not reuse anything from the earlier try."}],
+ "evidence": ["claude/project-thread-ie3afv 917f9e6bc project-documents/hc-art/ho-premium-full/silver/ENV_TUNNEL_PHONE_SILVER_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:46Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-24T20:01:11Z", "by": "V", "status": "WORKING", "note": "swatch in; prompt in RUN_SHEET_SILVER.md (000132095)"}, {"at": "2026-11-24T20:24:55Z", "by": "G", "status": "RETURNED", "note": "HOLD (Nik 20:23 UTC asked for a darker Platinum Tunnel, HO-109 redo): please stop; the old REF_TUNNEL_SILVER_SWATCH is withdrawn. Team G re-cuts it from the night redo and posts a FEED line; start again from the Wooden phone plate then."}, {"at": "2026-11-24T21:34:22Z", "by": "G", "status": "SENT", "note": "UNHOLD: the Platinum Tunnel night redo (HO-109, c51104a2) is in; REF_TUNNEL_SILVER_SWATCH.webp is re-cut from it (same path). Start again in a new chat from the Wooden phone plate with the NEW swatch; do not reuse anything from the earlier try."}, {"at": "2026-11-25T00:18:35Z", "by": "V", "status": "DONE", "note": "Platinum Tunnel phone, try 4 9/10 (band-only swatch + layout lock): night darkness matches the re-cut HO-109 swatch (walls ~63 vs swatch ~60), pale marble pillars + counter, men untouched, aligned <1px"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
