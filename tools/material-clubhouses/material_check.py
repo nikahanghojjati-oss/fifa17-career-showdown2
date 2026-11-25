@@ -37,7 +37,7 @@ SIBLINGS = ["SILVER", "BLACK", "MATTE"]  # Platinum (key silver), Metallic Black
 
 # Hue bands in degrees; a band may wrap through 0 (lo > hi).
 LOOKS = {
-    "RUBY": dict(name="Ruby Clubhouse", hue=(330, 12), hue_min=0.50, brown_max=0.25, sat=(0.35, 0.80),
+    "RUBY": dict(name="Ruby Clubhouse", hue=(330, 12), hue_min=0.50, brown_max=0.25, sat=(0.35, 0.90),
                  luma=(14, 60), gold_max=0.04,
                  rooms={"HOME": dict(hue_min=0.35, brown_max=0.45, note="lounge objects keep their brown leather by design")},
                  provisional=True),

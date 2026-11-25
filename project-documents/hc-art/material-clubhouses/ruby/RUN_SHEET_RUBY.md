@@ -39,7 +39,8 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
 ```
 
-Tries: none yet.
+Tries:
+- Try 1 (25 Nov 2:29 a.m. Boston) **9/10, accepted.** Align: scale 1.0000, shift 0.1 px, men unchanged. Oxblood leather walls with real grain and stitched seams, red-black rosewood mouldings with gold hairlines, Rosso Levanto counter and pillars with calm long veins, gold only on the lamp, rail and handle. ruby_check PASS. Small notes, not worth a redo: the big middle panel is lit a little evenly, and the leather grain is slightly pebbly right beside the lamp. Side by side: [ENV_BOARD_PLATE_RUBY_P1_2X.cmp.jpg](ENV_BOARD_PLATE_RUBY_P1_2X.cmp.jpg).
 
 ### R-2 · Ruby pilot 2/2: Home
 

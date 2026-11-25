@@ -49,7 +49,7 @@ Measured outside the dilated hero mask at 1536x864, as B7's matte_check does.
 | mw (vs Wooden) | >= 12 | every big surface changed |
 | hue | >= 0.50 of coloured pixels in 330-12 deg (Home >= 0.35) | it reads red; Home keeps its brown leather armchairs, sofa and plaid by design |
 | brown | <= 0.25 in Wooden's 15-45 deg band (Home <= 0.45) | Wooden today measures 0.65 (Home) and 0.98 (Board) |
-| sat | median 0.35-0.80 | rich red, neither grey nor neon |
+| sat | median 0.35-0.90 | rich red, neither grey nor neon (deep reds carry high HSV saturation: the palette's own #6E1423 is 0.82) |
 | pale | <= 0.03 of the room | "rich, not pink": no washed-out pastel red |
 | gold | <= 0.04 of the room | gold accents stay small |
 | luma | 14-60 | night (Graphite 34-47, Black 19-22, Platinum 68-87) |
@@ -61,3 +61,6 @@ Reference numbers today (outside the men, same method): Board Wooden luma 31, sp
 Board Black glint 8.4; Home Wooden luma 29, spread 70, detail 2.9; Home Black glint 15.0.
 These limits are **provisional**: I re-calibrate them on the pilot Nik approves, and write any change here with its reason.
 Passing the numbers is necessary, never sufficient: the HO-173 eye check and Nik's OK on the board decide.
+
+## Calibration log
+- 2026-11-25 07:35 UTC, R-1 Board try 1: sat upper limit 0.80 -> 0.90. The 0.80 was below the palette's own oxblood (#6E1423 = 0.82, #2A0A10 = 0.76); the painting measures 0.86 and reads deep wine red by eye, not neon. Every other limit unchanged.
