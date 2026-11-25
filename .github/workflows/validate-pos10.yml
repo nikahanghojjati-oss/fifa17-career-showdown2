@@ -2,6 +2,8 @@ name: Validate POS20
 
 on:
   pull_request:
+    # The leads relay tracker PR (leads/relay -> leads/relay-base) is docs-only and never merges (Nik OK 2026-11-25).
+    branches-ignore: [leads/relay-base]
   push:
     branches: [main]
   workflow_dispatch:
