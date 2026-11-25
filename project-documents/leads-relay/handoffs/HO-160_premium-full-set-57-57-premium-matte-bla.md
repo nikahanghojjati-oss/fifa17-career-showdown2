@@ -20,11 +20,14 @@
 }
 ```
 
+### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
+**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
 **Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
 Ticket 57 of 57 in the premium clubhouse full set (after the pilot HO-098 to HO-103). Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release. **All 57 DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
-Art direction: Premium Matte Black = charcoal felt/suede/black oak, no glint anywhere, warm charcoal walls lighter than the suits; unmistakably different from Metallic Black (Fable review section 2). Nik approved the six pilot paintings (2026-11-24 15:54 UTC, "Yes, order the rest"); they are the standard to match. Team V's pilot lessons are built into the prompt: straight real textures only (brushed grain, herringbone, slate), no extra lamps, clean crisp reflections without haze.
+Art direction: Premium Matte Black = neutral graphite velvet (Nik picked graphite 2026-11-25 01:11 UTC from his matte-black reference, leads/relay attachments/ho-premium-full/MATTE_COLOUR_STUDY.md): layered black, charcoal and graphite, a broad soft sheen, satin titanium accents; no brown, no brass, no glint; unmistakably different from Metallic Black. The HO-173 premium bar applies. Nik approved the six pilot paintings (2026-11-24 15:54 UTC, "Yes, order the rest"); they are the standard to match. Team V's pilot lessons are built into the prompt: straight real textures only (brushed grain, herringbone, slate), no extra lamps, clean crisp reflections without haze.
 
 ### What
 - **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Room:** Loading tunnel, phone band.
@@ -47,10 +50,10 @@ Keep image 1 exactly the same in camera, framing and layout. Change only the mat
 
 Keep in the same places and at the same sizes: the tunnel receding to the pitch, the pillars and handrails, the bulkhead lamps. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
 
-The room: A private tailor's room in charcoal wool and black oak: real textiles and real wood, handcrafted.
-Walls and panels: upholstered charcoal wool flannel woven in a fine straight herringbone, the herringbone lines running neatly up and down each panel, with visible stitched seams, framed in black-stained open-pore oak with straight grain in mouldings that keep the same panel layout. Frames: black-stained open-pore oak. Lamp metal: aged satin brass; shades stay warm cream and lit. Counter: one solid slab of honed black slate with a dry stone surface like a slate blackboard and a few faint pale mineral lines, fully matte, with no reflection.
+The room: A private members' room in neutral graphite velvet: low-gloss upholstered felt, honed slate and satin titanium, handcrafted.
+Walls and panels: upholstered graphite wool felt in a neutral graphite with no brown, with visible stitched seams, framed in thin satin graphite lacquer mouldings that keep the same panel layout. Frames: satin graphite lacquer with a thin brushed titanium edge. Lamp metal: brushed satin titanium; shades stay warm cream and lit. Counter: one solid slab of honed graphite slate with a dry stone surface and a few faint pale mineral lines, fully matte, with no reflection.
 
-Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window, and spreads as a wide soft candle-warm wash with long gentle gradients across the walls. Every surface is matte: soft shading shows the form, and nothing glints anywhere. Up close you see only the straight herringbone weave, the straight oak grain and the stitching.
+Light: It is night. Light comes only from the same warm lamps in the same places and the floodlit stadium glow through the window. The lamps cast warm pools of light, but every material itself stays a neutral graphite grey-black: never brown, never espresso, never a warm cast on the walls. The finish is velvet low gloss, like fine matte lacquer: where a surface turns toward a lamp it carries a broad, soft, pale-grey sheen that rolls across it in long gradients; nothing is mirror-like, and there is no sharp highlight and no glint anywhere. The tones are layered dark on dark: near-black in the recesses and corners, deep charcoal on the main surfaces, lighter graphite on the lit walls. Up close you see the weave of the felt, the stitched seams and the dry grain of the slate, all sharp.
 
 Objects keep their identity and their own colours and are relit by the new room.
 

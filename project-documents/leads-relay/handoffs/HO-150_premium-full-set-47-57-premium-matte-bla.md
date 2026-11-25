@@ -20,11 +20,14 @@
 }
 ```
 
+### HOLD: graphite direction (Nik 2026-11-25 01:11 UTC)
+**Do not start this ticket yet.** Nik picked **graphite** for the Premium Matte Black Clubhouse ("Yes, graphite like my car"; colour study `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`). The prompt below is already rewritten for graphite: neutral graphite velvet, a broad soft sheen, layered black, charcoal and graphite, satin titanium accents, no brown, no brass and no glint. It waits for Nik's OK on the two graphite pilot redos (HO-102 Board Room, HO-103 Home). After that OK, Team G re-cuts `REF_PILOT_MATTE.webp` from them (same name, same path) and lifts this hold. Never use the old espresso `REF_PILOT_MATTE.webp` or any earlier Matte result. The HO-173 premium bar applies to every try.
+
 ### Read this first
 For Team V and Nik. One asset, one ticket, one new chat. Do not upload this ticket to ChatGPT.
 **Route:** ChatGPT Work mode, **Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses).
 Ticket 47 of 57 in the premium clubhouse full set (after the pilot HO-098 to HO-103). Nik 2026-11-24 13:19 UTC: the full set lands in 3.0, the final release. **All 57 DONE before the 3.0 freeze, Mon 30 Nov noon Boston.**
-Art direction: Premium Matte Black = charcoal felt/suede/black oak, no glint anywhere, warm charcoal walls lighter than the suits; unmistakably different from Metallic Black (Fable review section 2). Nik approved the six pilot paintings (2026-11-24 15:54 UTC, "Yes, order the rest"); they are the standard to match. Team V's pilot lessons are built into the prompt: straight real textures only (brushed grain, herringbone, slate), no extra lamps, clean crisp reflections without haze.
+Art direction: Premium Matte Black = neutral graphite velvet (Nik picked graphite 2026-11-25 01:11 UTC from his matte-black reference, leads/relay attachments/ho-premium-full/MATTE_COLOUR_STUDY.md): layered black, charcoal and graphite, a broad soft sheen, satin titanium accents; no brown, no brass, no glint; unmistakably different from Metallic Black. The HO-173 premium bar applies. Nik approved the six pilot paintings (2026-11-24 15:54 UTC, "Yes, order the rest"); they are the standard to match. Team V's pilot lessons are built into the prompt: straight real textures only (brushed grain, herringbone, slate), no extra lamps, clean crisp reflections without haze.
 
 ### What
 - **Clubhouse:** Premium Matte Black Clubhouse (Settings key `matte`). **Room:** Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate).
@@ -45,7 +48,7 @@ Image 1 is the picture to edit. Image 2 shows only the approved materials and li
 
 Keep image 1 exactly the same size and framing. Repaint the whole surface as one new stone, seen straight on.
 
-The stone: honed black slate with a dry stone surface like a slate blackboard and a few faint pale mineral lines, fully matte, no shine and no reflection.
+The stone: honed graphite slate with a dry stone surface and a few faint pale mineral lines, a neutral graphite with no brown, fully matte, no shine and no reflection.
 
 It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. No objects, no reflections of objects, no text, no logos.
 
