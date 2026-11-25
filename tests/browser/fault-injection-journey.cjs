@@ -718,7 +718,8 @@ async function writePoint(ctx,point,{writer,tap,ready,prep=null,other=null,settl
     else{await inject(ctx,X,null,other,rec);}
     // lostreply proves nothing on the follower: the fault must sit on the writer, and at a point whose write is a transaction
     // commit the dropped answer must have happened (LOSTREPLY_TXN, measured on the fault-free journey).
-    if(FAULT==="lostreply"&&writer){
+    // FIJ_ONLY replays fault only the listed points; the others run fault-free, so neither check applies there (Codex on #1627).
+    if(FAULT==="lostreply"&&writer&&(!ONLY.length||ONLY.includes(point))){
       await check(X,"lostreply.onWriter",X===writer,`the lost reply was injected on ${X.user}, but ${writer.user} writes ${point}`);
       if(LOSTREPLY_TXN.has(point))await check(X,"lostreply.dropped",rec.lostReplyHits>0,`${point} is a transaction commit, but no commit answer from ${X.user} was dropped (${rec.detail})`);
     }
