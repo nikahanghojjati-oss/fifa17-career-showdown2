@@ -287,6 +287,8 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (25 Nov 5:30 p.m. Boston) **8/10, one fix.** Align scale 1.000, 0.1 px, men unchanged (mean diff 5.9). Leather panels, rosewood window frames with gold line, the marble shelf with the three old balls, the lamp, the paper bundle, the door and the floodlit pitch all right. Misses: the back of the boot niche came out as marble with bright jagged crack-like veins, and up close the counter top carries a fine web of thin scratch lines (spread 62.1 is a hair under its 62.3 floor). Both are the stone finish, so one fix covers them. Raw kept as ENV_COACHES_PLATE_RUBY_P1_2X_T1_RAW.png.
+- Fix 1 on try 1 (same chat): "Keep this image exactly the same. Change only: the counter top and the stone behind the boots become clean, even, polished deep red stone with only a few long soft pale veins, with no jagged cracks, fine scratches or web of thin lines anywhere on them, and the counter keeps its soft warm lamp reflections."
 
 ### R-8 · Ruby Clubhouse: Players' tunnel
 - Image 1: [IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png)), 3072x1728
