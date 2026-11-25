@@ -142,7 +142,7 @@ const r86Sp=plain(Chip.forShowdown(r86.rivalryId,AT,NC));
   assert.match(read('js/careerScreensV10.js'),/prepare:\(\)=>Promise\.all\(\[v10Platemap\(screen\),v10EnsureChip\(\)\]\)/);
   assert.match(read('js/rivalryLegacyV10.js'),/prepare:async\(\)=>\{const chip=load\("special-player-chip","js\/specialPlayerChip\.js","CareerModeSpecialPlayerChip"\)[\s\S]{0,400}await chip;/);
   const sf=read('js/seasonFinalV10.js');
-  assert.match(sf,/prepare:\(\)=>Promise\.all\(\[prepare\("season-results"\),prepare\("final-winner"\),sfEnsureChip\(\)\]\)/);
+  assert.match(sf,/prepare:\(\)=>Promise\.all\(\[prepare\("season-results"\),prepare\("final-winner"\),sfEnsureChip\(\),sfEnsureTurning\(\)\]\)/);
   assert.match(sf,/prepare:\(\)=>Promise\.all\(\[prepare\("standings"\),standingsModules\(\),sfEnsureChip\(\)\]\)/);
   assert.match(read('js/rulesSettingsV10.js'),/specialPlayerChip\.js/);
   assert.match(read('js/productionSharedCareerStart.js'),/await pcstLoadScript\("special-player-chip","js\/specialPlayerChip\.js"/);

@@ -137,7 +137,7 @@ await check("L5 scope: only the Home tile tap carries the LIVE reading; Rematch 
   assert.match(home,/liveTap=root\.document\?\.getElementById\("newShowdown"\)\?\.querySelector\("\.menuTileCode"\)\?\.textContent==="LIVE"/,"the reading is the tile as Home showed it at the tap");
   assert.ok(home.indexOf("liveTap=root.document")<home.indexOf("applyHomeStartChecking()"),"read before the tile turns to Checking…");
   assert.match(home,/openCanonicalStart\(\{liveTap\}\)/);
-  assert.match(identitySource,/const liveTap=options&&options\.liveTap===true&&!rematch;/,"a Rematch never counts as a LIVE tap");
+  assert.match(identitySource,/const liveTap=options&&options\.liveTap===true&&!rematch&&!resendFor;/,"a Rematch, or a B6 resend of a cut JOIN tap, never counts as a LIVE tap");
   assert.equal((identitySource.match(/openCanonicalStart\(\{liveTap\}\)/g)||[]).length,1,"only the Home tile passes it");
   const guard=identitySource.slice(identitySource.indexOf("if(liveTap&&("),identitySource.indexOf("return decision;}",identitySource.indexOf("if(liveTap&&(")));
   assert.doesNotMatch(guard,/read|navigateTo|setTimeout|setInterval/,"staying on Home costs no read, no navigation and no timer");
