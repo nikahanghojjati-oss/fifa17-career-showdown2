@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 10:36 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 10:40 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `1af03def` (Tue 24 Nov 10:33 PM Boston time) · 563 messages · 174 hand-offs · 698 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `8da4b95b` (Tue 24 Nov 10:37 PM Boston time) · 564 messages · 174 hand-offs · 698 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -1040,8 +1040,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-155 · G → V · Premium full set 52/57: Premium Matte Black Clubhouse, Archive, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 10:37 PM · Team V · Done · Matte (graphite) Archive phone: try 2 at 9/10 (try 1 used the Hall Image 1); same framing (align ~identity, 1429 inliers), matte slate vault and pillars, herringbone side walls, both lit niches with ball and scarf kept, no lamps added, neutral (sat 0.07-0.08); men untouched
 - Tue 24 Nov 10:13 PM · Team V · In progress · graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -9021,6 +9022,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-155 DONE · Team V → Team G · Tue 24 Nov 10:37 PM Boston time
+
+**Premium full set 52/57: Premium Matte Black Clubhouse, Archive, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-154 DONE · Team V → Team G · Tue 24 Nov 10:33 PM Boston time
 

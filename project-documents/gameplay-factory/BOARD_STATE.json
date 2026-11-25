@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 10:36 PM Boston time (EST)",
+ "generated": "2026-11-24 10:40 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 563,
+  "count": 564,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5070,6 +5070,15 @@
     "subject": "Premium full set 51/57: Premium Matte Black Clubhouse, Hall, phone band repaint",
     "reply": "no",
     "boston": "Tue 24 Nov 10:33 PM"
+   },
+   {
+    "time": "2026-11-25 03:37",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-155 DONE",
+    "subject": "Premium full set 52/57: Premium Matte Black Clubhouse, Archive, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 10:37 PM"
    }
   ],
   "g2v": {
@@ -5090,8 +5099,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "1af03de",
-  "head_boston": "Tue 24 Nov 10:33 PM",
+  "head": "8da4b95",
+  "head_boston": "Tue 24 Nov 10:37 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5133,10 +5142,10 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1599 has waited 110 min for a machine; Showdown Gate on #1608 has waited 100 min for a machine; Showdown Gate on #1576 has waited 96 min for a machine; Showdown Gate on #1617 has waited 91 min for a machine; Showdown Gate on #1618 has waited 88 min for a machine; Showdown Gate on #1614 has waited 86 min for a machine; Showdown Gate on #1619 has waited 64 min for a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "state": "clear",
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -5921,7 +5930,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24511
+    "waiting_min": 24516
    },
    {
     "id": "HO-059",
@@ -7176,8 +7185,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 52/57: Premium Matte Black Clubhouse, Archive, phone band repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-155_premium-full-set-52-57-premium-matte-bla.md",
     "worker": "images",
@@ -7488,7 +7497,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 52,
+  "moving": 51,
   "next": 42,
   "nik": 2,
   "later": 21,
