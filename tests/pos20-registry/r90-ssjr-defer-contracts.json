@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r90-ssjr-defer-contracts.cjs",
+  "patterns": [
+    "^js/ssjr\\.js$",
+    "^js/whichShowdownIsLive\\.js$",
+    "^js/settings\\.js$",
+    "^tests/contracts/r90\\-ssjr\\-defer\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r90\\-ssjr\\-defer\\-contracts\\.json$"
+  ]
+}

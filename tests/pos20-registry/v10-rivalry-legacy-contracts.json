@@ -1,0 +1,16 @@
+{
+  "path": "tests/contracts/v10-rivalry-legacy-contracts.cjs",
+  "patterns": [
+    "^js/rivalryLegacyV10\\.js$",
+    "^js/statistics\\.js$",
+    "^js/legacy\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^js/careerScreenSeam\\.js$",
+    "^js/sharedCareerAnalytics\\.js$",
+    "^js/v10Screens\\.js$",
+    "^visual-assets/v10_1/(legacy|rivalry-statistics)/",
+    "^service-worker\\.js$",
+    "^tests/contracts/v10-rivalry-legacy-contracts\\.cjs$",
+    "^tests/pos20-registry/v10\\-rivalry\\-legacy\\-contracts\\.json$"
+  ]
+}
