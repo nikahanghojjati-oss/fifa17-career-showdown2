@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 10:04 PM Boston time (EST)",
+ "generated": "2026-11-24 10:09 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 558,
+  "count": 560,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5025,6 +5025,24 @@
     "subject": "Premium full set 47/57: Premium Matte Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint",
     "reply": "no",
     "boston": "Tue 24 Nov 10:01 PM"
+   },
+   {
+    "time": "2026-11-25 03:06",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-151 DONE",
+    "subject": "Premium full set 48/57: Premium Matte Black Clubhouse, Home lounge, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 10:06 PM"
+   },
+   {
+    "time": "2026-11-25 03:25",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-173 UPDATE",
+    "subject": "Matte swatches cut (OFFICE, HALL, ARCHIVE, BOX, COACHES, TUNNEL, CLUB, LOADING): phones HO-153..160 and roulette HO-164/167/170 can start; Colour lock line added to all 11 prompts; HALL/TUNNEL near miss on the board for Nik",
+    "reply": "yes: refresh image 2 swatches, run phones",
+    "boston": "Tue 24 Nov 10:25 PM"
    }
   ],
   "g2v": {
@@ -5045,8 +5063,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "4c57bd7",
-  "head_boston": "Tue 24 Nov 10:01 PM",
+  "head": "fefc9ab",
+  "head_boston": "Tue 24 Nov 10:06 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5876,7 +5894,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24480
+    "waiting_min": 24484
    },
    {
     "id": "HO-059",
@@ -7079,8 +7097,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 48/57: Premium Matte Black Clubhouse, Home lounge, phone band repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-151_premium-full-set-48-57-premium-matte-bla.md",
     "worker": "images",
@@ -7443,7 +7461,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 56,
+  "moving": 55,
   "next": 42,
   "nik": 2,
   "later": 21,
