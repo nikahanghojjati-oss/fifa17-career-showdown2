@@ -9,7 +9,8 @@
 //   R2 two label texts inside one card print over each other;
 //   R3 a manager card is drawn over the scoring panel;
 //   R4 a row sticks out of its card;
-//   R5 a score box runs into the trophies column or over another row's words.
+//   R5 a score box runs into the trophies column or over another row's words;
+//   R6 the two cards are not centred under the scoring panel.
 // Usage: node tests/browser/season-results-reach-audit.cjs
 //   CMS_BASE_URL (default http://127.0.0.1:4173/), CMS_REACH_SIZES="1100x340,901x520" (overrides the grid),
 //   CMS_REACH_CLUBHOUSES="wooden,silver" (default all four).
@@ -55,6 +56,12 @@ async function reachFindings(){
             if(checks && shown(checks) && meet(ir, checks.getBoundingClientRect())) out.push(`R5 ${input.id} runs into the trophies column of ${c.id}`);
             for(const t of texts) if(!t.l.contains(input) && meet(ir, t.r)) out.push(`R5 ${input.id} is drawn over "${name(t.l)}" in ${c.id}`);
         }
+    }
+    const grid = se.querySelector(".seasonEntryGrid");
+    if(grid && panel && shown(grid) && shown(panel)){
+        const g = grid.getBoundingClientRect(), pr = panel.getBoundingClientRect();
+        const off = (g.left + g.right) / 2 - (pr.left + pr.right) / 2;
+        if(Math.abs(off) > 2) out.push(`R6 the cards are ${Math.round(off)}px off centre under the scoring panel`);
     }
     const controls = [...se.querySelectorAll("input:not([type=hidden]), select, textarea, button")].filter(shown);
     for(const el of controls){

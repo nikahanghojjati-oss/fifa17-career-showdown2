@@ -1864,9 +1864,10 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-rule { font-size:clamp(13px,calc(var(--sru)*.9),17px);line-height:1.25; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .scoring-trophy { max-height:16svh; }
  /* r100 B7: under about 495px tall the room column (16:9 of the height) is too narrow for the rows, so the two cards keep
-    at least 640px, centred, and every score box stays clear of the trophies column */
+    at least 640px, and every score box stays clear of the trophies column. align-self (not auto margins) centres
+    them, also when that floor is wider than the room column and when a later rule narrows them (ultrawide 14/5) */
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid:not(.hidden) {
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3%;width:max(72.66%,640px);min-width:0;margin:0 calc((100% - max(72.66%,640px)) / 2);
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.3%;width:max(72.66%,640px);min-width:0;margin:0;align-self:center;
  }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonEntryGrid .entry-panel {
   position:relative;inset:auto;left:auto!important;width:100%!important;min-width:0;height:auto;min-height:max(220px,32svh);
