@@ -512,7 +512,7 @@
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_CLUB_PHONE_HC_V4.webp": {
-   "sha256": "822575e7986d47902a9611def43683d646370bbb6f6c664679b3d70bd3b3c513",
+   "sha256": "8d97859aa3df8f715f0fcb14ac6da801ac1bf1fa3056c9a88c7a16f8465cf4b4",
    "painting": "tools/clubhouse-themes/paintings/ENV_CLUB_PHONE_MATTE_P1.webp",
    "room": "CLUB"
   },
@@ -532,17 +532,17 @@
    "room": "CLUB"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3.webp": {
-   "sha256": "bc5700dc977ec6ef2a311a4152b02e2192a7332cf1dc0f47ac2616834a6214fe",
+   "sha256": "3e1d0fe6ce0dd7190e81f5cc6f8e43659e82311d38352f428a4c1e8ecd249df0",
    "painting": "tools/clubhouse-themes/paintings/ENV_COACHES_PHONE_MATTE_P1.webp",
    "room": "COACHES"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3_590W.webp": {
-   "sha256": "5b4f607c472480fb819075d688b5f8a5ac12ff7e5d1b9de2ea87d3af15938a24",
+   "sha256": "3878033d65166be62b68cb95d368c40cada2d24b02268564954dcb7f8a163e42",
    "painting": "tools/clubhouse-themes/paintings/ENV_COACHES_PHONE_MATTE_P1.webp",
    "room": "COACHES"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_COACHES_PHONE_HC_V3_TALL.webp": {
-   "sha256": "ae41182fa813939f7aabed1287ae7fe6c6361a73eb27df4e12f19ab9d4d1164c",
+   "sha256": "8fecc8405d8b81c5ae1c763f85d567dd93dfad9e3855b31f1a1ae0df7a51f142",
    "painting": "tools/clubhouse-themes/paintings/ENV_COACHES_PHONE_MATTE_P1.webp",
    "room": "COACHES"
   },
