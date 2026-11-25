@@ -48,6 +48,9 @@ PULL_IN = 3      # px at 1920 wide: the hero mask is pulled in this much, so no 
 FEATHER = 0.8    # px at 1920 wide
 PHONE_W = 1179   # the phone masters' width: phone pull-in and feather are the same px at this width
 PHONE_SIZE_SLACK = 0.10  # a phone plate may be at most this much bigger than the Wooden file it replaces
+# Lead exception (mailbox A-13, 2026-11-25 04:58 UTC): premium flannel walls. These plates are runtime-cached and load only in
+# Matte, so they skip the size ceiling and are encoded at the sibling Matte phone plates' quality (q80) to keep the flannel sharp.
+PHONE_SIZE_EXCEPTIONS = {("matte", "CLUB"): 80, ("matte", "COACHES"): 80}
 # Lead decision 2026-11-24 19:15 UTC: small files win. After WebP the faces may drift up to this many levels (mean, inside the
 # fully Wooden core of the mask) as long as a 4x side-by-side of each face against Wooden shows no visible change (face_crops).
 FACE_DRIFT_MAX = 3.0
@@ -237,7 +240,11 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, 
     changed = int(np.any(out[core] != w8[core], axis=-1).sum()) if core.any() else 0
     assert changed == 0, f"{theme}/{name}: {changed} face pixels changed before encoding"
     wood_bytes = os.path.getsize(os.path.join(folder, name + ".webp"))
-    data, q = encode(Image.fromarray(out), int(wood_bytes * (1 + PHONE_SIZE_SLACK)), 76 if core.any() else 40)
+    fixed_q = PHONE_SIZE_EXCEPTIONS.get((theme, room)) if kind == "phone" else None
+    if fixed_q:
+        buf = io.BytesIO(); Image.fromarray(out).save(buf, "WEBP", quality=fixed_q, method=6); data, q = buf.getvalue(), fixed_q
+    else:
+        data, q = encode(Image.fromarray(out), int(wood_bytes * (1 + PHONE_SIZE_SLACK)), 76 if core.any() else 40)
     dec = np.asarray(Image.open(io.BytesIO(data)).convert("RGB"), np.float32)
     drift = round(float(np.abs(dec[core] - w[core]).mean()), 3) if core.any() else None
     assert drift is None or drift <= FACE_DRIFT_MAX, f"{theme}/{name}: faces drift {drift} levels after WebP (max {FACE_DRIFT_MAX})"
