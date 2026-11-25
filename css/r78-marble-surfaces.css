@@ -900,7 +900,7 @@ html[data-clubhouse="matte"]:not(#cf1):not(#cf2):not(#cf3):not(#cf4):not(#cf5):n
   --sd-edge: rgba(170, 175, 181, .42); --sd-edge-inner: rgba(255, 255, 255, .04);
   --sd-glass: rgba(27, 28, 31, .9); --sd-glass-strong: rgba(23, 24, 27, .97); --sd-black: #141518;
   --sd-shadow-glow: 0 0 0 transparent; --sd-shadow-panel: 0 16px 40px rgba(0, 0, 0, .45);
-  --sd-text-primary: #eceae4; --sd-text-secondary: #a9adb2; --sd-text-warm: #b6b9bd; --sd-text-on-gold: #f1efe9;
+  --sd-text-primary: #eceae4; --sd-text-secondary: #a9adb2; --sd-text-warm: #b6b9bd; --sd-text-on-gold: #16171a;
   --r95-ink: #eceae4; --r95-ink-2: #a9adb2; --r95-gold-ink: #e2e4e6; --r95-kicker-ink: #c6cace;
   --r78-ivory: #eceae4; --r78-ivory-2: #a9adb2; --r78-gold: #e2e4e6; --r78-gold-strong: #c6cace; --r78-gold-edge: #868b91;
   --r78-warn: #c6cace; --r78-warn-edge: #868b91; --r78-panel: #1d1f22;
