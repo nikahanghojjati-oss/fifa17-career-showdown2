@@ -430,11 +430,12 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 - Image 1: [ENV_BOX_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_BOX_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_BOX_PHONE_HC_V3.png))
 - Image 2: [REF_BOX_MATTE_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_BOX_MATTE_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG2_REF_BOX_MATTE_SWATCH.png)) (Team G swatch 7029d8f5)
 - Saves as `ENV_BOX_PHONE_MATTE_P1`
+- Try 1 (24 Nov 10:40 p.m. Eastern) scored 2/10: Astra painted the Archive vault (carried over from the previous chat) instead of the box with its stadium window, changed the shape to 814x1932 and shrank the men. Try 2 adds a room and window lock. Start a brand-new chat.
 
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same tall 9:16 shape. This is the directors' box from image 1, not any other room: the big dark window with the night stadium fills the wall behind the two men, with its one thin upright bar down the middle and the small floodlights above the stands, and the counter rail stays at exactly the same height just below the men. Add no arches, vaults, corridors, niches or shelves. The stadium, crowd and seats inside the window stay exactly as they are, not redrawn. Change only the materials and finish of the room itself.
 
 Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
 
