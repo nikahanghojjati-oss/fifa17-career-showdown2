@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T00:01:31Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv d7cbd1344 project-documents/hc-art/ho-premium-full/black/ENV_LOADING_PHONE_BLACK_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T00:01:31Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}, {"at": "2026-11-25T01:48:59Z", "by": "V", "status": "DONE", "note": "Black Loading phone, try1 9/10: square blackened-steel pillars with gold hairlines, no wood, no invented lamps, mat/steps/handrails/night pitch kept, matches HO-130, overlay clean"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
