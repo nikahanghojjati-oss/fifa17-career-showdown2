@@ -755,7 +755,7 @@
     let lo=t-10*60000;while(t-lo>1){const mid=lo+Math.floor((t-lo)/2);if(fsbPacificDay(mid)===today)lo=mid;else t=mid;}
     return t;
   }
-  function fsbDayState(at=fsbNow()){
+  function fsbDayState(at=fsbCalendarNow()){
     const day=fsbPacificDay(at);
     if(!fsbDay){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:0,bill:fsbBillFrom(null,day)};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");fsbDay.bill=fsbBillFrom(saved,day);if(saved&&Number.isFinite(saved.lastCost)&&saved.lastCost>0)fsbDay.lastCost=Math.floor(saved.lastCost);if(saved&&saved.day!==day&&Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(saved&&saved.day!==day){if(fsbSeasonCost(saved))fsbDay.lastCost=fsbSeasonCost(saved);fsbDay.markReads=-fsbCarried(saved);}if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0){fsbDay.reads=Math.floor(saved.reads);if(Number.isFinite(saved.markReads)&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);if(Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(Array.isArray(saved.costs))fsbDay.costs=saved.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS);}}catch(_error){}fsbDayMark();}
     // F3-14 (Fable job 3): the noted season keys carry over the Pacific reset, so a season acknowledged yesterday is not noted again
@@ -810,7 +810,7 @@
   // lookups: the Rules lookups this request is billed (fsbReadLookups); career: a career-page read (fsbBill).
   function fsbCountRead(count=1,brake=true,lookups=0,career=false){
     if(!(count>0))return;
-    const at=fsbNow(),day=fsbDayState(at);
+    const at=fsbNow(),day=fsbDayState();
     if(brake)for(let index=0;index<count;index+=1)fsbReadTimes.push(at);
     while(fsbReadTimes.length&&at-fsbReadTimes[0]>FSB_BRAKE_WINDOW_MS)fsbReadTimes.shift();
     if(fsbReadTimes.length>FSB_BRAKE_READS*4)fsbReadTimes.splice(0,fsbReadTimes.length-FSB_BRAKE_READS*4);
@@ -1144,6 +1144,9 @@
   // page's monotonic clock (performance.now), so a phone clock set back while the app is open can never bring a finished pause
   // back or keep a window open longer; a clock that jumps ahead (a phone woken the next day, where the monotonic clock may have
   // stood still) is followed, so the free reads' Pacific day still turns. It never runs backwards.
+  // The free reads' Pacific billing day is a calendar date, so it reads the phone's own clock (as the partner's phone does, so the
+  // shared meter's days match): only elapsed-time windows use fsbNow (Codex on #1628).
+  function fsbCalendarNow(){return Date.now();}
   let fsbClockBase=null;
   function fsbNow(){
     const wall=Date.now();let mono=NaN;try{mono=root.performance&&typeof root.performance.now==="function"?Number(root.performance.now()):NaN;}catch(_error){mono=NaN;}
@@ -1225,11 +1228,12 @@
   }
   function fsbTrip(){
     if(fsbPaused())return;
-    const at=fsbNow(),recent=fsbPause&&at-fsbPause.until<2*60*60000&&fsbPacificDay(fsbPause.since)===fsbPacificDay(at);
+    const at=fsbNow(),wall=fsbCalendarNow(),today=fsbPacificDay(wall),recent=fsbPause&&at-fsbPause.until<2*60*60000&&fsbPause.day===today;
     const step=recent?Math.min(fsbPause.step+1,FSB_PAUSE_STEPS_MS.length-1):0;
     // F3-07 (Fable job 3): the free reads come back at midnight Pacific, so no pause runs past the reset (+1 min).
-    const until=Math.min(at+FSB_PAUSE_STEPS_MS[step],fsbNextPacificDayAt(at)+60000);
-    fsbPause=Object.freeze({step,since:at,until});
+    // The reset is a calendar time (the phone's own clock, like the partner's phone); the pause itself runs on fsbNow.
+    const until=Math.min(at+FSB_PAUSE_STEPS_MS[step],at+Math.max(0,fsbNextPacificDayAt(wall)-wall)+60000);
+    fsbPause=Object.freeze({step,since:at,day:today,until});
     fsbStats.quotaTrips+=1;
     fsbEntries.clear();
     fsbDetachWait();fsbCtxDetach();

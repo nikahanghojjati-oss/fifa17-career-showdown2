@@ -731,10 +731,11 @@ async function writePoint(ctx,point,{writer,tap,ready,prep=null,other=null,settl
     // Phoenix B2 (B1's quota leg, seed 4181106201): right after this point the phone's clock is put back to the real time while the
     // page stays open (a phone clock corrected backwards). The page's own pause and windows must not come back with it: the
     // budget is not paused again, and the next step (Season Commit) goes on, which used to sit on a dead CHECK AGAIN.
-    if(X.clockBack){X.clockBack=false;X.clockAhead=false;rec.detail+=", then the clock put back";
-      try{await X.context.clock.setSystemTime(Date.now());}catch(e){rec.detail+=` (clock back: ${String(e.message).split("\n")[0]})`;}
+    // The check counts only when the pause really ran and its end is still ahead of the clock put back (the case that stuck).
+    if(X.clockBack){X.clockBack=false;rec.detail+=", then the clock put back";
+      try{await X.context.clock.setSystemTime(Date.now());X.clockAhead=false;}catch(e){rec.detail+=` (clock back: ${String(e.message).split("\n")[0]})`;}
       await sleep(3000);const q=await X.page.evaluate(()=>{const st=window.CareerModeFirestoreBudget?.state?.();return {paused:document.documentElement.dataset.firestoreQuota==="paused"||st?.paused===true,mark:document.documentElement.dataset.firestoreQuota||null,state:st||null,now:Date.now(),perf:Math.round(performance.now())};}).catch(()=>null);
-      await check(X,"clock.back",q&&q.paused===false,`${X.user}'s budget after the clock went back: ${JSON.stringify(q)}`);}
+      await check(X,"clock.back",rec.pausedShown===true&&Boolean(q&&q.state&&q.state.until>q.now)&&q.paused===false,`${X.user}'s budget after the clock went back (pause shown: ${rec.pausedShown===true}): ${JSON.stringify(q)}`);}
     // skew: the clock is put right once the point's checks are done.
     if(rec.release){const release=rec.release;rec.release=null;await release();}
     // Reads: the 60 s after recovery on the faulted phone (both phones idle on the step's next screen).

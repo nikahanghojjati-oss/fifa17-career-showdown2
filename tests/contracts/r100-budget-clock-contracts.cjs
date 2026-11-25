@@ -11,6 +11,8 @@
 //   C4 the clock never runs backwards; without performance.now it falls back to the wall clock, still never backwards
 //   C5 nothing in the budget's page-memory windows reads Date.now() directly any more: every one goes through fsbNow
 //   C6 a refused read under a pause that came back is what kept CHECK AGAIN dead: the budget refuses reads only while paused
+//   C8 (Codex on #1628) the Pacific billing day is a calendar date on the phone's own clock (like the partner's phone, so the
+//      shared meter's days match): a clock put back near midnight keeps today; the pause still ends at the real reset (+1 min)
 //   C7 the resume timer can lag a clock that jumped ahead: the first check that finds the pause over tells the screens once
 //      (the page mark and the quota event); the late timer then adds nothing
 const assert=require("node:assert/strict");
@@ -20,7 +22,7 @@ const vm=require("node:vm");
 const code=fs.readFileSync(path.resolve(__dirname,"../../js/sparkPrivatePairing.js"),"utf8");
 let n=0;const ok=(id,label)=>{n+=1;console.log(`ok ${id} ${label}`);};
 const pick=re=>{const m=code.match(re);assert.ok(m,`missing ${re}`);return m[0];};
-const now=pick(/  let fsbClockBase=null;\n  function fsbNow\(\)\{[\s\S]*?\n  \}\n/);
+const now=pick(/  function fsbCalendarNow\(\)\{return Date\.now\(\);\}\n  let fsbClockBase=null;\n  function fsbNow\(\)\{[\s\S]*?\n  \}\n/);
 const paused=pick(/  let fsbShownPaused=false;\n  function fsbPaused\(\)\{[^\n]*\}\n/);
 const publish=pick(/  function fsbState\(\)\{[^\n]*\}\n  function fsbPublish\(\)\{[\s\S]*?\n  \}\n/);
 const trip=pick(/  function fsbTrip\(\)\{[\s\S]*?\n  \}\n/);
@@ -78,7 +80,8 @@ function page({perf=true}={}){
 {
   const start=code.indexOf("const FSB_PAUSE_STEPS_MS"),end=code.lastIndexOf("CareerModeFirestoreBudget");assert.ok(start>0&&end>start);
   const budget=code.slice(start,end),direct=(budget.match(/Date\.now\(\)/g)||[]).length;
-  assert.equal(direct,1,"only fsbNow itself reads Date.now()");
+  assert.equal(direct,2,"only fsbNow and the calendar clock read Date.now()");assert.ok(/function fsbDayState\(at=fsbCalendarNow\(\)\)\{/.test(code),"the billing day reads the calendar clock");
+  assert.ok(code.includes("const at=fsbNow(),day=fsbDayState();"),"the read count's day is the calendar day");
   assert.ok(/const wall=Date\.now\(\);/.test(now));
   for(const use of ["const paused=Boolean(fsbPause&&fsbNow()<fsbPause.until);","if(fsbNow()<fsbFlightRetryAt)return;","fsbFlightRetryAt=fsbNow()+60000"])assert.ok(code.includes(use),use);
   ok("C5","every pause and window the budget holds in page memory is measured on fsbNow");
@@ -95,5 +98,14 @@ function page({perf=true}={}){
   w.ctx.paused();w.run();w.ahead(11*MIN);w.run();assert.deepEqual(w.events,[true,false],"the late timer and later checks add nothing");
   const n2=page();n2.ctx.trip();n2.ahead(10*MIN+100);assert.deepEqual(n2.events,[true,false],"a pause that ends on time is told once, by its timer");n2.ctx.paused();n2.run();assert.deepEqual(n2.events,[true,false]);
   ok("C7","a lagging resume timer: the first check that finds the pause over tells the screens once");
+}
+{
+  // 23:50 Pacific on 25 Nov 2026 (07:50 UTC on the 26th); the phone clock is put back 11 min, then 15 min pass.
+  const w=page();w.wall=Date.UTC(2026,10,26,7,50,0);w.ctx.now();w.setWall(-11*MIN);w.ahead(15*MIN);
+  const pd=at=>new Intl.DateTimeFormat("en-CA",{timeZone:"America/Los_Angeles",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(at));
+  assert.equal(pd(w.wall),"2026-11-25","the phone's clock still says 23:54 on the 25th");assert.equal(pd(w.ctx.now()),"2026-11-26","the elapsed clock is past midnight");
+  w.ctx.trip();const st=w.ctx.fsbPause;assert.equal(st.day,"2026-11-25","the pause's day is the calendar day");
+  const reset=Date.UTC(2026,10,26,8,0,0);assert.equal(st.until-w.ctx.now(),reset-w.wall+MIN,"the pause ends at the real reset +1 min (6 min), not after 10");
+  ok("C8","the billing day and the reset follow the phone's calendar clock; elapsed windows run on fsbNow");
 }
 console.log(`PASS r100 budget clock contracts (${n} checks)`);
