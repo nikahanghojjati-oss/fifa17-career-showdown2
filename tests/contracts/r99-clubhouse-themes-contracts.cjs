@@ -10,6 +10,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
+const { stripComments, stripJs } = require("../support/strip-comments.cjs");
 const ROOT = path.resolve(__dirname, "../..");
 const read = file => fs.readFileSync(path.join(ROOT, file), "utf8");
 let passed = 0;
@@ -60,7 +61,7 @@ check("index.html sets the theme before any sheet or picture is asked for, from 
   assert.ok(scriptClose < html.indexOf("<link"), "it runs before the first preload and before css/app.css");
   assert.match(code, /localStorage\.getItem\(K\)/, "the pick is read from this device");
   assert.match(code, /K="cmsClubhouseTheme"/, "one key");
-  const bare = code.replace(/\/\*[^]*?\*\//g, "");
+  const bare = stripJs(code);
   for(const banned of [/firestore/i, /fetch\(/, /XMLHttpRequest/, /sessionStorage/, /opacity|[^A-Za-z]filter:|backdrop/]) assert.doesNotMatch(bare, banned, `the theme script has no ${banned}`);
   assert.doesNotMatch(code, /visual-assets\/v10_1/, "the start-up shell still names nothing in visual-assets/v10_1");
   const refs = [...html.matchAll(/(?:src|href)="((?:js|css|data)\/[^"?#]+)/g)].map(m => m[1]);
@@ -254,12 +255,38 @@ check("the clubhouse with key silver is called Platinum everywhere a player read
   let seen = 0;
   for(const file of files){
     if(!fs.existsSync(path.join(ROOT, file))) continue;
-    const text = read(file).replace(/\/\*[^]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "").replace(/<!--[^]*?-->/g, "");
+    const text = stripComments(file, read(file));
     seen++;
     for(const re of NAME) assert.doesNotMatch(text, re, `${file} still calls the clubhouse Silver`);
   }
   assert.ok(seen > 50, `read the player-facing files (${seen})`);
   for(const file of ["chronicle/volume27-data.js", "chronicle/november.js", "chronicle/index.html", "chronicle/book.js"]) assert.match(read(file), /Platinum/, `${file}: the Story names Platinum`);
+});
+
+// r100 B7 (Verify nit on #1623): the names checks read files with their comments taken out, and a "/*" or "//" inside a string
+// must never hide the code after it (the trap the listener census hit). A planted old name after such a string still fails.
+check("the comment stripper keeps every string, so a /* or // inside one never hides an old clubhouse name", () => {
+  const OLD = /\bMetallic Black\b/i;
+  const planted = {
+    "js/planted.js": 'const open = "/*";\nconst label = "Metallic Black Clubhouse";\nconst shut = "*/";\n',
+    "js/planted-template.js": 'const a = `${"/*"} x`;\nconst label = `Metallic Black Clubhouse`;\nconst b = `*/`;\n',
+    "js/planted-regex.js": 'const re = /[/*]/;\nconst label = "Metallic Black Clubhouse";\nconst re2 = /[*/]/;\n',
+    "js/planted-url.js": 'const u = "https://example.test/";\nconst label = "Metallic Black Clubhouse";\n',
+    "css/planted.css": '.a::after { content: "/*"; }\n.b::after { content: "Metallic Black Clubhouse"; }\n.c::after { content: "*/"; }\n',
+    "chronicle/planted.html": '<script>const a = "/*";</script>\n<p>Metallic Black Clubhouse</p>\n<script>const b = "*/";</script>\n'
+  };
+  const naive = text => text.replace(/\/\*[^]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "").replace(/<!--[^]*?-->/g, "");
+  for(const [file, text] of Object.entries(planted)){
+    assert.match(stripComments(file, text), OLD, `${file}: the planted name after a "/*" string is still read`);
+    if(file !== "js/planted-url.js") assert.doesNotMatch(naive(text), OLD, `${file}: (the old regex strip hid it, which is the trap)`);
+  }
+  for(const [file, text] of Object.entries({
+    "js/real.js": "/* Metallic Black */\n// Metallic Black\nconst x = 1; // Metallic Black\n",
+    "css/real.css": "/* Metallic Black */ .a{}\n",
+    "chronicle/real.html": "<!-- Metallic Black --><style>/* Metallic Black */</style><script>/* Metallic Black */</script>\n",
+    "chronicle/real.md": "<!-- Metallic Black -->\n"
+  })) assert.doesNotMatch(stripComments(file, text), OLD, `${file}: a real comment is still taken out`);
+  assert.equal(stripJs('const s = "a/*b"; /* c */ const t = `d//e`;'), 'const s = "a/*b";   const t = `d//e`;', "strings come through byte for byte");
 });
 
 // Nik 2026-11-25 (naming card): Wooden, Platinum, Black Steel and Graphite Clubhouse. "Premium" is gone from every name a player
@@ -280,7 +307,7 @@ check("the clubhouses are Wooden, Platinum, Black Steel and Graphite wherever a 
   let seen = 0;
   for(const file of files){
     if(!fs.existsSync(path.join(ROOT, file))) continue;
-    const text = read(file).replace(/\/\*[^]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "").replace(/<!--[^]*?-->/g, "");
+    const text = stripComments(file, read(file));
     seen++;
     for(const re of OLD) assert.doesNotMatch(text, re, `${file}: a player reads an old clubhouse name (${re})`);
   }

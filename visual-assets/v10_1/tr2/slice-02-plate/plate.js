@@ -745,9 +745,12 @@
   }
 
   // Nik's fingertip, cut from the plate, above the live text: the finger is in front of the glass.
-  function buildFingertip(map) {
+  // opts.noPlateArt (r100 B7, the game): the host paints its own room and hides the plate and fingertip at every size,
+  // so neither picture is given a file and the browser never downloads them.
+  function buildFingertip(map, noArt) {
     var o = map.overlays.nikFingertip;
-    var img = el("img", { class: "overlay-fingertip", alt: "", "aria-hidden": "true", decoding: "sync",
+    var img = el("img", noArt ? { class: "overlay-fingertip", alt: "", "aria-hidden": "true", decoding: "sync" }
+      : { class: "overlay-fingertip", alt: "", "aria-hidden": "true", decoding: "sync",
       src: o.files["1672"], srcset: o.files["1672"] + " 1x, " + o.files["3344"] + " 2x" });
     return placeRect(img, o.rect);
   }
@@ -868,9 +871,9 @@
     var plane = el("div", { class: "plane" });
     var pic = el("picture", { class: "plate" });
     var base = ASSET_BASE + "assets/ENV_TR2_PLATE_G_LOCKED_V1_";
-    if (!opts.webpOnly) pic.appendChild(el("source", { type: "image/avif", srcset: base + "1672.avif 1672w, " + base + "3344.avif 3344w" }));
-    pic.appendChild(el("source", { type: "image/webp", srcset: base + "1672.webp 1672w, " + base + "3344.webp 3344w" }));
-    var img = opts.webpOnly
+    if (!opts.webpOnly && !opts.noPlateArt) pic.appendChild(el("source", { type: "image/avif", srcset: base + "1672.avif 1672w, " + base + "3344.avif 3344w" }));
+    if (!opts.noPlateArt) pic.appendChild(el("source", { type: "image/webp", srcset: base + "1672.webp 1672w, " + base + "3344.webp 3344w" }));
+    var img = opts.noPlateArt ? el("img", { alt: "", decoding: "async" }) : opts.webpOnly
       ? el("img", { src: base + "1672.webp", alt: "", decoding: "async" })
       : el("img", { src: base + "1672.png", srcset: base + "1672.png 1672w, " + base + "3344.png 3344w", alt: "", decoding: "sync" });
     pic.appendChild(img);
@@ -885,7 +888,7 @@
       var win = cfg.phase === "WINDOW_OPEN";
       plane.appendChild(buildSign(map, cfg, S));
       plane.appendChild(buildYouChip(map, nik, S));
-      plane.appendChild(buildFingertip(map));
+      plane.appendChild(buildFingertip(map, opts.noPlateArt));
       scene.appendChild(buildStatus(map, cfg, S));
       var own = nik ? map.panels.A : map.panels.B;
       if (cfg.phase === "COMPLETED") {
@@ -912,8 +915,9 @@
     if (!cfg.plateOnly) stage.appendChild(buildFooter(S, fx, ["WINDOW_OPEN", "GUESS_ENTRY", "SIGNING_ENTRY", "COMPLETED"].indexOf(cfg.phase)));
     wireGuessSubmitMotion(stage, cfg);
     world.style.setProperty("--glass", "url(" + map.mobile.glass.file + ")");
-    world.style.setProperty("--plate-url", "url(" + base + "1672.webp)");
-    stage.style.setProperty("--plate-url", "url(" + base + "1672.webp)");
+    var plateUrl = opts.noPlateArt ? "none" : "url(" + base + "1672.webp)";
+    world.style.setProperty("--plate-url", plateUrl);
+    stage.style.setProperty("--plate-url", plateUrl);
 
     var mq = matchMedia(MOBILE_MQ);
     function isMobile() { return typeof opts.mobile === "boolean" ? opts.mobile : mq.matches; }
