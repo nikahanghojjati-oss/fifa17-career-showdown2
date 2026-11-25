@@ -25,7 +25,7 @@ Picked by Nik on 2026-11-25, 06:56-07:01 UTC. In his words: Duet does the whole 
 2. `r100-duet/p3/b7-kit/mk_tickets.py`, `mk_full.py`, `mk_lr.py`, `mk_signin.py`: B7's prompt generators. Each takes an output folder as argv[1]. Add a LOOKS entry per clubhouse with feel, walls, stone, metal, floor, ceiling, sofa, light and a **Colour lock** (copy the shape of `mk_signin.py` LOOKS["MATTE"]).
 3. `r100-duet/p3/b7-kit/examples/`: finished Matte tickets of every kind (desktop room, phone band, League Roulette phone and desktop, Club sideways, sign-in desktop and phone). Match their structure and wording.
 4. leads/relay `project-documents/leads-relay/handoffs/HO-173_*.md`: **the premium bar** (Nik 2026-11-25 01:05 UTC: "must truly look premium"). Also `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md`, which shows how a colour study and colour lock were done.
-5. leads/relay `project-documents/leads-relay/TEAM_V_METHOD.md`: Team V's exact method, once it lands. The desk tells you when. Until then, work from the skills and the examples.
+5. **`r100-duet/p3/teamv-kit/TEAM_V_METHOD.md`**: Team V's exact method after 57+ premium repaints (copied from leads/relay 170ca0b1). **It wins over anything below that differs.** The same folder holds their `align.py`, `save2.py` and `RUN_SHEET_MATTE.md` (a finished run sheet to copy the layout from). Wooden source PNGs (Image 1) are already converted on Team V's branch `claude/project-thread-ie3afv`, under `project-documents/hc-art/ho-premium-full/src/IMG1_*.png`. Link those, and convert any that are missing yourself.
 6. Skills: **showdown-astra-image-prompts** (route, prompt rules, scoring) and **showdown-likeness-image-ticket** (one asset per ticket, edit from the source, never an edit of an edit). Their rules are summarised below in case they don't load for you.
 7. `tools/clubhouse-themes/` on gameplay/r100 (paint.py, panel_tiles.py, pin.py, manifest.py, matte_check.py, finish.py, masks/), plus your own P1 work in paint.py.
 
@@ -38,33 +38,77 @@ Ask Nik for one test picture (any ChatGPT image). Then:
 ## The V side: you are the Team V lead and its workers
 **Route:** ChatGPT **Work mode, Astra 6, Extra High** (Sol 6.1 Work mode only if Astra refuses). Normal or incognito chats can't make images.
 
-**Per picture, one asset = one ticket = one new chat:**
-1. Attach Image 1, the Wooden source plate (raw GitHub URL from gameplay/r100), and where the kind needs it Image 2, your people-free reference or swatch. Never attach an earlier try or another clubhouse's painting.
-2. Write the prompt in ONE fenced box. Say what to make before what to avoid: every "no X" gets a positive target in the same sentence. Use maker words (honed, hand-rubbed, chased, satin), and state the light as plain facts. Keep the managers' light fixed: night rooms lit by the same warm lamps. No new objects, lamps, text, logos or people. Same framing, largest size.
-3. **Colour lock** line per clubhouse, as in the Matte tickets: name the exact base colours (the palette above), and say which wood or brown from the Wooden plate must not survive and where gold or brass is allowed.
+**Per picture, one asset = one ticket = one NEW chat** (TEAM_V_METHOD §1). Reuse a chat only for a one-line fix of the picture it just made.
+1. **Attachments, in order:**
+   - Image 1 = the Wooden plate to edit, as a PNG.
+   - Image 2 = a people-free reference of the APPROVED look of this clubhouse: the pilot cut for desktop rooms, the swatch for phones.
+   - Never attach a previous try, another clubhouse's painting or any outside photo (cars, products), because Astra copies their objects and logos. Describe outside references in words.
+2. **Prompt in ONE fenced box, in Team V's order:**
+   1. Image 1 is the picture to edit; Image 2 only shows materials and light, copy nothing else.
+   2. Keep camera, framing, layout.
+   3. Keep the two men exactly (faces, hair, suits, hands, pose, size, position).
+   4. Keep-in-place list naming every object, window, lamp and the counter-rail height.
+   5. "The room:" one line of mood, then each surface as one named real material.
+   6. Light: night, same lamps only, where light pools and falls off, colour limits.
+   7. Objects keep identity and colours.
+   8. Finish: real set-builder materials, clear air, no fog/halo/grain/streaks/text/logos/new objects/extra lamps.
+   9. Same framing, nothing cropped, largest size.
+   Say what TO make before what to avoid: every "no X" gets a positive target in the same sentence.
+3. **Every prompt carries:**
+   - **(a) The clubhouse's Colour lock paragraph:** exact base colours from the palette above, "none of image 1's wood colour survives", and lamps warm only a small pool.
+   - **(b) The clubhouse's LIGHT RULE**, written into EVERY prompt, not just the first. Fix it in the colour study and get Nik's OK with the pilot. Start from these:
+     - Ruby: deep oxblood and red marble at night, rich not pink, antique gold small.
+     - Emerald: deep green stone and leather at night, never mint, brass small.
+     - Lapis: deep ultramarine at night, never royal-blue plastic, gold flecks small.
+   - **(c) The fix wording from Team V's redo list (TEAM_V_METHOD §3) where the room needs it:**
+     - straight real textures only, never "smooth";
+     - calm long marble veins, never cracked ice;
+     - square pillars;
+     - "this room has no lamps" for tunnels, archives and other lamp-less rooms;
+     - a numeric framing lock on phones (for example "rail at 58% of the height, no extra panel rows"), with Image 2 cropped to a materials-only strip.
 4. Nik pastes it. If ChatGPT offers a rewrite, he replies `No, use my prompt exactly.`
 
-**Copy boxes for Nik:** one box per picture, in the order you want them. Give Nik ONE BATCH per message (for example the pilot's 2 boxes, then 8 desktop rooms, then the phone bands). Above each box, put one line: "New chat, Astra 6 Extra High, attach <file1> (+ <file2>), save as <ASSET_ID>". He pastes and returns the pictures in the same order.
+**Run sheet for Nik (he is on an iPhone):** keep one `RUN_SHEET_<LOOK>.md` per clubhouse under `project-documents/hc-art/material-clubhouses/<key>/`, in the layout of `teamv-kit/RUN_SHEET_MATTE.md`. For each ticket it has:
+- a heading;
+- GitHub **blob** links (plus raw links) to Image 1 and Image 2 PNGs;
+- "Saves as <ASSET_ID>";
+- one code box with the prompt;
+- the score and notes of each try.
+In the mailbox, give the desk ONE BATCH at a time: the pilot's 2, then the desktop rooms, then the phones. The desk hands Nik a link to the run sheet section plus a short copy box. Nik returns the pictures in the same order.
 
-**Score each result out of 10** (tell Nik the score in one line per picture). Pass mark: **8/10 and every hard check passes.**
-- **Hard checks:**
-  - same framing as the Wooden plate (overlay or phase correlation, ≤2 px shift);
-  - both men present at the same size where the room has them;
-  - no fog, halo, glow, noise, streaks, text, logos or new lamps;
-  - the colour lock is held;
-  - matte_check-style numbers within the clubhouse's own limits (below).
-- **Then judge** the HO-173 7-point bar: real materials, handcrafted, rich not flat, readable textures, the right glint for the material, unmistakably its own clubhouse, premium not AI-made.
-- **Redo loop:** a fresh chat from the Wooden plate, never an edit of an edit. "Keep this image exactly the same. Change only: ..." edits are allowed for ONE small fix, at most twice. Max 3 fresh tries per asset. Then FLAG it in the mailbox with the best try and what fails.
-- **Lessons:** after each result, note under P3 in the mailbox if Astra read a word in an unexpected way: the words, what it did, and the fix. The desk passes good lessons on for the skill.
+**Scoring (TEAM_V_METHOD §2).** **PASS = 9/10 or better for EVERY picture** (Nik's rule). An 8 or 8.5 means one more fix, never acceptance. Check in this order:
+1. **Align to Image 1** with `align.py`. Reject any change of aspect, zoom or crop. Astra lands at scale ~1.000 and under 1-2 px.
+2. **Men identical:** face crops at 2x next to Wooden.
+3. **Side by side** with the approved sibling rooms of this clubhouse.
+4. **2x crops** of walls, stone and metal for AI texture.
+5. **Numbers:** the colour rules from your `<key>_check.py`.
+6. **Bar:** the HO-173 premium bar (real luxury materials, unmistakably this clubhouse and not a sibling, rich not flat, every big surface changed, accents small, clean craft, "private members' club at night").
 
-**V worker steps per accepted picture:**
-1. Keep the raw PNG untouched.
-2. Align it to the Wooden plate (phase correlation; shift the painting, never the Wooden).
-3. Resize it to the master size: desktop 3072x1728, phone 1179x2096, Club sideways 2532x1170, sign-in as in mk_signin.
-4. Save the master WebP as `ENV_<ROOM>_PLATE_<LOOK>_P1_2X.webp` / `ENV_<ROOM>_PHONE_<LOOK>_P1.webp` (other masters: paint.py OTHER_MASTERS).
-5. Write its SHA-256 to `project-documents/hc-art/material-clubhouses/<key>/SHA256.json`.
-6. Commit both under `project-documents/hc-art/material-clubhouses/<key>/` on your clubhouse branch.
-7. **Swatches for phone tickets:** cut a people-free swatch `REF_<ROOM>_<LOOK>_SWATCH.webp` from each finished desktop painting. Take full height at the widest mask-free column run of `masks/ENV_<ROOM>_PLATE_HC_V3_1920.png`, 12 px in from each side, scaled x1.6, WebP q90.
+Score honestly, one line per issue, and tell Nik each score in one line.
+
+**Redo loop (TEAM_V_METHOD §5):**
+- ONE change per follow-up edit ("Keep this image exactly the same. Change only: ...").
+- At 9/10, stop editing.
+- After 2 failed fixes in a chat, open a NEW chat from Image 1 with the better prompt.
+- If a surface still won't change, use a people-free cut of an already-approved sibling room of THIS clubhouse as Image 2, plus "make the X look exactly like image 2".
+- Max 3 fresh chats per asset, then FLAG it in the mailbox with the best try and what fails.
+- Once Nik OKs a pilot, copy its winning wording into every later prompt of that clubhouse.
+
+**Lessons:** after each result, note under P3 in the mailbox if Astra read a word in an unexpected way: the words, what it did, and the fix. The desk passes good lessons on for the skill.
+
+**V worker steps per picture (TEAM_V_METHOD §4).** First copy `teamv-kit/align.py` and `save2.py` into your own tools folder and fix their paths. They have Team V's container path `/home/user/work/...` written in, and save2 must write to `project-documents/hc-art/material-clubhouses/<key>/`. Skip done.sh, handoff.py and feed_sync.py: you never write leads/relay. Then:
+1. Copy Nik's picture untouched as `<NAME>_RAW.png`.
+2. Run `align.py raw.png IMG1.png out.webp`. It resizes to Image 1's size, warps onto it (ORB affine, Lanczos) and saves WebP q88 plus a side-by-side `.cmp.jpg`. No manual cropping: alignment does it.
+3. **Sizes:**
+   - desktop rooms 3072x1728;
+   - Loading 3840x2160;
+   - phone plates 1179x2096;
+   - Club sideways 2532x1170;
+   - sign-in as in mk_signin.
+4. Name it exactly as the ticket's "Saves as". Keep RAW png + aligned webp + a SHA256.json line each (save2.py), committed on your clubhouse branch.
+5. Never composite the men back at this stage: paint.py does that on the G side.
+6. If a window's stadium got redrawn, lay the original Image 1 stadium pixels back inside each pane by code. RAW stays untouched; say so in the run sheet.
+7. **Swatches gate the phones:** cut a people-free swatch `REF_<ROOM>_<LOOK>_SWATCH.webp` from each finished desktop painting. Take full height at the widest mask-free column run of `masks/ENV_<ROOM>_PLATE_HC_V3_1920.png`, 12 px in from each side, x1.6, WebP q90. Re-cut it under the same name if the desktop room is redone.
 
 ## Paintings per clubhouse (about 24)
 - **Pilot first:** HOME and BOARD desktop (mk_tickets). **Stop and get Nik's OK on the pilot on the board before writing any more tickets** (that's how Matte avoided a full wrong-colour set).
