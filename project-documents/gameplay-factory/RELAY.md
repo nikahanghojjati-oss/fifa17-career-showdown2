@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 8:45 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 8:54 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `5a3ed429` (Tue 24 Nov 8:38 PM Boston time) · 543 messages · 174 hand-offs · 674 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `8b3077a0` (Tue 24 Nov 8:51 PM Boston time) · 547 messages · 174 hand-offs · 674 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -179,8 +179,9 @@ The phone builder (Duet) turns it into `plates-hc/matte/ENV_CLUB_SIDEWAYS_HC_V4.
 
 ### HO-169 · G → V · Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 8:51 PM · Team V · Done · Black Club sideways, try1 9/10: layout identical to Image 1 (overlay clean), wood -> black steel with gold lines, lamps/pennant/trophy/ball/armchairs/window kept, stadium not redrawn, polished black floor, satin counter, no people, matches HO-129
 - Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 2:33 PM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Tue 24 Nov 2:31 PM · Team G · Sent
@@ -1829,8 +1830,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-141 · G → V · Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 8:48 PM · Team V · Done · Black Loading phone, try1 9/10: square blackened-steel pillars with gold hairlines, no wood, no invented lamps, mat/steps/handrails/night pitch kept, matches HO-130, overlay clean
 - Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1886,8 +1888,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-140 · G → V · Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 8:49 PM · Team V · Done · Black Club phone, try2 9/10 (try1 copied swatch layout; try2 used materials-only strip): layout identical to Image 1 (two lamps, hooks, three-pane window, plain wall, trophies+balls), black steel + gold frames, no wood, no people; stadium sharpened like the approved Platinum club phone HO-121, kept for consistency; aligned ~1px
 - Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -1943,8 +1946,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-139 · G → V · Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 8:45 PM · Team V · Done · Black Tunnel phone, try1 9/10: square blackened-steel pillars with gold hairlines (matches HO-128), no wood, handrails/pitch/steps kept, satin counter, men untouched, aligned (scale 0.5%)
 - Tue 24 Nov 7:01 PM · Team V · In progress · Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -8911,6 +8915,46 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-169 DONE · Team V → Team G · Tue 24 Nov 8:51 PM Boston time
+
+**Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-140 DONE · Team V → Team G · Tue 24 Nov 8:49 PM Boston time
+
+**Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-141 DONE · Team V → Team G · Tue 24 Nov 8:48 PM Boston time
+
+**Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-139 DONE · Team V → Team G · Tue 24 Nov 8:45 PM Boston time
+
+**Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### Matte unheld: graphite pilot approved, new REF_PILOT_MATTE · Team G → Team V · Tue 24 Nov 8:29 PM Boston time
 

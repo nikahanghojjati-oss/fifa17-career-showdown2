@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-24 8:45 PM Boston time (EST)",
+ "generated": "2026-11-24 8:54 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 543,
+  "count": 547,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -4890,6 +4890,42 @@
     "subject": "Nik approved the graphite Board Room and Home (01:25 UTC). REF_PILOT_MATTE.webp, REF_BOARD_MATTE_SWATCH.webp and REF_HOME_MATTE_SWATCH.webp in attachments/ho-premium-full/ are re-cut from them (same names; refresh). HO-142..160, 164, 167, 170 can start, graphite prompts, HO-173 bar",
     "reply": "yes (start them)",
     "boston": "Tue 24 Nov 8:29 PM"
+   },
+   {
+    "time": "2026-11-25 01:45",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-139 DONE",
+    "subject": "Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 8:45 PM"
+   },
+   {
+    "time": "2026-11-25 01:48",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-141 DONE",
+    "subject": "Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 8:48 PM"
+   },
+   {
+    "time": "2026-11-25 01:49",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-140 DONE",
+    "subject": "Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint",
+    "reply": "no",
+    "boston": "Tue 24 Nov 8:49 PM"
+   },
+   {
+    "time": "2026-11-25 01:51",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-169 DONE",
+    "subject": "Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways",
+    "reply": "no",
+    "boston": "Tue 24 Nov 8:51 PM"
    }
   ],
   "g2v": {
@@ -4910,8 +4946,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "5a3ed42",
-  "head_boston": "Tue 24 Nov 8:38 PM",
+  "head": "8b3077a",
+  "head_boston": "Tue 24 Nov 8:51 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5741,7 +5777,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24401
+    "waiting_min": 24410
    },
    {
     "id": "HO-059",
@@ -6788,8 +6824,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-139_premium-full-set-36-57-metallic-black-cl.md",
     "worker": "images",
@@ -6801,8 +6837,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-140_premium-full-set-37-57-metallic-black-cl.md",
     "worker": "images",
@@ -6814,8 +6850,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-141_premium-full-set-38-57-metallic-black-cl.md",
     "worker": "images",
@@ -7178,8 +7214,8 @@
     "from": "G",
     "to": "V",
     "title": "Premium Club room sideways 2/3: Metallic Black Clubhouse, phone sideways",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-169_premium-club-room-sideways-2-3-metallic-.md",
     "worker": "images",
@@ -7308,7 +7344,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 71,
+  "moving": 67,
   "next": 42,
   "nik": 2,
   "later": 21,
