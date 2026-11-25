@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 8:09 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 8:12 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `1f2ab21b` (Tue 24 Nov 8:06 PM Boston time) · 537 messages · 174 hand-offs · 661 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d9b5a679` (Tue 24 Nov 8:11 PM Boston time) · 537 messages · 174 hand-offs · 661 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -41,6 +41,11 @@ If a try misses **any** point, it is not DONE. Retry from the Wooden plate in a 
 
 ## Done when
 Team V confirms that every Matte painter and thread has this bar, and that the open Matte tickets are being checked against it. Reply "bar received, applied to HO-142..160/164/167/170" and set DONE.
+
+## Update 25 Nov 2026, 01:10 UTC (Team G lead): Nik's colour reference, HOLD Matte
+Nik sent his premium colour reference, a matte black car (`attachments/ho-premium-full/REF_NIK_MATTE_FINISH.jpg`), and asked for the colour to be studied. Study: `attachments/ho-premium-full/MATTE_COLOUR_STUDY.md` + `.png`.
+Finding: our Matte is a **brown espresso with a narrow, flat range**. Nik's reference is a **neutral graphite black** that runs from true black through graphite to a soft, broad, velvet sheen, with no mirror glints. Its accents are satin aluminium or titanium, not brass.
+**Team V: please HOLD every Matte painting now (HO-142..160, 164, 167, 170). Start no new tries until Team G files the new Matte direction.** Nik is choosing the direction now; Team G will amend the prompts and send a fresh pilot (Home + Board Room) first. Finished Matte tries are not wasted, but they will be judged against the new direction.
 
 </details>
 

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24 8:09 PM Boston time (EST)",
+ "generated": "2026-11-24 8:12 PM Boston time (EST)",
  "relay": {
   "live": true,
   "count": 537,
@@ -4856,8 +4856,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "1f2ab21b",
-  "head_boston": "Tue 24 Nov 8:06 PM",
+  "head": "d9b5a679",
+  "head_boston": "Tue 24 Nov 8:11 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -4899,8 +4899,8 @@
    ]
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1604 has waited 226 min for a machine.",
+   "state": "clear",
+   "line": "All clear: every check has a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -5687,7 +5687,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 24364
+    "waiting_min": 24367
    },
    {
     "id": "HO-059",
@@ -7182,7 +7182,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-173_premium-matte-black-must-look-truly-prem.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 2
+    "waiting_min": 5
    }
   ],
   "relay_ok": true
