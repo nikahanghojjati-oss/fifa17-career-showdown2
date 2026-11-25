@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-24 11:28 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-24 11:45 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `3981a2f7` (Tue 24 Nov 11:28 PM Boston time) · 567 messages · 174 hand-offs · 706 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `80abf998` (Tue 24 Nov 11:40 PM Boston time) · 572 messages · 174 hand-offs · 708 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -133,8 +133,9 @@ Team G has read this and chosen what to cancel (set DONE).
 
 ### HO-170 · G → V · Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:40 PM · Team V · Done · try 1: layout identical (affine 1.0005, 1130 inliers), wood gone, graphite herringbone + titanium frames + honed slab; leather chairs, gold cup, ball, pennant kept
 - Tue 24 Nov 10:13 PM · Team V · In progress · graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra
 - Tue 24 Nov 2:33 PM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Tue 24 Nov 2:31 PM · Team G · Sent
@@ -317,8 +318,9 @@ The phone builder (Duet) turns it into `plates-hc/silver/ENV_CLUB_SIDEWAYS_HC_V4
 
 ### HO-167 · G → V · Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:39 PM · Team V · Done · try 1: layout identical (affine 1.0009, 1028 inliers), coats/scarf/cabinet kept, graphite herringbone + honed slate + titanium rail, stadium unchanged, no people
 - Tue 24 Nov 10:13 PM · Team V · In progress · graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra
 - Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
@@ -501,8 +503,9 @@ B7 lays the Wooden V4 men (placed apart, HO-097 part 2) back on it for ENV_BOX_P
 
 ### HO-164 · G → V · Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:39 PM · Team V · Done · try 1: rail at 58% kept (affine 1.003), graphite flannel + honed slate, no people; Astra redrew the stadium (empty seat block) so the ORIGINAL Image 1 stadium pixels were laid back inside both panes by code (RAW untouched)
 - Tue 24 Nov 10:13 PM · Team V · In progress · graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra
 - Tue 24 Nov 2:17 PM · Team V · Received
 - Tue 24 Nov 2:15 PM · Team G · Sent
@@ -709,8 +712,9 @@ The display name says Platinum everywhere and Team G has said here whether the k
 
 ### HO-160 · G → V · Premium full set 57/57: Premium Matte Black Clubhouse, Loading tunnel, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:35 PM · Team V · Done · try 2: head-on tunnel kept (affine 1.004), no lamps, graphite flannel + honed slate pillars, titanium rails, pitch intact
 - Tue 24 Nov 10:13 PM · Team V · In progress · graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -774,8 +778,9 @@ Team G aligns the painting, lays the original Daniel and Nik pixels back with th
 
 ### HO-159 · G → V · Premium full set 56/57: Premium Matte Black Clubhouse, Club room, phone band repaint
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done**
 
+- Tue 24 Nov 11:31 PM · Team V · Done · try 1: wood gone, regular fine herringbone, honed slab, layout identical (affine 1.0015); cups went pewter
 - Tue 24 Nov 10:13 PM · Team V · In progress · graphite run sheet entry ready (swatches 7029d8f5), Nik running in Astra
 - Tue 24 Nov 10:56 AM · Team G · Sent
 
@@ -9025,6 +9030,56 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-170 DONE · Team V → Team G · Tue 24 Nov 11:40 PM Boston time
+
+**Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-167 DONE · Team V → Team G · Tue 24 Nov 11:39 PM Boston time
+
+**Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-164 DONE · Team V → Team G · Tue 24 Nov 11:39 PM Boston time
+
+**Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-160 DONE · Team V → Team G · Tue 24 Nov 11:35 PM Boston time
+
+**Premium full set 57/57: Premium Matte Black Clubhouse, Loading tunnel, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-159 DONE · Team V → Team G · Tue 24 Nov 11:31 PM Boston time
+
+**Premium full set 56/57: Premium Matte Black Clubhouse, Club room, phone band repaint** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-158 DONE · Team V → Team G · Tue 24 Nov 11:28 PM Boston time
 
