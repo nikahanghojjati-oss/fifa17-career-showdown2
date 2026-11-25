@@ -495,7 +495,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same tall 9:16 shape. The output is exactly the same size and shape as image 1 (1179 by 2096 pixels), never narrower, wider or taller, and nothing in it moves or changes size. Change only the materials and finish of the room itself.
 
 Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
 
@@ -524,7 +524,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 Image 1 is the picture to edit. Image 2 is only a small sample of the finished materials and light of this clubhouse (herringbone flannel panels, satin graphite frames, honed slate); match its materials, colours and light, and copy nothing else from it: not its layout, not its objects, not its framing. The picture keeps the layout of image 1.
 
-Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same tall 9:16 shape. The output is exactly the same size and shape as image 1 (1179 by 2096 pixels), never narrower, wider or taller, and nothing in it moves or changes size. Change only the materials and finish of the room itself.
 
 Keep in the same places and at the same sizes: the two wall lamps, the window with the stadium, the panelled wall, the trophies and balls along the bottom. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
 
@@ -552,7 +552,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same tall 9:16 shape. The output is exactly the same size and shape as image 1 (1179 by 2096 pixels), never narrower, wider or taller, and nothing in it moves or changes size. Change only the materials and finish of the room itself.
 
 Keep in the same places and at the same sizes: the tunnel receding to the pitch, the pillars and handrails, the bulkhead lamps. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
 
@@ -580,7 +580,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 Image 1 is the picture to edit. Image 2 shows only the finished materials and light of this same room in this clubhouse; match its materials, colours and light exactly, and copy nothing else from it.
 
-Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop, widen the window or move the camera, and keep the same tall 9:16 shape. The window stays the same size in the same place, with its one thin upright bar down the middle and the three small floodlights above the stands; the counter rail sits close under the window, exactly where it is in image 1: the gap between the bottom of the window frame and the rail is only about one sixth of the window's height, the rail runs at 58% of the way down the picture, and the stone below the rail fills the whole lower 42% of the picture. Do not lower the rail and do not add extra rows of wall panels between the window and the rail. The stadium, crowd and seats inside the window stay exactly as they are, not redrawn. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop, widen the window or move the camera, and keep the same tall 9:16 shape. The window stays the same size in the same place, with its one thin upright bar down the middle and the three small floodlights above the stands; the counter rail sits close under the window, exactly where it is in image 1: the gap between the bottom of the window frame and the rail is only about one sixth of the window's height, the rail runs at 58% of the way down the picture, and the stone below the rail fills the whole lower 42% of the picture. Do not lower the rail and do not add extra rows of wall panels between the window and the rail. The stadium, crowd and seats inside the window stay exactly as they are, not redrawn. The output is exactly the same size and shape as image 1 (1179 by 2096 pixels), never narrower, wider or taller, and nothing in it moves or changes size. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
 
 Keep in the same places and at the same sizes: the window with the night stadium, the crowd and the green pitch exactly as they are, the window frames, the counter rail, with the counter edge at exactly the same height. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter. The middle of the picture stays calm and uncluttered: a large roulette board will sit there.
 
@@ -636,7 +636,7 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 ```
 Image 1 is the picture to edit. Image 2 is only a small sample of the finished materials and light of this clubhouse (herringbone flannel panels, satin graphite frames, honed slate); match its materials, colours and light, and copy nothing else from it: not its layout, not its objects, not its framing. The picture keeps the layout of image 1.
 
-Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same wide shape (about 2.16:1). The window, the two armchairs and table, the pennant, the trophy and ball and both wall lamps stay where they are. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
+Keep image 1 exactly the same in camera, framing and layout: do not zoom in, zoom out, crop or move the camera, and keep the same wide shape (about 2.16:1). The window, the two armchairs and table, the pennant, the trophy and ball and both wall lamps stay where they are. The output is exactly the same size and shape as image 1 (2532 by 1170 pixels), never narrower, wider or taller, and nothing in it moves or changes size. Change only the materials and finish of the room itself. There are no people in this room; keep it empty of people.
 
 Keep in the same places and at the same sizes: the two wall lamps with pleated shades along the top, the wide window on the left with the floodlit stadium, the two leather armchairs and the low table under the window, the tall wall panel on the right with the one hanging pennant banner, the gold trophy and the old leather ball on the low shelf at the lower right, and the counter strip along the bottom at exactly the same height.
 
