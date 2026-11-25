@@ -107,35 +107,38 @@ LOOK = {
   tilelight="border-color: rgba(255, 236, 190, .22) !important; border-bottom-color: rgba(0, 0, 0, .3) !important; "
             "background: linear-gradient(180deg, rgba(255, 255, 255, .07) 0, transparent 18%) !important;",
   title="", gold=False),
- "matte": dict(
+ "matte": dict(   # graphite direction (Nik's matte-black reference, MATTE_COLOUR_STUDY 2026-11-25): neutral graphite, velvet
+                  # low gloss, broad soft sheen, satin titanium accents, cool ivory titles; nothing glints, no brass
   tokens="""
-  --sd-gold-100: #efe4c9; --sd-gold-200: #e6d8b6; --sd-gold-300: #d3bc8e; --sd-gold-400: #c6ac7b; --sd-gold-500: #b99b62;
-  --sd-gold-600: #a98c57; --sd-gold-700: #92794a; --sd-gold-800: #5f5034; --sd-gold-900: #2f281b;
-  --sd-gold-metal: linear-gradient(#b99b62, #b99b62);
-  --sd-edge: rgba(185, 155, 98, .4); --sd-edge-inner: rgba(0, 0, 0, 0);
-  --sd-glass: rgba(29, 27, 25, .9); --sd-glass-strong: rgba(27, 25, 23, .97); --sd-black: #161412;
-  --sd-shadow-glow: 0 0 0 transparent; --sd-shadow-panel: 0 16px 40px rgba(0, 0, 0, .42);
-  --sd-text-primary: #ebe3d2; --sd-text-secondary: #b2a892; --sd-text-warm: #bdb39e; --sd-text-on-gold: #1a160f;
-  --r95-ink: #ebe3d2; --r95-ink-2: #b2a892; --r95-gold-ink: #efe6d3; --r95-kicker-ink: #cdb382;
-  --r78-ivory: #ebe3d2; --r78-ivory-2: #b2a892; --r78-gold: #efe6d3; --r78-gold-strong: #cdb382; --r78-gold-edge: #92794a;
-  --r78-warn: #cdb382; --r78-warn-edge: #92794a; --r78-panel: #1f1d1b;
-  --h95-bevel: linear-gradient(#a3895a, #a3895a); --h95-gold-face: linear-gradient(#b99b62, #b99b62); --h95-kicker: #cdb382; --h95-smoke: linear-gradient(#1f1d1b, #1f1d1b);""",
-  panel="background: #1f1d1b !important; border-color: rgba(185, 155, 98, .36) !important; box-shadow: 0 16px 40px rgba(0, 0, 0, .42) !important; "
+  --sd-gold-100: #eceef0; --sd-gold-200: #dfe2e5; --sd-gold-300: #cdd1d5; --sd-gold-400: #bcc1c6; --sd-gold-500: #aeb3b8;
+  --sd-gold-600: #9a9fa5; --sd-gold-700: #868b91; --sd-gold-800: #50545a; --sd-gold-900: #2a2c30;
+  --sd-gold-metal: linear-gradient(180deg, #cdd1d5 0%, #aeb3b8 55%, #959aa0 100%);
+  --sd-edge: rgba(170, 175, 181, .42); --sd-edge-inner: rgba(255, 255, 255, .04);
+  --sd-glass: rgba(27, 28, 31, .9); --sd-glass-strong: rgba(23, 24, 27, .97); --sd-black: #141518;
+  --sd-shadow-glow: 0 0 0 transparent; --sd-shadow-panel: 0 16px 40px rgba(0, 0, 0, .45);
+  --sd-text-primary: #eceae4; --sd-text-secondary: #a9adb2; --sd-text-warm: #b6b9bd; --sd-text-on-gold: #f1efe9;
+  --r95-ink: #eceae4; --r95-ink-2: #a9adb2; --r95-gold-ink: #e2e4e6; --r95-kicker-ink: #c6cace;
+  --r78-ivory: #eceae4; --r78-ivory-2: #a9adb2; --r78-gold: #e2e4e6; --r78-gold-strong: #c6cace; --r78-gold-edge: #868b91;
+  --r78-warn: #c6cace; --r78-warn-edge: #868b91; --r78-panel: #1d1f22;
+  --h95-bevel: linear-gradient(180deg, #c4c8cc 0%, #9da2a7 60%, #858a90 100%); --h95-gold-face: linear-gradient(180deg, #4b4e53 0%, #35373b 58%, #2b2d31 100%);
+  --h95-kicker: #c6cace; --h95-smoke: linear-gradient(180deg, #1f2124, #18191c);""",
+  panel="background: linear-gradient(112deg, transparent 0 38%, rgba(255, 255, 255, .03) 54%, transparent 72%), linear-gradient(180deg, #25272b 0%, #1c1e21 46%, #16171a 100%) !important; "
+        "border-color: rgba(170, 175, 181, .42) !important; border-image: none !important; box-shadow: 0 16px 40px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .06) !important; "
         "-webkit-backdrop-filter: none !important; backdrop-filter: none !important;",
-  card="border-color: rgba(185, 155, 98, .3) !important; box-shadow: none !important;",
-  navon="color: #cdb382 !important;",
-  label="color: #e4dbc7 !important; -webkit-text-fill-color: #e4dbc7 !important; text-shadow: none !important;",
-  bevel="filter: saturate(.42) brightness(.78);",
-  second="filter: saturate(.4) brightness(.86); text-shadow: none !important;",
-  chrome="filter: saturate(.4) brightness(.84); box-shadow: none !important;",
-  tile="background: #1f1d1b !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; "
-       "box-shadow: 0 16px 36px rgba(0, 0, 0, .45) !important;",
-  tilebevel="--bevel-gold: linear-gradient(rgba(176, 148, 96, .62), rgba(176, 148, 96, .62)); --bevel-gold-soft: linear-gradient(#c7aa72, #c7aa72);",
-  tilelight="border-color: transparent !important; background: none !important;",
-  title="color: #efe6d3 !important; -webkit-text-fill-color: #efe6d3 !important; text-shadow: none !important;",
+  card="border-color: rgba(170, 175, 181, .3) !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04) !important;",
+  navon="color: #e2e4e6 !important;",
+  label="color: #d9dbdd !important; -webkit-text-fill-color: #d9dbdd !important; text-shadow: none !important;",
+  bevel="filter: grayscale(1) brightness(.9) contrast(.94);",
+  second="filter: grayscale(1) brightness(.94) contrast(.94); text-shadow: none !important;",
+  chrome="filter: grayscale(1) brightness(.92) contrast(.94); box-shadow: none !important;",
+  tile="background: linear-gradient(112deg, transparent 0 38%, rgba(255, 255, 255, .03) 54%, transparent 72%), linear-gradient(180deg, rgba(37, 39, 43, .94) 0%, rgba(26, 27, 30, .96) 50%, rgba(20, 21, 24, .97) 100%) !important; "
+       "-webkit-backdrop-filter: none !important; backdrop-filter: none !important; box-shadow: 0 16px 36px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .05) !important;",
+  tilebevel="--bevel-gold: linear-gradient(180deg, rgba(196, 200, 204, .66), rgba(133, 138, 144, .66)); --bevel-gold-soft: linear-gradient(#b9bdc1, #b9bdc1);",
+  tilelight="border-color: transparent !important; background: linear-gradient(180deg, rgba(255, 255, 255, .05) 0, transparent 34%) !important;",
+  title="color: #eeece6 !important; -webkit-text-fill-color: #eeece6 !important; text-shadow: 0 1px 2px rgba(0, 0, 0, .45) !important;",
   gold=True,
-  primary="background: #b99b62 !important; background-image: none !important; color: #1a160f !important; -webkit-text-fill-color: #1a160f !important; "
-          "border-color: #c7aa72 !important; border-image: none !important; box-shadow: 0 8px 20px rgba(0, 0, 0, .38) !important; text-shadow: none !important; filter: none !important;"),
+  primary="background: linear-gradient(180deg, #4b4e53 0%, #35373b 58%, #2b2d31 100%) !important; color: #f1efe9 !important; -webkit-text-fill-color: #f1efe9 !important; "
+          "border-color: #aab0b6 !important; border-image: none !important; box-shadow: 0 8px 20px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .12) !important; text-shadow: none !important; filter: none !important;"),
 }
 GOLD_TOKENS = """--sd-gold-100: #fff3b0; --sd-gold-200: #fff1b8; --sd-gold-300: #ffd34d; --sd-gold-400: #f2c45b; --sd-gold-500: #f5c518;
   --sd-gold-600: #e0ae3a; --sd-gold-700: #d4a017; --sd-gold-800: #8a6a12; --sd-gold-900: #493708;
@@ -147,8 +150,8 @@ GOLD_TOKENS = """--sd-gold-100: #fff3b0; --sd-gold-200: #fff1b8; --sd-gold-300: 
 def block():
     out = [START, "\n/* r100 B7 (Nik 2026-11-24, picks 13:13 UTC): each clubhouse has its own UI finish. Silver: smoked graphite panels,\n"
            "   platinum frames, gold only where it means something (main button, winner, totals). Metallic Black: polished black\n"
-           "   steel panels, thin sharp gold. Premium Matte Black: flat charcoal, hairline aged brass, satin buttons, ivory titles,\n"
-           "   nothing glints. Colour and finish only; Wooden matches none of this. */\n"]
+           "   steel panels, thin sharp gold. Premium Matte Black: neutral graphite velvet, satin titanium hairlines, satin graphite main button,\n"
+           "   cool ivory titles, nothing glints. Colour and finish only; Wooden matches none of this. */\n"]
     for t, L in LOOK.items():
         out.append(f"\n/* ---- {t} ---- */\n")
         out.append(f"{H(t)} {{{L['tokens']}\n}}\n")
