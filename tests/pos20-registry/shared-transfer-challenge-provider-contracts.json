@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/shared-transfer-challenge-provider-contracts.cjs",
+  "patterns": [
+    "^data/transferOptions\\.js$",
+    "^js/sparkSharedTransferChallenge\\.js$",
+    "^tests/contracts/shared\\-transfer\\-challenge\\-provider\\-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-transfer\\-challenge\\-provider\\-contracts\\.json$"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/job-1049-sealed-club-summary-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedShowdownPresentation\\.js$",
+    "^tests/contracts/job-1049-sealed-club-summary-contracts\\.cjs$",
+    "^tests/pos20-registry/job\\-1049\\-sealed\\-club\\-summary\\-contracts\\.json$"
+  ]
+}

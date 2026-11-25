@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r100-b6-join-offline-contracts.cjs",
+  "patterns": [
+    "^js/persistentNikDanielPair\\.js$",
+    "^js/sparkPrivatePairing\\.js$",
+    "^js/onlinePlayerIdentity\\.js$",
+    "^js/whichShowdownIsLive\\.js$",
+    "^tests/contracts/r100\\-b6\\-join\\-offline\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-b6\\-join\\-offline\\-contracts\\.json$",
+    "^tests/support/home-join-window-fixture\\.cjs$"
+  ]
+}

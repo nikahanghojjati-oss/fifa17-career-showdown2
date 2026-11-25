@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r87-fable3-meter-fixes-contracts.cjs",
+  "patterns": [
+    "^js/sparkPrivatePairing\\.js$",
+    "^tests/contracts/r87\\-fable3\\-meter\\-fixes\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r87\\-fable3\\-meter\\-fixes\\-contracts\\.json$"
+  ]
+}
