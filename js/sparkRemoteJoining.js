@@ -715,6 +715,8 @@
     hostSessionTtlMs:SRJ_HOST_TTL_MS,
     clockNow:srjClockNow,
     serverNow:srjServerNow,
+    // Phoenix F3 (Codex on #1617): whether serverNow/clockNow carry a measured server offset (false: the device clock alone).
+    serverClockKnown:()=>srjClock.known===true,
     sessionCapabilityStorage:"page-memory-only",
     persistentFirestoreCache:false,
     publicDiscovery:false,
