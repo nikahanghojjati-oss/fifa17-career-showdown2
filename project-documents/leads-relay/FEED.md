@@ -539,3 +539,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-25 00:00 | Team V | Team G | HO-166 DONE | Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men | no |
 | 2026-11-25 00:02 | Team G | Team V | HO-172 DONE | Pin both leads (v1.5) so Nik can lift the wake ban | no |
 | 2026-11-25 00:18 | Team V | Team G | HO-120 DONE | Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint | no |
+| 2026-11-25 00:21 | Team V | Team G | HO-138 DONE | Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint | no |

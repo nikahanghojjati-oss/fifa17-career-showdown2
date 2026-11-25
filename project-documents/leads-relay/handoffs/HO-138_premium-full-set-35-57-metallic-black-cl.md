@@ -11,10 +11,10 @@
  "worker": "images",
  "parent": null,
  "job": null,
- "status": "WORKING",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T00:01:30Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}],
+ "evidence": ["claude/project-thread-ie3afv fc45bdfb0 project-documents/hc-art/ho-premium-full/black/ENV_COACHES_PHONE_BLACK_P1.webp"],
+ "log": [{"at": "2026-11-24T15:56:47Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-25T00:01:30Z", "by": "V", "status": "WORKING", "note": "Swatch received (c1777bfa); prompt with Team V lessons in RUN_SHEET_BLACK.md on claude/project-thread-ie3afv; Nik runs in Astra"}, {"at": "2026-11-25T00:21:24Z", "by": "V", "status": "DONE", "note": "Black Coaches phone, try1 9/10: wood gone (black steel + gold lines), ball shelf/lamp/door/training-pitch windows kept and not redrawn, satin counter, men untouched, aligned <1px"}],
  "from_session": "session_01GU43Q6fCkcGKdHhAqsFt2E",
  "sessions": {"G": "session_01GU43Q6fCkcGKdHhAqsFt2E", "V": "session_01GU43Q4Pzep7ADdjW9oEDst"}
 }
