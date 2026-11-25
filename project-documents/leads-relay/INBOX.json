@@ -30,5 +30,6 @@
  },
  "wakes": "on",
  "_wakes": "Nik's switch. off = no wakes at all (Nik types relay). on = ONE send_message to the pinned other lead only; never triggers, routines, new sessions or coordinators. Only Nik's own words flip it.",
- "wakes_set": "on by Nik 2026-11-25T00:13:44Z (7:13 p.m. Eastern 24 Nov): \"wakes on\""
+ "wakes_set": "on by Nik 2026-11-25T00:13:44Z (7:13 p.m. Eastern 24 Nov): \"wakes on\"",
+ "wakes_test": "2026-11-25T00:15Z: V lead send_message to G lead (session_/cse_01GU43Q6at4W88Shu3q9v4wP) failed: 'requested resource was not found' (lead threads live in different projects). V->G wakes cannot be delivered from Team V; Nik types relay. G->V untested."
 }
