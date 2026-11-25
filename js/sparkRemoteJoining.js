@@ -261,14 +261,17 @@
     return run.promise;
   }
   async function srjCheckForJoinOnce(sessionId,generation){
-    srjJoinCheckedAt=Date.now();
+    /* r100 B6 JOIN speed: only a check that read the session lets the timed checks stand down (a failed read checks again on the next 4 s check) */
+    let settled=false;
     try{
       root.CareerModeFirestoreBudget?.wantFresh?.();
       const context=await srjResolveContext();
       if(generation!==srjWaitGeneration||!srjPendingContextMatches(context)||!srjHostWaitingForJoin(sessionId))return;
       const result=await context.protocol.readSession(srjOperationOptions(context,sessionId));
+      settled=Boolean(result&&result.ok===true);
       if(generation===srjWaitGeneration&&srjHostWaitingForJoin(sessionId)&&!srjState.busy&&result&&result.ok===true&&result.state!=="open")srjAcceptResult(result,context,"host",result.state==="active"?"The other manager joined. Private session is active with exactly the two paired rivalry accounts.":`Private session refreshed at revision ${result.revision}.`);
     }catch(_error){}
+    finally{srjJoinCheckedAt=settled?Date.now():0;}
   }
   async function srjRetryPendingOperation(){
     if(srjRetireEnded())return {ok:false,code:"REMOTE_JOINING_SHOWDOWN_ENDED",message:srjState.message};
@@ -503,14 +506,18 @@
     return run.promise;
   }
   async function srjCheckForOfferOnce(generation){
-    srjOfferCheckedAt=Date.now();
+    /* r100 B6 JOIN speed: only a check that found nothing to do lets the timed checks stand down. A failed read, or an offer it
+       could not join (another tab of this phone joined it a moment earlier), is checked again on the next 3 s check as before:
+       the listener wakes only on a change, and none may come. */
+    let settled=false;
     try{
       const context=await srjResolveContext(),offer=await srjReadOffer(context);
       if(generation===srjWaitGeneration&&offer&&offer.hostAccountId!==context.accountId&&offer.expiresAtEpochMs>srjClockNow()+SRJ_OFFER_MIN_LIFE_MS&&srjState.auto==="waiting"&&!srjState.busy&&!srjHasNonterminalSession()){
         const adopted=await srjAdopt(context,offer.sessionId,"peer",true,generation);
-        if(adopted){srjSetState({auto:null,waitRetry:false});return;}
-      }
+        if(adopted){settled=true;srjSetState({auto:null,waitRetry:false});return;}
+      }else settled=true;
     }catch(_error){}
+    finally{srjOfferCheckedAt=settled?Date.now():0;}
   }
   function srjWaitForOffer(startedAt=Date.now(),generation=srjWaitGeneration){
     srjStopOfferWait();
@@ -659,10 +666,25 @@
     srjWaitForOffer();
     return {ok:true,kind:"waiting"};
   }
+  /* r100 B6 JOIN speed: two tabs of the same phone used to connect at different moments (each on its own timed check), so the
+     later tab found the earlier tab's session in the offer pointer and hosted that same session. With the JOIN waits woken by a
+     listener, both tabs now connect at the same moment: both found no offer, each opened its own session, and the tab whose
+     session Nik did not join was left waiting. One connect at a time per browser (Web Locks, shared by the tabs of this site)
+     keeps that order: the second tab reads the offer after the first tab wrote it. The wait for the other tab is bounded (10 s,
+     then it connects as before); without Web Locks or a timed abort nothing changes. */
+  const SRJ_CONNECT_LOCK="cms-remote-join-connect",SRJ_CONNECT_LOCK_WAIT_MS=10000;
+  function srjWithConnectLock(run){
+    const locks=root.navigator&&root.navigator.locks;
+    let signal=null;
+    try{signal=locks&&typeof locks.request==="function"&&root.AbortSignal&&typeof root.AbortSignal.timeout==="function"?root.AbortSignal.timeout(SRJ_CONNECT_LOCK_WAIT_MS):null;}catch(_error){signal=null;}
+    if(!signal)return run();
+    let ran=false;
+    return Promise.resolve().then(()=>locks.request(SRJ_CONNECT_LOCK,{signal},()=>{ran=true;return run();})).catch(error=>{if(ran)throw error;return run();});
+  }
   function srjAutoConnect(){
     if(srjAutoPromise)return srjAutoPromise;
     if(!srjHasNonterminalSession()&&!srjState.busy&&!srjState.pendingAction)srjSetState({auto:"connecting",message:"Connecting to your Showdown…"});
-    srjAutoPromise=srjAutoConnectOnce().catch(error=>{
+    srjAutoPromise=srjWithConnectLock(srjAutoConnectOnce).catch(error=>{
       if(error?.code==="REMOTE_JOINING_READ_UNAVAILABLE"){srjConnectReadPending=true;srjPauseWait("Could not connect. Try again.");}
       else srjSetState({auto:null});
       return {ok:false,code:error&&error.code||"REMOTE_JOINING_AUTO_FAILED",message:srjPlain(error,"Could not connect. Try again.")};

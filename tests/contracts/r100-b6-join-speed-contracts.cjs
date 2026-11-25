@@ -94,7 +94,7 @@ const OFFER=`rivalries/${RIVALRY}/sessionOffers/current`,SESSION=`rivalries/${RI
 async function drain(){for(let i=0;i<300;i++)await Promise.resolve();}
 function remoteGame(){
   let now=1800000000000,offer=null,gate=null;const sessions=new Map(),offerReads={count:0,inFlight:0,most:0};
-  function player(role){
+  function player(role,{sessionId=FRESH,locks=null,AbortSignal:abortSignal=null,joinFails=0}={}){
     const uid=role==="playerOne"?"daniel":"nik",deviceId="device_"+(role==="playerOne"?"d":"e").repeat(32),timers=new Map();let timerId=0,healthy=false;
     const calls={hosts:0,joins:0,sessionReads:0};const asks=[];
     class E{constructor(){this.children=[];this.dataset={};this.classList={add(){},remove(){},toggle(){}};}append(...n){this.children.push(...n);}appendChild(n){this.children.push(n);return n;}prepend(...n){this.children.unshift(...n);}replaceChildren(...n){this.children=n;}setAttribute(){}focus(){}addEventListener(){}querySelector(){return null;}}
@@ -106,7 +106,7 @@ function remoteGame(){
     const result=id=>{const s=sessions.get(id);return {ok:true,sessionId:id,state:s.state,revision:s.state==="active"?1:0,expiresAtEpochMs:s.expiry};};
     const sdk={doc:(_db,...parts)=>parts.join("/"),Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},serverTimestamp:()=>({}),
       runTransaction:async(_db,fn)=>fn({get:async ref=>{if(ref===OFFER){offerReads.count++;offerReads.inFlight++;offerReads.most=Math.max(offerReads.most,offerReads.inFlight);try{if(gate)await gate.promise;}finally{offerReads.inFlight--;}}return {exists:()=>ref===OFFER&&Boolean(offer),data:()=>offer};},set:(ref,value)=>{if(ref===OFFER)offer=value;}})};
-    const root=vm.createContext({console,URL,TextEncoder,crypto:webcrypto,Promise,Date:class extends Date{static now(){return now;}},document,navigator:{onLine:true},
+    const root=vm.createContext({console,URL,TextEncoder,crypto:webcrypto,Promise,Date:class extends Date{static now(){return now;}},document,navigator:locks?{onLine:true,locks}:{onLine:true},AbortSignal:abortSignal||undefined,
       setTimeout:(fn,ms)=>{timers.set(++timerId,{fn,ms});return timerId;},clearTimeout:id=>timers.delete(id),addEventListener(){},dispatchEvent(){},CustomEvent:class{},
       reportApplicationError:()=>{},CareerModeFirestoreBudget:budget,
       currentShowdown:{sharedJourney:{mode:"shared",rivalryId:RIVALRY},managers:{playerOne:"Daniel",playerTwo:"Nik"},rounds:[]},
@@ -116,17 +116,17 @@ function remoteGame(){
       CareerModeSparkConnectedRivalry:{initialize:async()=>{},getState:()=>({attached:true,rivalryId:RIVALRY,accountId:uid,deviceId,binding:{managerRole:role}})},
       CareerModeOnlinePlayerIdentity:{getState:()=>({managerId:uid})},
       CareerModePersistentNikDanielPair:{getPartnerState:()=>({status:"ready",accountId:uid,record:{active:true}})},
-      CareerModeSparkPrivateSession:{},CareerModeSparkStandardAuthPrivateSession:{generateSessionId:()=>FRESH,normalizeSessionId:v=>v,
+      CareerModeSparkPrivateSession:{},CareerModeSparkStandardAuthPrivateSession:{generateSessionId:()=>sessionId,normalizeSessionId:v=>v,
         readSession:async({sessionId})=>{calls.sessionReads++;return result(sessionId);},
         openSession:async({sessionId,ttlMs})=>{calls.hosts++;sessions.set(sessionId,{state:"open",expiry:now+ttlMs});return result(sessionId);},
-        joinSession:async({sessionId})=>{calls.joins++;sessions.get(sessionId).state="active";return result(sessionId);}}
+        joinSession:async({sessionId})=>{if(joinFails>0){joinFails--;return {ok:false,code:"PRIVATE_SESSION_STATE_CONFLICT",message:"The session already changed."};}calls.joins++;sessions.get(sessionId).state="active";return result(sessionId);}}
     });
     vm.runInContext(read("js/sparkRemoteJoining.js"),root,{filename:"sparkRemoteJoining.js"});
     return {remote:root.CareerModeSparkRemoteJoining,calls,asks,setHealthy(value){healthy=value;},
       ask:owner=>[...asks].reverse().find(a=>a.owner===owner),
       async tick(){const due=[...timers];timers.clear();for(const [,timer] of due)await timer.fn();await drain();}};
   }
-  return {player,offerReads,advance:ms=>{now+=ms;},hold(){let open;gate={promise:new Promise(resolve=>{open=resolve;})};return ()=>{gate=null;open();};}};
+  return {player,offerReads,sessions,offer:()=>offer,advance:ms=>{now+=ms;},hold(){let open;gate={promise:new Promise(resolve=>{open=resolve;})};return ()=>{gate=null;open();};}};
 }
 
 test("JS-5: Nik waiting for Daniel's offer: the listener watches the offer pointer, timed checks stand down while healthy, a wake joins at once",async()=>{
@@ -176,6 +176,61 @@ test("JS-7: one offer check at a time: wakes and timed checks during a check nev
   open();await ticking;await drain();
   assert.equal(nik.calls.joins,1,"exactly one join");
   assert.equal(nik.remote.getState().sessionState,"active");
+});
+
+// A browser's Web Locks, shared by the tabs of one site: one holder per name, the rest queue; a signal abort drops a queued ask.
+function webLocks(){
+  const held=new Map();
+  return {request(name,options,callback){
+    return new Promise((resolve,reject)=>{
+      const queue=held.get(name)||[];held.set(name,queue);
+      const entry={start(){Promise.resolve().then(callback).then(resolve,reject).finally(()=>{queue.shift();if(queue[0])queue[0].start();});}};
+      options?.signal?.addEventListener("abort",()=>{const at=queue.indexOf(entry);if(at>0){queue.splice(at,1);reject(Object.assign(new Error("aborted"),{name:"AbortError"}));}});
+      queue.push(entry);if(queue.length===1)entry.start();
+    });
+  }};
+}
+function timedSignals(){const made=[];return {made,AbortSignal:{timeout(ms){const listeners=[];const signal={ms,addEventListener:(_type,fn)=>listeners.push(fn),abort:()=>listeners.forEach(fn=>fn())};made.push(signal);return signal;}}};}
+
+test("JS-10: two tabs of Daniel's phone that connect at the same moment end on the one session Nik joins",async()=>{
+  const g=remoteGame(),locks=webLocks(),signals=timedSignals();
+  const tab1=g.player("playerOne",{sessionId:"session_"+"1".repeat(64),locks,AbortSignal:signals.AbortSignal});
+  const tab2=g.player("playerOne",{sessionId:"session_"+"2".repeat(64),locks,AbortSignal:signals.AbortSignal});
+  const [one,two]=await Promise.all([tab1.remote.autoConnect(),tab2.remote.autoConnect()]);
+  assert.equal(one.kind,"hosted","the first tab opens and publishes its session");
+  assert.equal(two.kind,"hosting","the second tab reads the offer the first tab wrote and hosts that same session");
+  assert.equal(tab2.calls.hosts,0,"the second tab opens no session of its own");
+  assert.equal(tab2.remote.getState().sessionId,tab1.remote.getState().sessionId);
+  assert.equal(g.offer().sessionId,tab1.remote.getState().sessionId);
+  assert.ok(signals.made.every(signal=>signal.ms===10000),"each wait for the other tab is bounded at 10 s");
+  // Without the lock the same moment opens two sessions (the race the lock removes).
+  const h=remoteGame(),a=h.player("playerOne",{sessionId:"session_"+"3".repeat(64)}),b=h.player("playerOne",{sessionId:"session_"+"4".repeat(64)});
+  await Promise.all([a.remote.autoConnect(),b.remote.autoConnect()]);
+  assert.equal(a.calls.hosts+b.calls.hosts,2,"no lock: both tabs open a session");
+});
+
+test("JS-11: a tab never waits for good on the other tab: after the bounded wait it connects as before",async()=>{
+  const g=remoteGame(),locks=webLocks(),signals=timedSignals();
+  let release;locks.request("cms-remote-join-connect",{},()=>new Promise(resolve=>{release=resolve;}));await drain();
+  const tab=g.player("playerOne",{sessionId:"session_"+"5".repeat(64),locks,AbortSignal:signals.AbortSignal});
+  const connecting=tab.remote.autoConnect();await drain();
+  assert.equal(tab.calls.hosts,0,"waits while the other tab connects");
+  signals.made[signals.made.length-1].abort();
+  assert.equal((await connecting).kind,"hosted","the wait ran out: this tab connects by itself");
+  release();
+});
+
+test("JS-12: a check that could not act lets no timed check stand down: Nik's second tab, beaten to the join, tries again in 3 s",async()=>{
+  const g=remoteGame(),daniel=g.player("playerOne"),nikA=g.player("playerTwo"),nikB=g.player("playerTwo",{joinFails:1});
+  assert.equal((await nikA.remote.autoConnect()).kind,"waiting");assert.equal((await nikB.remote.autoConnect()).kind,"waiting");
+  assert.equal((await daniel.remote.autoConnect()).kind,"hosted");
+  nikA.setHealthy(true);nikB.setHealthy(true);
+  nikA.ask("remote-join-offer").wake();nikB.ask("remote-join-offer").wake();await drain();
+  assert.equal(nikA.remote.getState().sessionState,"active","the first tab joined");
+  assert.notEqual(nikB.remote.getState().sessionState,"active","the second tab's join was refused");
+  const reads=g.offerReads.count;g.advance(3000);await nikB.tick();
+  assert.equal(g.offerReads.count-reads,1,"its next 3 s check reads the offer again although the listener is healthy");
+  assert.equal(nikB.remote.getState().sessionState,"active","and finds the session it belongs to");
 });
 
 test("JS-8: the first wait of a page attaches as soon as the listener module loads, only for a wait still asked",async()=>{

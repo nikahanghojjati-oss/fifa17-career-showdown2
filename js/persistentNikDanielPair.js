@@ -177,7 +177,7 @@
           if(state.connectionState==="active"&&state.status==="paired"&&`${state.accountId}|${state.rivalryId}`===key){/* r79 PR3: a real first pairing: Daniel writes his partner record (this read just saw the rivalry ACTIVE with Nik in playerTwo; the write re-reads it) alongside the auto-continue, so the continue is never delayed by it. */const recording=pairRecordRealPairing(state.rivalryId,"playerOne");await pairAutoContinueAfterConnect();await recording;}
         }
       }
-    }catch(_error){}
+    }catch(_error){/* r100 B6 JOIN speed: a check that failed lets no timed check stand down */pairWaitCheckedAt=0;}
     finally{pairWaitTicking=false;}
     /* r100 B6: after the last look a code still waiting is drawn as expired (as the stop's redraw did) */
     if(lastLook&&pairWaitingKey()){pairSetState({});return;}
