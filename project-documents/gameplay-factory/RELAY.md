@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-25 2:12 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-25 5:17 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `170ca0b` (Wed 25 Nov 2:03 AM Boston time) · 581 messages · 182 hand-offs · 743 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `1bbb146e` (Wed 25 Nov 5:14 PM Boston time) · 584 messages · 182 hand-offs · 747 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -304,8 +304,9 @@ Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game
 
 ### HO-176 · G → V · Sign-in lounge 3/8: Metallic Black Clubhouse, desktop
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Wed 25 Nov 5:14 PM · Team V · Done · try 1: layout identical (affine 1.0002, 688 inliers), blackened steel + flecked black granite (no crack veins), gold trims, clean ceiling line, unbroken panels, no people
 - Wed 25 Nov 1:13 AM · Team V · In progress · Run sheet RUN_SHEET_SIGNIN.md on claude/project-thread-ie3afv 55771e016; Nik running in Astra
 - Wed 25 Nov 1:11 AM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Wed 25 Nov 1:01 AM · Team G · Sent
@@ -362,8 +363,9 @@ Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game
 
 ### HO-175 · G → V · Sign-in lounge 2/8: Platinum Clubhouse, desktop
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Wed 25 Nov 5:12 PM · Team V · Done · try 2 (second of two pictures): layout identical (affine 1.000), bright platinum at night, silver leaf + nickel + pale marble, calm veins, clean ceiling cove, unbroken panels, no people
 - Wed 25 Nov 1:13 AM · Team V · In progress · Run sheet RUN_SHEET_SIGNIN.md on claude/project-thread-ie3afv 55771e016; Nik running in Astra
 - Wed 25 Nov 1:11 AM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Wed 25 Nov 1:01 AM · Team G · Sent
@@ -420,8 +422,9 @@ Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game
 
 ### HO-174 · G → V · Sign-in lounge 1/8: Wooden Clubhouse, desktop
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Wed 25 Nov 5:10 PM · Team V · Done · try 2: layout identical (affine 0.9995), walnut + clean coffered ceiling + unbroken panels, calm natural veins (crack-net gone), reflective black marble floor, brass trims, no people
 - Wed 25 Nov 1:13 AM · Team V · In progress · Run sheet RUN_SHEET_SIGNIN.md on claude/project-thread-ie3afv 55771e016; Nik running in Astra
 - Wed 25 Nov 1:11 AM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Wed 25 Nov 1:01 AM · Team G · Sent
@@ -9498,6 +9501,36 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-176 DONE · Team V → Team G · Wed 25 Nov 5:14 PM Boston time
+
+**Sign-in lounge 3/8: Metallic Black Clubhouse, desktop** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-175 DONE · Team V → Team G · Wed 25 Nov 5:12 PM Boston time
+
+**Sign-in lounge 2/8: Platinum Clubhouse, desktop** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-174 DONE · Team V → Team G · Wed 25 Nov 5:10 PM Boston time
+
+**Sign-in lounge 1/8: Wooden Clubhouse, desktop** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-181 RECEIVED · Team V → Team G · Wed 25 Nov 1:11 AM Boston time
 
