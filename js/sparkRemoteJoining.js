@@ -240,7 +240,7 @@
       if(generation!==srjWaitGeneration||!srjHostWaitingForJoin(sessionId)){srjWatchJoinWait(sessionId,generation);return;}
       if(Date.now()-startedAt>SRJ_JOIN_WATCH_LIMIT_MS){srjPauseWait();srjWatchJoinWait(sessionId,-1);return;}
       const watched=srjWatchJoinWait(sessionId,generation),standDown=Date.now()-srjJoinCheckedAt<SRJ_WAIT_BACKSTOP_MS&&srjWatchHealthy(watched);
-      if(!standDown&&!srjState.busy&&!srjJoinWaking&&root.document.visibilityState!=="hidden"){
+      if(!standDown&&!srjState.busy&&srjJoinWaking!==generation&&root.document.visibilityState!=="hidden"){
         await srjCheckForJoin(sessionId,generation);
       }
       if(generation===srjWaitGeneration&&srjWatchForJoin(sessionId,startedAt,generation))return;
@@ -407,22 +407,24 @@
      runs the same check at once. The timed checks stay as the fallback: while the listener is healthy they stand down (a
      backstop check still runs every 30 s), so each wait costs no more reads than before (fewer). */
   const SRJ_WAIT_BACKSTOP_MS=30000;
-  let srjOfferWaitRivalryId=null,srjOfferCheckedAt=0,srjOfferWaking=false,srjJoinCheckedAt=0,srjJoinWaking=false;
+  /* Codex #1620: a wake's in-flight flag holds its own wait generation, so a read of a retired wait never silences the new
+     wait's timed checks; and a paused wait (its window ran out: TRY AGAIN) releases its listener until the wait resumes. */
+  let srjOfferWaitRivalryId=null,srjOfferCheckedAt=0,srjOfferWaking=null,srjJoinCheckedAt=0,srjJoinWaking=null;
   function srjBudget(){const budget=root.CareerModeFirestoreBudget;return budget&&typeof budget.watchWaitPoint==="function"?budget:null;}
   function srjWatchHealthy(path){const live=root.CareerModeFirestoreBudget?.stats?.();return Boolean(path&&live?.watchHealthy===true&&live.watching===path);}
-  function srjOfferWaitPath(generation){return srjOfferWaitRivalryId&&generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjHasNonterminalSession()&&root.document?.visibilityState!=="hidden"?`rivalries/${srjOfferWaitRivalryId}/sessionOffers/current`:null;}
+  function srjOfferWaitPath(generation){return srjOfferWaitRivalryId&&generation===srjWaitGeneration&&srjState.auto==="waiting"&&!srjState.waitRetry&&!srjHasNonterminalSession()&&root.document?.visibilityState!=="hidden"?`rivalries/${srjOfferWaitRivalryId}/sessionOffers/current`:null;}
   function srjWatchOfferWait(generation){const budget=srjBudget();if(!budget)return null;let path=null;try{path=srjOfferWaitPath(generation);}catch(_error){path=null;}try{budget.watchWaitPoint("remote-join-offer",path,()=>srjOfferWake(generation));}catch(_error){}return path;}
   function srjOfferWake(generation){
-    if(generation!==srjWaitGeneration||srjState.busy||srjState.auto!=="waiting"||srjHasNonterminalSession())return;
-    srjOfferWaking=true;
-    void srjCheckForOffer(generation).finally(()=>{srjOfferWaking=false;if(generation===srjWaitGeneration)srjWatchOfferWait(generation);});
+    if(generation!==srjWaitGeneration||srjState.busy||srjState.auto!=="waiting"||srjState.waitRetry||srjHasNonterminalSession())return;
+    srjOfferWaking=generation;
+    void srjCheckForOffer(generation).finally(()=>{if(srjOfferWaking===generation)srjOfferWaking=null;if(generation===srjWaitGeneration)srjWatchOfferWait(generation);});
   }
-  function srjJoinWaitPath(sessionId){return srjHostWaitingForJoin(sessionId)&&srjState.rivalryId&&root.document?.visibilityState!=="hidden"?`rivalries/${srjState.rivalryId}/sessions/${sessionId}`:null;}
+  function srjJoinWaitPath(sessionId){return srjHostWaitingForJoin(sessionId)&&!srjState.waitRetry&&srjState.rivalryId&&root.document?.visibilityState!=="hidden"?`rivalries/${srjState.rivalryId}/sessions/${sessionId}`:null;}
   function srjWatchJoinWait(sessionId,generation){const budget=srjBudget();if(!budget)return null;let path=null;try{path=generation===srjWaitGeneration?srjJoinWaitPath(sessionId):null;}catch(_error){path=null;}try{budget.watchWaitPoint("remote-join-session",path,()=>srjJoinWake(sessionId,generation));}catch(_error){}return path;}
   function srjJoinWake(sessionId,generation){
-    if(generation!==srjWaitGeneration||srjState.busy||!srjHostWaitingForJoin(sessionId))return;
-    srjJoinWaking=true;
-    void srjCheckForJoin(sessionId,generation).finally(()=>{srjJoinWaking=false;if(generation===srjWaitGeneration)srjWatchJoinWait(sessionId,generation);});
+    if(generation!==srjWaitGeneration||srjState.busy||srjState.waitRetry||!srjHostWaitingForJoin(sessionId))return;
+    srjJoinWaking=generation;
+    void srjCheckForJoin(sessionId,generation).finally(()=>{if(srjJoinWaking===generation)srjJoinWaking=null;if(generation===srjWaitGeneration)srjWatchJoinWait(sessionId,generation);});
   }
   function srjOfferRef(context){return context.services.firestoreSdk.doc(context.services.firestore,"rivalries",context.rivalryId,"sessionOffers","current");}
   // r79 gallery (Nik's JOIN after a deleted Showdown): the pointer is what a waiting phone polls for, so the budget layer must
@@ -528,7 +530,7 @@
       if(generation!==srjWaitGeneration||srjHasNonterminalSession()||srjState.auto!=="waiting"){srjWatchOfferWait(generation);return;}
       if(Date.now()-startedAt>SRJ_OFFER_POLL_LIMIT_MS){srjPauseWait();srjWatchOfferWait(generation);return;}
       const watched=srjWatchOfferWait(generation),standDown=Date.now()-srjOfferCheckedAt<SRJ_WAIT_BACKSTOP_MS&&srjWatchHealthy(watched);
-      if(!standDown&&!srjState.busy&&!srjOfferWaking&&(!root.document||root.document.visibilityState!=="hidden"))await srjCheckForOffer(generation);
+      if(!standDown&&!srjState.busy&&srjOfferWaking!==generation&&(!root.document||root.document.visibilityState!=="hidden"))await srjCheckForOffer(generation);
       if(generation===srjWaitGeneration&&!srjHasNonterminalSession()&&srjState.auto==="waiting")srjWaitForOffer(startedAt,generation);
       else srjWatchOfferWait(generation);
     },SRJ_OFFER_POLL_MS);

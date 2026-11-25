@@ -6,7 +6,7 @@
 // wait costs no more reads than before. No new onSnapshot. Two small helpers keep the reads level now that League Roulette
 // opens sooner: the first wait of a page attaches as soon as the listener module loads, and the shared setup screen asks
 // Terminal Close for its context listener (rivalry root + Session) on each check instead of waiting for its 15 s wake.
-// JS-1..4 run the real pairing, budget and permanent-pair modules (Home JOIN fixture); JS-5..7 run the real Remote Joining
+// JS-1..4 run the real pairing, budget and permanent-pair modules (Home JOIN fixture); JS-5..7 and JS-10..14 run the real Remote Joining
 // module against a recording budget; JS-8 runs the real budget layer with a fake listener module.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const {test}=require("node:test");
@@ -98,16 +98,16 @@ function remoteGame(){
     const uid=role==="playerOne"?"daniel":"nik",deviceId="device_"+(role==="playerOne"?"d":"e").repeat(32),timers=new Map();let timerId=0,healthy=false;
     const calls={hosts:0,joins:0,sessionReads:0};const asks=[];
     class E{constructor(){this.children=[];this.dataset={};this.classList={add(){},remove(){},toggle(){}};}append(...n){this.children.push(...n);}appendChild(n){this.children.push(n);return n;}prepend(...n){this.children.unshift(...n);}replaceChildren(...n){this.children=n;}setAttribute(){}focus(){}addEventListener(){}querySelector(){return null;}}
-    const document={visibilityState:"visible",body:new E(),createElement:()=>new E(),createTextNode:()=>new E(),getElementById:()=>null,querySelector:()=>null,addEventListener(){}};
+    const events={};const document={visibilityState:"visible",body:new E(),createElement:()=>new E(),createTextNode:()=>new E(),getElementById:()=>null,querySelector:()=>null,addEventListener(){}};
     const budget={
       watchWaitPoint(owner,waitPath,wake){asks.push({owner,path:waitPath,wake});return false;},
       stats(){const last=asks[asks.length-1];return {watching:last?.path||null,watchHealthy:healthy&&Boolean(last?.path)};},wantFresh(){}
     };
     const result=id=>{const s=sessions.get(id);return {ok:true,sessionId:id,state:s.state,revision:s.state==="active"?1:0,expiresAtEpochMs:s.expiry};};
     const sdk={doc:(_db,...parts)=>parts.join("/"),Timestamp:{fromMillis:ms=>({toMillis:()=>ms})},serverTimestamp:()=>({}),
-      runTransaction:async(_db,fn)=>fn({get:async ref=>{if(ref===OFFER){offerReads.count++;offerReads.inFlight++;offerReads.most=Math.max(offerReads.most,offerReads.inFlight);try{if(gate)await gate.promise;}finally{offerReads.inFlight--;}}return {exists:()=>ref===OFFER&&Boolean(offer),data:()=>offer};},set:(ref,value)=>{if(ref===OFFER)offer=value;}})};
+      runTransaction:async(_db,fn)=>fn({get:async ref=>{if(ref===OFFER){offerReads.count++;offerReads.inFlight++;offerReads.most=Math.max(offerReads.most,offerReads.inFlight);try{if(gate){const held=gate;if(held.once)gate=null;await held.promise;}}finally{offerReads.inFlight--;}}return {exists:()=>ref===OFFER&&Boolean(offer),data:()=>offer};},set:(ref,value)=>{if(ref===OFFER)offer=value;}})};
     const root=vm.createContext({console,URL,TextEncoder,crypto:webcrypto,Promise,Date:class extends Date{static now(){return now;}},document,navigator:locks?{onLine:true,locks}:{onLine:true},AbortSignal:abortSignal||undefined,
-      setTimeout:(fn,ms)=>{timers.set(++timerId,{fn,ms});return timerId;},clearTimeout:id=>timers.delete(id),addEventListener(){},dispatchEvent(){},CustomEvent:class{},
+      setTimeout:(fn,ms)=>{timers.set(++timerId,{fn,ms});return timerId;},clearTimeout:id=>timers.delete(id),addEventListener(type,fn){events[type]=fn;},dispatchEvent(){},CustomEvent:class{},
       reportApplicationError:()=>{},CareerModeFirestoreBudget:budget,
       currentShowdown:{sharedJourney:{mode:"shared",rivalryId:RIVALRY},managers:{playerOne:"Daniel",playerTwo:"Nik"},rounds:[]},
       CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid}},firestore:{},firestoreSdk:sdk})},
@@ -124,9 +124,10 @@ function remoteGame(){
     vm.runInContext(read("js/sparkRemoteJoining.js"),root,{filename:"sparkRemoteJoining.js"});
     return {remote:root.CareerModeSparkRemoteJoining,calls,asks,setHealthy(value){healthy=value;},
       ask:owner=>[...asks].reverse().find(a=>a.owner===owner),
+      async online(){await events.online();await drain();},
       async tick(){const due=[...timers];timers.clear();for(const [,timer] of due)await timer.fn();await drain();}};
   }
-  return {player,offerReads,sessions,offer:()=>offer,advance:ms=>{now+=ms;},hold(){let open;gate={promise:new Promise(resolve=>{open=resolve;})};return ()=>{gate=null;open();};}};
+  return {player,offerReads,sessions,offer:()=>offer,advance:ms=>{now+=ms;},hold(once=false){let open;const held={once,promise:new Promise(resolve=>{open=resolve;})};gate=held;return ()=>{if(gate===held)gate=null;open();};}};
 }
 
 test("JS-5: Nik waiting for Daniel's offer: the listener watches the offer pointer, timed checks stand down while healthy, a wake joins at once",async()=>{
@@ -263,6 +264,36 @@ test("JS-8: the first wait of a page attaches as soon as the listener module loa
   await p.loaded();assert.deepEqual(p.active(),[],"an ask older than the owner window (4.5 s) attaches nothing");
 });
 
+test("JS-13: a wake's read left over from a retired wait never silences the new wait's timed checks",async()=>{
+  const g=remoteGame(),nik=g.player("playerTwo"),daniel=g.player("playerOne");
+  assert.equal((await nik.remote.autoConnect()).kind,"waiting");
+  // The listener wakes Nik and that read hangs (a dying connection); the phone comes back online: a new wait window starts.
+  const open=g.hold(true);nik.ask("remote-join-offer").wake();await drain();
+  await nik.online();
+  // The listener is not healthy; Daniel publishes. The new wait's next 3 s check must find the offer and join.
+  assert.equal((await daniel.remote.autoConnect()).kind,"hosted");
+  g.advance(3000);await nik.tick();
+  assert.equal(nik.calls.joins,1,"the new wait's timed check joins although the old read still hangs");
+  assert.equal(nik.remote.getState().sessionState,"active");
+  open();await drain();
+  assert.equal(nik.calls.joins,1,"the old read, when it ends, joins nothing");
+});
+
+test("JS-14: when the ten-minute offer wait runs out the listener is let go, a late wake does nothing, and TRY AGAIN watches again",async()=>{
+  const g=remoteGame(),nik=g.player("playerTwo"),daniel=g.player("playerOne");
+  assert.equal((await nik.remote.autoConnect()).kind,"waiting");
+  nik.setHealthy(true);const wake=nik.ask("remote-join-offer").wake;
+  g.advance(10*60*1000+1);await nik.tick();
+  assert.equal(nik.remote.getState().waitRetry,true,"the wait paused (TRY AGAIN)");
+  assert.equal(nik.ask("remote-join-offer").path,null,"a paused wait keeps no listener");
+  assert.equal((await daniel.remote.autoConnect()).kind,"hosted");
+  const reads=g.offerReads.count;wake();await drain();
+  assert.equal(g.offerReads.count-reads,0,"a late wake of the paused wait reads nothing");
+  assert.equal(nik.calls.joins,0,"and joins nothing");
+  await nik.online();
+  assert.equal(nik.calls.joins,1,"the resumed wait checks at once and joins");
+});
+
 test("JS-9: the code says what the tests above rely on",()=>{
   const pair=read("js/persistentNikDanielPair.js"),remote=read("js/sparkRemoteJoining.js"),budget=read("js/sparkPrivatePairing.js");
   const close=read("js/productionSharedTerminalClose.js"),setup=read("js/productionSharedShowdownPresentation.js");
@@ -278,6 +309,11 @@ test("JS-9: the code says what the tests above rely on",()=>{
   assert.match(remote,/standDown=Date\.now\(\)-srjOfferCheckedAt<SRJ_WAIT_BACKSTOP_MS&&srjWatchHealthy\(watched\)/);
   assert.match(remote,/standDown=Date\.now\(\)-srjJoinCheckedAt<SRJ_WAIT_BACKSTOP_MS&&srjWatchHealthy\(watched\)/);
   assert.match(remote,/const SRJ_WAIT_BACKSTOP_MS=30000;/);
+  // A wake's in-flight flag belongs to its own wait generation; a paused wait asks for no listener.
+  assert.match(remote,/srjOfferWaking=generation;/);assert.match(remote,/srjJoinWaking=generation;/);
+  assert.match(remote,/!srjState\.busy&&srjOfferWaking!==generation&&/);assert.match(remote,/!srjState\.busy&&srjJoinWaking!==generation&&/);
+  assert.match(remote,/srjState\.auto==="waiting"&&!srjState\.waitRetry&&!srjHasNonterminalSession\(\)&&root\.document\?\.visibilityState!=="hidden"\?`rivalries/);
+  assert.match(remote,/function srjJoinWaitPath\(sessionId\)\{return srjHostWaitingForJoin\(sessionId\)&&!srjState\.waitRetry&&/);
   // The rivalry document itself may be a wait path.
   assert.match(budget,/\/\^rivalries\\\/\[\^\/\]\+\(\?:\\\/\[\^\/\]\+\\\/\[\^\/\]\+\)\*\$\/\.test\(path\)/);
   // Terminal Close's early watch only attaches the context listener; the setup screen asks for it only while its setup is pending.
