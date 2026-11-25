@@ -211,6 +211,8 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 Tries:
 - Try 1 (25 Nov 9:59 a.m. Boston) **8.5/10, one fix.** Align scale 1.000, 0.6 px, men unchanged (mean diff 5.0). Vault, arches, leather panels, rosewood niches, the ball on its stand and the books all right, no lamps added. Miss: the two big veins across the counter are broken into a dotted chain of pale spots, the biggest surface in the picture; ruby_check also reads sat 0.907 vs 0.90 (left for now: one change per try). Try 2 (new chat): the box above, with the counter nearly plain and its few veins single unbroken lines. Raw kept as ENV_ARCHIVE_PLATE_RUBY_P1_2X_T1_RAW.png.
+- Try 2 result (10:06 a.m.) **8/10, not used.** Counter fixed (two smooth unbroken veins), but the whole room came out darker and flatter (luma 15.6, spread 38.6 vs 44; top-of-room p95 45 vs 54 on try 1), sat rose to 0.95, and the arch veins turned jagged and branching. Raw kept as ENV_ARCHIVE_PLATE_RUBY_P1_2X_T2_RAW.png.
+- Fix 1 on try 1 (same chat as try 1, since try 1 had only the counter wrong): "Keep this image exactly the same. Change only: the two long veins across the counter become single smooth unbroken pale cream lines of even width from end to end, with no dots, gaps or spots along them."
 
 ### R-6 · Ruby Clubhouse: Directors' box
 - Image 1: [IMG1_ENV_BOX_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-intake/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png)), 3072x1728
