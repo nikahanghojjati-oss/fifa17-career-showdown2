@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r100-flight-recorder-contracts.cjs",
+  "patterns": [
+    "^js/",
+    "^css/",
+    "^index\\.html$",
+    "^service\\-worker\\.js$",
+    "^tests/support/flight\\-recorder\\-fixture\\.cjs$",
+    "^tests/contracts/r100\\-flight\\-recorder\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-flight\\-recorder\\-contracts\\.json$"
+  ]
+}

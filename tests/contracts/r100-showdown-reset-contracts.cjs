@@ -41,6 +41,7 @@ const EXEMPT=Object.freeze({
   sparkConnectedRivalry:'pairing/joining: the attached rivalry and its binding are account level and re-read for each Showdown (cleanup safety: never cleared)',
   sparkRemoteJoining:'pairing/joining: the private session is keyed by rivalry and session and retires ended rivalries itself (never cleared)',
   sparkPrivatePairing:'pairing/joining and the reads meter: device registration and account level, never Showdown data',
+  flightRecorder:'B5 Flight Recorder: everything is keyed by rivalryId (the journal holds only the live rivalry and a new live one replaces it; seen revisions are keyed by document path; the phoenix arms only for its own saved rivalry, once per page), so a new Showdown never sees the last one (never cleared)',
   onlinePlayerIdentity:'sign-in and Home tile: account level; the live tile is keyed by rivalry and redrawn from the pair',
   productionSharedJourneyEntry:'navigation flow only: in-flight promises and once-per-rivalry guards that must outlive the Showdown',
   specialPlayerReveal:'an in-flight reveal run only, no Showdown data',
