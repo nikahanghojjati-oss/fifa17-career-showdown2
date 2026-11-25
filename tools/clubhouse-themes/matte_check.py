@@ -10,10 +10,11 @@ necessary, not sufficient: the eye check against the 7-point bar in HO-173 and N
   mb      mean |Matte - Black| per pixel (0-255)     >= 15    unmistakably not Metallic Black
   mw      mean |Matte - Wooden|                      >= 12    every big surface changed, not a darkened Wooden room
   luma    room brightness Matte - Black              >= +5    warm charcoal walls, lighter than the suits
-  glint   compact specular spots per 10k px          <= max(1.25 x Wooden, Wooden + 5) and <= 0.6 x Black
-          (thin lit lines, at least 4x longer than wide and at most 4 px across, are satin accent edges such as a
-          titanium rail or frame edge, not glints, and are not counted; calibrated 2026-11-25 on the graphite
-          Board Room and Home Nik approved: 9.8 and 20.6, against Black 44.6 and 41.1)
+  glint   new specular hot spots per 10k px              <= min(5, 0.5 x Black)
+          (a hot spot is luma > 200 and > 60 above its 6 px surroundings; spots where the Wooden room already has a
+          lamp, shade, floodlight or lit edge, grown 7 px, are the room's own lights and are not counted, so only the
+          shine the painting adds counts. Calibrated 2026-11-25 on all 9 desktop rooms: Wooden 0 by definition,
+          Matte 0.0-3.4, Metallic Black 6.7-28.0, Platinum 7.2-33.6)
   spread  luma p95 - p5                              >= max(Wooden, 0.75 x Black)          rich, not flat
   detail  mean |luma - blur(2)|                      >= 1.1 x Wooden                       readable materials
   sat     median HSV saturation of surfaces (luma 6-140)   <= 0.22   neutral graphite, not brown espresso
@@ -70,38 +71,17 @@ def blur(L, r):
     return np.asarray(Image.fromarray(np.clip(L, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(r)), dtype=np.float32)
 
 
-def spots(g):
-    """Pixels in compact bright components; thin accent lines are dropped (8-connected flood fill)."""
-    H, W = g.shape
-    seen = np.zeros_like(g)
-    n = 0
-    for y0, x0 in zip(*np.nonzero(g)):
-        if seen[y0, x0]:
-            continue
-        seen[y0, x0] = True
-        st, pts = [(y0, x0)], []
-        while st:
-            y, x = st.pop()
-            pts.append((y, x))
-            for dy in (-1, 0, 1):
-                for dx in (-1, 0, 1):
-                    yy, xx = y + dy, x + dx
-                    if 0 <= yy < H and 0 <= xx < W and g[yy, xx] and not seen[yy, xx]:
-                        seen[yy, xx] = True
-                        st.append((yy, xx))
-        p = np.array(pts)
-        h, w = np.ptp(p[:, 0]) + 1, np.ptp(p[:, 1]) + 1
-        if max(h, w) >= 4 * min(h, w) and min(h, w) <= 4:
-            continue
-        n += len(pts)
-    return n
+def lit_in(w):
+    """Where the Wooden room already has a lamp, shade, floodlight or lit edge (luma > 170, grown 7 px)."""
+    L = luma(w)
+    return np.asarray(Image.fromarray(((L > 170) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(15))) > 0
 
 
-def stats(a, free):
+def stats(a, free, lit):
     L = luma(a)
     v = L[free]
     return dict(luma=float(v.mean()),
-                glint=float(spots(((L > 150) & ((L - blur(L, 6)) > 45)) & free) / L.size * 1e4),
+                glint=float((((L > 200) & ((L - blur(L, 6)) > 60)) & free & ~lit).sum() / L.size * 1e4),
                 spread=float(np.percentile(v, 95) - np.percentile(v, 5)),
                 detail=float(np.abs(L - blur(L, 2))[free].mean()))
 
@@ -121,15 +101,16 @@ def check(room):
         return None, f"{room}: no Metallic Black master yet"
     free = free_of(room)
     M, B, W = load(m), load(b), load(w)
-    sm, sb, sw = stats(M, free), stats(B, free), stats(W, free)
+    lit = lit_in(W)
+    sm, sb, sw = stats(M, free, lit), stats(B, free, lit), stats(W, free, lit)
     mb = float(np.abs(M - B).mean(-1)[free].mean())
     mw = float(np.abs(M - W).mean(-1)[free].mean())
     rows = [
         ("mb", mb, mb >= 15, ">= 15"),
         ("mw", mw, mw >= 12, ">= 12"),
         ("luma", sm["luma"] - sb["luma"], sm["luma"] - sb["luma"] >= 5, f">= +5 (Matte {sm['luma']:.1f}, Black {sb['luma']:.1f})"),
-        ("glint", sm["glint"], sm["glint"] <= max(1.25 * sw["glint"], sw["glint"] + 5) and sm["glint"] <= .6 * sb["glint"],
-         f"<= {min(max(1.25 * sw['glint'], sw['glint'] + 5), .6 * sb['glint']):.1f} (Wooden {sw['glint']:.1f}, Black {sb['glint']:.1f})"),
+        ("glint", sm["glint"], sm["glint"] <= min(5, .5 * sb["glint"]),
+         f"<= {min(5, .5 * sb['glint']):.1f} (Black {sb['glint']:.1f})"),
         ("spread", sm["spread"], sm["spread"] >= max(sw["spread"], .75 * sb["spread"]),
          f">= {max(sw['spread'], .75 * sb['spread']):.0f} (Wooden {sw['spread']:.0f}, Black {sb['spread']:.0f})"),
         ("detail", sm["detail"], sm["detail"] >= 1.1 * sw["detail"], f">= {1.1 * sw['detail']:.2f}"),
