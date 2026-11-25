@@ -1535,7 +1535,9 @@
     if(fsbWait&&fsbWait.path===path){fsbWait.owners.set(owner,{wake,seen:at,relaxed});return fsbWaitLive();}
     if(fsbWait&&!(fsbWait.owners.size===1&&fsbWait.owners.has(owner)))return false;
     const api=fsbSnapshotApi;
-    if(!api){fsbLoadSnapshotApi();return release();}
+    /* r100 B6 JOIN speed: the first wait of a page loads the listener module; once it is loaded the same ask attaches at once
+       (if the screen still asks for it), instead of on that screen's next timed check (3-4 s later on the JOIN waits). */
+    if(!api){const loading=fsbLoadSnapshotApi();if(loading&&typeof loading.then==="function")loading.then(()=>{const ask=fsbWaitAsks.get(owner);if(fsbSnapshotApi&&ask&&ask.path===path&&fsbNow()-ask.at<FSB_WAIT_OWNER_MS)fsbWatchWaitPoint(owner,path,wake,options);},()=>{});return release();}
     fsbDetachWait();
     const wait={path,attachedAt:at,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
     fsbWait=wait;fsbStats.listenersAttached+=1;
