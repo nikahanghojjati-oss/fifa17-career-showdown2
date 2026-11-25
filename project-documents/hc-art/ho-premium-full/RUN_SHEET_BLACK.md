@@ -538,7 +538,7 @@ Image 1 is the picture to edit. Image 2 is only a small sample of the finished m
 
 Keep image 1 exactly the same in camera, framing and layout: do not zoom in, crop or move the camera, and keep the same tall 9:16 shape. Change only the materials and finish of the room itself.
 
-Keep in the same places and at the same sizes: the two wall lamps, the window with the stadium, the panelled wall, the trophies and balls along the bottom. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
+Keep in the same places and at the same sizes, exactly as image 1 lays them out: the two wall lamps near the top left and top right, the two small hooks under them, the wide three-pane window across the upper part with the dark stadium, the tall plain panelled wall that fills the lower two thirds, and the two small groups of a trophy and a leather ball standing along the very bottom edge. Do not add a pennant, armchair, side window or floor. Everything below the counter edge stays a plain, calm stone surface in the same material as the counter.
 
 The room: A vault of blackened steel and black chrome lit by brass lamps: real machined metal and real polished granite, handcrafted.
 Walls and panels: gun-blued blackened steel with fine shadow gaps and machined chamfered edges, keeping the same panel layout; each chamfered edge catches a hairline of warm lamp light. Frames: black chrome with a thin polished gold inner line. Lamp metal: polished gold; shades stay warm cream and lit. Counter: polished black granite with a satin sheen: it shows only soft, blurred glows of the lamps, never a sharp mirror image.
