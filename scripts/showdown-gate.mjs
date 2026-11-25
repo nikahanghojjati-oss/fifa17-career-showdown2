@@ -51,7 +51,9 @@ export function l5Decision({event,baseRef,files}){
 // two-phone Showdown per job), so on a PR into a release branch it runs only when something the game or those journeys
 // load changed. The rule is fail-closed: a PR skips L7 only when EVERY changed file is plainly outside the game (notes,
 // the Story, planning files, Node-only contracts and their JSON registers). Anything else, including a new folder, runs it.
-export const L7_LEGS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','ce2pg']);
+// tapkill (B3's W3 tap-memory proof) joined the Gate once W3 (#1592, shared tap memory) landed in gameplay/r100: without tap
+// memory its six shared taps cannot land by themselves.
+export const L7_LEGS=Object.freeze(['none','network','lock','evict','reload','tabkill','twotabs','quota','coldoffline','swap','skew','double','listener','lostreply','tapkill','ce2pg']);
 export const L7_SKIP_ONLY=Object.freeze([
   '*.md','**/*.md','chronicle/**','project-documents/**','authority-history/**','docs/**','audit/**','gameplay/**','owner-sns/**',
   'pos10-recovery/**','WORK_ENVIRONMENT_ARCHIVE/**','acceptance/**','tools/**','tests/contracts/**','tests/operations/**',
@@ -62,12 +64,31 @@ export function l7Affected(files){
   if(!Array.isArray(files)||files.some(file=>typeof file!=='string'||!file))return true;
   return files.some(file=>!L7_SKIP_ONLY.some(glob=>path.matchesGlob(file,glob)));
 }
-export function l7Decision({event,baseRef,files}){
-  if(event!=='pull_request')return {l7_run:true,l7_reason:'event is not pull_request'};
-  if(baseRef==='main')return {l7_run:true,l7_reason:'PR targets main'};
-  if(typeof baseRef!=='string'||!baseRef.trim())return {l7_run:true,l7_reason:'PR base ref is unknown'};
-  if(l7Affected(files))return {l7_run:true,l7_reason:'game or journey files changed, or changed-file evidence is invalid'};
-  return {l7_run:false,l7_reason:'non-main PR that changes no game or journey file'};
+// The heavy set (Phoenix B1, lead OK 2026-11-24): the epilogue points (home-join, end-showdown, sacked, unpair: two more
+// short Showdowns) and the three slowest legs. A PR into a release branch runs them only when it may touch pairing, Home,
+// Settings or sync, and that is fail-closed too: the light set is a short list of files known to be look-only (styles, art)
+// or Node-only (POS1M); every js/** and data/** file is game code and runs the full set. Any other file, invalid evidence, a PR into main and every push or
+// manual run (the Ironman full matrix, gameplay/r* pushes) run the heavy set. Nothing is dropped: a skipped heavy leg is a
+// verified skip, the same as a skipped L7.
+export const L7_HEAVY_LEGS=Object.freeze(['double','twotabs','coldoffline']);
+export const L7_LIGHT_ONLY=Object.freeze(['css/**','assets/**','visual-assets/**','tests/pos1m/**']);
+// Never light (lead brief 2026-11-24, Nik "All six"): any js/**, data/**, firestore*.rules, service-worker.js or index.html
+// change runs the full set, even a 3D scene or commentary file: game code is game code.
+export const L7_NEVER_LIGHT=Object.freeze(['js/**','data/**','firestore*.rules','service-worker.js','index.html']);
+export function l7Heavy(files){
+  if(!Array.isArray(files)||files.some(file=>typeof file!=='string'||!file))return true;
+  if(files.some(file=>L7_NEVER_LIGHT.some(glob=>path.matchesGlob(file,glob))))return true;
+  return files.some(file=>!L7_SKIP_ONLY.some(glob=>path.matchesGlob(file,glob))&&!L7_LIGHT_ONLY.some(glob=>path.matchesGlob(file,glob)));
+}
+export function l7Decision({event,baseRef,files,leg=null}){
+  const heavyLeg=L7_HEAVY_LEGS.includes(leg);
+  if(event!=='pull_request')return {l7_run:true,l7_reason:'event is not pull_request',l7_heavy:true};
+  if(baseRef==='main')return {l7_run:true,l7_reason:'PR targets main',l7_heavy:true};
+  if(typeof baseRef!=='string'||!baseRef.trim())return {l7_run:true,l7_reason:'PR base ref is unknown',l7_heavy:true};
+  if(!l7Affected(files))return {l7_run:false,l7_reason:'non-main PR that changes no game or journey file',l7_heavy:false};
+  if(l7Heavy(files))return {l7_run:true,l7_reason:'pairing, Home, Settings, sync or unclassified files changed (heavy set: epilogue on'+(heavyLeg?', heavy leg runs)':')'),l7_heavy:true};
+  if(heavyLeg)return {l7_run:false,l7_reason:'heavy leg: the PR changes only look-only or Node-only game files (it runs in the full matrix and on PRs into main)',l7_heavy:false};
+  return {l7_run:true,l7_reason:'game files changed, all look-only or Node-only (light set: epilogue off)',l7_heavy:false};
 }
 // The seed every L7 job of one head shares: the first 8 hex digits of the head (a new head explores new fault timings;
 // a rerun of the same head replays the same ones). FIJ_SEED / CE2PG run choice in scripts/ironman-leg.mjs.
@@ -202,11 +223,11 @@ export function baseRefFromEnv(env=process.env){
   return env.GATE_BASE_REF||payload.pull_request?.base?.ref||null;
 }
 
-export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,l7Run=true,l7Reason=null,files=null,ironman=null}){
+export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,l7Run=true,l7Reason=null,l7Heavy=null,files=null,ironman=null}){
   const selected=route?selectedFor(lane,route,{l5Run,l7Run}):[];
   const ran=route?ranFor(lane,route,steps):[];
   // An L7 leg also carries its seed, its attempts and whether it only passed on the rerun (FLAKY: filed and fixed, never skipped).
-  const l7=isL7(lane)?{leg:LANES[lane].leg,l7_run:l7Run,l7_reason:l7Reason,files,ironman:ironman&&typeof ironman==='object'?{verdict:ironman.verdict??null,seed:ironman.seed??null,seasons:ironman.seasons??null,attempts:Array.isArray(ironman.attempts)?ironman.attempts.length:null,replay:ironman.replay??null}:null}:{};
+  const l7=isL7(lane)?{leg:LANES[lane].leg,l7_run:l7Run,l7_reason:l7Reason,l7_heavy:l7Heavy===true?true:l7Heavy===false?false:null,files,ironman:ironman&&typeof ironman==='object'?{verdict:ironman.verdict??null,seed:ironman.seed??null,seasons:ironman.seasons??null,epilogue:typeof ironman.epilogue==='boolean'?ironman.epilogue:null,attempts:Array.isArray(ironman.attempts)?ironman.attempts.length:null,replay:ironman.replay??null}:null}:{};
   return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown',...(lane==='L5'?{l5_run:l5Run,l5_reason:l5Reason,files}: {}),...l7};
 }
 
@@ -263,10 +284,14 @@ export function evaluateSeal({event,draft,headSha,baseSha=null,baseRef=null,file
     if(isL7(lane)){
       if(record.leg!==LANES[lane].leg)failures.push(`${lane}: leg identity ${record.leg} != ${LANES[lane].leg}`);
       if(!record.ran.includes(LANES[lane].fixed[0])){
-        l7Skip=record.l7_run===false&&l7Decision({event,baseRef,files}).l7_run===false&&
+        l7Skip=record.l7_run===false&&l7Decision({event,baseRef,files,leg:LANES[lane].leg}).l7_run===false&&
           Array.isArray(record.files)&&JSON.stringify(record.files)===JSON.stringify(files);
         if(!l7Skip)failures.push(`${lane}: the Ironman leg did not pass and the independent input recompute did not verify the recorded skip`);
-      }else if(record.ironman?.verdict==='FLAKY')flaky.push(`${lane}: passed only on the rerun (seed ${record.ironman.seed}); replay: ${record.ironman.replay}`);
+      }else{
+        // A leg that ran without the epilogue is only good when the independent recompute agrees it was the light set.
+        if(LANES[lane].leg!=='ce2pg'&&record.ironman?.epilogue===false&&l7Decision({event,baseRef,files,leg:LANES[lane].leg}).l7_heavy!==false)failures.push(`${lane}: the leg ran without the epilogue but the independent recompute selects the heavy set`);
+      }
+      if(record.ran.includes(LANES[lane].fixed[0])&&record.ironman?.verdict==='FLAKY')flaky.push(`${lane}: passed only on the rerun (seed ${record.ironman.seed}); replay: ${record.ironman.replay}`);
     }
     const expected=selectedFor(lane,route,{l5Run:!l5Skip,l7Run:!l7Skip});
     const missingSelection=expected.filter(id=>!(record.selected||[]).includes(id));
@@ -318,7 +343,7 @@ async function cmdRoute(opts){
   if(lane&&!LANES[lane])throw new Error(`Unknown lane ${lane}`);
   const {event,files,route}=routeFromEnv();
   const l5=l5Decision({event,baseRef:baseRefFromEnv(),files});
-  const l7=l7Decision({event,baseRef:baseRefFromEnv(),files});
+  const l7=l7Decision({event,baseRef:baseRefFromEnv(),files,leg:isL7(lane)?LANES[lane].leg:null});
   const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,base_sha:baseFromEnv(),files,route,...l5,...l7};
   if(opts.out)fs.writeFileSync(opts.out,`${JSON.stringify(record,null,2)}\n`);
   const flags={...laneFlags(route),...(lane==='L5'?l5:{}),...(isL7(lane)?{...l7,seed:l7Seed(process.env.GATE_HEAD_SHA)}:{})};
@@ -337,7 +362,7 @@ async function cmdFinalize(opts){
   const routeRecord=readRouteRecord(opts.route);
   let ironman=null;
   if(isL7(lane)&&opts.ironman&&fs.existsSync(opts.ironman)){try{ironman=JSON.parse(fs.readFileSync(opts.ironman,'utf8'));}catch{ironman=null;}}
-  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,l7Run:routeRecord?.l7_run===false?false:true,l7Reason:routeRecord?.l7_reason,files:routeRecord?.files,ironman});
+  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,l7Run:routeRecord?.l7_run===false?false:true,l7Reason:routeRecord?.l7_reason,l7Heavy:routeRecord?.l7_heavy,files:routeRecord?.files,ironman});
   const out=opts.out||'lane.json';
   fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});
   fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);
