@@ -108,7 +108,9 @@ const closedPair={status:"unpaired",rivalryId:null,connectionState:null,closedRi
   }
   // F3-6 no entry on this page (Home just shows a Showdown that closed elsewhere): nothing new, no read.
   {
-    const p=page();
+    // Phoenix W2 F3: a phone that showed this Showdown's Champion (cms.championShown.v1) never reads here; the fresh-device
+    // path (no such note) is proven in tests/contracts/r100-fresh-device-champion-contracts.cjs.
+    const p=page();p.storage.set("cms.championShown.v1",R);
     p.pair(closedPair);await settle();
     assert.deepEqual(p.calls.nav,[]);assert.equal(p.calls.refresh,0);assert.equal(p.calls.rjClose,0);
     ok("F3-6","without an entry in flight Home behaves as before (no read, no navigation)");
@@ -186,7 +188,9 @@ const closedPair={status:"unpaired",rivalryId:null,connectionState:null,closedRi
   }
   // F3-13 nothing due on this phone (no final tap here, no note): a closed pair on a fresh page changes nothing.
   {
-    const p=page();
+    // Phoenix W2 F3: on a phone that already showed this Showdown's Champion. A device that never did (a swapped phone) takes
+    // the fresh-device path: tests/contracts/r100-fresh-device-champion-contracts.cjs.
+    const p=page();p.storage.set("cms.championShown.v1",R);
     assert.equal(p.entry.championTakingOver(closedPair),null);p.pair(closedPair);await settle();
     assert.deepEqual(p.calls.nav,[]);assert.equal(p.calls.refresh,0);assert.equal(p.calls.rjClose,0);
     ok("F3-13","without the Champion due here, START keeps deciding (no read, no navigation)");

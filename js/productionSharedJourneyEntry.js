@@ -406,6 +406,11 @@
   function validRivalry(id){return /^pair_[0-9a-f]{64}$/.test(String(id||""));}
   function championPending(){try{const id=String(root.readStorageValue?.(CHAMPION_KEY)||"");return validRivalry(id)?id:"";}catch(_error){return "";}}
   function clearChampionPending(rivalryId){try{if(rivalryId&&championPending()===rivalryId)root.removeStorageValue?.(CHAMPION_KEY);}catch(_error){}}
+  // Phoenix W2 F3: the closed Showdown this phone has shown (or settled) its Champion screen for. Only a phone without it, and
+  // without the due note above, takes the fresh-device path below; a phone that played the Showdown to its end never does.
+  const CHAMPION_SHOWN_KEY="cms.championShown.v1";
+  function championShown(){try{const id=String(root.readStorageValue?.(CHAMPION_SHOWN_KEY)||"");return validRivalry(id)?id:"";}catch(_error){return "";}}
+  function noteChampionShown(rivalryId){try{if(validRivalry(rivalryId)&&championShown()!==rivalryId)root.writeStorageValue?.(CHAMPION_SHOWN_KEY,rivalryId);}catch(_error){}}
   function closedHere(){
     try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();if(t&&t.phase==="CLOSED"&&t.terminal===true&&validRivalry(t.rivalryId))return t.rivalryId;}catch(_error){}
     return "";
@@ -430,7 +435,7 @@
     championPromise=(async()=>{
       closePanel();try{root.CareerModeProductionSharedCareerStart?.closePanel?.();}catch(_error){}
       let shown=false;
-      try{if(closedHere()&&typeof root.navigateTo==="function"){await loadScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);shown=await root.navigateTo("seasonEntry",{addToHistory:false,allowCanonicalFallback:false})===true;}}catch(_error){shown=false;}
+      try{if(closedHere()&&typeof root.navigateTo==="function"){await loadScript("ssjr-production-season-results","js/productionSharedSeasonResults.js",()=>root.CareerModeProductionSharedSeasonResults);shown=await root.navigateTo("seasonEntry",{addToHistory:false,allowCanonicalFallback:false})===true;if(shown)noteChampionShown(closedHere());}}catch(_error){shown=false;}
       if(!shown&&typeof root.navigateTo==="function")await root.navigateTo("mainMenu",{addToHistory:false});
       return shown;
     })().finally(()=>{championPromise=null;});
@@ -458,9 +463,32 @@
   // The Champion screen of one closed Showdown on this phone's own save: one Terminal Close read (none when this page already
   // holds it CLOSED), then Season Results' host draws Final Winner. False (Home stays) when it is not this save's, not CLOSED
   // with its finish witness (DELETED: ended early), or anything fails.
-  async function championForClosedRivalry(rivalryId,pair){
+  // Codex on #1617: the closed Showdown's own save may already be active here (an earlier page rebuilt it, then its attach or
+  // read failed), so that exact save goes on to the attach too; any other active save never does.
+  async function adoptClosedShell(rivalryId,pair){
+    const api=root.CareerModePersistentNikDanielPair;if(!api||typeof api.adoptClosedShowdownShell!=="function"||pair?.closedRivalryId!==rivalryId)return false;
+    const before=root.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.();if(before?.activeSaveId&&before.activeSaveId!==pair.closedProviderSaveId)return false;
+    try{return await api.adoptClosedShowdownShell()===true;}catch(_error){return false;}
+  }
+  async function championForClosedRivalry(rivalryId,pair,{recentOnly=false,outcome=null}={}){
+    // outcome.settle=false: the answer may change on a later page (the server clock was not known, or the page left Home), so
+    // the fresh-device caller does not note it as settled.
+    const unsettled=()=>{if(outcome)outcome.settle=false;return false;};
     try{
       await ensureSaveAuthority();
+      // Codex on #1617: the fresh-device window is judged by a server-measured clock only (a fresh device has no offset yet).
+      // Unknown: nothing rebuilt, nothing read, nothing settled.
+      const clock=recentOnly?await freshServerClock():null;
+      if(recentOnly&&!clock)return unsettled();
+      // Verify on #1617: the pair's own close time (the closed rivalry's updatedAt, from the pair read already made) gates the
+      // rebuild, so a pair that names an old closed Showdown (a new browser long after) builds, points at and reads nothing.
+      const pairAge=recentOnly?closeAge(pair?.closedAtMs,clock):null;
+      if(recentOnly&&pairAge!==null&&pairAge>FRESH_CHAMPION_MS){if(outcome)outcome.old=true;return false;}
+      if(recentOnly&&pairAge===null&&Number.isFinite(Number(pair?.closedAtMs))&&Number(pair.closedAtMs)>0)return unsettled();
+      // Phoenix F3: a phone swapped right after the last CONFIRM has no save of this Showdown: its shell is rebuilt from the
+      // closed pair's exact slot and pointed at the closed rivalry (only on a device with no other active save, and only for a
+      // close the pair itself dates within the window; nothing written remotely).
+      if(recentOnly&&pairAge!==null)await adoptClosedShell(rivalryId,pair);
       const library=root.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.();
       if(pair?.closedProviderSaveId&&library?.activeSaveId!==pair.closedProviderSaveId){clearChampionPending(rivalryId);return false;}
       // The closed Showdown's own save is put back in memory (as Home's CONTINUE does, without its navigation): Terminal Close
@@ -471,6 +499,11 @@
       const close=await loadScript("ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose);
       close.install?.();const state=close.getState?.()?.phase==="CLOSED"?close.getState():await close.refresh();
       if(!state||state.phase!=="CLOSED"||state.terminal!==true||state.rivalryId!==rivalryId){if(state?.phase==="DELETED")clearChampionPending(rivalryId);return false;}
+      // Phoenix W2 F3: the fresh-device path shows the Champion only for a Showdown that closed moments ago by server time
+      // (Terminal Close's own close time, the second gate).
+      if(recentOnly){const age=closeAge(state.closedAtMs,clock);if(age===null)return unsettled();if(age>FRESH_CHAMPION_MS)return false;}
+      // Codex on #1617: the manager may have left Home while this read ran; the Champion never takes over another screen.
+      if(recentOnly&&(pageLeftHome||root.getActiveScreenName?.()!=="mainMenu"))return unsettled();
       return await openClosedShowdown();
     }catch(error){report("Could not open the Showdown Champion",error);return false;}
   }
@@ -499,7 +532,53 @@
     if(!next)return;
     if(next.status==="continuing"&&validRivalry(next.rivalryId)){enteringRivalryId=next.rivalryId;enteringAt=Date.now();return;}
     if(!enteringRivalryId&&!pageLeftHome&&next.connectionState==="active"&&validRivalry(next.rivalryId)&&next.rivalryId===championPending()&&!entryCloseTried.has(next.rivalryId)){enteringRivalryId=next.rivalryId;enteringAt=Date.now();return;}
-    if(pairSaysClosed(next,enteringRivalryId))championAfterEntryClosed(enteringRivalryId,next);
+    if(pairSaysClosed(next,enteringRivalryId)){championAfterEntryClosed(enteringRivalryId,next);return;}
+    championOnFreshDevice(next);
+  }
+  // Phoenix W2 F3 (swap fault, the lead's option 2): a manager whose phone died at the last CONFIRM SEASON signs in on another
+  // device. That device has no due note (cms.championPending.v1 lives on the old phone) and has shown no Champion for this
+  // Showdown, so Home showed and the Showdown Champion never appeared for him. Here, on such a device only (no due note, this
+  // Showdown's Champion never shown or settled here, the page never left Home, the pair names the closed Showdown), once per
+  // page: the same path a reload at the close takes (championForClosedRivalry: this save, one Terminal Close read, Season
+  // Results' host draws Final Winner as today) but only when that close is FRESH_CHAMPION_MS old or less by the server-checked
+  // close time. Older closes, ended early (DELETED), another save or any failure keep Home. A device that played to the end
+  // notes its Champion as shown, so it never reads here; a settled answer is noted too, so a device reads here once at most.
+  const FRESH_CHAMPION_MS=10*60*1000;let freshChampionTried=false;
+  function closedShowdownOf(pair){
+    if(!pair)return "";
+    if(!pair.rivalryId&&validRivalry(pair.closedRivalryId))return pair.closedRivalryId;
+    return pair.connectionState==="closed"&&validRivalry(pair.rivalryId)?pair.rivalryId:"";
+  }
+  // The server clock, measured (Remote Joining's ID-token measure; no Firestore read), or null when it is not known: then
+  // the device clock is never trusted for the window. clock() is the server time now.
+  async function freshServerClock(){
+    try{
+      const [runtime,remote]=await Promise.all([loadScript("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),loadScript("rj","js/sparkRemoteJoining.js",()=>root.CareerModeSparkRemoteJoining)]);
+      if(!runtime||typeof runtime.ensureAccountServices!=="function"||!remote||typeof remote.serverNow!=="function"||typeof remote.serverClockKnown!=="function")return null;
+      const user=(await runtime.ensureAccountServices())?.auth?.currentUser;if(!user)return null;
+      const now=Number(await remote.serverNow(user));if(!Number.isFinite(now)||now<=0||remote.serverClockKnown()!==true)return null;
+      return ()=>{const at=Number(remote.clockNow?.());return Number.isFinite(at)&&at>0&&remote.serverClockKnown()===true?at:null;};
+    }catch(_error){return null;}
+  }
+  // How long ago (server time) a close landed, or null when either time is missing or the close looks more than a minute
+  // ahead of the server clock (never judged then).
+  function closeAge(atMs,clock){const at=Number(atMs),now=typeof clock==="function"?clock():null;if(!Number.isFinite(at)||at<=0||!Number.isFinite(now))return null;const age=now-at;return age>=-60000?Math.max(0,age):null;}
+  function championOnFreshDevice(pair){
+    if(freshChampionTried||pageLeftHome||enteringRivalryId||championPending())return;
+    const rivalryId=closedShowdownOf(pair);if(!rivalryId||championShown()===rivalryId||entryCloseTried.has(rivalryId))return;
+    if(root.getActiveScreenName?.()!=="mainMenu")return;
+    freshChampionTried=true;entryCloseTried.add(rivalryId);
+    const outcome={settle:true};
+    void championForClosedRivalry(rivalryId,pair,{recentOnly:true,outcome}).then(shown=>{
+      // Shown (noted by openClosedShowdown), too old by the server clock, ended early or another save: settled, never read here
+      // again. Codex on #1617: an answer that may change (clock not known, the page left Home) is never settled.
+      if(shown){noteChampionShown(rivalryId);return;}
+      if(!outcome.settle)return;
+      const t=root.CareerModeProductionSharedTerminalClose?.getState?.();
+      if(outcome.old){noteChampionShown(rivalryId);return;}
+      if(t&&t.rivalryId===rivalryId&&(t.phase==="CLOSED"||t.phase==="DELETED"))noteChampionShown(rivalryId);
+      else{const library=root.CareerModeSaveLibraryRuntime?.getLibrarySnapshot?.();if(pair.closedProviderSaveId&&library?.activeSaveId&&library.activeSaveId!==pair.closedProviderSaveId)noteChampionShown(rivalryId);}
+    },()=>false);
   }
   // r96 F3b: the reload resume (js/onlinePlayerIdentity.js openCanonicalCareerContinue) asks here before its START decision
   // when its fresh pair read says the Showdown is no longer live: true means the Champion screen of the Showdown this page
@@ -529,7 +608,9 @@
   let lastScreen="";
   function followChampionScreen(){
     const screen=root.getActiveScreenName?.()||"",closed=closedHere();
-    if(lastScreen==="seasonEntry"&&screen&&screen!=="seasonEntry"&&closed)clearChampionPending(closed);
+    if(lastScreen==="seasonEntry"&&screen&&screen!=="seasonEntry"&&closed){clearChampionPending(closed);noteChampionShown(closed);}
+    // Phoenix W2 F3: the Champion screen of a closed Showdown is up on this phone (it played to the end here).
+    if(screen==="seasonEntry"&&closed)noteChampionShown(closed);
     // r96 F3: the entry reached a game screen, so the followers there own the close from now on.
     if(screen&&screen!=="mainMenu"){enteringRivalryId="";pageLeftHome=true;}
     lastScreen=screen;
@@ -543,18 +624,46 @@
     if(NOT_CHAMPION_SCREENS.has(root.getActiveScreenName?.())||(careerStart&&!careerStart.classList.contains("hidden")))void openClosedShowdown();
     else if(closed===enteringRivalryId)championAfterEntryClosed(closed,root.CareerModePersistentNikDanielPair?.getState?.()||null);
   }
+  // Phoenix r100 (B2, twotabs end-showdown, Gate seed 2540913475): CONTINUE tapped on Home just as the other phone's END
+  // SHOWDOWN landed. Terminal Close had seen the Showdown DELETED (ended early) while Home showed, so it left nothing; the
+  // resume found no season to continue, showdownClosedNow counts only a finished (CLOSED) Showdown, and Career Start opened for
+  // the ended Showdown with nothing to take it away. Before (and right after) Career Start, an ended-early Showdown goes Home:
+  // only when Terminal Close holds this Setup's rivalry DELETED from its own read. That read is made here only when Career Start
+  // would be wrong or doubtful: this save already played a season, or the pair says this rivalry closed (the pair is never the
+  // answer, only the reason to ask). A fresh Showdown's first Career Start reads nothing more. A finished (CLOSED) Showdown
+  // keeps its Champion path above; History, Legacy and the totals are untouched (routing only).
+  function endedHere(rivalryId){try{const t=root.CareerModeProductionSharedTerminalClose?.getState?.();return Boolean(validRivalry(rivalryId)&&t&&t.phase==="DELETED"&&t.rivalryId===rivalryId);}catch(_error){return false;}}
+  async function leaveIfEnded(confirmed,mayRead){
+    const rivalryId=String(confirmed?.rivalryId||"");if(!validRivalry(rivalryId))return false;
+    let ended=endedHere(rivalryId);
+    if(!ended&&mayRead){
+      let doubt=localSeasonPlayed();try{doubt=doubt||pairSaysClosed(root.CareerModePersistentNikDanielPair?.getState?.(),rivalryId);}catch(_error){}
+      if(doubt){try{const close=await loadScript("ssjr-production-terminal-close","js/productionSharedTerminalClose.js",()=>root.CareerModeProductionSharedTerminalClose);close.install?.();await close.refresh();}catch(_error){}ended=endedHere(rivalryId);}
+    }
+    if(!ended)return false;
+    closePanel();try{root.CareerModeProductionSharedCareerStart?.closePanel?.();}catch(_error){}
+    try{if(root.CareerModeProductionSharedTerminalClose?.leaveEnded?.(rivalryId))return true;}catch(_error){}
+    if(typeof root.navigateTo==="function")await root.navigateTo("mainMenu",{addToHistory:false});
+    return true;
+  }
   async function openSharedExperience(){
-    closePanel();
+    closePanel();let confirmed=null;
     try{
       await ensureSaveAuthority();
-      const confirmed=await confirmedSetupSnapshot();
+      confirmed=await confirmedSetupSnapshot();
       if(confirmed&&await resumeAcceptedSeason()){applyLocalDrawLock();return true;}
       if(await showdownClosedNow()){await openClosedShowdown();return true;}
-      if(confirmed){await openCareerStart();applyLocalDrawLock();return true;}
+      if(confirmed&&await leaveIfEnded(confirmed,true))return true;
+      if(confirmed){await openCareerStart();if(await leaveIfEnded(confirmed,false))return true;applyLocalDrawLock();return true;}
       await loadScript("ssjr-polished-presentation","js/productionSharedShowdownPresentation.js",()=>root.CareerModeProductionSharedShowdownPresentation);
       const presentation=root.CareerModeProductionSharedShowdownPresentation;if(!presentation||typeof presentation.activate!=="function")throw new Error("Showdown presentation is unavailable.");
       await presentation.activate();applyLocalDrawLock();return true;
-    }catch(error){report("Could not enter the Showdown",error);await openPanel({routeToRemote:false});return false;}
+    }catch(error){
+      // An entry that failed because its Showdown was ended under it (the resume's reads or Career Start's own read hit the
+      // closed rivalry) goes Home too, instead of GET READY over the ended Showdown's Career Start.
+      try{if(confirmed&&await leaveIfEnded(confirmed,true))return true;}catch(_error){}
+      report("Could not enter the Showdown",error);await openPanel({routeToRemote:false});return false;
+    }
   }
   function remoteBoundToAuthority(remote,account,pairing,rivalry){return Boolean(remote&&remote.sessionState==="active"&&remote.sessionId&&remote.pendingAction==null&&rivalry&&rivalry.rivalryId&&remote.rivalryId===rivalry.rivalryId&&account&&account.accountId&&remote.accountId===account.accountId&&pairing&&pairing.deviceId&&remote.deviceId===pairing.deviceId&&Number.isFinite(remote.expiresAtEpochMs)&&Date.now()<remote.expiresAtEpochMs);}
   async function statusSnapshot(){

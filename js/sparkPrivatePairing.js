@@ -1529,14 +1529,16 @@
     const at=fsbNow(),relaxed=Boolean(options&&options.relaxed===true);
     if(fsbWait){for(const [key,info] of [...fsbWait.owners])if(key!==owner&&at-info.seen>FSB_WAIT_OWNER_MS)fsbWait.owners.delete(key);if(!fsbWait.owners.size)fsbDetachWait();}
     const release=()=>{if(fsbWait&&fsbWait.owners.delete(owner)&&!fsbWait.owners.size)fsbDetachWait();return false;};
-    /* r100 B6 JOIN speed: the rivalry document itself may be watched too (Daniel waiting on Nik's JOIN) */if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)*$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
+    // r100 B6 JOIN speed: the rivalry document itself may be watched too (Daniel waiting on Nik's JOIN).
+    if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)*$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
     fsbWaitAsks.set(owner,{path,at});if(typeof wake==="function")fsbReturnWakes.set(owner,wake);
     if(fsbPaused()||fsbHidden()||!fsbFirestore||(fsbWaitFailed.get(path)||0)>at)return release();
     if(fsbWait&&fsbWait.path===path){fsbWait.owners.set(owner,{wake,seen:at,relaxed});return fsbWaitLive();}
     if(fsbWait&&!(fsbWait.owners.size===1&&fsbWait.owners.has(owner)))return false;
     const api=fsbSnapshotApi;
-    /* r100 B6 JOIN speed: the first wait of a page loads the listener module; once it is loaded the same ask attaches at once
-       (if the screen still asks for it), instead of on that screen's next timed check (3-4 s later on the JOIN waits). */
+    // r100 B6 JOIN speed: the first wait of a page loads the listener module; once it is loaded the same ask attaches at once
+    // (if the screen still asks for it), instead of on that screen's next timed check (3-4 s later on the JOIN waits).
+    // Line comments only below the generated Rules table: its "/*" path strings would pair with a block comment's end.
     if(!api){const loading=fsbLoadSnapshotApi();if(loading&&typeof loading.then==="function")loading.then(()=>{const ask=fsbWaitAsks.get(owner);if(fsbSnapshotApi&&ask&&ask.path===path&&fsbNow()-ask.at<FSB_WAIT_OWNER_MS)fsbWatchWaitPoint(owner,path,wake,options);},()=>{});return release();}
     fsbDetachWait();
     const wait={path,attachedAt:at,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
