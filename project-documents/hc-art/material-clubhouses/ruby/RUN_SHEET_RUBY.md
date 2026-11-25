@@ -373,6 +373,8 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 result (25 Nov 6:13 p.m. Boston) **8.5/10, one fix.** Align scale 1.000, 0.6 px (no hero mask for this empty room; aligned on the whole picture). The look is right: stitched oxblood leather walls with rosewood mouldings, the armchairs in the same oxblood leather (the seating rule), trophies, balls and banners unchanged, calm pale stone veins on the floor and counter, glint 0.11. Miss: vs black 14.46 against its 15 floor, so the room reads a touch too close to Metallic Black; the back wall and the chairs sit in deep shadow. Raw kept as ENV_CLUB_PLATE_RUBY_P1_2X_T1_RAW.png.
+- Fix 1 on try 1 (same chat; the light wording): "Keep this image exactly the same. Change only: the light from the two wall lamps and the stadium glow through the window is a little stronger: each throws a soft warm pool onto the leather walls and the marble floor around it, so the back wall and the two armchairs read as a rich mid oxblood red, while the corners and the ceiling stay deep wine near-black."
 
 ### R-10 · Ruby Clubhouse: Loading tunnel (behind Reus)
 - Image 1: [IMG1_ENV_LOADING_PLATE_HC_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PLATE_HC_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PLATE_HC_2X.png)), 3840x2160
