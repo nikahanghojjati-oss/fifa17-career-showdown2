@@ -1,22 +1,22 @@
 {
   "schema": "physio/v1",
-  "at": "2026-11-25T03:21:35.985Z",
+  "at": "2026-11-25T03:44:37.947Z",
   "state": "BARKING",
   "checks": [
     {
       "workflow": "Showdown Gate",
       "head_sha": "ac69609937bc7b7281b2429a7cc4cd01529bde09",
       "pr": 1599,
-      "queued_minutes": 110.3,
+      "queued_minutes": 133.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
     },
     {
       "workflow": "Showdown Gate",
-      "head_sha": "0aec9ddebcf30fcf066de5395dd0abf9e90542df",
-      "pr": 1608,
-      "queued_minutes": 100.5,
+      "head_sha": "224e90d376f552c9d89181f2893e901999f14399",
+      "pr": 1598,
+      "queued_minutes": 133.4,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -25,7 +25,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "149ccd02fab1331195528688b7044abddd6d41a8",
       "pr": 1576,
-      "queued_minutes": 96,
+      "queued_minutes": 119,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -34,7 +34,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "8d1db4d6509d61871cbbab62414b0a1c6c7dde4f",
       "pr": 1617,
-      "queued_minutes": 91.3,
+      "queued_minutes": 114.3,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -43,7 +43,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "71cd93e70631a54b13e911b03211a3c278e6182f",
       "pr": 1618,
-      "queued_minutes": 88.1,
+      "queued_minutes": 111.1,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -52,7 +52,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "6a0ec3ea0f0c970c433aec4c3c7ec5cabd879e48",
       "pr": 1614,
-      "queued_minutes": 86,
+      "queued_minutes": 109,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
@@ -61,7 +61,7 @@
       "workflow": "Showdown Gate",
       "head_sha": "fbae2276dd830c70c5036bed0fe8d9e29c6a4be1",
       "pr": 1619,
-      "queued_minutes": 63.8,
+      "queued_minutes": 86.8,
       "action": "none",
       "attempt": 0,
       "max_attempts": 2
