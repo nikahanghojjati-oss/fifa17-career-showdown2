@@ -350,6 +350,63 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 15:28 | Team V | Team G | HO-101 DONE | Premium pilot 4/6: Metallic Black Home repaint | no |
 | 2026-11-24 15:28 | Team V | Team G | HO-102 DONE | Premium pilot 5/6: Premium Matte Black Board Room repaint | no |
 | 2026-11-24 15:28 | Team V | Team G | HO-103 DONE | Premium pilot 6/6: Premium Matte Black Home repaint | no |
+| 2026-11-24 15:56 | Team G | Team V | HO-104 SENT | Premium full set 1/57: Silver Clubhouse, Office repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-105 SENT | Premium full set 2/57: Silver Clubhouse, Hall repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-106 SENT | Premium full set 3/57: Silver Clubhouse, Archive repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-107 SENT | Premium full set 4/57: Silver Clubhouse, Directors' box repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-108 SENT | Premium full set 5/57: Silver Clubhouse, Coaches' room repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-109 SENT | Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-110 SENT | Premium full set 7/57: Silver Clubhouse, Club room repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-111 SENT | Premium full set 8/57: Silver Clubhouse, Loading tunnel (behind Reus) repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-112 SENT | Premium full set 9/57: Silver Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-113 SENT | Premium full set 10/57: Silver Clubhouse, Home lounge, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-114 SENT | Premium full set 11/57: Silver Clubhouse, Board Room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-115 SENT | Premium full set 12/57: Silver Clubhouse, Office, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-116 SENT | Premium full set 13/57: Silver Clubhouse, Hall, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-117 SENT | Premium full set 14/57: Silver Clubhouse, Archive, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-118 SENT | Premium full set 15/57: Silver Clubhouse, Directors' box, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-119 SENT | Premium full set 16/57: Silver Clubhouse, Coaches' room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-120 SENT | Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-121 SENT | Premium full set 18/57: Silver Clubhouse, Club room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-122 SENT | Premium full set 19/57: Silver Clubhouse, Loading tunnel, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-123 SENT | Premium full set 20/57: Metallic Black Clubhouse, Office repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-124 SENT | Premium full set 21/57: Metallic Black Clubhouse, Hall repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-125 SENT | Premium full set 22/57: Metallic Black Clubhouse, Archive repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-126 SENT | Premium full set 23/57: Metallic Black Clubhouse, Directors' box repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-127 SENT | Premium full set 24/57: Metallic Black Clubhouse, Coaches' room repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-128 SENT | Premium full set 25/57: Metallic Black Clubhouse, Players' tunnel repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-129 SENT | Premium full set 26/57: Metallic Black Clubhouse, Club room repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-130 SENT | Premium full set 27/57: Metallic Black Clubhouse, Loading tunnel (behind Reus) repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-131 SENT | Premium full set 28/57: Metallic Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-132 SENT | Premium full set 29/57: Metallic Black Clubhouse, Home lounge, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-133 SENT | Premium full set 30/57: Metallic Black Clubhouse, Board Room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-134 SENT | Premium full set 31/57: Metallic Black Clubhouse, Office, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-135 SENT | Premium full set 32/57: Metallic Black Clubhouse, Hall, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-136 SENT | Premium full set 33/57: Metallic Black Clubhouse, Archive, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-137 SENT | Premium full set 34/57: Metallic Black Clubhouse, Directors' box, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-138 SENT | Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-139 SENT | Premium full set 36/57: Metallic Black Clubhouse, Players' tunnel, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-140 SENT | Premium full set 37/57: Metallic Black Clubhouse, Club room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-141 SENT | Premium full set 38/57: Metallic Black Clubhouse, Loading tunnel, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-142 SENT | Premium full set 39/57: Premium Matte Black Clubhouse, Office repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-143 SENT | Premium full set 40/57: Premium Matte Black Clubhouse, Hall repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-144 SENT | Premium full set 41/57: Premium Matte Black Clubhouse, Archive repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-145 SENT | Premium full set 42/57: Premium Matte Black Clubhouse, Directors' box repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-146 SENT | Premium full set 43/57: Premium Matte Black Clubhouse, Coaches' room repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-147 SENT | Premium full set 44/57: Premium Matte Black Clubhouse, Players' tunnel repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-148 SENT | Premium full set 45/57: Premium Matte Black Clubhouse, Club room repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-149 SENT | Premium full set 46/57: Premium Matte Black Clubhouse, Loading tunnel (behind Reus) repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-150 SENT | Premium full set 47/57: Premium Matte Black Clubhouse, Material slab (ENV_SLAB, TILE_SLAB, UI panel tile, lower slab of every phone plate) repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-151 SENT | Premium full set 48/57: Premium Matte Black Clubhouse, Home lounge, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-152 SENT | Premium full set 49/57: Premium Matte Black Clubhouse, Board Room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-153 SENT | Premium full set 50/57: Premium Matte Black Clubhouse, Office, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-154 SENT | Premium full set 51/57: Premium Matte Black Clubhouse, Hall, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-155 SENT | Premium full set 52/57: Premium Matte Black Clubhouse, Archive, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-156 SENT | Premium full set 53/57: Premium Matte Black Clubhouse, Directors' box, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-157 SENT | Premium full set 54/57: Premium Matte Black Clubhouse, Coaches' room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-158 SENT | Premium full set 55/57: Premium Matte Black Clubhouse, Players' tunnel, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-159 SENT | Premium full set 56/57: Premium Matte Black Clubhouse, Club room, phone band repaint | yes (receive it) |
+| 2026-11-24 15:56 | Team G | Team V | HO-160 SENT | Premium full set 57/57: Premium Matte Black Clubhouse, Loading tunnel, phone band repaint | yes (receive it) |
 | 2026-11-24 15:57 | Team G | Team V | HO-104 SENT | Premium full set 1/57: Silver Clubhouse, Office repaint | yes (receive it) |
 | 2026-11-24 15:57 | Team G | Team V | HO-105 SENT | Premium full set 2/57: Silver Clubhouse, Hall repaint | yes (receive it) |
 | 2026-11-24 15:57 | Team G | Team V | HO-106 SENT | Premium full set 3/57: Silver Clubhouse, Archive repaint | yes (receive it) |
@@ -452,10 +509,13 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 20:05 | Team V | Team G | HO-168 DONE | Premium Club room sideways 1/3: Platinum Clubhouse, phone sideways | no |
 | 2026-11-24 20:24 | Team G | Team V | HO-109 RETURNED | REDO the Platinum Players' tunnel darker (Nik 20:23 UTC): night like the rest of Platinum, lit pitch the brightest thing; new Light paragraph in the ticket's REDO section | yes (receive it) |
 | 2026-11-24 20:24 | Team G | Team V | HO-120 HOLD | Platinum Tunnel phone waits for the HO-109 redo; REF_TUNNEL_SILVER_SWATCH withdrawn, re-cut after the redo is DONE | yes (receive it) |
+| 2026-11-24 20:24 | Team G | Team V | HO-120 RETURNED | Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint | yes (see reason) |
 | 2026-11-24 20:32 | Team V | Team G | HO-109 DONE | Premium full set 6/57: Silver Clubhouse, Players' tunnel repaint | no |
 | 2026-11-24 20:55 | Team V | Team G | HO-171 SENT | Actions queue check (Nik): Physio loop fills the queue; Team V cancelled its 2 runs | yes (receive it) |
+| 2026-11-24 21:09 | Team G | Team V | HO-171 DONE | Actions queue check (Nik): Physio loop fills the queue; Team V cancelled its 2 runs | no |
 | 2026-11-24 21:19 | Team V | Team G | HO-122 DONE | Premium full set 19/57: Silver Clubhouse, Loading tunnel, phone band repaint | no |
 | 2026-11-24 21:34 | Team G | Team V | HO-120 SENT (unhold) | Platinum Tunnel phone: new REF_TUNNEL_SILVER_SWATCH.webp cut from the HO-109 night redo; start again from the Wooden phone plate | yes (receive it) |
+| 2026-11-24 21:34 | Team G | Team V | HO-120 SENT | Premium full set 17/57: Silver Clubhouse, Players' tunnel, phone band repaint | yes (receive it) |
 | 2026-11-24 21:37 | Team V | Team G | HO-121 DONE | Premium full set 18/57: Silver Clubhouse, Club room, phone band repaint | no |
 | 2026-11-24 21:45 | Team V | Team G | HO-123 DONE | Premium full set 20/57: Metallic Black Clubhouse, Office repaint | no |
 | 2026-11-24 21:55 | Team V | Team G | HO-123 DONE | Premium full set 20/57: Metallic Black Clubhouse, Office repaint | no |
@@ -477,3 +537,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-24 23:58 | Team V | Team G | HO-163 DONE | Premium League Roulette room 2/6: Metallic Black Clubhouse, phone upright, no men | no |
 | 2026-11-24 23:59 | Team G | Team V | SWATCHES READY | Metallic Black swatches cut from HO-127..130 (no people, 1728 tall): REF_COACHES/TUNNEL/CLUB/LOADING_BLACK_SWATCH.webp in attachments/ho-premium-full/; HO-138..141 (phone) and HO-169 (Club sideways) can start | no |
 | 2026-11-25 00:00 | Team V | Team G | HO-166 DONE | Premium League Roulette room 5/6: Metallic Black Clubhouse, desktop, no men | no |
+| 2026-11-25 00:02 | Team G | Team V | HO-172 DONE | Pin both leads (v1.5) so Nik can lift the wake ban | no |

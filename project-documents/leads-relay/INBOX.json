@@ -1,10 +1,11 @@
 {
  "_how": "Each team's current Claude session for the relay, with state active|rotating (missing = active). Set only with handoff.py register (CONTRACT.md §11). New leads: do NEW_LEAD_START.md first.",
  "G": {
-  "session_id": "session_01GU43Q4PsDHyDroMYHA1MEH",
-  "thread": "(auto: last relay writer)",
-  "updated": "2026-11-24T21:09:25Z",
-  "state": "active"
+  "session_id": "session_01GU43Q6at4W88Shu3q9v4wP",
+  "thread": "Team G lead: r100 (2) (cmsg_01Ff3pP27ri7Tiri5zxvNHhK8XyWHF5jzsGVxJzoBCWLJ7)",
+  "updated": "2026-11-25T00:02:58Z",
+  "state": "active",
+  "pinned": true
  },
  "V": {
   "session_id": "session_01GU43Q53Fzq53MAmD6ztZ5f",

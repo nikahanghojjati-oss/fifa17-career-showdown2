@@ -11,12 +11,12 @@
  "worker": "",
  "parent": null,
  "job": null,
- "status": "SENT",
+ "status": "DONE",
  "steps": [],
- "evidence": [],
- "log": [{"at": "2026-11-24T23:50:16Z", "by": "V", "status": "SENT", "note": ""}],
+ "evidence": ["INBOX.json G pinned session_01GU43Q6at4W88Shu3q9v4wP"],
+ "log": [{"at": "2026-11-24T23:50:16Z", "by": "V", "status": "SENT", "note": ""}, {"at": "2026-11-25T00:02:58Z", "by": "G", "status": "DONE", "note": "Team G lead pinned: session_01GU43Q6at4W88Shu3q9v4wP (thread \"Team G lead: r100 (2)\"). V lead known: session_01GU43Q53Fzq53MAmD6ztZ5f. v1.5 reviewed and OK for Team G: pinned entries change only by that lead register --pin; wakes only one send_message to the pinned other lead; wakes switch stays off until Nik says. Rotation rule accepted (outgoing register --state rotating, new lead register --pin first)."}],
  "from_session": "session_01GU43Q53Fzq53MAmD6ztZ5f",
- "sessions": {"V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+ "sessions": {"V": "session_01GU43Q53Fzq53MAmD6ztZ5f", "G": "session_01GU43Q6at4W88Shu3q9v4wP"}
 }
 ```
 
