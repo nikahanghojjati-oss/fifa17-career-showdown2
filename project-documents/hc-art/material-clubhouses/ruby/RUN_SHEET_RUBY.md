@@ -420,9 +420,9 @@ Image 1 is the picture to edit. Image 2 shows only the approved materials and li
 
 Keep image 1 exactly the same size and framing. Repaint the whole surface as one new stone, seen straight on.
 
-The stone: polished Rosso Levanto marble: a deep wine-red stone, oxblood (#6E1423) to lit red (#9B2335) with wine near-black (#2A0A10) in its deepest tones, with a few long, calm, softly curving pale cream veins (#D8C8B4) flowing in gentle diagonals like brush strokes.
+The stone: polished Rosso Levanto marble: a deep wine-red stone, oxblood (#6E1423) to lit red (#9B2335) with wine near-black (#2A0A10) in its deepest tones, with soft cloudy patches of darker and lighter red and a few long, calm, softly curving veins of pale cream stone (#D8C8B4) running in gentle diagonals; the veins are stone, not gold, never wavy stripes.
 
-It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. The stone stays a rich deep ruby red, exactly the red of the marble in image 2: the light only brightens it, it never tints it pink, cherry, orange or brown, and the veins stay few, long and calm, never jagged or cracked like ice. No objects, no reflections of objects, no text, no logos.
+It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. The stone stays a rich deep ruby red, exactly the red of the marble in image 2, deep and muted like old dark wine, never bright crimson: the light only brightens it, it never tints it pink, cherry, orange or brown, and the veins stay few, long and calm, never jagged or cracked like ice. No objects, no reflections of objects, no text, no logos.
 
 Real stone as a mason would finish it, with clean sharp detail and no noise grain, no streaks, no repeating cells.
 
