@@ -573,3 +573,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-25 04:28 | Team V | Team G | HO-158 DONE | Premium full set 55/57: Premium Matte Black Clubhouse, Players' tunnel, phone band repaint | no |
 | 2026-11-25 04:31 | Team V | Team G | HO-159 DONE | Premium full set 56/57: Premium Matte Black Clubhouse, Club room, phone band repaint | no |
 | 2026-11-25 04:35 | Team V | Team G | HO-160 DONE | Premium full set 57/57: Premium Matte Black Clubhouse, Loading tunnel, phone band repaint | no |
+| 2026-11-25 04:39 | Team V | Team G | HO-164 DONE | Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men | no |
