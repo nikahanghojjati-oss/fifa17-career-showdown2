@@ -302,6 +302,7 @@
       frame:definition.frame,mount:definition.mount,
       unmount:typeof definition.unmount==="function"?definition.unmount:null,
       overlay:definition.overlay===true,
+      slowHold:definition.slowHold===true,
       auto:definition.auto!==false,
       // hold: a screen its own module shows (auto:false) is still expect()ed on the frame the app shows it (JOB-1651).
       hold:definition.hold===true
@@ -325,22 +326,42 @@
   const gate={timer:null,raisedAt:0,lowering:null};
   const vsGateHeld=()=>[...pending.keys()].some(id=>registry.get(id)?.overlay!==true&&vsIsShown(id));
   function vsGateEl(){const el=vsHost("loadingScreen");return el&&el.dataset&&el.classList&&typeof el.getAttribute==="function"&&typeof el.setAttribute==="function"&&typeof el.removeAttribute==="function"?el:null;}
-  function vsGateHold(){
+  // r100 audit F2: a screen registered with slowHold (Select League while its League Roulette board is built: the engine, its
+  // pictures and its shaders, seconds on a slow phone) is known to wait long once its frame answers HOLD, so the loading
+  // screen comes up at once and whole, instead of after GATE_GRACE_MS of an empty page and a fade-in the board's shader
+  // compile could freeze half-way. A slow screen held while another owner's loading screen is up or leaving (the startup
+  // splash) takes it over as soon as that one has gone.
+  const slowNow=new Set();
+  const vsGateSlow=()=>[...pending.keys()].some(id=>(registry.get(id)?.slowHold===true||slowNow.has(id))&&vsIsShown(id));
+  // holdNow(id): a module about to start a long build for a shown screen that is not drawn yet (js/leagueRouletteStep.js, the
+  // board, which the shared presentation may start before Team V's file for the screen has even registered) holds the screen
+  // and brings the loading screen up whole at once. A drawn screen is never covered again.
+  function vsHoldNow(id){
+    if(!vsIsShown(id)||mounted.has(id))return false;
+    slowNow.add(id);
+    if(!pending.has(id)){const host=vsHost(id);if(!host||!host.dataset)return false;host.dataset.v10Pending="1";pending.set(id,{host,since:Date.now(),timer:vsPendingTimer(id)});vsSyncStyles();}
+    vsGateHold(true);
+    return true;
+  }
+  function vsGateHold(now=false){
+    if(now===true&&gate.lowering===null&&!gate.raisedAt){if(gate.timer!==null){root.clearTimeout(gate.timer);gate.timer=null;}vsGateRaise(true);return;}
     if(gate.lowering!==null){root.clearTimeout(gate.lowering);gate.lowering=null;const el=vsGateEl();if(vsGateOwns(el)){el.classList.remove("is-exiting");el.setAttribute("aria-busy","true");el.removeAttribute("aria-hidden");vsSetNavMode("none");}else{gate.raisedAt=0;vsGateForget(el);}}
     if(gate.timer!==null||gate.raisedAt)return;
     gate.timer=root.setTimeout(vsGateRaise,GATE_GRACE_MS);
   }
-  function vsGateRaise(){
+  function vsGateRaise(now=false){
     gate.timer=null;
     const el=vsGateEl();
     // Another owner already shows it (or it is on its way out from startup): leave it alone.
-    if(!el||!vsGateHeld()||!el.hidden&&!el.classList.contains("hidden"))return;
+    if(!el||!vsGateHeld())return;
+    if(!el.hidden&&!el.classList.contains("hidden")){if(vsGateSlow())gate.timer=root.setTimeout(()=>vsGateRaise(true),50);return;}
     const text=vsHost("loadingText");
     el.dataset.v10Gate="1";el.dataset.v10GateText=text?text.textContent:"";el.dataset.v10GateLabel=el.getAttribute("aria-label")||"";
     if(text)text.textContent="LOADING";
     el.setAttribute("aria-label","Loading");el.setAttribute("aria-busy","true");el.removeAttribute("aria-hidden");
-    // Fades in over the dark page with the splash's own opacity transition (is-exiting is its 0 state).
-    el.classList.add("is-exiting");el.classList.remove("hidden");el.hidden=false;void el.offsetWidth;el.classList.remove("is-exiting");
+    // Fades in over the dark page with the splash's own opacity transition (is-exiting is its 0 state); a slow hold shows it whole.
+    if(now===true){const was=el.style.transition;el.style.transition="none";el.classList.remove("is-exiting","hidden");el.hidden=false;void el.offsetWidth;el.style.transition=was;}
+    else{el.classList.add("is-exiting");el.classList.remove("hidden");el.hidden=false;void el.offsetWidth;el.classList.remove("is-exiting");}
     gate.raisedAt=Date.now();
     vsSetNavMode("none");
   }
@@ -381,7 +402,7 @@
   function vsSettle(id,reveal=false){
     const entry=pending.get(id);
     if(!entry)return;
-    pending.delete(id);root.clearTimeout(entry.timer);
+    pending.delete(id);root.clearTimeout(entry.timer);slowNow.delete(id);
     vsGateRelease();
     if(entry.host.dataset){
       delete entry.host.dataset.v10Pending;
@@ -460,7 +481,8 @@
       if(frame===HOLD){
         if(current)return true;
         held=true;
-        if(!pending.has(id)&&host.dataset){host.dataset.v10Pending="1";pending.set(id,{host,since:Date.now(),timer:vsPendingTimer(id)});vsGateHold();vsSyncStyles();}
+        if(!pending.has(id)&&host.dataset){host.dataset.v10Pending="1";pending.set(id,{host,since:Date.now(),timer:vsPendingTimer(id)});vsGateHold(def.slowHold);vsSyncStyles();}
+        else if(def.slowHold)vsGateHold(true);
         return false;
       }
       if(current&&current.frame===frame&&current.host===host&&host.isConnected!==false)return true;
@@ -637,7 +659,7 @@
 
   const api=Object.freeze({
     contractVersion:1,BASE,EVENT,KIT,NAV,R78_STYLES,NAV_SCREENS,ROUTES,HOLD,
-    install:vsInstall,defer:vsDefer,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
+    install:vsInstall,defer:vsDefer,holdNow:vsHoldNow,mountNav:vsMountNav,ensureKit:vsEnsureKit,register:vsRegister,show:vsShow,hide:vsHide,expect:vsExpect,settle:vsSettle,invalidate:vsInvalidate,isMounted:vsIsMounted,
     navFor:vsNavFor,navigate:vsNavigate,setNavRoute:vsSetNavRoute
   });
   return api;

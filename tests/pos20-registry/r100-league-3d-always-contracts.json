@@ -1,0 +1,13 @@
+{
+  "path": "tests/contracts/r100-league-3d-always-contracts.cjs",
+  "patterns": [
+    "^js/leagueRouletteStep\\.js$",
+    "^js/v10Setup\\.js$",
+    "^js/v10Screens\\.js$",
+    "^js/ssjr\\.js$",
+    "^js/productionSharedJourneyEntry\\.js$",
+    "^tests/browser/support/ce2pg-league-3d\\.cjs$",
+    "^tests/contracts/r100\\-league\\-3d\\-always\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-league\\-3d\\-always\\-contracts\\.json$"
+  ]
+}
