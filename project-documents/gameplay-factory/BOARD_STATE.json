@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-25 9:53 PM Boston time (EST)",
+ "generated": "2026-11-25 9:55 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 600,
+  "count": 601,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5403,6 +5403,15 @@
     "subject": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
     "reply": "yes (see reason)",
     "boston": "Wed 25 Nov 9:47 PM"
+   },
+   {
+    "time": "2026-11-26 02:54",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-177 DONE",
+    "subject": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
+    "reply": "no",
+    "boston": "Wed 25 Nov 9:54 PM"
    }
   ],
   "g2v": {
@@ -5423,8 +5432,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "d3ad07f",
-  "head_boston": "Wed 25 Nov 9:49 PM",
+  "head": "3a7d45b",
+  "head_boston": "Wed 25 Nov 9:54 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -6248,7 +6257,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 25909
+    "waiting_min": 25911
    },
    {
     "id": "HO-059",
@@ -7789,8 +7798,8 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-177_sign-in-lounge-4-8-premium-matte-black-c.md",
     "worker": "images",
@@ -7919,7 +7928,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 44,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,

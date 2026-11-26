@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-25 9:53 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-25 9:55 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `d3ad07fc` (Wed 25 Nov 9:49 PM Boston time) · 600 messages · 182 hand-offs · 769 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `3a7d45b7` (Wed 25 Nov 9:54 PM Boston time) · 601 messages · 182 hand-offs · 769 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -248,8 +248,9 @@ Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game
 
 ### HO-177 · G → V · Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Wed 25 Nov 9:54 PM · Team V · Done · redo try 5 (Astra dull-metal edit of try 4) + a soft highlight roll-off by code on the room only (pixels above 185 brightness, low-saturation, window and gold objects excluded; RAW untouched). Glints above 230 in the room: 0 per 10k (try 4 18.7, Black lounge 12.9). Layout identical (affine 0.999)
 - Wed 25 Nov 9:49 PM · Team V · In progress · Try 5 (dull metal edit of try 4) in RUN_SHEET_SIGNIN.md 94490f958; Nik running in Astra
 - Wed 25 Nov 9:47 PM · Team G · RETURNED · REDO (Team G B7 bar check): Graphite desktop sign-in lounge fails HO-173 bar point 2 - glint 19.8 per 10k px vs limit 5 (Black Steel is 12.5, so Graphite reads shinier than Metallic Black). Cause: polished steel trim and bright nailhead highlights. Redo with the same room and framing: satin titanium trim with soft diffuse reflections, dull nailheads, no polished highlights, no chrome. Deliver as before: ENV_SIGNIN_PLATE_MATTE_P1_2X.webp 3072x1728 + raw PNG + SHA256 line. HO-178..181 and HO-174..176 pass.
 - Wed 25 Nov 5:25 PM · Team V · Done · try 4 (edit of try 3 from the HO-176 lounge): layout identical (affine 0.9998), cool graphite (pillar/wall saturation 0.08-0.11, under 0.12), fine low-contrast herringbone, honed slate floor, titanium trims, gold objects kept, no people
@@ -9508,6 +9509,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-177 DONE · Team V → Team G · Wed 25 Nov 9:54 PM Boston time
+
+**Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-177 RETURNED · Team G → Team V · Wed 25 Nov 9:47 PM Boston time
 
