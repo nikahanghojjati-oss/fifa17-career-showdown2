@@ -672,6 +672,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (16:46 UTC): **9/10, accepted on the first try.** Scale 1.000, 0.1 px, men 5.1. The vault arches are solid green malachite with straight-banded pilasters and no glow from inside; the two niches glow warm and their reflections sit on the counter just below the rail; the counter has growth lines in calm bands. Every check passes: sat 0.83, detail 2.41, spread 60, luma 31, brown 0.03, glint 0.6. Side by side: [ENV_ARCHIVE_PHONE_EMERALD_P1.cmp.jpg](ENV_ARCHIVE_PHONE_EMERALD_P1.cmp.jpg).
 
 ### E-17 · Emerald Clubhouse: Directors' box, phone
 - Image 1: [IMG1_ENV_BOX_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PHONE_HC_V3.png)), 1179x2096
