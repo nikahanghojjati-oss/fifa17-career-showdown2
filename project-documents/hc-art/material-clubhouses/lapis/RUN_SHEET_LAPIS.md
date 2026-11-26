@@ -224,6 +224,16 @@ Change only one thing: remove the two small round crystal stones in their gold r
 
 Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
+  Nik, 19:00 UTC: "I like B design. It looks rich, but I think we can still add an element or two to the background. If they doesn't look too bold, or they don't like compete, or they don't look busy with like the boxes". So C = B plus the faded sunburst; the middle panel sits behind the season title and the scoring panel, so the fan only needs to read softly around them.
+  Fix F2, same chat, after F1 (last edit in this chat; one change: the middle panel):
+
+```
+Keep this picture exactly as it is: the same framing, exactly 3072 by 1728 pixels, the two men untouched, the wall lamp, the door and its handle, every other leather panel, the ebony mouldings and gold inlays, the ebony cornice, the lapis pillars at the far left and far right edges, the thin gold rail at the same height, and the polished lapis counter. Keep exactly the present colours and brightness.
+
+Change only one thing: the big tall leather panel in the middle of the wall, between the two men. Inside its existing frame, it becomes a large, quiet art deco sunburst fan, hand-inlaid: long straight rays fanning out from the middle of the panel's bottom edge up to its top and sides, made of the same lapis-blue leather in two shades, one ray slightly deeper, the next slightly lighter, each ray parted from the next by a hairline satin gold line. The whole fan is faded and tone-on-tone, only a few shades different from the leather around it, like a soft watermark in the wall: you notice it, but it never looks bold or busy and never competes with the men. It fills the whole panel; no centre emblem, no circle, no crest, no text, no extra gold. Every other panel stays plain.
+
+Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
 
 ### L-2B · Lapis pilot Home, version B (craftsmanship)
 
