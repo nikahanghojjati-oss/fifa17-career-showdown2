@@ -37,7 +37,7 @@ R = {
  "ARCHIVE": ("IMG1_ENV_ARCHIVE_PHONE_HC_V3.png", "the vaulted corridor of arches, the two lit display niches, the counter edge", 50, False, True, "ARCHIVE", "nolamps"),
  "BOX": ("IMG1_ENV_BOX_PHONE_HC_V3.png", "the window with the night stadium and pitch, the counter rail", 58, True, True, "BOX", "box"),
  "COACHES": ("IMG1_ENV_COACHES_PHONE_HC_V3.png", "the shelf at the top left with the two old leather balls on it (keep both balls and the shelf), the small wall lamp on the wall pillar left of the men, the row along the wall exactly as in image 1, from left to right: a narrow window at the far left, the wall pillar with the lamp, the wide window behind the men, a plain door on the right, and a narrow window at the far right, each with its own frame and wall pillars between them; do not merge them into one window and do not move the door. The training pitch with its small goals and lights stays inside the windows. The counter rail", 39, True, True, "COACHES", ""),
- "TUNNEL": ("IMG1_ENV_TUNNEL_PHONE_HC_V3.png", "the tunnel receding to the pitch, the square pillars and handrails, the counter edge", 50, True, True, "TUNNEL", "tunnel"),
+ "TUNNEL": ("IMG1_ENV_TUNNEL_PHONE_HC_V3.png", "the tunnel receding to the pitch, the square pillars and handrails, the counter edge", 50, False, True, "TUNNEL", "tunnel"),
  "CLUB": ("IMG1_ENV_CLUB_PHONE_HC_V4.png", "the two wall lamps with their pleated shades and the hanging pennant banners below them, the wide window across the top with the floodlit stadium, the panelled wall below it, and the trophies and old leather balls along the bottom", None, True, False, "CLUB_MAT", "club"),
  "LOADING": ("IMG1_ENV_LOADING_PHONE_HC.png", None, None, True, False, "LOADING_MAT", "loading"),
 }
@@ -94,7 +94,7 @@ def prompt(key, rm):
             keepl += " The room is empty of people."
     room = (f"The room: {L['feel']}\n"
             f"Walls and panels: {L['wall']}. Pillars: {Y['stone']}. Frames: {L['frame']}."
-            + ("" if rm in ("ARCHIVE", "LOADING", "BOX") else f" Lamp metal: {L['metal']}; shades stay warm cream and lit.")
+            + ("" if rm in ("ARCHIVE", "LOADING", "BOX", "TUNNEL") else f" Lamp metal: {L['metal']}; shades stay warm cream and lit.")
             + ("" if rm in ("CLUB", "LOADING") else f" Counter: {Y['counter']}."))
     if rm in ("TUNNEL", "LOADING"):
         room += f" Handrails: {L['handrail']}. Floor: {L['mat']}. The pillars keep their exact square shape, with flat faces and straight corners, never round columns."
@@ -110,6 +110,11 @@ def prompt(key, rm):
         # R-17 (26 Nov): image 1 has no lamps in the box; naming lamps invites Astra to add them
         src = ("Image 1 has no lamps in this room, so add none: light comes only from the floodlit stadium glow through the window and the same soft warm light from above as image 1. "
                "The glow through the window lights a soft warm edge on the leather around the window frame, with soft warm reflections on the polished front of the counter")
+    elif extra == "tunnel":
+        # R-19 (26 Nov): the phone crop shows no lamps and no window; light is the pitch at the tunnel end
+        src = ("Image 1 shows no lamps in this view, so add none: light comes only from the same soft overhead glow as image 1 and the floodlit pitch at the end of the tunnel. "
+               "The pitch light throws a soft warm glow onto the pillars, handrails and walls near the tunnel end, with soft warm reflections on the polished front of the counter; "
+               "where the pitch light meets the top step it is a gentle warm glow that fades smoothly, with no hot bright line and no white highlight")
     elif rm == "LOADING":
         src = ("Light comes only from the same soft overhead glow as image 1 and the floodlit pitch at the end of the tunnel. The pitch light throws a soft warm glow onto the marble, "
                "the leather and the floor near the tunnel end; where it meets the steps and the gold edge strips it fades smoothly, with no hot bright line and no white highlight")
@@ -126,6 +131,9 @@ def prompt(key, rm):
     elif extra == "nolamps":
         bright = ("the two display niches glow clearly bright and throw a wide warm pool onto the leather around them, the soft glow along the edges of the vault arches is bright, "
                   "and the two warm reflections on the polished counter just below the rail are large and clearly bright, a soft cream-gold candlelight sheen on the red stone")
+    elif extra == "tunnel":
+        bright = ("the walls and pillars near the bright end of the tunnel catch a clear warm glow, and the warm reflections on the polished counter just below the rail "
+                  "are large and clearly bright, a soft cream-gold sheen on the red stone")
     elif extra == "box":
         bright = ("the floodlight glow lights a clear warm edge on the leather around the window frame and along the gold rail, and the warm reflections on the polished counter just below the rail "
                   "are large and clearly bright, a soft cream-gold sheen on the red stone")
