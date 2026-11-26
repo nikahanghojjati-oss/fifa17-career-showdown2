@@ -476,4 +476,24 @@ Same 16:9 framing as the original, largest size available.
 Tries:
 - Try 1 (15:57 UTC): **7/10.** 1672x941, plain resize to 3072x1728 (no align for a slab). Colour and bands right in shape: a few broad calm diagonal jade bands on deep bottle green, no rings, no brown, no glint. Misses: it reads as soft smoke or an aurora, not cut stone (detail 0.63, needs 1.17), and the green is too vivid (sat 0.98, range 0.35-0.90). Fix 1 (same chat), texture only: crisp fine malachite growth lines inside each band, sharp like a polished stone table top. Fix 2 will be the colour (more muted and aged). Raw kept as ENV_SLAB_EMERALD_P1_2X_T1_RAW.png.
 - Fix 1 (15:58 UTC): **8.5/10.** Texture took: crisp fine growth lines follow each broad band, bands and light unchanged; detail now passes. One miss: sat 0.97 (range 0.35-0.90), the green is still too vivid. Fix 2 (last in this chat), colour only: a touch more muted and aged, like a dark green glass bottle, everything else exactly as it is. Raw kept as ENV_SLAB_EMERALD_P1_2X_F1_RAW.png.
+- Fix 2 (16:00 UTC): **8.5/10, new chat.** Texture and bands held (detail 2.7, spread 64, luma 51), but sat only fell to 0.96 (needs 0.90 at most). The dark stone, two thirds of the picture, has no red at all (about RGB 2,52,28): a pure, intense green that a 'more muted' edit does not move. Two edits used, so try 2 starts a NEW chat from Image 1 and Image 2 with the prompt below: the fix 1 texture lines built in, and the dark tones named as greyed bottle green with hex values (#1A4A38 to #14302A). Raw kept as ENV_SLAB_EMERALD_P1_2X_F2_RAW.png.
+
+Try 2 prompt (new chat):
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
+
+Keep image 1 exactly the same size and framing. Repaint the whole surface as one new stone, seen straight on.
+
+The stone: crisp, real cut and polished malachite, sharp in focus like a close photograph of a polished stone table top. A few broad, calm, softly curving bands of lighter and darker green flow in gentle diagonals at different angles, each band smooth, continuous and unbroken; inside each broad band, a few fine crisp growth lines of slightly lighter and darker green follow the band's curve, the way real malachite is layered, with clean sharp edges. Nothing is blurred, smoky, misty or glowing anywhere.
+
+Colour: every green is muted and aged, a touch greyed, like an old dark green glass bottle held to candlelight, never vivid, neon, electric or saturated. The dark stone is a greyed deep bottle green (#1A4A38), falling to a soft greyed green near-black (#14302A) in the darkest tones, never a pure, intense green; the lighter bands are a soft mid jade (#5E9E74), never pale mint or white. It stays clearly green, never grey, olive, teal or brown.
+
+It is a flat, seamless material surface: the pattern continues off every edge, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. The bands stay few, broad and calm, never tight busy rings, zebra stripes or contour-map lines, and the surface is smooth, glassy polished stone with no scratches or crinkles. No objects, no reflections of objects, no text, no logos.
+
+Real stone as a mason would finish it, with clean sharp detail and no noise grain, no streaks, no repeating cells.
+
+Same 16:9 framing as the original, largest size available.
+```
+
 
