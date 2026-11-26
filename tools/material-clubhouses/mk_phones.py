@@ -32,8 +32,9 @@ X = {  # Ruby words that grew past batch 1's dictionary (R-6 to R-11 lessons)
  # the vault (E-5), and greys in the dark greens (E-11: a colour edit cannot add red to a pure dark green).
  "EMERALD": dict(
   light_rule="Emerald is deep bottle-green leather and polished malachite at night: rich like a dark green glass bottle held to candlelight, muted and aged, never mint, never lime, never teal.",
-  stone="polished malachite: deep green stone with a few broad, calm bands of lighter and darker green running straight up and down the full height of each pillar, parallel to its corners, never diagonal, slanted or spiral, with a soft, broad, dim satin sheen, never a small hot white spot",
-  counter="one plain, calm solid slab of polished malachite in the same deep green with a few broad calm bands, smooth and glassy, with no fine web of thin hairline lines, holding a soft dim reflection of the lamps",
+  stone="polished malachite: deep green stone with a few broad, calm bands of lighter and darker green running straight up and down the full height of each pillar, parallel to its corners, never diagonal, slanted or spiral, with a soft, broad, dim satin sheen, never a small hot white spot; solid hard stone, never fabric, satin cloth or curtains",
+  # E-11 and E-12 (26 Nov): without growth lines the stone came back as soft smoke; curtain-like pillars on E-12's second picture
+  counter="one plain, calm solid slab of crisp, real cut and polished malachite in the same deep, muted green with a few broad calm bands, and inside each band a few fine crisp growth lines that follow its curve, sharp in focus like a close photograph of a polished stone table top, never blurred, smoky or misty, holding a soft dim cream-gold reflection of the lamps, never yellow or olive",
   sample="bottle-green leather panels, near-black walnut frames, polished malachite",
   veins=("", ""),
   slabname="polished malachite", floorstone="dark polished green stone", on="on the green stone", trim="satin brass",
