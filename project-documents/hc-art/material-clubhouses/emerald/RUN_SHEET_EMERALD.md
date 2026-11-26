@@ -350,6 +350,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (15:23 UTC): **8.5/10**. Scale 0.999, 0.3 px, men 7.5; the framing lock held. Balls shelf, wall lamp, boots niche, door, paper bundle and the night pitch all right; leather smooth; counter calm malachite with a satin brass rail. One number misses: hue 0.48 (needs 0.50). The window view is 17% of the coloured pixels and sits outside the green band by design, but the walls themselves read olive (hue 50-90, a yellow-green leaning khaki, worst on the upper left panel in the lamp light) instead of bottle green (hue about 155). Fix 1 sent in the same chat: the leather colour only, a cooler bottle green.
 
 ### E-8 · Emerald Clubhouse: Players' tunnel
 - Image 1: [IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PLATE_HC_V3_2X.png)), 3072x1728
