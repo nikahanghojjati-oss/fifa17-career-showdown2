@@ -738,6 +738,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (17:07 UTC): **9/10, accepted on the first try.** Scale 1.003, 2.2 px, men 7.0. The full wall row survives: shelf with both balls, lamp on a straight-banded malachite pillar, narrow windows, wide window and the door, all with near-black walnut frames; bottle-green leather walls; the counter is calm muted-jade malachite with the lamp's warm reflection under the rail. Every check passes: sat 0.81, detail 2.46, spread 61, luma 33, brown 0.06, glint 0.7. Side by side: [ENV_COACHES_PHONE_EMERALD_P1.cmp.jpg](ENV_COACHES_PHONE_EMERALD_P1.cmp.jpg).
 
 ### E-19 · Emerald Clubhouse: Players' tunnel, phone
 - Image 1: [IMG1_ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)), 1179x2096
