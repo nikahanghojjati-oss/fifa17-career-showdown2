@@ -530,6 +530,8 @@ Tries:
 **Log (26 Nov):**
 - T1 (`ENV_SLAB_LAPIS_P1_2X_T1_RAW.png`): **7.5.** Plain resize (no align for a slab). Misses: thin white hairline cracks run across it; the drifts are parallel diagonal bands that read as brushed suede; the blue is a pure screen blue with no red at all (median RGB 0,35,126; sat 1.00, range 0.45-0.99) and darker than the rooms' lapis; detail 1.10 (needs 1.17). Texture and colour both missed, so try 2 starts a NEW chat (Emerald lesson: a 'more muted' edit does not move a pure hue). T2 names the tones with a trace of red (#1E52B0, #2A66CC, #152C6A), a crisp mineral grain, drifts at varied angles, and no cracks.
 
+- T2 (`ENV_SLAB_LAPIS_P1_2X_T2_RAW.png`): **8.** Cracks and suede bands gone, drifts calm at varied angles, detail now 2.77. Still pure blue (sat 0.993), but the locked rooms' own counter and floor stone measure the same (Club: RGB 0,18,98, sat 1.00), so the slab matches the approved lapis and SLAB gets a sat ceiling of 1.0. Miss: the fine grain reads as scribbled hair-like squiggles over a regular diagonal tick pattern, like felt or knurled metal. Fix F1 (same chat), grain only: irregular fine stone mottling, no lines or repeats.
+
 T2 prompt (new chat, same Image 1 and Image 2):
 
 ```
