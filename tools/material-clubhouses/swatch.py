@@ -44,8 +44,10 @@ def run(room):
 ANCHOR = {"BOARD": (1286, 52)}
 # Rooms whose desktop strip is full of objects (Office: lamp, olive tree, ball): Image 2 is built at native scale from a
 # plain leather wall patch over a plain marble desk patch, the desk edge at the phone's % (box in the 3072x1728 painting).
+# leather wall over the calmest counter stone, wherever the desktop strip holds objects (Hall: door and rug; Archive: shelves and plinth)
 COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40),
-           "HALL": ((1840, 314, 2080, 600), (480, 1585, 720, 1726), 67)}  # leather panel by the door, calm counter stone; the desktop strip holds a door and rug
+           "HALL": ((1840, 314, 2080, 600), (480, 1585, 720, 1726), 67),
+           "ARCHIVE": ((0, 0, 220, 760), (440, 1400, 660, 1600), 50)}
 
 
 def compose(p, name):
