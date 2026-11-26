@@ -74,7 +74,10 @@ def prompt(key, rm):
                   "at about 22% to 34% of the height and 38% to 56% of the width, with the steps up to it. This is the players' tunnel from image 1, not any other room: "
                   "add no windows, doors, shelves, balls, lamps or wall panels across the back, and the pitch is seen only through the far end of the tunnel.")
     if extra == "club":
-        frame += " The wide window runs across the top down to 42% of the height, and the panelled wall fills the rest down to the trophies and balls along the bottom edge."
+        # R-20 (26 Nov): measured on image 1; "across the top" invited a window from the top edge
+        frame += (" Positions stay where they are in image 1: the two wall lamps and the small pennants sit in a plain leather band across the top 17% of the picture; "
+                  "the wide window runs from 17% to 43% of the height, never up to the top edge; the panelled leather wall fills the rest down to the trophies and balls "
+                  "along the bottom edge. This room has no counter, no floor and no furniture in view: add none.")
     frame += " Change only the materials and finish of the room itself."
     menl = "Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.\n\n" if men else ""
     if rm == "LOADING":
@@ -124,6 +127,9 @@ def prompt(key, rm):
     elif rm == "LOADING":
         src = ("Light comes only from the same soft overhead glow as image 1 and the floodlit pitch at the end of the tunnel. The pitch light throws a soft warm glow onto the marble, "
                "the leather and the floor near the tunnel end; where it meets the steps and the gold edge strips it fades smoothly, with no hot bright line and no white highlight")
+    elif rm == "CLUB":
+        src = ("Light comes only from the two warm wall lamps in the same places and the floodlit stadium glow through the window. "
+               "Each lamp throws a soft warm pool onto the leather around it, and the trophies along the bottom catch a soft warm glint")
     else:
         src = (f"Light comes only from the same warm lamps in the same places{' and the floodlit stadium glow through the window' if win else ''}. "
                "Each lamp throws a soft warm pool onto the leather and marble around it, with soft warm reflections on the polished front of the counter")
