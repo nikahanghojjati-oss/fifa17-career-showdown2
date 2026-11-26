@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-25 9:27 PM Boston time (EST)",
+ "generated": "2026-11-25 9:36 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 587,
+  "count": 589,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5286,6 +5286,24 @@
     "subject": "Sign-in lounge 6/8: Platinum Clubhouse, phone upright",
     "reply": "no",
     "boston": "Wed 25 Nov 9:27 PM"
+   },
+   {
+    "time": "2026-11-26 02:31",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-180 DONE",
+    "subject": "Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright",
+    "reply": "no",
+    "boston": "Wed 25 Nov 9:31 PM"
+   },
+   {
+    "time": "2026-11-26 02:36",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-181 DONE",
+    "subject": "Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright",
+    "reply": "no",
+    "boston": "Wed 25 Nov 9:36 PM"
    }
   ],
   "g2v": {
@@ -5306,8 +5324,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "2c1af270",
-  "head_boston": "Wed 25 Nov 9:27 PM",
+  "head": "344bae6",
+  "head_boston": "Wed 25 Nov 9:36 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5335,7 +5353,7 @@
  },
  "two": {
   "live": {
-   "sha": "7dc0d48e",
+   "sha": "7dc0d48",
    "revision": "2.12.0-r99",
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
@@ -5343,8 +5361,8 @@
    "today": []
   },
   "physio": {
-   "state": "clear",
-   "line": "All clear: every check has a machine.",
+   "state": "barking",
+   "line": "Barking: Showdown Gate on #1629 has waited 1 min for a machine.",
    "gate": "POS20 #304 6/16",
    "source": "physio"
   },
@@ -6131,7 +6149,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 25883
+    "waiting_min": 25892
    },
    {
     "id": "HO-059",
@@ -7711,8 +7729,8 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-180_sign-in-lounge-7-8-metallic-black-clubho.md",
     "worker": "images",
@@ -7724,8 +7742,8 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-181_sign-in-lounge-8-8-premium-matte-black-c.md",
     "worker": "images",
@@ -7802,7 +7820,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 45,
+  "moving": 43,
   "next": 42,
   "nik": 2,
   "later": 21,

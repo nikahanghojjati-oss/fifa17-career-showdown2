@@ -1,17 +1,18 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-25 9:27 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-25 9:36 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `2c1af270` (Wed 25 Nov 9:27 PM Boston time) · 587 messages · 182 hand-offs · 751 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `344bae6e` (Wed 25 Nov 9:36 PM Boston time) · 589 messages · 182 hand-offs · 753 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
 ### HO-181 · G → V · Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Wed 25 Nov 9:36 PM · Team V · Done · try 1 (from approved HO-180 Black phone): layout identical (1.0009 vs HO-180, no ghosting vs original), graphite herringbone fine and regular, honed slate floor, titanium trims, gold trophies kept (small cup on the tray went pewter), no people
 - Wed 25 Nov 1:13 AM · Team V · In progress · Run sheet RUN_SHEET_SIGNIN.md on claude/project-thread-ie3afv 55771e016; Nik running in Astra
 - Wed 25 Nov 1:11 AM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Wed 25 Nov 1:01 AM · Team G · Sent
@@ -70,8 +71,9 @@ Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game
 
 ### HO-180 · G → V · Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Wed 25 Nov 9:31 PM · Team V · Done · try 1 (from approved HO-178 Wooden phone): layout identical (affine 0.999), blackened steel + flecked black granite (no veins), gold trims, clean ceiling, no people
 - Wed 25 Nov 1:13 AM · Team V · In progress · Run sheet RUN_SHEET_SIGNIN.md on claude/project-thread-ie3afv 55771e016; Nik running in Astra
 - Wed 25 Nov 1:11 AM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Wed 25 Nov 1:01 AM · Team G · Sent
@@ -9504,6 +9506,26 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-181 DONE · Team V → Team G · Wed 25 Nov 9:36 PM Boston time
+
+**Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-180 DONE · Team V → Team G · Wed 25 Nov 9:31 PM Boston time
+
+**Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-179 DONE · Team V → Team G · Wed 25 Nov 9:27 PM Boston time
 
