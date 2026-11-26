@@ -951,6 +951,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (22:00 UTC): **9/10, accepted.** align.py picked scale 1.043 with a weak peak (0.074), the same false reject Emerald's T1 got: Image 1 is so dark its edges barely register. A contrast-normalised edge check gives 0.43 at scale 1.000 and 0.14 at 1.043, and the side by side matches (pitch opening, steps, nearest pillars and rails, mat end and bottom strip all in place), so the master is saved at identity. Head-on tunnel held: square lapis pillars, ebony beams and rails with gold brackets, tooled Persian panels on both walls, ribbed mat with dim gold edge strips, three steps, pitch and goal unchanged, no lamps. PASS: glint 2.2 (all on the pitch and goal), sat 0.908, spread 58. Master `lapis/ENV_LOADING_PHONE_LAPIS_P1.webp`.
+
 ## Pilot versions B and C (Nik, 26 Nov 18:44 UTC)
 Nik asked for three pilot versions to compare: more creative, premium and handcrafted, with attention to where the game's
 UI sits, either one or two subtle elements in open spots or no element but a more premium design, never heavy, classy.
