@@ -852,6 +852,14 @@ Keep this image exactly the same: the same framing, size and shape, and every sh
 Everything else stays exactly as it is.
 ```
 
+Try 2 fix 2 prompt:
+
+```
+Keep this image exactly the same: the same camera, framing, size and shape, every object in the same place, every colour and the same light. Change only one thing: the thin light lines along the top of the tall recess behind the plant, down its left edge and along the ceiling above it become a dim soft satin glow, about half their present brightness, a warm satin brass line, never a bright white or hot yellow line.
+
+Everything else stays exactly as it is: the bottle-green walls, sofa and armchair, the malachite pillar and floor, the rug, the shelves with the gold trophies and books, the plant, the window with the night city, the coffee table, the ceiling and the round front table.
+```
+
 Try 2 prompt:
 
 ```
@@ -1108,6 +1116,8 @@ Tries:
 - Try 2 (new chat, Image 1 only): adds an edge lock (the same cut at all four edges).
 - Try 2 result (26 Nov): 8/10. Framing now holds (align scale 0.998, shift +1.9 px, OK). But the sofa, recess walls and shelf backs came back olive (median hue 78-95; whole-room hue 0.30, needs 0.50) and glint is 3.7 (needs 3.0) from the brass table base and floor streaks. Raw kept as ENV_SIGNIN_PHONE_EMERALD_P1_T2_RAW.png.
 - Try 2 fix 1 (same chat): colour-only edit to bottle green at the same brightness, plus dimmer brass and floor streaks.
+- Try 2 fix 1 result (26 Nov): 8.5/10. Colour fixed (hue 0.73, brown 0.14), framing OK (scale 0.998), but glint 3.6 (needs 3.0): nearly all of it is the thin light line along the top of the recess and down its left edge. Raw kept as ENV_SIGNIN_PHONE_EMERALD_P1_T2_F1_RAW.png.
+- Try 2 fix 2 (same chat): dims only those light lines.
 
 Try 2 fix 1 prompt:
 
