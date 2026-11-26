@@ -53,8 +53,11 @@ COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40),
            # Coaches: the centre cut was four tall windows and a thick bright vein; a leather wall patch (left wall, under the shelf) over calm stone
            "COACHES": ((420, 470, 620, 609), (1180, 1310, 1380, 1527), 39),
            # Tunnel: the centre cut was the whole tunnel and floor mat, which Astra would copy; its counter strip is too short, so the stone comes from the Coaches painting
-           "TUNNEL": ((145, 322, 345, 500), (1180, 1310, 1380, 1488), 50)}
-STONE_FROM = {"TUNNEL": "COACHES"}
+           "TUNNEL": ((145, 322, 345, 500), (1180, 1310, 1380, 1488), 50),
+           # Home (E-12, 26 Nov): the widest mask-free column of the Emerald Home painting holds armchairs, a lamp and a blanket, which Astra copies;
+           # plain upper wall over the Office desk stone (the Home counter strip is too short for the phone's 50%)
+           "HOME": ((100, 300, 300, 540), (700, 1180, 900, 1400), 50)}
+STONE_FROM = {"TUNNEL": "COACHES", "HOME": "OFFICE"}
 # R-20 (26 Nov): the Club materials strip held a window band, a floor with a vein and an armchair edge, none of which the Club phone
 # has; IMG2_REF_CLUB_MAT_<LOOK>_SWATCH.png is now one stitched leather wall panel cut from the accepted desktop painting at this box (9:16).
 MAT_BOX = {"CLUB_MAT": ("CLUB", (600, 578, 850, 1022))}  # room whose accepted desktop painting gives the stone patch
@@ -96,7 +99,7 @@ def main():
             a, b = run(room); cuts[room] = p.crop((a, 0, b, 1728))
     for name, im in cuts.items():
         im.save(f"{out}REF_{name}_{LOOK}_SWATCH.webp", quality=90)
-        im2 = compose(Image.open(f"{out}ENV_{name}_PLATE_{LOOK}_P1_2X.webp").convert("RGB"), name, Image.open(f"{out}ENV_{STONE_FROM[name]}_PLATE_{LOOK}_P1_2X.webp").convert("RGB") if name in STONE_FROM else None) if name in COMPOSE else fit916(im, name); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
+        im2 = compose(Image.open(f"{out}ENV_{name}_PLATE_{LOOK}_P1_2X.webp").convert("RGB"), name, Image.open(f"{out}ENV_{STONE_FROM[name]}_PLATE_{LOOK}_P1_2X.webp").convert("RGB") if name in STONE_FROM else None) if name in COMPOSE else (Image.open(f"{out}ENV_{MAT_BOX[name][0]}_PLATE_{LOOK}_P1_2X.webp").convert("RGB").crop(MAT_BOX[name][1]) if name in MAT_BOX else fit916(im, name)); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
         print("swatch", name, im.size, "image 2", im2.size)
     for room in ROOMS:
         f = PHONE[room]; n = "IMG1_" + os.path.basename(f).replace(".webp", ".png")
