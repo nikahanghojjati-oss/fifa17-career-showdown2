@@ -22,7 +22,8 @@
 //   R8 BACK cannot be clicked after it is scrolled into view (the bar, or anything else, holds the point at its centre).
 // Usage: node tests/browser/season-results-reach-audit.cjs
 //   CMS_BASE_URL (default http://127.0.0.1:4173/), CMS_REACH_SIZES="1100x340,901x520" (overrides the grid),
-//   CMS_REACH_CLUBHOUSES="wooden,silver" (default all four).
+//   CMS_REACH_CLUBHOUSES="wooden,silver" (default all five). Each clubhouse takes about 70 s in CI, so test:browser runs the audit
+//   in two clubhouse groups to keep each run inside the 5-minute limit per FULL browser audit; a new clubhouse joins a group or a new one.
 process.env.CMS_CHROMIUM_MULTI_CONTEXT = process.env.CMS_CHROMIUM_MULTI_CONTEXT || "1";
 const { chromium } = require("playwright");
 const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
