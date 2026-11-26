@@ -1062,6 +1062,21 @@ Same wide 2.16:1 framing as image 1, nothing cropped or extended at any edge, la
 
 Tries:
 
+- T1 (Nov 26 22:12 UTC): 8.5/10. Layout locked (align scale 1.001, peak 0.199 OK); tooled Persian leather walls and band, ebony window frames, lapis-leather armchairs, honed lapis floor and strip, trophy, ball and pennant all right; CLUBSIDE hue 0.832, sat 0.900, brown 0.107, spread 85 all pass. MISS glint 10.3 (needs 8.0): about 340 of 765 points are one bright line along the gold rail of the counter strip at 91%, about 270 are glossy highlights on the two armchairs, the rest lamp glow on the top band and the trophy. Raw kept as ENV_CLUB_SIDEWAYS_LAPIS_P1_T1_RAW.png.
+- T1 fix 1 (same chat): dim the rail to a satin line; armchairs to a soft broad satin sheen.
+
+T1 fix 1 prompt:
+
+```
+Keep this image exactly the same: the same camera, framing, size and shape, every object in the same place, every colour and the same light. Change only these two things:
+
+1. The thin gold rail along the top of the blue stone strip at the bottom of the picture becomes a dim soft satin gold line, about half its present brightness, with no bright shine and no white highlight anywhere along it.
+
+2. The two lapis-blue leather armchairs keep exactly their shape, size, colour and place, but their shine becomes a soft broad satin sheen, never bright white highlights or glossy hot spots, so they read as soft hand-stitched leather.
+
+Everything else stays exactly as it is: the tooled Persian lapis-blue leather walls and top band, the two wall lamps, the window with the night stadium, the low table, the pennant, the gold trophy and the ball, the blue stone floor and the blue stone strip.
+```
+
 ## Batch 4: Sign-in lounge (Lapis 25-26)
 
 ### L-25 · Lapis Clubhouse: Sign-in lounge, desktop
