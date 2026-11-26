@@ -28,7 +28,7 @@ This runs in its OWN Duet channel, separate from P3 (material clubhouses). Never
 - **Repo:** nikahanghojjati-oss/fifa17-career-showdown2. **Base branch:** `gameplay/r100`. Your branches start `claude-duet/p4-faces-`.
 - **You (Duet):** you study, write the prompts, score and redo the pictures, cut, lock and deliver the files, wire them, run the checks, build the board and open PRs into `gameplay/r100`. You never merge.
 - **The r100 lead** (Team G lead: r100 (2)) merges and answers priority and merge questions. **B7** ("Make the clubhouses premium") owns the clubhouse pipeline (paint.py, masks, PREMIUM_FILES.json) and answers how it was done. Both reach you only through the mailbox.
-- **Nik** runs every picture prompt in ChatGPT and sends the result back. He picks which fixes to do from your study board, and says OK or not on each fixed picture.
+- **Nik** runs every picture prompt in ChatGPT and sends the result back. He picks which fixes to do from your study board, picks one option (A, B or C) per fix, and says OK or not on each fixed picture.
 - **Mailbox:** `r100-duet/DUET_P4_MAILBOX.md` on this branch (same rules as P1/P3: Q-n, FLAG and REPORT under "To desk", the desk answers A-n/N-n under "To Duet"). Nik types "check desk" in your channel and "check Duet" in the desk thread "Relay Duet questions and prompts".
 
 ## Read first
@@ -59,7 +59,8 @@ This runs in its OWN Duet channel, separate from P3 (material clubhouses). Never
 7. **Nik's pick (NIK).** Send Nik the study board with the "Study OK ask" below. He answers with the ids to fix and the order, or "all". Write no picture tickets before this.
 
 ## Phase 2: fixing, one picture at a time
-1. **Ticket** [you]: one ticket per asset, in `r100-duet/p4/RUN_SHEET_FACES.md`, Team V prompt order. Image 1 is the source picture to fix. Image 2 is the Home anchor face crop, only when likeness is the problem. The prompt keeps everything outside the hero exactly as it is, keeps the outline the same or slightly bigger, and names the one change (for example "make his face slimmer inside the same head outline: narrower jaw and cheeks, the same neck width and collar").
+0. **Options, not one answer (Nik 2026-11-26 04:10 UTC):** for EVERY face change, write 2-3 DIFFERENT prompts (options A, B, C), each a real alternative approach and not a rewording. For example: A edits only the face inside the outline, B redraws head and hair together, C uses the Home anchor crop as Image 2 with a stronger likeness lock. Each option is its own ticket and runs in its own new chat. Score every result. Show the passing ones side by side with the Home anchor on the board, and let Nik choose ("Options ask" below). Only Nik's chosen option is wired. A redo of a chosen option keeps that option's wording.
+1. **Ticket** [you]: one ticket per asset per option, in `r100-duet/p4/RUN_SHEET_FACES.md`, Team V prompt order. Image 1 is the source picture to fix. Image 2 is the Home anchor face crop, only when likeness is the problem. The prompt keeps everything outside the hero exactly as it is, keeps the outline the same or slightly bigger, and names the one change (for example "make his face slimmer inside the same head outline: narrower jaw and cheeks, the same neck width and collar").
 2. **Run it** [NIK]: new chat per ticket, attach the files, paste the box, send you the picture.
 3. **Take it in** [you]: commit it untouched as `<ASSET_ID>_RAW.png`, align it, run the likeness lock, then run the **never-slimmer check** (rule 1) and score it against the anchor (pass 9/10; Nik: "try until reach 9 always"). Below 9, write ONE fix in the same chat, or a new-chat ticket, per Team V's redo loop. Never accept under 9, and never accept a picture that fails the never-slimmer check.
 4. **Room heroes:** fix on the Wooden master, re-run the build for every clubhouse, and check every clubhouse's light (rule 5).
@@ -72,7 +73,7 @@ This runs in its OWN Duet channel, separate from P3 (material clubhouses). Never
 
 ## Message templates for Nik (use them word for word in shape)
 **Study OK ask:** `Hero face study is ready: <board link>. I found N problems; the worst are F-1 <one line>, F-2 <one line>, F-3 <one line>. Reply with the ids to fix in order, or "all".`
-**Picture ask** (one block per ticket):
+**Picture ask** (one block per ticket; label each option, e.g. `F-1 option A`):
 ```
 F-1 Legacy, Nik desktop. New chat: ChatGPT Work mode, Astra 6, Extra High.
 Attach Image 1: <blob link>  (Image 2: <blob link> or "none")
@@ -80,6 +81,7 @@ Paste the box below exactly. If ChatGPT offers a rewrite, reply: No, use my prom
 Send me the picture here. It saves as <ASSET_ID>.
 <prompt in its own copy box>
 ```
+**Options ask:** `F-1 has 3 options, all at 9/10 or above: A <one line>, B <one line>, C <one line>. Side by side with Home: <link>. Reply A, B or C, or tell me what to change.`
 **Score line:** `F-1: 8.5/10. Face shape right, beard edge soft on the left. One fix below.` or `F-1: 9.5/10, outline check passed. Accepted.`
 **Fix ask:** `F-1 fix 1. Same chat, paste this:` followed by the one-line fix in a copy box.
 **Fix OK ask:** `F-1 is fixed and wired. Before and after: <link>. OK to ship it? Reply OK, or name what to change.`
