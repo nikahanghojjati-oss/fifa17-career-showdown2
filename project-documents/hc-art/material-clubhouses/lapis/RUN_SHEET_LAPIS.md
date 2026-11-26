@@ -323,6 +323,9 @@ Change only one thing: the colour of the tooled Persian pattern. Right now its l
 Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
 
+- T3 (19:46 UTC, `ENV_BOARD_PLATE_LAPIS_P1F_2X_T3_RAW.png`, first of two Nik sent): 8.5. Deep tone-on-tone tooling and flowered borders on every panel, but the gold rays nearly vanished and the pattern reads quiet, not the dominant rug Nik asked for. Men diff 10.2; sat 0.988, luma 22.6, glint 26.3.
+- T4 (19:46 UTC, `ENV_BOARD_PLATE_LAPIS_P1F_2X_T4_RAW.png`, second picture, the F2b recolour): **9/10 by eye, Board master candidate.** The Persian rug design is dominant and reads as rich embossed lapis tooling, not print; gold rays clear; carpet borders on every panel; men and stone untouched. Men diff 10.5; sat 0.988, luma 24.9, glint 40.1 (bright tooling edges + gold rays; the check's glint and sat limits are provisional and get recalibrated on this approved pilot). Screen check (`p3-lapis/mocks/lapis_board_persian_rug_T4_with_ui.jpg`): the SEASON RESULTS title sits over busy bright pattern. Proposed fix in code, Lapis only: a soft dark shadow behind the title text (mock `lapis_board_persian_rug_T4_title_shadow.jpg`), so the art stays whole. Waits on Nik's OK.
+
 ### L-1G · Lapis Board: Persian architecture arch with girih lattice (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
 
 Nik, 19:33 UTC: "Persian rug / Persian ancient architecture / Any ither neat design". Run beside L-1F (rug) and judge both under the real screen. The arch frames the title; the girih sits mostly behind the score box. Saves as `ENV_BOARD_PLATE_LAPIS_P1G_2X_T1_RAW.png`.
