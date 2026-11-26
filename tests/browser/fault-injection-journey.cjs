@@ -511,6 +511,11 @@ async function hitAfterTap(kind,P,i,rec){
 // The fault on phone X. tap(page) is the write tapped on X (null when the other phone writes, then `other` runs during the fault).
 const ONLY=(process.env.FIJ_ONLY||"").split(",").filter(Boolean);
 let swapBeforeLand=false;
+// The points whose write is a transaction commit from the writer's phone (lostreply must drop its answer there). Pinned from a
+// lostreply run with FIJ_LOSTREPLY_PROBE=1 (seed 43, 3 seasons, epilogue: every point's dropped-answer count printed, 2026-11-25).
+// Not listed: league-ball, chamber-kick, continue-s2 (plain writes or none from that phone) and the Prime Pack points, whose
+// write depends on the round's stage when the seed's fault lands.
+const LOSTREPLY_TXN=new Set(process.env.FIJ_LOSTREPLY_PROBE==="1"?[]:["setup-confirm","career-start","spin-mark","tw-guess","tw-lock","tw-verdict","season-results","season-commit","season-ack","spin-mark-s2","terminal-close","home-join","end-showdown","sacked","unpair"]);
 const W3_TAPS=new Set(["career-start","tw-guess","tw-lock","season-results","season-commit","season-ack"]);
 const TAPKILL_WRITE=/^(CONFIRM MY RESULT|LOCK & CONFIRM SEASON|CONFIRM SEASON|I STARTED AT|LOCK MY GUESSES|LOCK MY SIGNINGS|CONFIRM|PUBLISH)/i;
 const TAPKILL_NAV=/^(SIGN IN WITH GOOGLE|SIGN IN|CONTINUE SHOWDOWN|CONTINUE CAREER|CONTINUE REPLAY|VIEW TRANSFER VERDICTS|ENTER SEASON RESULTS|VIEW MY CONFIRMED RESULT|VIEW SEASON RESULTS|CONTINUE TO SEASON RESULTS|OPEN TRANSFER WAR|ENTER GUESSES|ENTER SIGNINGS|VIEW FINAL RESULT|CONTINUE)/i;
@@ -635,7 +640,9 @@ async function inject(ctx,X,tap,other,rec){
       // follow-up commit, if any.
       try{await runTap(X.page);if(!tap)await runOther();const until=Date.now()+15000;while(!hits&&Date.now()<until)await sleep(250);}
       finally{await X.context.unroute(COMMIT_RE,drop).catch(()=>{});}
+      if(process.env.FIJ_LOSTREPLY_PROBE==="1")console.log(`LOSTREPLY_PROBE ${rec.point} writer=${X.user} hits=${hits}`);
       rec.detail=hits?"the commit landed, its answer was lost":"no transaction commit from this phone in 15 s (plain write)";
+      Object.defineProperty(rec,"lostReplyHits",{configurable:true,writable:true,enumerable:false,value:hits});
       if(tap)await runOther();break;
     }
     case "listener":{
@@ -692,7 +699,9 @@ const readsOf=(events,user)=>events.filter(e=>e.k==="read"&&(!user||e.user===use
 async function writePoint(ctx,point,{writer,tap,ready,prep=null,other=null,settle,checks,landed=null}){
   pointNow=point;
   // tapkill proves W3 tap memory on the phone that writes, so at a W3 point it always faults the writer (any seed, any phone mode).
-  const X=FAULT==="tapkill"&&writer&&W3_TAPS.has(point)?writer:faultPhone(ctx),rec={point,phone:X.user,writer:writer?writer.user:"auto",fault:FAULT,pass:false,checks:[],detail:""};
+  // lostreply drops the answer of the writer's own commit, so it always faults the phone that waits on that answer (Codex on
+  // #1579: with the alternating phone, an odd seed faulted the follower at season-commit and season-ack, and nothing was tested).
+  const X=writer&&(FAULT==="tapkill"&&W3_TAPS.has(point)||FAULT==="lostreply")?writer:faultPhone(ctx),rec={point,phone:X.user,writer:writer?writer.user:"auto",fault:FAULT,pass:false,checks:[],detail:""};
   Object.defineProperty(rec,"landed",{value:landed,enumerable:false});
   console.log(`POINT ${point}: ${FAULT} on ${X.user}${writer?` (writer ${writer.user})`:""}`);
   const startIdx=meter.events.length,started=Date.now();X.swapSeen=[];
@@ -709,6 +718,13 @@ async function writePoint(ctx,point,{writer,tap,ready,prep=null,other=null,settl
       await inject(ctx,X,null,async()=>{try{await tap(writer.page);}catch(e){rec.tapBlocked=String(e.message).split("\n")[0].slice(0,160);}},rec);
     }else if(writer){await inject(ctx,X,tapFn,other,rec);}
     else{await inject(ctx,X,null,other,rec);}
+    // lostreply proves nothing on the follower: the fault must sit on the writer, and at a point whose write is a transaction
+    // commit the dropped answer must have happened (LOSTREPLY_TXN, measured on the fault-free journey).
+    // FIJ_ONLY replays fault only the listed points; the others run fault-free, so neither check applies there (Codex on #1627).
+    if(FAULT==="lostreply"&&writer&&(!ONLY.length||ONLY.includes(point))){
+      await check(X,"lostreply.onWriter",X===writer,`the lost reply was injected on ${X.user}, but ${writer.user} writes ${point}`);
+      if(LOSTREPLY_TXN.has(point))await check(X,"lostreply.dropped",rec.lostReplyHits>0,`${point} is a transaction commit, but no commit answer from ${X.user} was dropped (${rec.detail})`);
+    }
     if(FAULT==="tapkill"&&rec.tapMemory)await check(X,"tapmemory.noRetap",rec.tapMemory.landedWithoutRetap||rec.tapMemory.landedBeforeKill===true,`the held ${point} tap did not land by itself after the tab was killed (navigation ${JSON.stringify(rec.tapMemory.navTaps)})`);
     // Both phones take their path forward and settle on the step's next state (re-tapping the write if it never landed). A
     // second tab (twotabs) settles at the same time: its next state can need the rival's move (B2 on #1579: league-ball).
@@ -1108,7 +1124,17 @@ async function main(){
     // a tab that went back into the Showdown goes Home, then Settings again, and the button is tapped again every 8 s until the
     // database shows it landed.
     const settingsActor=(m,{done,button})=>{let last=0;const taps=async p=>{
-      if(await done()){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
+      // Landed: close Settings, or (a fresh device after a swap opens on the closed Showdown's Champion screen) go Home the way
+      // a player does, with the screen's own BACK TO SHOWDOWN HOME (swap seed 1522882020 at unpair, #1626/#1628). Only from the
+      // Champion screen, and noted: any other screen after the write landed is left to fail the point (Verify on #1629).
+      if(await done()){
+        if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";
+        if(await signedIn(p,m)&&await finalShown(p)&&await backHome({...m,page:p})){
+          const note=`${pointNow}: ${m.user} went Home from the closed Showdown's Champion screen after the write landed (fresh device)`;if(!report.notes.includes(note))report.notes.push(note);
+          return "back-home";
+        }
+        return "";
+      }
       if(!(await signedIn(p,m))){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
       if(await settingsOpen(p)){if(Date.now()-last>8000&&await clickIf(p,button(p))){last=Date.now();return "settings-again";}return "partner-wait";}
       if(await visible(p,"#mainMenu")&&await openSettingsOn(p))return "open-settings";
