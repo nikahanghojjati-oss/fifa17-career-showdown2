@@ -146,6 +146,8 @@ Change only one thing: the two tall stone pillars beside the window (the one bet
 Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
 
+- T2 (19:56 UTC, `ENV_HOME_PLATE_LAPIS_P1D_2X_T2_RAW.png`): **9/10, Home master candidate.** Men diff 7.5; sat 0.977 (provisional), luma 25.6, glint 6.5. The pillars are now calm, deeper honed lapis with a fine centre joint, no grain; a faint diagonal satin sheen across the stone reads as lamp light, not suede, at screen size. Everything else unchanged. Screen check: `p3-lapis/mocks/lapis_home_T2_with_ui.jpg`. Pilot (Board P1F T4 + Home P1D T2) goes to Nik for his OK; then the check limits get recalibrated on these two.
+
 ### L-2 · Lapis pilot 2/2: Home
 
 - Image 1: [ENV_HOME_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/0aa05806fb302c8cffa40e4413d7c632fa8cb98a/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HOME_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/0aa05806fb302c8cffa40e4413d7c632fa8cb98a/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HOME_PLATE_HC_V3_2X.png))
