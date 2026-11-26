@@ -367,11 +367,13 @@ async function retryTap(m,page=m.page){
   // Pack could not load. Check the connection and tap again.", and its gold CONTINUE TO THE TRANSFER WAR opens the Prime Pack
   // again. A player taps it once the connection is back (lead, #1579 network seed 4181106201). Only with the connection back,
   // only with that line showing, so it never hides a phone that is really stuck; every one is logged as a retry tap.
+  // Phoenix B2 (#1626): the phone now tries again by itself when the connection returns and the button reads CONTINUE TO THE
+  // PRIME PACK while it is next; at spin-mark under the network fault any such tap fails prime.noTap.
   {const card=page.locator("#productionSharedCareerStartOverlay");
     if(await card.isVisible().catch(()=>false)&&/Prime Pack could not load/i.test(await card.innerText().catch(()=>""))&&await page.evaluate(()=>navigator.onLine).catch(()=>false)){
-      const cont=card.locator("button:visible").filter({hasText:/^\s*CONTINUE TO THE TRANSFER WAR\s*$/}).first();
+      const cont=card.locator("button:visible").filter({hasText:/^\s*CONTINUE TO THE (PRIME PACK|TRANSFER WAR)\s*$/}).first();
       if(await clickIf(page,cont)){
-        console.log(`--- ${new Date().toISOString().slice(11,23)} ${m.user} [${pointNow}] retry tap: Career Start CONTINUE TO THE TRANSFER WAR after "Prime Pack could not load"`);
+        console.log(`--- ${new Date().toISOString().slice(11,23)} ${m.user} [${pointNow}] retry tap: Career Start CONTINUE after "Prime Pack could not load"`);
         const note=`${pointNow}: ${m.user} retry tap on Career Start (Prime Pack could not load)`;if(!report.notes.includes(note))report.notes.push(note);
         return "retry:prime-pack";
       }
@@ -829,6 +831,9 @@ async function fillCombo(page,id,value,timeout){await page.locator(`#${id}`).fil
 const tcState=page=>page.evaluate(()=>window.CareerModeProductionSharedTransferChallenge?.getState?.()||null).catch(()=>null);
 const onTransfer=async page=>await visible(page,"#transferChallenge")&&!(await page.locator("#sqStage, #rrStage, #rrStepPanel, #igStage, #igStepPanel").count());
 const atPrime=async page=>await visible(page,"#igStage")||await visible(page,"#igStepPanel");
+// Phoenix B2: the Prime Pack itself (or its waiting card), not its "could not load" card: after a network cut the phone gets
+// there by itself.
+const primeLoaded=async page=>await visible(page,"#igStage")||await visible(page,"#igStepPanel")&&!/could not load/i.test(await page.locator("#igStepPanel").innerText().catch(()=>""));
 const primeState=async page=>{const f=page.frames().find(fr=>/\/icon-guess\//.test(fr.url()));return f?await f.evaluate(()=>window.__ig?.state?.()||null).catch(()=>null):null;};
 const transferPhase=page=>page.evaluate(()=>document.getElementById("transferChallenge")?.dataset.transferPhase||"").catch(()=>"");
 const seasonIs=(page,k,total)=>page.evaluate(v=>document.getElementById("seasonIndicator")?.textContent===v,`Season ${k} / ${total}`).catch(()=>false);
@@ -921,8 +926,11 @@ async function main(){
       const X=faultPhone(ctx),first=X===daniel?nik:daniel;
       await playChamberMenBoth(ctx,season);
       await playRouletteToEnd(first,season);
+      // Phoenix B2 (B1's network leg, seed 4181106201): a Prime Pack cut by the network is tried again by the phone itself once the
+      // connection is back; a tap on Career Start's CONTINUE / REFRESH or the dashboard's button here would hide that, so they are counted.
+      if(FAULT==="network")await X.page.evaluate(()=>{window.__fijPrimeRetryTaps=[];document.addEventListener("click",e=>{const b=e.target&&e.target.closest&&e.target.closest("button");if(!b)return;const t=(b.textContent||"").trim();if(b.id==="seasonPrimaryAction"||/^CONTINUE TO THE (PRIME PACK|TRANSFER WAR)$/.test(t)||t==="REFRESH"&&b.closest("#productionSharedCareerStartOverlay")||t==="TRY AGAIN"&&b.closest("#igStepPanel"))window.__fijPrimeRetryTaps.push(b.id||t);},true);}).catch(()=>{});
       await writePoint(ctx,point,{writer:X,landed:async()=>{const t=docData(await admin(R(`transferChallenges/season_${season}`)));return Boolean(t&&(t.phase&&t.phase!=="NOT_STARTED"||t.spins&&t.spins[ROLE[X.account]]));},ready:async page=>await rouletteFinalTapReady(page),tap:async page=>{await page.locator("#rrStepPanel .rrStepPrimary").click({timeout:10000});markRouletteFinished(X,season,true);},
-        settle:(m,page)=>drive(m,async p=>await atPrime(p)||await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} Prime Pack or transfer window with both marks`}),
+        settle:(m,page)=>drive(m,async p=>(FAULT==="network"&&m===X?await primeLoaded(p):await atPrime(p))||await onTransfer(p)&&await spunBoth(p),{page,label:`season ${season} Prime Pack or transfer window with both marks`}),
         checks:async(check)=>{
           const t=docData(await admin(R(`transferChallenges/season_${season}`)));
           await check(null,"db.spinMarks",Boolean(t),`transferChallenges/season_${season} ${JSON.stringify(t).slice(0,300)}`);
@@ -930,6 +938,8 @@ async function main(){
           const start=await daniel.page.evaluate(()=>{const b=document.getElementById("startTransferTimer");return b?{text:b.textContent,disabled:b.disabled,hidden:b.classList.contains("hidden")}:null;});
           // With the Prime Pack the phones stop at its round (the next point): START is checked after it, in primePoint.
           if(!await atPrime(daniel.page))await check(daniel,"start.enabled",start&&!start.disabled&&!start.hidden,`Daniel's START: ${JSON.stringify(start)}`);
+          // Phoenix B2: the cut phone reached its Prime Pack (or went past it) with no tap on a retry button.
+          if(FAULT==="network"){const taps=await X.page.evaluate(()=>window.__fijPrimeRetryTaps||null).catch(()=>null);await check(X,"prime.noTap",Array.isArray(taps)&&taps.length===0,`${X.user} needed ${JSON.stringify(taps)} to reach the Prime Pack after the network came back`);}
         }});
     };
     await chamberKickPoint(ctx,R,1);
