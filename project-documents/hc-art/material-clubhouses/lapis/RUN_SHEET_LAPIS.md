@@ -293,6 +293,22 @@ Change only one thing: how strongly the tooled Persian pattern shows. Right now 
 Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
 
+- T2 (F1, 19:37 UTC, `ENV_BOARD_PLATE_LAPIS_P1F_2X_T2_RAW.png`): 8.5. Tone-on-tone now and the title reads cleanly under the real screen, but it overshot: the vines and the flowered border faded almost into the leather, so the Persian handwork no longer shows from normal distance. Men diff 10.1; sat 0.988, luma 24.1, glint 21.9 (gold hairlines; provisional limits). Mock: `p3-lapis/mocks/lapis_board_persian_rug_T1_vs_T2_with_ui.jpg`.
+
+Nik, 19:36 UTC: "We're gonna go with Persian rug on lapis to the best, and Persian rug gonna be the perfection, and then Persian architect, not Islamic architect ... gonna be a great idea for one of the remaining one". So L-1F is the Lapis direction; L-1H (Persepolis) is parked for a later clubhouse.
+
+L-1F F2 (Image 1 = T2; edit 2 of 2 if in the same chat), saves as `ENV_BOARD_PLATE_LAPIS_P1F_2X_T3_RAW.png`. One change: the tooling about twice as clear as T2, as embossed grooves with a lighter blue edge, still tone-on-tone; the top third stays soft for the title.
+
+```
+Image 1 is the picture to edit. Use only image 1.
+
+Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same Persian design, its shapes and its placement, the lamp, door, stone, gold lines, leather colour and light.
+
+Change only one thing: how clearly the hand-tooled Persian pattern reads. Right now it has faded almost into the leather. Make every tooled vine, palmette flower and leaf, and the narrow flowered carpet border just inside each panel frame, about twice as clear as now: pressed deeper into the leather, so each line has a soft darker groove with a gentle lighter blue edge where the lamp light catches the raised leather beside it, like fine embossed tooling on an antique leather-bound book. It stays tone-on-tone lapis blue, never pale silver, grey-white or gold. The upper third of the middle panel stays as soft as it is now, so a title placed there stays easy to read. Keep exactly the present brightness and colour of the leather.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
 ### L-1G · Lapis Board: Persian architecture arch with girih lattice (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
 
 Nik, 19:33 UTC: "Persian rug / Persian ancient architecture / Any ither neat design". Run beside L-1F (rug) and judge both under the real screen. The arch frames the title; the girih sits mostly behind the score box. Saves as `ENV_BOARD_PLATE_LAPIS_P1G_2X_T1_RAW.png`.
@@ -310,7 +326,7 @@ Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or ex
 Tries:
 - T1 and T2 (19:36 UTC, `ENV_BOARD_PLATE_LAPIS_P1G_2X_T1_RAW.png`, `_T2_RAW.png`): both well made (clean pointed arch, tone-on-tone girih, rosette borders), T2 the softer. Dropped: Nik, 19:36 UTC: "Keep in mind Persian architecture, not Islamic architecture, like a Persepolis one, like ancient Persian." The arch and girih are Islamic. Next: L-1H.
 
-### L-1H · Lapis Board: ancient Persia, Persepolis reliefs (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
+### L-1H · PARKED for a later clubhouse (Nik 19:36): ancient Persia, Persepolis reliefs (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
 
 Nik, 19:36 UTC: Persepolis, ancient Persian, not Islamic. Motifs from the Achaemenid reliefs: twelve-petal rosette bands, stepped crenellations, cypress trees and lotus flowers. No people, animals or winged symbols (the men stay the only figures; the winged symbol is an emblem). The cypress and lotus row sits low, so the title area stays plain leather. Saves as `ENV_BOARD_PLATE_LAPIS_P1H_2X_T1_RAW.png`.
 
