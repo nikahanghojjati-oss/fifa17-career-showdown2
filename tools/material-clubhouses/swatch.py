@@ -54,7 +54,10 @@ COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40),
            "COACHES": ((420, 470, 620, 609), (1180, 1310, 1380, 1527), 39),
            # Tunnel: the centre cut was the whole tunnel and floor mat, which Astra would copy; its counter strip is too short, so the stone comes from the Coaches painting
            "TUNNEL": ((145, 322, 345, 500), (1180, 1310, 1380, 1488), 50)}
-STONE_FROM = {"TUNNEL": "COACHES"}  # room whose accepted desktop painting gives the stone patch
+STONE_FROM = {"TUNNEL": "COACHES"}
+# R-20 (26 Nov): the Club materials strip held a window band, a floor with a vein and an armchair edge, none of which the Club phone
+# has; IMG2_REF_CLUB_MAT_<LOOK>_SWATCH.png is now one stitched leather wall panel cut from the accepted desktop painting at this box (9:16).
+MAT_BOX = {"CLUB_MAT": ("CLUB", (600, 578, 850, 1022))}  # room whose accepted desktop painting gives the stone patch
 
 
 def compose(p, name, q=None):
