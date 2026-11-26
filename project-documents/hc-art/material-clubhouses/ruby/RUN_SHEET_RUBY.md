@@ -671,7 +671,7 @@ Tries:
 
 ### R-16 · Ruby Clubhouse: Archive, phone
 - Image 1: [IMG1_ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_ARCHIVE_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_RUBY_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_RUBY_SWATCH.png))
+- Image 2: [IMG2_REF_ARCHIVE_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_RUBY_SWATCH.png) ([raw, pinned](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/b8c9f356b26a98d48f3e72258cd87da482c04309/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_RUBY_SWATCH.png)), 220x391 composed: leather wall panel over calm counter stone, edge at 50%
 - Saves as `ENV_ARCHIVE_PHONE_RUBY_P1`
 
 ```
