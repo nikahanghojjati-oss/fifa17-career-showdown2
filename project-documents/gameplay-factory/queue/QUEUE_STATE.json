@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-26T18:33:21Z",
+ "updated": "2026-11-26T18:37:12Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -4346,7 +4346,7 @@
    "pr": 550,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/550",
-   "branch": "qa/job-1491-importanalysis-1-audit"
+   "branch": null
   },
   "1492": {
    "state": "merged",
