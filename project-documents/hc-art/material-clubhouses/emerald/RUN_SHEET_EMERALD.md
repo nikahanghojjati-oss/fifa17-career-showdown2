@@ -915,6 +915,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (26 Nov): 9/10, ACCEPTED. Align scale 1.001, peak 0.222 OK; emerald_check LR_PHONE PASS (vs black 19.2, mw 16.6, luma 30.5, glint 0.1). Window 18-52%, rail at 58%, one calm malachite slab with broad sweeping bands; the middle stays clear for the roulette board.
 
 ### E-23 · Emerald Clubhouse: League Roulette room without the men, desktop
 - Image 1: [IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png)), 3072x1728
