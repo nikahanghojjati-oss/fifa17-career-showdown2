@@ -1042,7 +1042,7 @@ Tries:
 
 ### R-26 · Ruby Clubhouse: Sign-in lounge, phone upright
 - Image 1: [IMG1_ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SETTINGS_PHONE_V2.png)), 1179x2096, from visual-assets/v10_1/plates-v2 (the B7 kit's sign-in source)
-- Image 2: IMG2_REF_SIGNIN_RUBY_SWATCH.png (object-free 9:16 swatch from the accepted R-25: leather wall box 950,186-1170,400 over floor stone box 20,1340-240,1516; link below once pushed)
+- Image 2: IMG2_REF_SIGNIN_RUBY_SWATCH.png (object-free 9:16 swatch from the accepted R-25: leather wall box 950,186-1170,400 over floor stone box 20,1340-240,1516; [raw, pinned](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/dbb7eaaefc89b779b080ba7f075f1cc8416248f0/project-documents/hc-art/material-clubhouses/src/IMG2_REF_SIGNIN_RUBY_SWATCH.png))
 - Saves as: ENV_SIGNIN_PHONE_RUBY_P1
 - Check room: SIGNIN_PHONE
 - Brand-new chat. Built from the B7 kit mk_signin.py with Ruby lessons 1-12 in.
