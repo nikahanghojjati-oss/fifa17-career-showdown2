@@ -6,13 +6,13 @@
 <meta name="app-asset-revision" content="2.12.0-r99">
 <title>Career Mode Showdown</title>
 <script>
-/* R99-01 clubhouse themes (Nik 2026-11-23): the clubhouse is Wooden (no attribute), Silver, Black Steel or Graphite (key matte), picked in Settings and
+/* R99-01 clubhouse themes (Nik 2026-11-23): the clubhouse is Wooden (no attribute), Silver, Black Steel, Graphite (key matte) or Ruby, picked in Settings and
    kept by each phone or laptop for itself (localStorage; never Firestore, never sent to the other phone). A theme draws each room plate from
    plates-hc/<theme>/ (the premium painting of the room; Daniel and Nik untouched, tools/clubhouse-themes) and the panel marble
    from css/r78-marble-tile-<theme>.webp (cut from that clubhouse's painted slab). It is set here, before any sheet or picture is asked for, so no room paints in the wrong
    colours. Sheets are rewritten as they load (capture phase, before their own load handlers), pictures as they are added.
    The current look runs none of it: no observer, nothing rewritten. */
-(function(w,d){var K="cmsClubhouseTheme",cur=null,mo=null,P=/plates-hc\/(?:(?:silver|black|matte)\/)?((?:ENV|TILE)_)/g,M=/r78-marble-tile(?:-[a-z]+)?\.webp/g,LR=/assets\/loading\/(?:(?:silver|black|matte)\/)?(ENV_LOADING_)/g;var BASE={silver:"#61656c",black:"#111314",matte:"#141312"},bg=new WeakMap();
+(function(w,d){var K="cmsClubhouseTheme",cur=null,mo=null,P=/plates-hc\/(?:(?:silver|black|matte|ruby)\/)?((?:ENV|TILE)_)/g,M=/r78-marble-tile(?:-[a-z]+)?\.webp/g,LR=/assets\/loading\/(?:(?:silver|black|matte|ruby)\/)?(ENV_LOADING_)/g;var BASE={silver:"#61656c",black:"#111314",matte:"#141312",ruby:"#1a0608"},bg=new WeakMap();
 function fix(v){return v.replace(P,"plates-hc/"+(cur?cur+"/":"")+"$1").replace(M,cur?"r78-marble-tile-"+cur+".webp":"r78-marble-tile.webp").replace(LR,"assets/loading/"+(cur?cur+"/":"")+"$1");}
 function hit(v){return v&&(v.indexOf("plates-hc/")>=0||v.indexOf("r78-marble-tile")>=0||v.indexOf("assets/loading/")>=0&&v.indexOf("ENV_LOADING_")>=0);}
 function rules(list){for(var i=0;i<list.length;i++){var r=list[i];if(r.styleSheet)sheet(r.styleSheet);if(r.cssRules)rules(r.cssRules);var s=r.style;if(!s||!hit(s.cssText))continue;
@@ -45,7 +45,7 @@ var SA=E.setAttribute;E.setAttribute=function(k,v){return SA.call(this,k,k==="sr
 var C=w.CSSStyleDeclaration&&w.CSSStyleDeclaration.prototype,SP=C&&C.setProperty;if(SP)C.setProperty=function(k,v,p){return SP.call(this,k,g(this,v),p);};
 if(w.HTMLImageElement){set(w.HTMLImageElement.prototype,"src",g);set(w.HTMLImageElement.prototype,"srcset",g);}if(w.HTMLSourceElement)set(w.HTMLSourceElement.prototype,"srcset",g);
 if(S&&T)Object.defineProperty(S.prototype,"textContent",{configurable:true,enumerable:T.enumerable,get:T.get,set:function(v){T.set.call(this,typeof v==="string"&&hit(v)?fix(v):v);}});}
-function use(t){cur=t==="silver"||t==="black"||t==="matte"?t:null;if(cur){d.documentElement.setAttribute("data-clubhouse",cur);hook();watch();}else d.documentElement.removeAttribute("data-clubhouse");}
+function use(t){cur=t==="silver"||t==="black"||t==="matte"||t==="ruby"?t:null;if(cur){d.documentElement.setAttribute("data-clubhouse",cur);hook();watch();}else d.documentElement.removeAttribute("data-clubhouse");}
 d.addEventListener("load",function(e){var t=e.target;if(cur&&t&&t.tagName==="LINK"&&t.sheet)sheet(t.sheet);free(t);},true);
 d.addEventListener("error",function(e){free(e.target);},true);
 /* The loading room (assets/loading, never visual-assets) of the picked clubhouse is asked for first, like the Wooden one below. */
@@ -69,15 +69,18 @@ html[data-clubhouse="black"] #app #trophyRoom .sd-stage__layer--plate::before{ba
 html[data-clubhouse="black"] #app :is(#legacy,#trophyRoom) :is(.sd-stage__layer--plate,.trophyPhoneBackdrop){background-color:#111314}
 html[data-clubhouse="matte"] #app #trophyRoom .sd-stage__layer--plate::before{background:linear-gradient(180deg,#1d1c1b,#141312 60%,#100f0e)}
 html[data-clubhouse="matte"] #app :is(#legacy,#trophyRoom) :is(.sd-stage__layer--plate,.trophyPhoneBackdrop){background-color:#141312}
+html[data-clubhouse="ruby"] #app #trophyRoom .sd-stage__layer--plate::before{background:linear-gradient(180deg,#26090d,#1a0608 60%,#140406)}
+html[data-clubhouse="ruby"] #app :is(#legacy,#trophyRoom) :is(.sd-stage__layer--plate,.trophyPhoneBackdrop){background-color:#1a0608}
 /* The loading room follows the clubhouse too (Nik 2026-11-23: "any screen that has clubhouse art or clubhouse background should
    match"): the same tunnel with Reus in front, recoloured, drawn in place of the Wooden one at every size it comes in. */
 html[data-clubhouse="silver"]{--cms-room:url("assets/loading/silver/ENV_LOADING_PLATE_HC_1X.webp");--cms-room-2x:url("assets/loading/silver/ENV_LOADING_PLATE_HC_2X.webp");--cms-room-phone:url("assets/loading/silver/ENV_LOADING_PHONE_HC_590W.webp");--cms-room-phone-2x:url("assets/loading/silver/ENV_LOADING_PHONE_HC.webp")}
 html[data-clubhouse="black"]{--cms-room:url("assets/loading/black/ENV_LOADING_PLATE_HC_1X.webp");--cms-room-2x:url("assets/loading/black/ENV_LOADING_PLATE_HC_2X.webp");--cms-room-phone:url("assets/loading/black/ENV_LOADING_PHONE_HC_590W.webp");--cms-room-phone-2x:url("assets/loading/black/ENV_LOADING_PHONE_HC.webp")}
 html[data-clubhouse="matte"]{--cms-room:url("assets/loading/matte/ENV_LOADING_PLATE_HC_1X.webp");--cms-room-2x:url("assets/loading/matte/ENV_LOADING_PLATE_HC_2X.webp");--cms-room-phone:url("assets/loading/matte/ENV_LOADING_PHONE_HC_590W.webp");--cms-room-phone-2x:url("assets/loading/matte/ENV_LOADING_PHONE_HC.webp")}
-html[data-clubhouse="silver"] #loadingScreen img.startupRoom,html[data-clubhouse="black"] #loadingScreen img.startupRoom,html[data-clubhouse="matte"] #loadingScreen img.startupRoom{content:var(--cms-room)}
-@media (orientation: portrait){html[data-clubhouse="silver"] #loadingScreen img.startupRoom,html[data-clubhouse="black"] #loadingScreen img.startupRoom,html[data-clubhouse="matte"] #loadingScreen img.startupRoom{content:var(--cms-room-phone)}}
-@media (orientation: portrait) and (min-resolution: 1.5dppx),(orientation: portrait) and (min-width: 700px){html[data-clubhouse="silver"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="black"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="matte"] #loadingScreen picture~picture img.startupRoom{content:var(--cms-room-phone-2x)}}
-@media (orientation: landscape) and (min-resolution: 1.5dppx) and (min-width: 1000px),(orientation: landscape) and (min-width: 2200px){html[data-clubhouse="silver"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="black"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="matte"] #loadingScreen picture~picture img.startupRoom{content:var(--cms-room-2x)}}
+html[data-clubhouse="ruby"]{--cms-room:url("assets/loading/ruby/ENV_LOADING_PLATE_HC_1X.webp");--cms-room-2x:url("assets/loading/ruby/ENV_LOADING_PLATE_HC_2X.webp");--cms-room-phone:url("assets/loading/ruby/ENV_LOADING_PHONE_HC_590W.webp");--cms-room-phone-2x:url("assets/loading/ruby/ENV_LOADING_PHONE_HC.webp")}
+html[data-clubhouse="silver"] #loadingScreen img.startupRoom,html[data-clubhouse="black"] #loadingScreen img.startupRoom,html[data-clubhouse="matte"] #loadingScreen img.startupRoom,html[data-clubhouse="ruby"] #loadingScreen img.startupRoom{content:var(--cms-room)}
+@media (orientation: portrait){html[data-clubhouse="silver"] #loadingScreen img.startupRoom,html[data-clubhouse="black"] #loadingScreen img.startupRoom,html[data-clubhouse="matte"] #loadingScreen img.startupRoom,html[data-clubhouse="ruby"] #loadingScreen img.startupRoom{content:var(--cms-room-phone)}}
+@media (orientation: portrait) and (min-resolution: 1.5dppx),(orientation: portrait) and (min-width: 700px){html[data-clubhouse="silver"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="black"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="matte"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="ruby"] #loadingScreen picture~picture img.startupRoom{content:var(--cms-room-phone-2x)}}
+@media (orientation: landscape) and (min-resolution: 1.5dppx) and (min-width: 1000px),(orientation: landscape) and (min-width: 2200px){html[data-clubhouse="silver"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="black"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="matte"] #loadingScreen picture~picture img.startupRoom,html[data-clubhouse="ruby"] #loadingScreen picture~picture img.startupRoom{content:var(--cms-room-2x)}}
 </style>
 <!-- The loading room is written by script in the clubhouse's own look (cmsClubhouse.fix), so a premium clubhouse never asks
      for the Wooden tunnel (the preload scanner never sees it); Wooden writes the same markup unchanged. -->

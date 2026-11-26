@@ -1794,7 +1794,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Then (lead 2026-11-25): the loading room's preloads and pictures are written by script through the theme's fix(), so a
   // premium clubhouse never downloads the Wooden tunnel; the markup itself is unchanged.
   // And Nik's naming card (2026-11-25): the head comments name Black Steel and Graphite; no code changed.
-  assert.equal(sha256("index.html"),"9a69c882f6d5aff5fa95a939d1dc85944a6b5e115e63b9f9dfdb49cc56b4558f","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room (its 2x rooms found by picture~picture), 2.12.0-r99 pins)");
+  assert.equal(sha256("index.html"),"4d0e27451d814f6494abfd3b89f34cd1a3b28e12a07a5d9c1c2650e9c8b9039a","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room (its 2x rooms found by picture~picture), 2.12.0-r99 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);

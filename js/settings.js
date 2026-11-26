@@ -1075,7 +1075,7 @@ const SETTINGS_CLUBHOUSE_THEMES = [
     ["silver", "Platinum Clubhouse", "Bright brushed platinum panels under cool night light."],
     ["black", "Black Steel Clubhouse", "Brushed gunmetal and black marble, caught by gold lamplight."],
     ["matte", "Graphite Clubhouse", "Velvet matte graphite with satin titanium, quiet and deep under warm lamps."],
-    ["ruby", "Ruby Clubhouse", "Red Rosso Levanto marble, oxblood leather and rosewood, with antique gold under low lamps."]
+    ["ruby", "Ruby Clubhouse", "Red Rosso Levanto marble, oxblood leather and antique gold."]
 ];
 function settingsClubhouseHintText(value){
     const theme = SETTINGS_CLUBHOUSE_THEMES.find(([key]) => key === value) || SETTINGS_CLUBHOUSE_THEMES[0];
