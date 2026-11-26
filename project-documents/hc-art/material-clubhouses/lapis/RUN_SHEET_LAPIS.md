@@ -534,6 +534,26 @@ Tries:
 
 - T2 F1 (`ENV_SLAB_LAPIS_P1_2X_T2F1_RAW.png`): **8.5.** The tick lattice is gone and every number passes (sat 0.975, detail 2.78). Miss: the slab is the full-screen backdrop (Squad screen, Club draw), and up close it still reads as felt or flocked velvet with tiny lint fibres. Fix F2 (last in this chat), surface only: smooth hard honed stone face, mottling inside the stone, no fibres or nap.
 
+- T2 F2 (`ENV_SLAB_LAPIS_P1_2X_T2F2_RAW.png`): **8.** Numbers pass, but asking for a crisp grain turned the surface into tiny crackle cells with some fibres left: it reads as crumpled fabric, not stone. Chat used up. Lesson: on a full-frame lapis slab, any wording about fine grain or texture makes Astra invent a fabric or cell microtexture. T3 (new chat) asks for no surface texture at all: seen from a metre away, all variety in the soft colour drifts inside the stone, matched to the counter in image 2.
+
+T3 prompt (new chat, same Image 1 and Image 2):
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms: the lapis-blue leather with its hand-tooled Persian pattern and flowered carpet borders, the honed lapis lazuli stone, the blue-black ebony and the satin gold. Match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball, carpet, fan of gold rays or layout.
+
+Keep image 1 exactly the same size and framing. Repaint the whole surface as one new stone, seen straight on from about a metre away, like a photograph of a large, fine stone table top.
+
+The stone: exactly the honed lapis lazuli of the counter in image 2, the same vivid ultramarine: rich deep lapis blue (#1450AE) to lit lapis blue (#1268E8), with deep lapis blue (#0D2A66) in its deepest tones. A few soft, broad, cloud-like drifts of brighter ultramarine lie flat inside the stone at gentle, varied angles, never parallel diagonal bands, and a sparse scattering of tiny pale crystal flakes is spaced well apart.
+
+The face of the stone is hard, smooth and even, with a soft satin finish like a fine stone table top: all the variety is in the soft drifts of colour inside the stone, not in the surface. At this distance no grain, fibres or texture show on the surface at all. No felt, velvet, suede, flock, fuzz, lint or nap; no cracks, veins, scratches or thin lines; no cells, crackle, scales or repeating pattern; no gold specks and no star-shaped sparkles.
+
+It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. The stone stays a rich, vivid lapis blue: the light only brightens it, it never tints it navy-grey, purple, teal or green. No objects, no reflections of objects, no text, no logos.
+
+Real stone as a mason would finish it, with clean sharp edges to the drifts and flakes and no noise grain.
+
+Same 16:9 framing as the original, largest size available.
+```
+
 T2 prompt (new chat, same Image 1 and Image 2):
 
 ```
