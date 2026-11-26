@@ -105,7 +105,10 @@ function ok(label) { checks += 1; process.stdout.write(`ok ${checks} ${label}\n`
 // ---- 5. Reus Gate, quality key, shell -----------------------------------------------------------------------------------
 {
   const V = read("js/v10Setup.js");
-  assert.ok(V.includes(`if(id==="leagueWheelScreen"&&screens.HOLD){const step=root.CareerModeLeagueRouletteStep;if(step&&step.holding()){void step.ensure();return screens.HOLD;}}`), "Select League waits behind the loading screen for the board");
+  // r100 (Nik 2026-11-26, the 3D board always): the hold moved into v26LeagueHeld, which also arms the board idle in a shared
+  // Showdown before both players are connected (tests/contracts/r100-league-3d-always-contracts.cjs).
+  assert.ok(V.includes(`frame:()=>id==="leagueWheelScreen"&&screens.HOLD&&v26LeagueHeld()?screens.HOLD:FRAMES[id],`), "Select League waits behind the loading screen for the board");
+  assert.ok(V.includes(`if(step&&step.holding()){void step.ensure();return true;}`), "it holds while the board is armed and not drawn, and asks for it");
   const Step = read("js/leagueRouletteStep.js");
   assert.ok(Step.includes("function lrsHolding(){return armed&&!failed&&!lrsAlive();}"), "it holds only while armed, not failed and not drawn");
   assert.ok(Step.includes("if(!made){failed=true;"), "where 3D cannot run the screen opens on the plain wheel");

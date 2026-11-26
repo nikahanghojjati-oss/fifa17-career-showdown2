@@ -242,6 +242,32 @@
     Array.from(doc.querySelectorAll("main > .screen")).forEach(section=>screenObserver.observe(section,{attributes:true,attributeFilter:["class"]}));
   }
 
+  // R98-01 Reus Gate: Select League stays behind the loading screen while the League Roulette board is still being built.
+  // Nik 2026-11-26 ("League Roulette always the 3D board, never the old wheel, in every clubhouse"): in a shared Showdown the
+  // board is armed (idle, js/leagueRouletteStep.js) as the screen opens, connected or not, so Daniel's WAITING FOR NIK, a
+  // reload while waiting and Nik waiting for Daniel open on the 3D board in the clubhouse's V4 room too, never on the plain
+  // wheel in the V3 room. Its module is fetched first if this page has not loaded it yet (the screen stays held meanwhile; it
+  // is the one the shared presentation loads, so it loads once). The plain wheel stays only where 3D cannot run (no WebGL2,
+  // the scene's files fail, a crash), or where the module itself cannot load.
+  let leagueStepLoad=null,leagueStepMissing=false;
+  // A shared Showdown before its setup is done: the entry's marker, or Daniel's START under way (the new shell opens Select
+  // League before the entry marks it).
+  function v26SharedLeague(){
+    try{const entry=root.CareerModeProductionSharedJourneyEntry;return Boolean(entry&&(entry.isPending?.()===true||entry.isStarting?.()===true));}catch(_error){return false;}
+  }
+  function v26LeagueHeld(){
+    let step=root.CareerModeLeagueRouletteStep;
+    if(!step&&!leagueStepMissing&&v26SharedLeague()){
+      if(!leagueStepLoad&&typeof root.loadRuntimeScript==="function"){
+        leagueStepLoad=Promise.resolve(root.loadRuntimeScript("league-roulette-step","js/leagueRouletteStep.js",()=>root.CareerModeLeagueRouletteStep))
+          .catch(()=>null).then(()=>{if(!root.CareerModeLeagueRouletteStep)leagueStepMissing=true;const screens=v26Screens();if(screens)void screens.show("leagueWheelScreen").catch(()=>{});});
+      }
+      if(leagueStepLoad)return true;
+    }
+    if(step&&v26SharedLeague())step.idle();
+    if(step&&step.holding()){void step.ensure();return true;}
+    return false;
+  }
   function v26Install(){
     const screens=v26Screens(),doc=v26Doc();
     if(installed||!screens||!doc)return api;
@@ -251,7 +277,7 @@
     for(const id of Object.keys(SCREENS)){
       // R98-01: Select League stays behind the loading screen while the League Roulette board is still being built (Reus Gate);
       // js/leagueRouletteStep.js shows it again once the board has drawn, or at once where 3D cannot run.
-      screens.register(id,{css:[],js:[],frame:()=>{if(id==="leagueWheelScreen"&&screens.HOLD){const step=root.CareerModeLeagueRouletteStep;if(step&&step.holding()){void step.ensure();return screens.HOLD;}}return FRAMES[id];},mount:(frame,host)=>v26Mount(frame,host),unmount:host=>v26Unmount(host)});
+      screens.register(id,{css:[],js:[],slowHold:id==="leagueWheelScreen",frame:()=>id==="leagueWheelScreen"&&screens.HOLD&&v26LeagueHeld()?screens.HOLD:FRAMES[id],mount:(frame,host)=>v26Mount(frame,host),unmount:host=>v26Unmount(host)});
     }
     v26WatchScreens();
     const current=v26ActiveScreen();
