@@ -97,7 +97,9 @@ LOOKS = {
            LOADING=dict(glint_max=10.0),
            # Slab: the locked rooms' own lapis (Club counter and floor) is pure blue with no red, sat 1.00, so the slab
            # may sit just as high; it is matched to the stone already approved.
-           SLAB=dict(sat=(0.45, 1.0)),
+           # may sit just as high; it is matched to the stone already approved. Its detail floor is the approved
+           # counter stone's own (Coaches counter at slab scale: 0.67; master T4: 0.69): any crisper and Astra paints felt.
+           SLAB=dict(sat=(0.45, 1.0), detail_min=0.65),
                              SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                              SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
 }

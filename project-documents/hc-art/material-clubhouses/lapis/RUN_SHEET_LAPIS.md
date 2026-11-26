@@ -573,6 +573,8 @@ It is a flat, seamless material surface: the pattern continues off every edge so
 Same 16:9 framing as the original, largest size available.
 ```
 
+- T4 (`ENV_SLAB_LAPIS_P1_2X_T4_RAW.png`): **9, slab master.** The same calm stone as the approved counters, at their scale: many soft drifts at gentle angles, tiny flakes, smooth face, no cracks, fibres, cells or sky bands. Its detail (0.69) equals the approved Coaches counter's own (0.67 at slab scale), so the SLAB detail floor moves to 0.65 with that reason; PASS. Lesson for every later clubhouse slab: give Astra a crop of an approved counter as Image 2 and ask for the same stone at the same scale.
+
 T2 prompt (new chat, same Image 1 and Image 2):
 
 ```
