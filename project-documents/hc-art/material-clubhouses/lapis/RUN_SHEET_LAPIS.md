@@ -308,6 +308,18 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 Tries:
 
+**Log (26 Nov):**
+- T1 (`ENV_ARCHIVE_PLATE_LAPIS_P1_2X_T1_RAW.png`): 8.5. Vault, arches, shelves, tooled panels and niches are right; men diff 5.8. Miss: the big counter again reads as crushed velvet with diagonal streaks, and it is flat and dark (check: spread 40.0 < 44, glint 8.02 at the 8.0 line). The hard-stone wording in the ticket was not enough on a counter this large.
+- F1, same chat, counter only:
+
+```
+Edit the picture you just made. Keep it exactly the same: the same camera, zoom, framing and layout, the same two men untouched, and the same arches, vault, shelves, Persian leather panels, niches, gold rail, colours and light above the counter.
+
+Change only one thing: the counter below the gold rail. Right now it reads like crushed velvet or brushed suede, with soft diagonal streaks across it, and it is flat and dark. Make it hard, natural honed lapis lazuli stone, two calm book-matched slabs meeting at the same fine straight joint: a vivid ultramarine field with a few soft, broad, cloud-like drifts of deeper and brighter blue lying flat inside the stone, and a sparse scattering of tiny crystal flakes spaced well apart, with a smooth soft satin finish like a fine stone tabletop. No streaks, brush marks, nap, fibres or grain. A soft warm wash of light from the room falls along the top of the counter just under the rail, with two soft, blurred warm glows in the stone below the two niches, and the stone deepens gradually to deep lapis blue toward the bottom edge, so the counter has light and shade; nothing is mirrored in it.
+
+Same 16:9 framing, nothing cropped or extended at any edge, largest size available.
+```
+
 ### L-6 · Lapis Clubhouse: Directors' box
 - Image 1: [IMG1_ENV_BOX_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png)), 3072x1728
 - Image 2: [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
