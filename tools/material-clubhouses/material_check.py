@@ -98,6 +98,8 @@ LOOKS = {
            # Board phone: master T2 (L-13) sat 0.991 (half the band is the counter's pure blue lapis, like the approved stone,
            # R=0) and glint 3.2, all on the lamp-lit left end of the gold rail straight under the wall lamp and the lamp itself.
            BOARD_PHONE=dict(sat=(0.45, 0.995), glint_max=3.5),
+           # Office phone: master F1 (L-14) sat 0.993; the counter's pure blue lapis fills the lower 60% of the band.
+           OFFICE_PHONE=dict(sat=(0.45, 0.995)),
            # Slab: the locked rooms' own lapis (Club counter and floor) is pure blue with no red, sat 1.00, so the slab
            # may sit just as high; it is matched to the stone already approved.
            # may sit just as high; it is matched to the stone already approved. Its detail floor is the approved

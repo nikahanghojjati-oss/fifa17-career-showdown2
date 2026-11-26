@@ -712,6 +712,7 @@ Tries:
 ```
 Change only the gold rail along the front edge of the desk: make it a soft, dim satin gold line, a little darker and quieter, with no bright shine, glare or white highlight anywhere along it, like brushed gold in low light. Keep everything else exactly as it is: the desk top, the blotters, the counter stone below, the walls, window, lamp, the two men and the framing.
 ```
+- F1 (21:35 UTC): **9/10, accepted.** Aligned scale 0.998, men diff 8.4. The rail is now a dim satin line (glint 0.03); everything else held. sat 0.993 is the counter's pure blue lapis filling the lower 60% of the band (as L-13), so OFFICE_PHONE gets sat to 0.995 in material_check with that reason; PASS. Master `lapis/ENV_OFFICE_PHONE_LAPIS_P1.webp`.
 
 ### L-15 · Lapis Clubhouse: Hall, phone
 - Image 1: [IMG1_ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png)), 1179x2096
