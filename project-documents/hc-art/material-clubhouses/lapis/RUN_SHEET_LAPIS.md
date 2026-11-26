@@ -23,6 +23,9 @@ Image 1 links are pinned to commit `0aa05806`, so they never move.
 8. **Not carried over on purpose:** "a touch muted and aged". Nik asked for a vivid Lapis, so the colour lock asks for vivid, saturated, jewel-like blue instead, and the checker's saturation ceiling is 0.97, not 0.90.
 9. New for Lapis: the crystal flakes are "a sparse scattering ... spaced well apart as in real stone, each a tiny crisp point ... never a glitter field"; "like a photograph of a real private club, never a render or an AI image".
 
+- Nik, 26 Nov 18:59 UTC: an added "subtle" element is a large, faded, tone-on-tone piece in the background (e.g. between the two men), never a tiny object that hides under the UI or looks awkward when shown.
+- Lapis stone wording: "satin stone polish with soft cloud drifts" lands; "mirror sheen" turns it to glass and "dense mottling" turns it to busy crumpled velvet.
+
 ## Pilot (2 pictures). Nik OKs both before any other Lapis prompt is written.
 The pilot has no Image 2: no Lapis room is approved yet, so the materials are described in words only.
 
@@ -175,6 +178,7 @@ Change only one thing: the surface of the counter slabs below the rail, so it re
 
 Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
+- T2 (B F1 in the same chat, 18:59 UTC, `ENV_BOARD_PLATE_LAPIS_P1B_2X_T2_RAW.png`): Eye **7/10**, worse: "dense mottling" turned the counter and pillars into busy, crumpled blue cloud like marbled velvet, and the counter joint is gone. Lesson: never "dense" for lapis drifts; C T1's counter (same words as B, no fix) is the target. This chat is closed; B continues from C's chat (see L-1C).
 
 ### L-1C · Lapis pilot Board, version C (B plus crystal cabochons)
 
@@ -208,7 +212,18 @@ Same 16:9 framing as the original, exactly 3072 by 1728 pixels, nothing cropped 
 ```
 
 Tries:
-- (waiting for the first picture)
+- T1 (Nik 18:59 UTC, `ENV_BOARD_PLATE_LAPIS_P1C_2X_T1_RAW.png`): scale 1.0000, men diff 4.7. Check: **PASS** on every limit. Eye: the best room yet; the counter is polished lapis with soft drifts, a warm lamp reflection and only a faint shadow of the suits, and the book-matched joint shows. But the two crystal cabochons look small and awkward.
+  **Nik's lesson on C (18:59 UTC, his words):** "It doesn't mean it needs to be something very small or like a gem that actually going to be hidden under a box or actually going to look very awkward even if it's like being shown. It can be something in the background between two managers, but it doesn't look bold. It looks like very, a bit, faded or something." So a C element is a large, faded, tone-on-tone piece in the background between the men, never a tiny object.
+  Plan: F1 removes the cabochons (that picture becomes the B candidate); F2 adds the faded background piece (the new C).
+  Fix F1, same chat (one change: remove the cabochons):
+
+```
+Keep this picture exactly as it is: the same framing, exactly 3072 by 1728 pixels, the two men untouched, the wall lamp, the door and its handle, the stitched leather panels with their gold inlays, the ebony cornice, the lapis pillars at the far left and far right edges, the thin gold rail at the same height, and the polished lapis counter with its soft lamp reflection and its fine joint. Keep exactly the present colours and brightness.
+
+Change only one thing: remove the two small round crystal stones in their gold rings from the counter front completely. Where they were, the counter is the same plain polished lapis as the stone around them, with the same soft cloudy drifts. Add nothing else.
+
+Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
 
 ### L-2B · Lapis pilot Home, version B (craftsmanship)
 
