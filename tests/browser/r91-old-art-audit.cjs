@@ -55,8 +55,12 @@ const GROUPS = {
     // r100 B7 (lead 2026-11-25): the short windows where Season Results lost its room (901-1000 x up to 520 with a mouse,
     // 560-639 x 340-410) and Final Winner fell between layouts (touch screens so wide and short that the 880px big-phone
     // zoom left them under 340 tall). "m" forces a mouse window and "t" a touch screen. The Gate runs it on Season Results
-    // and Final Winner only: CMS_OLD_ART_GROUP=short node tests/browser/r91-old-art-audit.cjs SEASON_ENTRY SEASON_REVIEW FINAL_WINNER
-    short: ["901x340m", "960x450m", "1000x520m", "560x400", "639x340", "639x410", "1040x400", "1366x500t"],
+    // and Final Winner only: CMS_OLD_ART_GROUP=short node tests/browser/r91-old-art-audit.cjs SEASON_ENTRY SEASON_REVIEW FINAL_WINNER TROPHY_ROOM
+    // 4th pass: every other landscape window under 901 wide and up to 500 tall (Season Results had no room there: mouse 640-900 x
+    // 411-500, phones under 560 wide or under 340 tall, a touch screen zoomed to 880 x 411-500), and Trophy Room at 761-900 x
+    // 481-500, where the old stadium picture showed between its sideways and desktop layouts.
+    short: ["901x340m", "960x450m", "1000x520m", "560x400", "639x340", "639x410", "1040x400", "1366x500t",
+        "480x300", "534x320", "700x450m", "900x420m", "800x490m", "960x480t", "900x500t"],
     full: [...new Set([...Object.values(NAMED).flat(), ...sweep(900, 0.4, 2.6, 0.05), ...sweep(400, 1.4, 2.6, 0.1)])]
 };
 const group = process.env.CMS_OLD_ART_GROUP || "desk";
@@ -135,7 +139,7 @@ const CURRENT = new RegExp(`visual-assets/v10_1/plates-hc/|assets/loading/${THEM
 // Legacy, Trophy Room and Rivalry phone pictures; then Season Results hands and phone room, Final Winner near arms, the
 // Start and League phone heroes, the held-pack Club lounge (desktop and phone), and the Transfer TR2 locked plate and Nik's fingertip.
 const RETIRED_NEVER = new RegExp([
-  "plates-v2/ENV_LEGACY_PHONE_V2", "trophy-room/assets/ENV_TR_PHONE_V1",
+  "plates-v2/ENV_LEGACY_PHONE_V2", "trophy-room/assets/(?:ENV_TR_PHONE_V1|OVL_TR_(?:DANIEL|NIK)_PHONE_V1)",
   "rivalry-statistics/assets/(?:ENV_RV_PHONE_V1|OVL_RV_(?:DANIEL|NIK)_PHONE_V1)",
   "season-results/assets/(?:OVL_SR_(?:DANIEL|NIK)_HAND_V1_|ENV_SR_PHONE_V1|OVL_SR_(?:DANIEL|NIK)_PHONE_V1)",
   "final-winner/assets/OVL_FW_(?:DANIEL|NIK)_NEAR_ARM_V1_[12]X",
@@ -146,7 +150,8 @@ const RETIRED_NEVER = new RegExp([
 ].join("|"));
 // r100 B7 (Verify nit on #1632): premium only also means one clubhouse never draws or downloads another clubhouse's room, on
 // any screen (A5), not only the loading room.
-const OTHER_ROOM = THEME ? new RegExp(`plates-hc/(?!${THEME}/)(?:silver|black|matte)/`) : /plates-hc\/(?:silver|black|matte)\//;
+const otherRoom = theme => theme ? new RegExp(`plates-hc/(?!${theme}/)(?:silver|black|matte)/`) : /plates-hc\/(?:silver|black|matte)\//;
+const OTHER_ROOM = otherRoom(THEME);
 const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
@@ -166,13 +171,16 @@ function drawnPictures(){
     }
     return out;
 }
-function judge(key, drawn){
+// theme: the clubhouse the page was opened in. Callers that pick the clubhouse themselves (the Season Results reach audit opens
+// all four in one run) pass it; this audit's own runs take CMS_CLUBHOUSE.
+function judge(key, drawn, theme = THEME){
     const scenery = drawn.filter(d => /visual-assets\//.test(d.url) && SCENERY.test(d.url));
     const listed = LISTED[key];
     const old = scenery.filter(d => !CURRENT.test(d.url) && !(listed && listed.allow.test(d.url)));
     const findings = old.map(d => `A1 old picture ${d.url.replace(/^.*visual-assets\/v10_1\//, "")} on ${d.el}`);
-    if(THEME) for(const d of scenery) if(PLAIN_ROOM.test(d.url)) findings.push(`A3 plain room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${THEME} clubhouse on ${d.el}`);
-    for(const d of drawn) if(OTHER_ROOM.test(d.url)) findings.push(`A5 another clubhouse's room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${THEME || "Wooden"} clubhouse on ${d.el}`);
+    if(theme) for(const d of scenery) if(PLAIN_ROOM.test(d.url)) findings.push(`A3 plain room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${theme} clubhouse on ${d.el}`);
+    const other = otherRoom(theme);
+    for(const d of drawn) if(other.test(d.url)) findings.push(`A5 another clubhouse's room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${theme || "Wooden"} clubhouse on ${d.el}`);
     const room = ROOM[key];
     if(room && !scenery.some(d => CURRENT.test(d.url) && new RegExp(`ENV_(${room})_`).test(d.url))) findings.push(`A2 the ${room.replace("|", " or ")} room is not drawn`);
     return [...new Set(findings)];

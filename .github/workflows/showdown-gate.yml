@@ -123,7 +123,9 @@ jobs:
     name: L2 browser full
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    # r100 B7: the full browser bundle already ran 38-40 min (sign-in lounge PR 38m17s and 39m42s); the Trophy Room BACK check
+    # (reach audit R8) took it past 40, cancelling a run whose every audit had passed. 55, as the other long lanes.
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
