@@ -46,7 +46,8 @@ LOOKS = {
                  luma=(14, 60), gold_max=0.04,
                  # Sign-in lounge floors: 85% of the medians of the accepted Ruby rooms (desktop spread 70, detail 3.7;
                  # phone 59, 2.9), not the raw V2 plate (176/184, 7.8/11.0). Reason in ruby/COLOUR_STUDY.md.
-                 rooms=dict(SIGNIN=dict(spread_min=60, detail_min=3.1), SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5)),
+                 rooms=dict(SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 0.98, 0.42)),
+                            SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
                  provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
@@ -159,6 +160,9 @@ def check(key, room, d, sib):
     free = free_of(room)
     M, W = load(m), load(w)
     lit = lit_in(W)
+    if cfg.get("view"):  # the city view through the windows is not a room surface: no glint is counted there
+        x0, y0, x1, y1 = cfg["view"]; H, Wd = lit.shape
+        lit = lit.copy(); lit[int(y0 * H):int(y1 * H), int(x0 * Wd):int(x1 * Wd)] = True
     # Room pixels only for diff, mw and spread: leave out what every existing look keeps identical to Wooden (the
     # stadium view through the window, kept by design in every clubhouse), so a shared view can't dilute or set them.
     shared = np.zeros_like(free)
