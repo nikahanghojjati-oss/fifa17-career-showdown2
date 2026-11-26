@@ -26,6 +26,8 @@ Image 1 links are pinned to commit `0aa05806`, so they never move.
 - Nik, 26 Nov 18:59 UTC: an added "subtle" element is a large, faded, tone-on-tone piece in the background (e.g. between the two men), never a tiny object that hides under the UI or looks awkward when shown.
 - Lapis stone wording: "satin stone polish with soft cloud drifts" lands; "mirror sheen" turns it to glass and "dense mottling" turns it to busy crumpled velvet.
 
+- Nik, 26 Nov 19:04 UTC: a faded watermark of something ours (the ball, the scarf, the logo) only on pages where it doesn't compete. Plan: the old laced leather ball, blind-tooled tone-on-tone into the leather, only in rooms whose middle wall is open on screen (checked per page in batch 1); no logo (no lettering in the art); Board keeps the sunburst.
+
 ## Pilot (2 pictures). Nik OKs both before any other Lapis prompt is written.
 The pilot has no Image 2: no Lapis room is approved yet, so the materials are described in words only.
 
