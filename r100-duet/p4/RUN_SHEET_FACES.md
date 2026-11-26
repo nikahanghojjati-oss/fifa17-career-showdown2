@@ -70,3 +70,86 @@ Light: the same low, warm archive light as image 1, from the same side; his face
 Finish: a real photograph, real skin with fine pores and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
 Same framing as image 1, nothing cropped, the largest size available.
 ```
+
+## F-2 Transfer War, Nik (desktop master, then phone)
+Source: `visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_2X.webp` (Wooden, 3072x1728). Today: curly hair, frown, thin patchy beard, narrow face. Route (F-1 lesson): Image 1 = square head crop `OFFICE_NIK_HEAD_CROP_1700_0_900.png` (box 1700,0,2600,900 of the V3 2X), so Astra keeps the framing. Result saves as `ENV_OFFICE_PLATE_HC_V4_2X_F2<option>_RAW`. On return: scale to 900, fit.py to the crop, likeness lock in the hero mask (~6 px feather), paste at (1700,0), never_slimmer.py, score vs Home (pass 9/10). The phone plate (ENV_OFFICE_PHONE_HC_V3) has its own drawing of the men (head up, looking left), so it gets its own ticket from the winning prompt.
+
+### F-2 option A: Whole head as the Home Nik (Image 2 = Home face anchor, frontal).
+| Status | sent to Nik 2026-11-26 21:40 UTC |
+|---|---|
+- Image 1: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/OFFICE_NIK_HEAD_CROP_1700_0_900.png
+- Image 2: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/HOME_NIK_FACE_ANCHOR.png
+- Saves as: `ENV_OFFICE_PLATE_HC_V4_2X_F2A_RAW`
+
+```
+Image 1 is the picture to edit: a square close-up of a bearded man in a black suit, black shirt and black tie, leaning over a desk by a dark office window at night. Image 2 is a close-up of the same man, looking straight at the camera; use it only for what his head looks like. Copy nothing else from image 2: not the hand at his chin, the pose, the camera angle, the light or the room.
+
+Keep the framing of image 1 exactly: the same square picture, his head the same size and in the same place, the top of his hair the same distance from the top edge, his shoulders, black suit, black shirt and black tie exactly as they are. Do not zoom in, do not crop, do not move the camera.
+Keep the room behind him exactly as in image 1: the dark window frames, the black night glass and the olive leaves at the right edge.
+Keep the turn and tilt of his head exactly as in image 1: he leans forward and looks down toward the bottom left of the picture, at the desk in front of him.
+Draw the man from image 2 seen from this same angle.
+
+Change only his head so it is the man in image 2:
+- His face: image 2's broad face with full cheeks, and image 2's eyes, eyebrows, nose and mouth.
+- His beard: image 2's full, short, dense dark beard and moustache, covering his cheeks up to just below the cheekbones.
+- His hair: short, thick, dark hair swept up at the front and lying smooth and tidy at the sides, in place of the curls. On the top and at the back of his head the hair reaches out to where the outer edge of his curls is now in image 1.
+- His expression: calm and focused. His eyes look down at the desk, open and relaxed; both eyebrows are level and relaxed, with no frown and no creases between the brows; his mouth is relaxed with a faint, confident half-smile.
+The outer edge of his head, hair, beard and ears stays where it is now or reaches slightly further out, never further in. Wherever the new head is narrower than the old one, fill that space with his own hair, his beard or the shadow of his collar, never with the room.
+
+Light: the same low, warm office light as image 1, from the same side; his face no brighter and no darker than now.
+Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
+One picture, square, the same framing as image 1, the largest size available.
+```
+
+### F-2 option B: Whole head as the Legacy Nik E2 (Image 2 = the shipped Legacy head, already turned toward the left; Nik OK'd that face).
+| Status | sent to Nik 2026-11-26 21:40 UTC |
+|---|---|
+- Image 1: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/OFFICE_NIK_HEAD_CROP_1700_0_900.png
+- Image 2: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/LEGACY_NIK_E2_HEAD.png
+- Saves as: `ENV_OFFICE_PLATE_HC_V4_2X_F2B_RAW`
+
+```
+Image 1 is the picture to edit: a square close-up of a bearded man in a black suit, black shirt and black tie, leaning over a desk by a dark office window at night. Image 2 is a close-up of the same man, with his head turned toward the left of the picture; use it only for what his head looks like. Copy nothing else from image 2: not the pose, the light or the room.
+
+Keep the framing of image 1 exactly: the same square picture, his head the same size and in the same place, the top of his hair the same distance from the top edge, his shoulders, black suit, black shirt and black tie exactly as they are. Do not zoom in, do not crop, do not move the camera.
+Keep the room behind him exactly as in image 1: the dark window frames, the black night glass and the olive leaves at the right edge.
+Keep the turn and tilt of his head exactly as in image 1: he leans forward and looks down toward the bottom left of the picture, at the desk in front of him.
+Draw the man from image 2 seen from this same angle.
+
+Change only his head so it is the man in image 2:
+- His face: image 2's broad face with full cheeks and a firm jaw, and image 2's eyes, eyebrows, nose and mouth.
+- His beard: image 2's full, short, dense dark beard and moustache, covering his cheeks up to just below the cheekbones.
+- His hair: short, thick, dark hair swept up at the front and lying smooth and tidy at the sides, in place of the curls. On the top and at the back of his head the hair reaches out to where the outer edge of his curls is now in image 1.
+- His expression: calm and focused. His eyes look down at the desk, open and relaxed; both eyebrows are level and relaxed, with no frown and no creases between the brows; his mouth is relaxed with a faint, confident half-smile.
+The outer edge of his head, hair, beard and ears stays where it is now or reaches slightly further out, never further in. Wherever the new head is narrower than the old one, fill that space with his own hair, his beard or the shadow of his collar, never with the room.
+
+Light: the same low, warm office light as image 1, from the same side; his face no brighter and no darker than now.
+Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
+One picture, square, the same framing as image 1, the largest size available.
+```
+
+### F-2 option C: Words only: hair, beard, broad face and calm expression described, no Image 2.
+| Status | sent to Nik 2026-11-26 21:40 UTC |
+|---|---|
+- Image 1: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/OFFICE_NIK_HEAD_CROP_1700_0_900.png
+- Image 2: none
+- Saves as: `ENV_OFFICE_PLATE_HC_V4_2X_F2C_RAW`
+
+```
+Image 1 is the picture to edit: a square close-up of a bearded man in a black suit, black shirt and black tie, leaning over a desk by a dark office window at night.
+
+Keep the framing of image 1 exactly: the same square picture, his head the same size and in the same place, the top of his hair the same distance from the top edge, his shoulders, black suit, black shirt and black tie exactly as they are. Do not zoom in, do not crop, do not move the camera.
+Keep the room behind him exactly as in image 1: the dark window frames, the black night glass and the olive leaves at the right edge.
+Keep the turn and tilt of his head exactly as in image 1: he leans forward and looks down toward the bottom left of the picture, at the desk in front of him.
+
+Change only his head, so he looks like a strong man in his thirties with a broad face:
+- His face: a broad face with full cheeks and a wide, firm jaw; dark brown eyes under thick, straight, dark eyebrows; a straight nose; full lips.
+- His beard: a full, short, dense dark beard and moustache, neatly trimmed, covering his cheeks up to just below the cheekbones and filling out along his jaw and chin, so no thin or patchy beard shows.
+- His hair: short, thick, dark hair swept up at the front and lying smooth and tidy at the sides, in place of the curls. On the top and at the back of his head the hair reaches out to where the outer edge of his curls is now in image 1.
+- His expression: calm and focused. His eyes look down at the desk, open and relaxed; both eyebrows are level and relaxed, with no frown and no creases between the brows; his mouth is relaxed with a faint, confident half-smile.
+The outer edge of his head, hair, beard and ears stays where it is now or reaches slightly further out, never further in. Wherever the new head is narrower than the old one, fill that space with his own hair, his beard or the shadow of his collar, never with the room.
+
+Light: the same low, warm office light as image 1, from the same side; his face no brighter and no darker than now.
+Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
+One picture, square, the same framing as image 1, the largest size available.
+```
