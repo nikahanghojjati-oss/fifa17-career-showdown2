@@ -602,6 +602,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1, 26 Nov 00:36 UTC: **8.5/10.** 941x1672 (9:16), aligned at scale 1.003, men 5.8 levels, both faces held, windows clear glass with the floodlight, blotters and lamp in place, no brown left. One miss: spread 41.1 (needs 45; Wooden 38), the room lights too evenly. Fix 1 (same chat): "Keep this image exactly the same. Change only: the light. The lamp at the right throws a brighter warm pool onto the leather wall around it and a warm soft reflection onto the polished desk right under it, and away from the lamp the room falls off smoothly into deep shadow: the ceiling to wine near-black, and the desk slab darkening steadily toward the bottom of the picture until the bottom edge is wine near-black. The desk stays polished deep red marble with its few pale veins, and the two men stay exactly as they are."
 
 ### R-15 · Ruby Clubhouse: Hall, phone
 - Image 1: [IMG1_ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png)), 1179x2096
