@@ -280,6 +280,7 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 
 Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.
 ```
+- Try 2 (14:50 UTC): **9/10, accepted**. Scale 1.004, men 9.3. The arches are solid opaque malachite with bands along each curve and a soft lamp sheen, no glow; the vault falls to deep green; leather smooth satin; shelves near-black walnut with malachite posts; the pedestal is now a malachite block with a brass top edge; niches keep the ball and books with warm lights; counter calm malachite with a satin brass rail. All numbers pass: vs Black 18.1, hue 0.77, brown 0.08, sat 0.78, glint 0.56, spread 59, detail 2.79. Small leftover: the niche frames are a mid walnut, a shade lighter than near-black. Lesson: never say "glow" for light on stone; Astra makes the stone glow. Say "soft warm light falling along" it.
 
 ### E-6 · Emerald Clubhouse: Directors' box
 - Image 1: [IMG1_ENV_BOX_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png)), 3072x1728
