@@ -315,6 +315,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (14:55 UTC): **9/10, accepted**. Scale 1.000, 0.4 px, men 6.1. Smooth satin bottle-green leather panels with stitched seams and near-black walnut frames; the three-pane window and the night stadium untouched; brass hooks with the grey coat and the striped scarf; the cabinet keeps the decanter and glasses on a malachite back; the counter is calm malachite with a satin brass rail and warm reflections. All numbers pass: vs Black 21.8, hue 0.57, brown 0.12, sat 0.68, glint 1.1, spread 88, detail 4.0. Only a faint natural leather surface shows in the lamp light by the cabinet. The framing lock on the edge objects held: first-try 9.
 
 ### E-7 · Emerald Clubhouse: Coaches' room
 - Image 1: [IMG1_ENV_COACHES_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PLATE_HC_V3_2X.png)), 3072x1728
