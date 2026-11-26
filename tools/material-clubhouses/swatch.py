@@ -42,6 +42,17 @@ def run(room):
 # rail % of the phone height). R-13 try 2 (25 Nov): a centre crop kept the desktop Board's tall leather panel and the
 # rail at 79%, and Astra rebuilt the phone room to match. Measure the rail for each room before its ticket goes out.
 ANCHOR = {"BOARD": (1286, 52)}
+# Rooms whose desktop strip is full of objects (Office: lamp, olive tree, ball): Image 2 is built at native scale from a
+# plain leather wall patch over a plain marble desk patch, the desk edge at the phone's % (box in the 3072x1728 painting).
+COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40)}
+
+
+def compose(p, name):
+    (wa, wb, wc, wd), (da, db, dc, dd), pc = COMPOSE[name]
+    w = wc - wa; h = round(w * 16 / 9); t = round(h * pc / 100)
+    im = Image.new("RGB", (w, h))
+    im.paste(p.crop((wa, wd - t, wc, wd)), (0, 0)); im.paste(p.crop((da, db, dc, db + h - t)), (0, t))
+    return im
 
 
 def fit916(im, name=None):
@@ -72,7 +83,7 @@ def main():
             a, b = run(room); cuts[room] = p.crop((a, 0, b, 1728))
     for name, im in cuts.items():
         im.save(f"{out}REF_{name}_{LOOK}_SWATCH.webp", quality=90)
-        im2 = fit916(im, name); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
+        im2 = compose(Image.open(f"{out}ENV_{name}_PLATE_{LOOK}_P1_2X.webp").convert("RGB"), name) if name in COMPOSE else fit916(im, name); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
         print("swatch", name, im.size, "image 2", im2.size)
     for room in ROOMS:
         f = PHONE[room]; n = "IMG1_" + os.path.basename(f).replace(".webp", ".png")

@@ -81,7 +81,7 @@ def prompt(key, rm):
         keepl += " stays at exactly the same height." if rm == "COACHES" else "."
         if edge:
             keepl += f" Everything below the counter edge is one plain, calm slab of the same polished Rosso Levanto marble as the counter."
-        if edge and rm != "COACHES":
+        if edge and rm not in ("COACHES", "OFFICE"):  # the Office desk top is meant to show
             # R-13 try 1 (25 Nov): Astra added a deep reflective counter top with the men mirrored in it, and changed the picture's shape.
             keepl += " The counter edge is a thin rail seen straight on, exactly as in image 1: no counter top surface shows above or below it, nothing is mirrored in it, and the front of the counter starts right under the rail."
         if win:
