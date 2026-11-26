@@ -4,6 +4,9 @@
 // tier and on desktop, upright phone and sideways phone, the game asks for its rooms only from plates-hc/ruby/, its loading
 // tunnel only from assets/loading/ruby/ and its panel marble only as css/r78-marble-tile-ruby.webp. It never downloads a
 // Wooden room, another clubhouse's room, tunnel or marble, or an old plate where a Ruby copy exists.
+// League Roulette (Nik 2026-11-26): with 3D on (WebGL through SwiftShader), at every tier and device, the League screen shows
+// the 3D roulette board and never the old flat wheel: the board is on screen, the flat wheel and its pointer are hidden, and
+// the board's marble is Ruby's tile. The old wheel is only the backup for a device with no 3D at all.
 // The static half checks the files; the browser half boots the real game (no service worker) and logs every picture request.
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -79,6 +82,47 @@ async function boot(browser, base, device, tier){
   }finally{ await context.close(); }
 }
 
+// League Roulette: open the screen as the shared flow does, arm and mount the 3D board, then prove it is what shows.
+async function league(browser, base, device, tier){
+  const { tag, ...opts } = device;
+  const context = await browser.newContext({ ...opts, serviceWorkers: "block" });
+  try{
+    await context.route("**/*", route => new URL(route.request().url()).origin === new URL(base).origin ? route.continue() : route.abort());
+    await context.addInitScript(t => { try{ localStorage.setItem("cmsClubhouseTheme", "ruby"); localStorage.setItem("careerModeShowdown.gfxQuality.v1", t); }catch(_error){} }, tier);
+    const page = await context.newPage(), seen = new Set();
+    page.on("request", r => { const u = r.url(); if(u.startsWith(base) && /\.(webp|png|jpe?g|avif)(\?|$)/.test(u)) seen.add(u.slice(base.length).replace(/\?.*$/, "")); });
+    await page.goto(base, { waitUntil: "domcontentloaded" });
+    await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 40000 });
+    await page.waitForFunction(() => window.getActiveScreenName && window.getActiveScreenName() === "mainMenu", null, { timeout: 40000 });
+    const mounted = await page.evaluate(async () => {
+      await window.ensureGameplayModules();
+      const now = new Date().toISOString();
+      currentShowdown = normalizeShowdown({ schemaVersion: 2, id: "p3-ruby-league", name: "Daniel vs Nik", managers: { playerOne: "Daniel", playerTwo: "Nik" }, totalRounds: 3, currentRound: 1, status: "Created", selectedLeague: null, clubs: { playerOne: null, playerTwo: null }, score: { playerOne: 0, playerTwo: 0 }, transferChallenges: [], rounds: [], integrityWarnings: [], createdAt: now, updatedAt: now, completedAt: null, archivedAt: null });
+      showScreen("leagueWheelScreen");
+      if(!window.CareerModeLeagueRouletteStep) await new Promise((ok, no) => { const s = document.createElement("script"); s.src = "js/leagueRouletteStep.js"; s.onload = ok; s.onerror = no; document.head.append(s); });
+      const step = window.CareerModeLeagueRouletteStep;
+      step.arm(true); step.sync({ seed: "sha256:" + "1".repeat(64) + "|op_p3", winner: "premier_league", drops: 0 });
+      return Boolean(await step.ensure()) && !step.failed();
+    });
+    assert.ok(mounted, `${tag} ${tier}: the 3D roulette board mounts`);
+    await page.waitForTimeout(1500);
+    const shown = await page.evaluate(() => {
+      const wheel = document.getElementById("leagueWheel"), host = wheel && wheel.querySelector(".lr3dHost"), canvas = host && host.querySelector("canvas");
+      const r = canvas ? canvas.getBoundingClientRect() : null, vis = el => getComputedStyle(el).visibility !== "hidden" && getComputedStyle(el).display !== "none";
+      return { on: Boolean(wheel && wheel.classList.contains("lr3d-on") && document.documentElement.classList.contains("lr3d-room") && canvas && (canvas.getContext("webgl2") || canvas.getContext("webgl"))), board: Boolean(r && r.width > 100 && r.height > 100 && r.bottom > 0 && r.top < innerHeight && vis(host)),
+        flat: wheel ? [...wheel.children].filter(el => el !== host && vis(el)).map(el => el.id || el.className) : ["no #leagueWheel"],
+        pointer: [...document.querySelectorAll("#leagueWheelScreen .wheelPointer")].filter(vis).length };
+    });
+    assert.ok(shown.on && shown.board, `${tag} ${tier}: the 3D roulette board is on screen (${JSON.stringify(shown)})`);
+    assert.deepEqual([shown.flat, shown.pointer], [[], 0], `${tag} ${tier}: the old flat wheel and its pointer are hidden`);
+    const urls = [...seen];
+    assert.ok(urls.includes("css/r78-marble-tile-ruby.webp"), `${tag} ${tier}: the board's marble is Ruby's tile`);
+    const wrong = urls.filter(u => (/(?:plates-hc|assets\/loading)\/(?:silver|black|matte)\//.test(u)) || (/plates-hc\/ENV_/.test(u)) || (/r78-marble-tile(?:-[a-z]+)?\.webp$/.test(u) && !/tile-ruby\.webp$/.test(u)));
+    assert.deepEqual(wrong, [], `${tag} ${tier}: League Roulette downloads only Ruby rooms and marble`);
+    assert.ok(urls.some(u => /plates-hc\/ruby\/ENV_BOX_/.test(u)), `${tag} ${tier}: the room behind the board is Ruby's box`);
+  }finally{ await context.close(); }
+}
+
 (async () => {
   const { chromium } = require("playwright");
   const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
@@ -94,6 +138,13 @@ async function boot(browser, base, device, tier){
       const runs = await Promise.all(DEVICES.map(d => boot(browser, base, d, tier).then(urls => [d.tag, urls])));
       for(const [tag, urls] of runs) judge(urls, `${tag} at ${tier}`);
       ok(`${tier}: desktop, 2x desktop, upright and sideways phone boot to Home in Ruby and download only Ruby rooms, tunnel and marble`);
+    }
+    await browser.close(); browser = null;
+    // 3D on, as on Nik's Chromebook and phones (CI's browser starts with WebGL off).
+    browser = await chromium.launch({ executablePath: runtime.executablePath, headless: true, args: [...runtime.args.filter(arg => !["--single-process", "--disable-webgl", "--in-process-gpu"].includes(arg)), "--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+    for(const tier of TIERS){
+      for(const d of DEVICES) await league(browser, base, d, tier);
+      ok(`${tier}: League Roulette shows the 3D roulette board on Ruby's marble, never the old flat wheel, on desktop, 2x desktop, upright and sideways phone`);
     }
     console.log(`PASS P3 Ruby own art: ${passed} checks.`);
   }catch(error){ console.error(error); process.exitCode = 1; }

@@ -6,6 +6,14 @@ Send me each picture in the Duet thread, in the order of this sheet. Pass mark: 
 Look: Rosso Levanto marble, oxblood leather, rosewood, antique gold, at night. Study: [COLOUR_STUDY.md](COLOUR_STUDY.md).
 **Seating rule (Nik, 25 Nov 2026 07:36 UTC, every material clubhouse):** the lounge armchairs and sofa take the clubhouse's own colour and material (Ruby: oxblood leather), keeping their shape, size, cushions, seams and place. Nik: "I actually think that having the color of the sofa and chair to be matched with the overall color and theme of the clubhouse make it looks better." Every other object (plaid blankets, ball, whisky, throw, rug, lamp shades) keeps its own colour.
 
+## Standing checks for every clubhouse (Ruby, then Emerald to Viola)
+
+- **League Roulette is the 3D roulette board, never the old flat wheel** (Nik, 26 Nov 2026 04:40 UTC: "Make sure that the league roulette uses the roulette board we have, not the old wheel in all clubhouses you build"; desk rule in DUET_P4_MAILBOX A-2). The flat wheel is only the backup for a device with no 3D at all.
+  - Every League Roulette board shot, study and check runs with 3D on (SwiftShader: drop `--disable-webgl`, `--in-process-gpu` and `--single-process`, add `--use-gl=angle --use-angle=swiftshader --enable-unsafe-swiftshader`).
+  - Before each shot, prove the board is on screen: `#leagueWheel.lr3d-on`, `html.lr3d-room`, and a WebGL canvas in `#leagueWheel > .lr3dHost`. If any is missing the browser fell back to the wheel: throw the shot away, fix the browser, shoot again.
+  - The clubhouse's own-art contract proves it at every quality tier on desktop, 2x desktop, upright and sideways phone: board on screen, flat wheel and pointer hidden, the board's marble is the clubhouse's own tile, the room behind it is the clubhouse's own box (tests/contracts/p3-ruby-own-art-contracts.cjs is the pattern).
+  - Never shrink or move the board. If a fix seems to need it, give Nik 2-3 options to pick from.
+
 ## Prompt lessons from the Ruby tries (26 Nov 2026, Nik: "Learn from the fails and from the what happened to really develop that skill.")
 Each lesson: what failed, its score, the fix that worked, and the line now in every first-try prompt (mk_phones.py writes them in).
 1. **Reds too vivid** (R-5 8.5, R-7 8, R-10 8, R-12 fix 1 8.5, R-13 8.5, R-14 fix 2 8.5, R-15 8.5, R-16 fix 1 8.5; sat 0.90 to 0.975). "Deep and muted, never crimson" in the prompt was not enough, and every brightening edit pushed the reds more vivid. Worked: an edit that only mutes ("every red ... a touch more muted and aged, a deep worn oxblood ... brightness, lamp light, shapes and the two men stay exactly"), R-15 and R-16 to 9/10. First try now: "Every red in the room is a touch muted and aged, a deep worn oxblood, never a vivid or saturated red. Where the light is brightest the red turns lighter and creamier, never more vivid and never orange."
