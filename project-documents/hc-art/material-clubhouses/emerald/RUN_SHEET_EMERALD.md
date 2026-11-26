@@ -604,6 +604,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 - Try 1 (16:32 UTC): **8/10, fix 1.** Aligns (scale 1.000, 4.8 px, men 8.5); window clear glass, desk and blotters, lamp and ball held; the counter now has the crisp growth lines. One check misses: sat 0.93 (limit 0.90). The counter front (sat 0.89) and the two side pillars, whose straight bands read close to green satin, are too vivid. Fix 1 (same chat), colour only: the counter and pillar malachite a touch more muted and greyed; everything else stays. Raw kept as ENV_OFFICE_PHONE_EMERALD_P1_T1_RAW.png.
+- Fix 1 (16:35 UTC): **8.5/10, fix 2.** Aligns (scale 1.001, 2.4 px, men 7.2) and every check passes now (sat 0.69, detail 2.52, spread 63). The pillars are now solid rounded stone with straight bands. One miss by eye: the desk top between the blotters turned a dark olive-brown (mean RGB 38,36,24), not green stone, and reads as black. Fix 2 (same chat, the last edit here): the desk top only, the same muted malachite as the counter front.
 
 ### E-15 · Emerald Clubhouse: Hall, phone
 - Image 1: [IMG1_ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png)), 1179x2096
