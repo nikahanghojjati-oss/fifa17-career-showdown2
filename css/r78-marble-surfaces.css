@@ -144,17 +144,23 @@
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
-/* the approved System/Settings marble room as the screen (paths for this file in css/) */
+/* r100 B7 (HO-174..181, lead 2026-11-26): each clubhouse's own sign-in lounge is the screen (Team V's handcrafted room, no
+   people; plates-hc/ENV_SIGNIN_*, so index.html's clubhouse switch draws plates-hc/<clubhouse>/ENV_SIGNIN_* for Platinum, Black
+   Steel and Graphite). It replaces the old plates-v2 Settings room, which is gone from the game (Nik 2026-11-25, premium
+   only). Like the loading room, the size follows the window and the screen only (this screen can show before the quality
+   level is known): 1536 px in small windows, the 1920 cut in windows wider than 1536 or taller than 864 CSS px (Nik's
+   Chromebook at 1920x866 and 1920x1035), 3072 px on 2x screens; upright phones take the 1179 px phone lounge (590 px at 1x). */
 .r78-error-screen--plate {
-  background: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x) center / cover no-repeat,
+  background: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_2X.webp") 2x) center / cover no-repeat,
     #07080a url("r78-marble-tile.webp") 0 0 / 256px 256px repeat;
+}
+@media (min-width: 1537px), (min-width: 901px) and (min-height: 865px) {
+  .r78-error-screen--plate { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_1920.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_2X.webp") 2x), url("r78-marble-tile.webp"); }
 }
 /* r87 (Team G): the marble tile under the plate is the precached fallback, so an offline phone that has not opened Settings
    yet still gets black-and-gold marble behind the panel instead of a flat black screen. */
 @media (max-width: 760px) and (orientation: portrait) {
-  /* r78 wiring: the old system phone plate was removed in r78 (PR #891); phones use the same marble plate as phone
-     Settings (plates-v2/ENV_SETTINGS_PHONE_V2.webp, js/rulesSettingsV10.js) */
-  .r78-error-screen--plate { background-image: url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp"), url("r78-marble-tile.webp"); }
+  .r78-error-screen--plate { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PHONE_HC_V1_590W.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PHONE_HC_V1.webp") 2x), url("r78-marble-tile.webp"); }
 }
 .r78-error-screen__panel {
   width: min(560px, 100%);
@@ -615,13 +621,17 @@
    Also remove the old #onlinePlayerIdentityOverlay block in css/v10Shell.css (lines ~110-135) once this is wired.
    Until then, these rules already override the inline look without JS changes (inline styles need !important): */
 :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay {
-  background: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x) center / cover no-repeat,
+  background: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_1X.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_2X.webp") 2x) center / cover no-repeat,
     #07080a url("r78-marble-tile.webp") 0 0 / 256px 256px repeat !important;
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
+/* r100 B7: the same sign-in lounge sizes as the error screens above */
+@media (min-width: 1537px), (min-width: 901px) and (min-height: 865px) {
+  :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_1920.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_2X.webp") 2x), url("r78-marble-tile.webp") !important; }
+}
 @media (max-width: 760px) and (orientation: portrait) {
-  :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay { background-image: url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp"), url("r78-marble-tile.webp") !important; }
+  :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay { background-image: image-set(url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PHONE_HC_V1_590W.webp") 1x, url("../visual-assets/v10_1/plates-hc/ENV_SIGNIN_PHONE_HC_V1.webp") 2x), url("r78-marble-tile.webp") !important; }
 }
 :root:not(#r78):not(#r78) #onlinePlayerIdentityOverlay > section {
   box-sizing: border-box;

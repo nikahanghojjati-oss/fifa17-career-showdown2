@@ -9,6 +9,8 @@
 // E5  Offline: the error screens' fonts are served from the precached shell without ?v= (the titles fell back to Times),
 //     and the marble tile sits under the room picture so an uncached picture leaves black-and-gold marble, not flat black.
 // E6  Browser: the real gate at 390x844 and 1440x900 shows those words and buttons on the marble screen, no dimming.
+// E9  r100 B7 (lead 2026-11-26): the boot-fail screen, with the clubhouse pick unreadable (first boot, storage blocked or
+//     cleared), still draws a sign-in lounge: the Wooden one, downloaded and drawn, never a blank or the old Settings room.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),net=require("node:net"),vm=require("node:vm");
 const {spawn}=require("node:child_process");
 const ROOT=path.resolve(__dirname,"../..");
@@ -87,9 +89,11 @@ check("E5 offline fonts and the marble fallback",()=>{
   }
   const css=read("css/r78-marble-surfaces.css");
   assert.match(css,/\.r78-error-screen--plate \{\n  background: image-set\([^\n]*center \/ cover no-repeat,\n    #07080a url\("r78-marble-tile\.webp"\) 0 0 \/ 256px 256px repeat;/);
-  assert.match(css,/\.r78-error-screen--plate \{ background-image: url\("\.\.\/visual-assets\/v10_1\/plates-v2\/ENV_SETTINGS_PHONE_V2\.webp"\), url\("r78-marble-tile\.webp"\); \}/);
+  // r100 B7: the phone sign-in lounge (each clubhouse's own, plates-hc/ENV_SIGNIN_*) with the marble tile still under it
+  assert.match(css,/\.r78-error-screen--plate \{ background-image: image-set\(url\("\.\.\/visual-assets\/v10_1\/plates-hc\/ENV_SIGNIN_PHONE_HC_V1_590W\.webp"\) 1x, url\("\.\.\/visual-assets\/v10_1\/plates-hc\/ENV_SIGNIN_PHONE_HC_V1\.webp"\) 2x\), url\("r78-marble-tile\.webp"\); \}/);
   assert.match(css,/#onlinePlayerIdentityOverlay \{\n  background: image-set\([^\n]*no-repeat,\n    #07080a url\("r78-marble-tile\.webp"\) 0 0 \/ 256px 256px repeat !important;/);
-  assert.match(css,/#onlinePlayerIdentityOverlay \{ background-image: url\("\.\.\/visual-assets\/v10_1\/plates-v2\/ENV_SETTINGS_PHONE_V2\.webp"\), url\("r78-marble-tile\.webp"\) !important; \}/);
+  assert.match(css,/#onlinePlayerIdentityOverlay \{ background-image: image-set\(url\("\.\.\/visual-assets\/v10_1\/plates-hc\/ENV_SIGNIN_PHONE_HC_V1_590W\.webp"\) 1x, url\("\.\.\/visual-assets\/v10_1\/plates-hc\/ENV_SIGNIN_PHONE_HC_V1\.webp"\) 2x\), url\("r78-marble-tile\.webp"\) !important; \}/);
+  assert.doesNotMatch(css,/plates-v2\/ENV_SETTINGS_/,"the old plates-v2 Settings room is gone from the error and sign-in screens (premium only)");
 });
 
 check("E7 the connection panel and the save check speak plainly (proofread W3-7)",()=>{
@@ -133,6 +137,25 @@ async function gate(browser,base,opts,state,quota){
       const back=quota?(()=>{[...el.querySelectorAll("button")].find(b=>b.textContent.trim()==="BACK TO HOME").click();return !document.getElementById("onlinePlayerIdentityOverlay");})():null;
       return {title:el.querySelector("h2").textContent,body:el.querySelector(".r78-error-screen__body").textContent,buttons,bg:cs.backgroundImage,filter:cs.backdropFilter,opacity:cs.opacity,back};
     },[state,quota]);
+  }finally{await context.close();}
+}
+
+// E9: a first boot whose start fails, with localStorage and sessionStorage both throwing (so the clubhouse pick cannot be read
+// and the once-only reload mark cannot be set, which shows the error screen at once), and js/app.js never arriving.
+async function bootFail(browser,base,opts){
+  const context=await browser.newContext(opts);
+  await context.addInitScript(()=>{for(const k of ["localStorage","sessionStorage"])Object.defineProperty(window,k,{configurable:true,get(){throw new DOMException("blocked","SecurityError");}});});
+  await context.route("**/js/app.js*",route=>route.abort());
+  await context.route("https://**/*",route=>route.abort());
+  const page=await context.newPage();
+  try{
+    await page.goto(base,{waitUntil:"domcontentloaded"});
+    await page.waitForSelector("#bootFailScreen",{timeout:30000});
+    await page.waitForFunction(()=>/ENV_SIGNIN_/.test(getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage),null,{timeout:15000});
+    await page.waitForFunction(()=>performance.getEntriesByType("resource").some(e=>/ENV_SIGNIN_/.test(e.name)&&e.responseEnd>0),null,{timeout:15000});
+    return await page.evaluate(()=>({bg:getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage.replace(location.origin+"/",""),
+      loaded:performance.getEntriesByType("resource").map(e=>e.name.replace(location.origin+"/","")).filter(n=>/ENV_SIGNIN_|ENV_SETTINGS_|plates-v2/.test(n)),
+      title:document.getElementById("bootFailTitle")?.textContent,clubhouse:document.documentElement.getAttribute("data-clubhouse")}));
   }finally{await context.close();}
 }
 
@@ -204,6 +227,17 @@ async function homeQuota(browser,base,opts,shot){
       assert.deepEqual(q.afterReset,{line:false,note:false},`${tag} resume clears it`);
     }
     passed+=1;console.log(`ok ${passed} E8 the free-limit line lives inside Continue Career on a portrait phone, a note elsewhere`);
+    for(const opts of [{viewport:{width:1920,height:866}},{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true}]){
+      const tag=`${opts.viewport.width}x${opts.viewport.height}`,phone=opts.viewport.width<=760;
+      const b=await bootFail(browser,base,opts);
+      assert.equal(b.title,"THE GAME DID NOT START",`${tag} the boot-fail screen shows`);
+      assert.equal(b.clubhouse,null,`${tag} no clubhouse could be read, so none is set`);
+      const want=phone?/visual-assets\/v10_1\/plates-hc\/ENV_SIGNIN_PHONE_HC_V1(_590W)?\.webp/:/visual-assets\/v10_1\/plates-hc\/ENV_SIGNIN_PLATE_HC_V1_(1X|1920|2X)\.webp/;
+      assert.match(b.bg,want,`${tag} the Wooden lounge is the screen (${b.bg})`);
+      assert.match(b.bg,/r78-marble-tile\.webp/,`${tag} with the Wooden marble under it`);
+      assert.ok(b.loaded.length>=1&&b.loaded.every(n=>want.test(n)),`${tag} only the Wooden lounge is downloaded, never the old Settings room (${b.loaded.join(", ")})`);
+    }
+    passed+=1;console.log(`ok ${passed} E9 the boot-fail screen falls back to the Wooden lounge when the clubhouse pick cannot be read (1920x866, 390x844)`);
     console.log(`PASS r87 error screens contracts: ${passed} checks.`);
   }finally{
     if(browser)await browser.close();

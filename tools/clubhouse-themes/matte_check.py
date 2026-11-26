@@ -51,6 +51,8 @@ def wooden(room):
         return os.path.join(ROOT, "assets/loading/ENV_LOADING_PLATE_HC_2X.webp")
     if room == "SLAB":
         return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp")
+    if room == "SIGNIN":  # the sign-in lounge (r100 B7, HO-174..181): its Wooden 2X is Team V's Wooden delivery at q90
+        return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_2X.webp")
     return os.path.join(ROOT, f"visual-assets/v10_1/plates-hc/ENV_{room}_PLATE_HC_V3_2X.webp")
 
 
