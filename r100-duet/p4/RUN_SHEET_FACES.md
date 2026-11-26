@@ -28,7 +28,7 @@ Same framing as image 1, nothing cropped, the largest size available.
 ```
 
 ### F-1 option B: Face and beard matched to the Home face (Image 2); his hair and head outline kept.
-| Status | not run |
+| Status | try 1 in 04:54 UTC (raw on claude-duet/p4-faces-inputs, sha 56483981, only 1672x941): 5/10. Eyes a little closer to Home, but the face is as round as before; the whole picture was redrawn (Daniel too, the lock restores him). Fix 1 sent (same chat): cheeks and jaw as narrow as image 2, freed space filled with his own beard. |
 |---|---|
 - Image 1: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-1/ENV_ARCHIVE_PLATE_HC_V3_2X.png
 - Image 2: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-1/HOME_NIK_FACE_ANCHOR.png
