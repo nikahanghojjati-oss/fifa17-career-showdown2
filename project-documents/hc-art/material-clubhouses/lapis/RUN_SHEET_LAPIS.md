@@ -281,7 +281,17 @@ Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or ex
 ```
 
 Tries:
-- (waiting for the first picture)
+- T1 (19:35 UTC, `ENV_BOARD_PLATE_LAPIS_P1F_2X_T1_RAW.png`): 8.5. Neat, symmetrical Persian vines and palmettes in every ray, flowered borders on every panel: the room finally looks rich and made by hand. Miss: the tooling is pale silver, not tone-on-tone, so it reads a little like printed wallpaper, and the SEASON RESULTS title sits over busy lines. Men diff 10.0; sat 0.986, luma 26.7, glint 20.7 (gold hairlines). Next: F1 in the same chat, one change (softer tooling, quieter behind the title).
+
+L-1F F1 (same chat, edit 1 of 2), saves as `ENV_BOARD_PLATE_LAPIS_P1F_2X_T2_RAW.png`:
+
+```
+Edit the picture you just made. Keep it exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same Persian design, its shapes and its placement, the lamp, door, stone, gold lines, colours and light.
+
+Change only one thing: how strongly the tooled Persian pattern shows. Right now its pale silvery lines stand out like printed wallpaper. Make every tooled line, flower and border only a shade lighter and deeper than the lapis-blue leather around it, never pale silver or grey-white, so it reads as soft blind tooling pressed into the leather, catching the light only gently where the lamp falls. In the upper half of the middle panel it fades a little more, so a title placed there stays easy to read. Keep exactly the present brightness and colour of the leather.
+
+Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
 
 ### L-1G · Lapis Board: Persian architecture arch with girih lattice (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
 
