@@ -105,13 +105,13 @@ def prompt(key, rm):
     room += f"\n\nEvery wall, door, frame, shelf, panel and pillar takes one of these materials ({L['materials']}); no light wood is left anywhere in the room."
     if extra == "nolamps":
         src = ("No wall lamps are visible in this room: light comes only from the lights inside the two display niches and a soft glow along the vault. Add no lamps, sconces or wall lights anywhere. "
-               "Each niche throws a soft warm pool onto the leather and stone around it, with a soft warm reflection on the polished counter top")
+               "Each niche throws a soft warm pool onto the leather and stone around it, with a soft warm reflection on the polished front of the counter")
     elif rm == "LOADING":
         src = ("Light comes only from the same soft overhead glow as image 1 and the floodlit pitch at the end of the tunnel. The pitch light throws a soft warm glow onto the marble, "
                "the leather and the floor near the tunnel end; where it meets the steps and the gold edge strips it fades smoothly, with no hot bright line and no white highlight")
     else:
         src = (f"Light comes only from the same warm lamps in the same places{' and the floodlit stadium glow through the window' if win else ''}. "
-               "Each lamp throws a soft warm pool onto the leather and marble around it, with soft warm reflections on the polished counter top")
+               "Each lamp throws a soft warm pool onto the leather and marble around it, with soft warm reflections on the polished front of the counter")
         if extra == "tunnel":
             src += "; where the pitch light meets the top step it is a gentle warm glow that fades smoothly, with no hot bright line and no white highlight"
     light = (f"Light: It is night. {Y['light_rule']} {src}, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat."
