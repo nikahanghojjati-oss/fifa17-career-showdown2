@@ -82,5 +82,44 @@ def lr_desktop():
     return t
 
 
+def club_sideways():
+    """L-24: E-24's layout paragraphs (wide 2.16:1 club room, no people) with L-9's accepted Lapis materials and colour lock,
+    the L-22 counter (L-13 lesson) and E-24's fix lessons built into the light (walls clearly readable, wide lamp pools)."""
+    e, l9, l22 = eprompt("E-24"), prompt("L-9").split("\n\n"), lr_phone().split("\n\n")
+    assert len(e) == 11 and e[2].startswith("There are no people") and e[6].startswith("Light:")
+    p0 = sub(lr_desktop().split("\n\n")[0], "carpet, fan of gold rays, layout, camera angle or shape", "carpet, fan of gold rays, layout, camera angle or shape")
+    room9 = [x for x in l9 if x.startswith("The room:")][0]
+    feel, rest = room9.split("\n", 1)
+    k = rest.index(" The back wall below the window becomes")
+    wall = rest[:k].replace("The wall panels and pillars become", "The wall panels, the top band, the back wall below the window and the tall panel on the right become")
+    counter = [x for x in l22 if x.startswith("The room:")][0]
+    counter = counter[counter.index("Counter: ") + len("Counter: "):]
+    chairs = rest[rest.index("The two armchairs keep"):]
+    room = (feel + "\n" + wall + " The window frames become blue-black ebony with a thin satin gold inner line. The low shelf becomes blue-black ebony "
+            "with a honed lapis lazuli top and a thin satin gold edge. The banner rod and lamp arms become satin gold with soft broad highlights; the "
+            "shades stay warm cream and lit. The floor becomes hard, honed deep lapis lazuli stone (never velvet, suede or carpet) with soft blurred warm "
+            "glows under the lamps and real soft contact shadows. The counter strip becomes " + counter + " " + chairs)
+    mats = [x for x in l9 if x.startswith("Every wall, door")][0]
+    light = ("Light: It is night. Lapis is vivid, lively ultramarine lapis lazuli and lapis-blue leather at night, like a film still: rich, saturated "
+             "and jewel-bright, like a cut lapis gem held to candlelight, never a flat plastic blue, navy-grey, purple or teal. Light comes only from the "
+             "two warm wall lamps in the same places and the floodlit stadium glow through the window. Each lamp throws a wide, clearly bright warm "
+             "cream-gold pool onto the leather wall around and below it, spreading softly about a third of the way down the wall, the window glow lights "
+             "the two armchairs and the floor in front of them softly, and the trophy catches a soft warm glint; the blue falls off to ultramarine "
+             "near-black only in the far corners and toward the ceiling, so the room has depth and never looks flat. Everything else keeps a vivid, "
+             "saturated ultramarine, and the walls read as a clearly readable vivid mid ultramarine, never near-black, so the armchairs and the pennant "
+             "read clearly against them. Where the light is brightest the blue turns a brighter, clearer ultramarine, never grey, green or purple. Every "
+             "blue in the room is rich and jewel-like, never navy-grey, purple or teal, and the hand-tooled Persian vines and palmettes and the flowered "
+             "borders on the leather stay rich and clearly readable. The leather has a soft satin sheen; the lapis is honed with a soft satin finish, "
+             "never glass or a mirror; gold appears only as small satin accents with soft broad highlights, never hot white sparkle points or glitter. Up "
+             "close you see the tooled Persian pattern and stitched seams of the leather, the ebony mouldings and the drifts and tiny crystal flakes of "
+             "the lapis, all sharp.")
+    lock = [x for x in l9 if x.startswith("Colour lock:")][0]
+    out = [p0, e[1], e[2], e[3], room, mats, light, lock, e[8], e[9], e[10]]
+    t = "\n\n".join(out)
+    import re
+    assert not re.search(r"malachite|walnut|brass|bottle|green near|Emerald| men |suits", t), re.findall(r".{30}(?:malachite|walnut|brass|bottle|Emerald| men |suits).{30}", t)
+    return t
+
+
 if __name__ == "__main__":
-    print({"phone": lr_phone, "desktop": lr_desktop}[sys.argv[1]]())
+    print({"phone": lr_phone, "desktop": lr_desktop, "sideways": club_sideways}[sys.argv[1]]())
