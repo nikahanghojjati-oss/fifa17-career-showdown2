@@ -104,5 +104,10 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
-- (waiting for Nik's first try)
+- Try 1 (26 Nov 12:11 a.m. Boston) **8.5/10, one fix.** Align: scale 1.0010, shift 0.2 px, men unchanged (mean diff 4.5). All window panes clear glass full height with the stadium as in Image 1, no door, malachite pillars and counter with broad calm bands, near-black walnut sideboard with a malachite top, and the armchairs and sofa in bottle-green leather (seating rule) with the plaid, ball, whisky, throw and rug in their own colours. emerald_check PASS but thin: vs Black 15.8 and hue 0.52 against limits of 15 and 0.50. Miss: the big wall above the lounge and the ceiling are near-black, so the room reads close to Metallic Black (Ruby lesson 9). Raw kept as ENV_HOME_PLATE_EMERALD_P1_2X_T1_RAW.png.
+- Fix 1 (same chat):
+
+```
+Keep this image exactly the same. Change only the walls and the ceiling: the big wall above and behind the lounge, the lounge wall panels and the ceiling become a clearly readable rich bottle green (#145A3C), a little lighter than now, instead of near-black, falling off to green near-black only in the far top corners. Keep their leather grain and seams. The window and the stadium, the malachite pillars, the counter, the lamps and their pools, the armchairs, the sofa, every object and the two men stay exactly as they are.
+```
 
