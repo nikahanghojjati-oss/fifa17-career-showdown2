@@ -985,6 +985,21 @@ Same wide 2.16:1 framing as image 1, nothing cropped or extended at any edge, la
 ```
 
 Tries:
+- Try 1 (26 Nov): 8/10. Layout locked (align scale 1.002, peak 0.441 OK), green armchairs, malachite floor and counter right. Too dark: luma 23.5, vs black 12.3 < 15; the lamp pools on the wall are weak. Raw kept as ENV_CLUB_SIDEWAYS_EMERALD_P1_T1_RAW.png.
+- Try 1 fix 1 (same chat): walls one step lighter; wide bright lamp pools.
+
+Try 1 fix 1 prompt:
+
+```
+Keep this image exactly the same: the same framing, size and shape, and every shape in it stays exactly where it is: the two wall lamps, the window with the stadium, the two green armchairs, the low table, the pennant, the trophy and the ball on the low shelf, the floor and the counter strip. Change only these two things:
+
+1. Lift the leather walls, the top band, the back wall below the window and the tall panel on the right about one step lighter, to a clearly readable rich mid bottle green, like a dark green glass bottle with candlelight behind it, so the walls read clearly behind the armchairs and the pennant. Keep every green muted and aged, never vivid, mint or lime; only the far corners fall to green near-black.
+
+2. Each of the two wall lamps throws a wide, clearly bright warm cream-gold pool of light onto the leather wall around and below it, spreading softly about a third of the way down the wall, where the green turns a lighter, clearer jade, never yellow or olive.
+
+The armchairs, the floor, the counter strip and the stadium keep their present brightness. Everything else stays exactly as it is.
+```
+
 
 ## Batch 4: Sign-in lounge (Emerald 25-26)
 
