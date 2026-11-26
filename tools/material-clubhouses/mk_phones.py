@@ -46,7 +46,13 @@ X = {  # Ruby words that grew past batch 1's dictionary (R-6 to R-11 lessons)
  "LAPIS": dict(
   light_rule=M["LAPIS"]["light_rule"],
   stone=M["LAPIS"]["stone"].replace("exactly like the stone in image 2", "exactly like the stone in image 2, with its drifts running straight up and down each pillar"),
-  counter=M["LAPIS"]["counter"].replace("exactly like the counter in image 2", "exactly like the stone in image 2"),
+  # L-13 (26 Nov): T1 counter went dark navy at the bottom ("deepens to deep lapis blue"); F1 lit it but lost the warm wash;
+  # F2 brought the wash back and the gold rail's hot end down, but the second edit redrew the panels as plain damask.
+  counter=M["LAPIS"]["counter"].replace("exactly like the counter in image 2", "exactly like the stone in image 2").replace(
+      "a soft warm wash of light falls along its top edge and the stone deepens gradually to deep lapis blue toward the bottom",
+      "a soft warm wash of cream-gold lamplight falls along its top just below the rail, strongest under the nearest lamp and fading gently away from it, "
+      "and the stone deepens gently toward the bottom but stays a rich, clearly readable lapis blue (#165CC4 to #1450AE) all the way down, never navy or near-black; "
+      "the gold rail along its top is a soft, dim satin line with no bright shine or white highlight"),
   sample="hand-tooled Persian lapis-blue leather panels with flowered carpet borders, blue-black ebony frames, honed lapis lazuli, satin gold",
   veins=("", ""),
   slabname="honed lapis lazuli", floorstone="honed deep lapis lazuli stone", on="on the blue stone", trim="satin gold",
