@@ -838,6 +838,7 @@ Tries:
 
 - Try 2 (26 Nov): 8/10. Framing locked (align scale 1.004, peak 0.150 OK); materials right. Too dark: luma 25 (Tunnel 34), vs black 11.6 < 15, mw 11.9 < 12; glint 3.4 > 3.0 from the bottom brass lines at 88% and 95%. Raw kept as ENV_LOADING_PHONE_EMERALD_P1_T2_RAW.png.
 - Try 2 fix 1 (same chat): walls, ceiling and pillars one step lighter; brass floor lines and step edges dim satin bronze.
+- Try 2 fix 1 (26 Nov): 9/10, ACCEPTED. Align scale 1.006, peak 0.131 OK; emerald_check PASS (vs black 17.1, mw 16.1, luma 33.8, glint 0.9, spread 76.6). Readable bottle-green walls, vertical malachite bands, dim bronze lines; layout matches image 1.
 
 Try 2 fix 1 prompt:
 
