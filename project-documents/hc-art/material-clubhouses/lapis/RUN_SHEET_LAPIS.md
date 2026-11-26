@@ -785,6 +785,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (21:44 UTC): **9/10, accepted.** Aligned scale 1.001, men diff 7.1. The receding vault keeps image 1's arches, now tooled Persian lapis panels with flowered borders and lapis ribs; both niches lit with their ball and scarf; no lamps added; the counter a readable lapis with a warm wash along the rail. sat 0.990 is the counter's pure blue (as L-13 to L-15), so ARCHIVE_PHONE gets sat to 0.995; PASS. Master `lapis/ENV_ARCHIVE_PHONE_LAPIS_P1.webp`.
+
 ### L-17 · Lapis Clubhouse: Directors' box, phone
 - Image 1: [IMG1_ENV_BOX_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PHONE_HC_V3.png)), 1179x2096
 - Image 2: [IMG2_REF_BOX_LAPIS_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOX_LAPIS_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOX_LAPIS_SWATCH.png))
