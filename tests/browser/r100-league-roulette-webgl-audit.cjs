@@ -27,6 +27,7 @@
 //   - loading-back:  the loading screen comes back after this page showed the 3D board;
 //   - blank:         the loading screen is gone and no screen shows (a dead frame).
 //   - empty-board:   the league screen shows no 3D board for more than 50 ms after the loading screen left.
+//   - page-error:    any uncaught page error (exception or unhandled rejection) not named in KNOWN_PAGE_ERRORS.
 // Sampling stops on each page once the Ball Game shows.
 // Any of these, a WebGL2 that does not work, or a board that does not rebuild after the context loss fails the run. Each
 // failure names the run, the beat, the phone, the size and the clubhouse.
@@ -157,6 +158,9 @@ const SAMPLER=()=>{
 // ---------------------------------------------------------------------------------------------------------------------------
 // Phones
 // ---------------------------------------------------------------------------------------------------------------------------
+// Uncaught page errors (exceptions and unhandled rejections) fail the run. Only errors named here, each with the reason it is
+// harmless, are let through (and listed in the report). None are known today.
+const KNOWN_PAGE_ERRORS=Object.freeze([]);
 async function openContext(browser,m){
   const context=await browser.newContext({viewport:m.size,deviceScaleFactor:1});
   await context.route(/^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)$/,route=>{const name=route.request().url().match(/(firebase-[a-z-]+\.js)$/)[1];return route.fulfill({path:path.join(SDK_DIR,name),contentType:"text/javascript; charset=utf-8"});});
@@ -168,7 +172,8 @@ async function openContext(browser,m){
 async function newPage(m){
   const page=await m.context.newPage();
   page.on("console",msg=>{const t=msg.text();if(t.startsWith("[lrw] ")){let v=null;try{v=JSON.parse(t.slice(6));}catch(_e){}if(v){m.events.push({...v,beat:beatNow,page:m.pages});step(`${m.user} sampler: ${v.kind} ${String(v.detail).slice(0,160)}`);}}});
-  page.on("pageerror",e=>m.errors.push(`${beatNow}: ${String(e.message).slice(0,300)}`));
+  page.on("pageerror",e=>{const msg=String(e&&e.message||e).slice(0,300);const known=KNOWN_PAGE_ERRORS.find(k=>k.match.test(msg));
+    m.errors.push({beat:beatNow,msg,known:known?known.name:null});if(!known)step(`${m.user} page error: ${msg.slice(0,160)}`);});
   page.on("dialog",d=>{void d.accept().catch(()=>{});});
   await installMarbleConfirmAnswers(page,{answer:true});
   m.pages+=1;m.page=page;return page;
@@ -354,9 +359,12 @@ async function runOne(browser,run){
       const groups=new Map();for(const e of m.events){const k=`${e.beat}|${e.kind}`;if(!groups.has(k))groups.set(k,{...e,loads:0});groups.get(k).loads++;}
       for(const e of groups.values()){runNow=run;beatNow=e.beat;await fail(m,e.kind,`${e.detail}${e.loads>1?` (on ${e.loads} page loads)`:""}`,m.page);}
       m.events.length=0;
+      // Uncaught page errors: one failure per beat and message on each phone, unless named in KNOWN_PAGE_ERRORS.
+      const errs=new Map();for(const e of m.errors.filter(x=>!x.known)){const k=`${e.beat}|${e.msg}`;if(!errs.has(k))errs.set(k,{...e,n:0});errs.get(k).n++;}
+      for(const e of errs.values()){runNow=run;beatNow=e.beat;await fail(m,"page-error",`uncaught page error${e.n>1?` (x${e.n})`:""}: ${e.msg}`,null);}
       await m.context?.close().catch(()=>{});
     }
-    report.runs.push({name:run.name,clubhouse:run.label,sizes:run.sizes,ms:Date.now()-started,pageErrors:{daniel:daniel.errors.slice(0,10),nik:nik.errors.slice(0,10)}});
+    report.runs.push({name:run.name,clubhouse:run.label,sizes:run.sizes,ms:Date.now()-started,pageErrors:{daniel:daniel.errors.slice(0,10),nik:nik.errors.slice(0,10)},knownPageErrors:[...daniel.errors,...nik.errors].filter(e=>e.known).length});
   }
 }
 async function screens(page){return page.evaluate(()=>{const vis=el=>el&&!el.classList.contains("hidden")&&getComputedStyle(el).display!=="none"&&el.getClientRects().length>0;return `screens=${[...document.querySelectorAll(".screen")].filter(vis).map(s=>s.id).join(",")} loading=${vis(document.getElementById("loadingScreen"))} buttons=${[...document.querySelectorAll("button")].filter(b=>vis(b)&&!b.disabled).map(b=>b.textContent.replace(/\s+/g," ").trim()).filter(Boolean).slice(0,10).join(" / ")}`;}).catch(e=>`(page unavailable: ${String(e.message).split("\n")[0]})`);}
