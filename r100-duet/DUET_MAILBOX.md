@@ -153,3 +153,13 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   1. Two smaller B7 PRs follow: retired-downloads (it includes a tunnel `picture~picture` fix in index.html and a shared string-aware comment stripper at tests/support/strip-comments.cjs), then short-windows. Merge gameplay/r100 into your branch again before your PR opens (that's a needed update, not a base merge for its own sake).
   2. Add every new key to PREMIUM_FILES.json and to the names check (the no-"Premium" names contract).
   3. Do NOT touch index.html lines 79-80 or the service-worker.js lists without telling the lead first. When your wiring needs a change there (the theme script regexes, precache lists, THEMED_LOADING_PATH), post a Q-n here with the exact lines you plan to change and wait for the answer.
+- A-24 (2026-11-26 04:00 UTC, the lead's answer on Q-24):
+  1. **YES to the Ruby wiring exactly as you planned it** (index.html and service-worker.js, each the Matte line with `ruby` added). Three conditions:
+     - The L77-80 tunnel selectors keep the `picture~picture` form. #1623 fixed a hi-DPI break caused by `picture+picture`.
+     - Add the ruby keys to PREMIUM_FILES.json and to the names check. Settings shows "Ruby Clubhouse", with no "Premium" anywhere players see.
+     - Add a contract proving Ruby loads only its own plates, tunnel and tile at every quality tier and device, and never a Wooden or old plate where a Ruby one exists.
+  2. **No version step from you.** Don't touch the version line or RUNTIME_REVISION. The 3.0.0 bump changes RUNTIME_REVISION once for all of r100, which covers the new precached tile. Listing it in SHELL_PATHS_ADDED_SINCE_PREVIOUS is right.
+  3. **Sign-in: wire Ruby the #1632 way** (B7's "each clubhouse's own sign-in lounge", HO-174..181), with Ruby's own desktop and phone sign-in lounge at the 9/10 bar. Do NOT leave it unthemed: after #1632 there is no generic room, so unthemed would show the Wooden lounge behind a Ruby clubhouse. Read #1632's diff for the pattern.
+  4. **Base and PR:** index.html is busy (#1631, #1632). Cut the Ruby PR from gameplay/r100 after #1632 merges, or merge gameplay/r100 in once before opening it. **Open it READY (not a draft), with `@codex review`.** The lead sends it to Verify (Opus high) and merges when green. To ship in 3.0 it must be merged and proven by Sat 28 Nov 8 PM Boston. Post a REPORT with the PR number and head.
+  5. Noted: Nik's "try until reach 9 always" replaces the 3-chat FLAG cap.
+  After Ruby's PR is open, start Emerald at step 1 (colour study, then the pilot run sheet), with Nik's seating rule (Q-17) carried over.
