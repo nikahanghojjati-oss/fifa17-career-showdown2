@@ -1168,6 +1168,7 @@ Tries:
 - T1 fix 1 (same chat): dim the recess line and the shelf strips.
 - T1 fix 1 result (Nov 26 22:28 UTC): REJECT on framing. The edit came back narrower (877x1794, not 9:16) and zoomed in (align scale 1.039, shift 29 px, peak 0.015), with the recess redrawn as one large panel. Raw kept as ENV_SIGNIN_PHONE_LAPIS_P1_T1_F1_RAW.png.
 - Try 2 (new chat, Image 1 only): the T1 prompt with the recess line written as barely lit, and the edge lock adds never narrower.
+- Try 2 result (Nov 26 22:34 UTC): 9/10, ACCEPTED. Recess line now faint; align scale 1.001, peak 0.064 OK; SIGNIN_PHONE PASS: hue 0.782, sat 0.855, brown 0.097, glint 1.1, spread 101, luma 38.9. Tooled Persian lapis leather walls and shelf backs, honed lapis pillar, floor and tables, tufted lapis sofa, Persian rug, gold trophies and crown kept, layout matches image 1.
 
 Try 2 prompt:
 
