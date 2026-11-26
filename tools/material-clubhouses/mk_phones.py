@@ -191,6 +191,8 @@ def prompt(key, rm):
            f"no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, {people}.")
     if key == "EMERALD":  # E-14: one lighter-band jade in the whole prompt, the muted one the counter line names
         lock = lock.replace("a soft mid jade (#5E9E74)", "a soft muted jade (#4F8A66)")
+    if not men:  # E-20 (26 Nov): an empty room's light line must not name "the men"
+        light = light.replace("the walls behind the men read", "the walls read")
     return "\n\n".join([head, frame, menl.strip(), keepl, room, light, lock, objs, fin,
                         "Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available."]).replace("\n\n\n\n", "\n\n")
 
