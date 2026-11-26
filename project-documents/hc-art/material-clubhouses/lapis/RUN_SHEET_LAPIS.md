@@ -707,6 +707,12 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (21:33 UTC): 8.5. Aligned scale 0.999, men diff 7.4; window, floodlight, lamp, blotters and tooled side panels right, the counter a readable lapis with a warm wash. lapis_check misses glint 9.5 (all on the desk's front gold rail, bright across the full width) and sat 0.991. Fix 1 (same chat) = the rail only:
+
+```
+Change only the gold rail along the front edge of the desk: make it a soft, dim satin gold line, a little darker and quieter, with no bright shine, glare or white highlight anywhere along it, like brushed gold in low light. Keep everything else exactly as it is: the desk top, the blotters, the counter stone below, the walls, window, lamp, the two men and the framing.
+```
+
 ### L-15 · Lapis Clubhouse: Hall, phone
 - Image 1: [IMG1_ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png)), 1179x2096
 - Image 2: [IMG2_REF_HALL_LAPIS_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_LAPIS_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_LAPIS_SWATCH.png))
