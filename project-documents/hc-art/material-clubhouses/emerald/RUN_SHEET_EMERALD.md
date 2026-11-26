@@ -1106,6 +1106,20 @@ Same tall 9:16 framing as the attached picture, nothing cropped or extended at a
 Tries:
 - Try 1 (26 Nov): 8/10, REJECT on framing. Materials right (green shelf backs, malachite pillar and floor, green sofa, satin gold) and the check passes (hue 0.50, brown 0.17, glint 2.2), but align finds scale 1.015 and a 19.5 px shift up: zoomed in a little, so the edges would have to be invented. Raw kept as ENV_SIGNIN_PHONE_EMERALD_P1_T1_RAW.png.
 - Try 2 (new chat, Image 1 only): adds an edge lock (the same cut at all four edges).
+- Try 2 result (26 Nov): 8/10. Framing now holds (align scale 0.998, shift +1.9 px, OK). But the sofa, recess walls and shelf backs came back olive (median hue 78-95; whole-room hue 0.30, needs 0.50) and glint is 3.7 (needs 3.0) from the brass table base and floor streaks. Raw kept as ENV_SIGNIN_PHONE_EMERALD_P1_T2_RAW.png.
+- Try 2 fix 1 (same chat): colour-only edit to bottle green at the same brightness, plus dimmer brass and floor streaks.
+
+Try 2 fix 1 prompt:
+
+```
+Keep this image exactly the same: the same camera, framing, size and shape, every object in the same place, the same brightness and the same light. Change only these two things:
+
+1. Colour: the sofa, the armchair, the walls of the tall recess behind the plant, the back walls inside the shelves and the dark wall panels turn from their present olive, yellow-green tone to a deep bottle green with a slight cool blue lean (#145A3C), like the green of the stone pillar on the left; only the hue moves, every one of them keeps exactly its present brightness, and none of them is olive, khaki or yellow-green anywhere, even where the lamp light falls.
+
+2. Highlights: the polished brass base of the round coffee table and the bright streaks reflected in the floor tiles become a soft, broad, dim satin sheen, never a bright mirror glare or a hot white streak.
+
+Everything else stays exactly as it is: the malachite pillar and floor, the rug, the shelves with the gold trophies and books, the plant, the window with the night city, the ceiling and the round front table.
+```
 
 Try 2 prompt:
 
