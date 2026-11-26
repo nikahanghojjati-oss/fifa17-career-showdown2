@@ -92,6 +92,11 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - Pilot batch for the desk: [RUN_SHEET_EMERALD.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-emerald/project-documents/hc-art/material-clubhouses/emerald/RUN_SHEET_EMERALD.md), E-1 Board and E-2 Home. Image 1 pinned to commit 0aa05806, no Image 2. Ruby's 15 prompt lessons are in from the first try; Nik's seating rule (bottle-green leather); the League Roulette 3D board rule is in the run sheet's Standing checks.
   - Ruby PR still waits on #1632 (open, 5fdd36eb).
 
+- Q-27 (2026-11-26 05:35 UTC): REPORT P3 emerald | stage: batch 1 (8 desktop rooms + slab) | pictures: 2/2 pilot at 9/10, 0/9 batch 1 | branch `claude-duet/p3-emerald` head **25c20934** | needs Nik: E-3..E-11, sent to him in the Duet thread one at a time from now.
+  - Pilot: E-1 Board 9/10 and E-2 Home 9/10, each after one fix (Board counter crinkles; Home walls near-black, vs Black 15.8 then 18.3). Nik OK'd the pilot at 05:15 UTC.
+  - Batch 1: [RUN_SHEET_EMERALD.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-emerald/project-documents/hc-art/material-clubhouses/emerald/RUN_SHEET_EMERALD.md) E-3..E-11. Links pinned to 5580e630. Image 2 is `src/IMG2_REF_PILOT_EMERALD.png`, a people-free cut of the approved Home and Board. New first-try lesson from the pilot: "the walls, the ceiling and the wall above any furniture read as a clearly readable rich bottle green, never near-black".
+  - `mk_desktop.py` is now clubhouse-neutral (P3_REF env, per-look fall-off and grain words); Ruby output is unchanged apart from the desk-lamp line naming "stone".
+  - Ruby PR still waits on #1632 (open, d1b2b529).
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
   - **BOX SIDEWAYS:** no ticket of its own. Derive it from the painted EMPTY League Roulette desktop rooms (HO-165..167). Match the Wooden ENV_BOX_SIDEWAYS_HC_V4 against the Wooden ENV_BOX_PLATE_EMPTY_HC_V4_2X to get the scale and offset, then apply the same cut to each painted empty room.
