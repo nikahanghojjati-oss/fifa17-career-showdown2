@@ -58,7 +58,9 @@ LOOKS = {
                     # Office: the kept ball, cup, paper bundle, blotters, olive tree and brass lamp (with its desk
                     # reflection) are 36% of the coloured pixels and brown by identity; on E-3 try 1 the room surfaces
                     # alone measured brown 0.07 (Ruby 0.02, Wooden 0.85) while the whole picture read 0.26.
-                    rooms=dict(OFFICE=dict(brown_max=0.30)),
+                    # Hall: the kept runner rug is 27% of the brown on E-4 try 2, and the big double door's frame and
+                    # stiles are walnut at the palette's #241A12 (measured rgb 38,25,14), so they count as brown too.
+                    rooms=dict(OFFICE=dict(brown_max=0.30), HALL=dict(brown_max=0.30)),
                     provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
