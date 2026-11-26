@@ -249,6 +249,23 @@ Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at a
 -
 - T2 (C F1 in the same chat, 19:06 UTC, `ENV_BOARD_PLATE_LAPIS_P1C_2X_T2_RAW.png`): stones gone; check PASS (sat 0.915, luma 51.5, glint 1.4). Nik, by eye: "this looked too glassy." Agreed: the counter turned to glass with mirror reflections, and the room got brighter. F2 not used; the next try is a fresh chat (L-1D).
 
+### L-1E · Lapis pilot Board: B + sunburst, stone fix (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1B_2X_T3_RAW.png`)
+
+Nik, 19:19 UTC, after seeing every version under the real screen: "I like B plus some bursts from anything else so far more." So B T3 is the base, and only its stone changes. Saves as `ENV_BOARD_PLATE_LAPIS_P1E_2X_T1_RAW.png`.
+
+```
+Image 1 is the picture to edit. Use only image 1.
+
+Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same lamp, door, leather panels, sunburst, ebony mouldings, gold rail, colours and light.
+
+Change only one thing: the lapis stone of the counter and the two pillars at the far edges. Its busy, crumpled, cloudy texture and its fine swirling lines go away, along with any white dots. The stone becomes calm, honed natural lapis lazuli, like a fine stone tabletop seen at night: smooth deep vivid ultramarine with a few soft, broad cloud drifts of deeper and brighter blue, and at most a handful of tiny, faint crystal flecks spaced far apart, each one smaller and dimmer than the stitching. Never felt, velvet or cloth, never glass or a mirror. Keep exactly the present brightness, colour and the soft warm lamp glow on the counter.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
+Tries:
+- (waiting for the first picture)
+
 ### L-1D · Lapis pilot Board: B design, honed stone, faded sunburst (fresh chat)
 
 Nik, 19:00 UTC: "I like B design ... we can still add an element or two to the background". From every Board try so far:
