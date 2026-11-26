@@ -54,7 +54,12 @@ LOOKS = {
     # sit in the brown band, so brown_max is 0.20, not Ruby's 0.25: walnut is near-black, and Wooden's honey wood must go.
     # Reasons in emerald/COLOUR_STUDY.md.
     "EMERALD": dict(name="Emerald Clubhouse", hue=(115, 175), hue_min=0.50, brown_max=0.20, sat=(0.35, 0.90),
-                    luma=(14, 60), gold_max=0.04, provisional=True),
+                    luma=(14, 60), gold_max=0.04,
+                    # Office: the kept ball, cup, paper bundle, blotters, olive tree and brass lamp (with its desk
+                    # reflection) are 36% of the coloured pixels and brown by identity; on E-3 try 1 the room surfaces
+                    # alone measured brown 0.07 (Ruby 0.02, Wooden 0.85) while the whole picture read 0.26.
+                    rooms=dict(OFFICE=dict(brown_max=0.30)),
+                    provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 

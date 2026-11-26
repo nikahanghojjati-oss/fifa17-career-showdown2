@@ -84,3 +84,4 @@ runs with 3D on and is proven on screen first (`#leagueWheel.lr3d-on`, `html.lr3
 
 ## Calibration log
 - 2026-11-26, study: limits set as above. Nothing measured on an Emerald painting yet.
+- 2026-11-26 07:30 UTC, E-3 Office try 1: brown 0.26 MISSED 0.20, but the room surfaces alone (kept objects boxed out) measure 0.07; the kept ball, cup, papers, blotters, olive tree and brass lamp are 36% of the coloured pixels and brown by identity (Ruby Office reads 0.21 the same way). Office alone gets brown_max 0.30; every other room stays at 0.20.
