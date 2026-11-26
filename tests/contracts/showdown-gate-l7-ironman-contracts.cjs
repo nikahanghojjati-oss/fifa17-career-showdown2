@@ -231,6 +231,34 @@ async function run(){
   }
   ok();
 
+  // 10. The epilogue's Settings actor (END SHOWDOWN, UNPAIR) after its write landed (swap seeds 1522882020 / 3981959460 at unpair,
+  // #1626/#1628): a fresh browser that signs in on the closed Showdown's Champion screen goes Home through the screen's own
+  // button, as a player does; the actor no longer stops with nothing to tap. Run on the journey's own settingsActor source.
+  {
+    const fijSrc=fs.readFileSync(path.join(root,'tests/browser/fault-injection-journey.cjs'),'utf8');
+    const src=fijSrc.match(/const settingsActor=\(m,\{done,button\}\)=>\{[\s\S]*?return taps;\};/)[0];
+    const make=state=>{
+      const calls=[];
+      const deps={settingsOpen:async()=>state.settings,closeSettingsOn:async()=>{calls.push('close-settings');state.settings=false;return true;},signedIn:async()=>state.signedIn,
+        visible:async(_p,sel)=>sel==='#mainMenu'?state.home:false,openSettingsOn:async()=>{calls.push('open-settings');state.settings=true;return true;},
+        backHome:async()=>{calls.push('backHome');if(state.champion){state.champion=false;state.home=true;return true;}return state.home;},clickIf:async()=>{calls.push('click');return true;}};
+      const factory=new Function(...Object.keys(deps),`${src}\nreturn settingsActor;`)(...Object.values(deps));
+      return {taps:factory({user:'daniel'},{done:async()=>state.landed,button:()=>null}),calls};
+    };
+    {const state={landed:true,settings:false,signedIn:true,home:false,champion:true};const {taps,calls}=make(state);
+      assert.equal(await taps({}),'back-home','UNPAIR landed, fresh browser on the Champion screen: the actor goes Home');
+      assert.deepEqual(calls,['backHome']);assert.equal(state.home,true);
+      assert.equal(await taps({}),'','on Home with the write landed: nothing more to tap (the settle goal holds)');}
+    {const state={landed:true,settings:true,signedIn:true,home:true,champion:false};const {taps,calls}=make(state);
+      assert.equal(await taps({}),'close-settings');assert.deepEqual(calls,['close-settings']);}
+    {const state={landed:true,settings:false,signedIn:false,home:false,champion:true};const {taps,calls}=make(state);
+      assert.equal(await taps({}),'','a signed-out fresh browser signs in first (the path forward), never goes Home blind');assert.deepEqual(calls,[]);}
+    // backHome taps only what a player taps: the screen's own visible Home button, by its label (BACK TO SHOWDOWN HOME on the Champion screen).
+    const back=fijSrc.match(/async function backHome\(m\)\{[\s\S]*?\n\}/)[0];
+    assert.ok(/button:visible/.test(back)&&/BACK TO SHOWDOWN HOME/.test(back)&&!/evaluate|goto|reload/.test(back),'backHome taps a visible Home button by its label, with no shortcut');
+  }
+  ok();
+
   console.log(`PASS Showdown Gate L7 Ironman: ${S.L7_LEGS.length} legs in one matrix job, fail-closed route and verified skips, one seed per head, one rerun with the same seed (PASS / FLAKY listed by the seal / FAIL) (${checks} groups).`);
 }
 
