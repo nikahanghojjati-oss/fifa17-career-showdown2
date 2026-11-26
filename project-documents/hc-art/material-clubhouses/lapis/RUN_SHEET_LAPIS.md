@@ -627,6 +627,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (21:15 UTC): **9/10, accepted.** Aligned scale 1.000, men diff 6.0; lapis_check HOME_PHONE PASS (sat 0.98, brown 0.04, spread 73.5, detail 3.95, glint 0.13). Tooled Persian panels and flowered borders read clearly, window panes clear, lamp in place, the counter is honed book-matched lapis with a warm wash along the rail, floor strip kept. Master `lapis/ENV_HOME_PHONE_LAPIS_P1.webp`.
+
 ### L-13 · Lapis Clubhouse: Board Room, phone
 - Image 1: [IMG1_ENV_BOARD_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png)), 1179x2096
 - Image 2: [IMG2_REF_BOARD_LAPIS_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOARD_LAPIS_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOARD_LAPIS_SWATCH.png))
