@@ -6,7 +6,7 @@ Nik's pick (2026-11-26 04:32 UTC): all 12 board items, board order. One ticket p
 Source: `visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_2X.webp` (Wooden, 3072x1728) as PNG. Image 2 = Nik's face from the Home anchor `ENV_HOME_PLATE_HC_V3_2X`. Result saves as `ENV_ARCHIVE_PLATE_HC_V4_2X` (RAW kept untouched as `..._F1<option>_RAW.png`). On return: align.py, likeness lock in Nik's hero zone (~6 px feather), never-slimmer mask check, score vs Home (pass 9/10).
 
 ### F-1 option A: Face shape only, words only (no Image 2): leaner cheeks and firmer jaw inside the same head and beard outline.
-| Status | not run |
+| Status | try 1 in 04:49 UTC (raw on claude-duet/p4-faces-inputs, sha 348ef68f): 5/10. Outline unchanged (never-slimmer pass), but the face is barely slimmer and the skin came back smoother and brighter. Fix 1 sent (same chat): visible cheek hollows, narrower jaw filled with his own beard, same skin brightness. |
 |---|---|
 - Image 1: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-1/ENV_ARCHIVE_PLATE_HC_V3_2X.png
 - Image 2: none
