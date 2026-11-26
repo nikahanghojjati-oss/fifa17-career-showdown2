@@ -84,6 +84,37 @@ def fit916(im, name=None):
     nw = round(h * 9 / 16); l = (w - nw) // 2; return im.crop((l, 0, l + nw, h))
 
 
+# E-13 (26 Nov): the desktop paintings' counter stone reads as soft smoke at swatch scale, and Astra copied it (Board phone
+# try 1 came back with a smoky counter although the prompt asked for crisp growth lines). Where a look has an accepted phone
+# counter with crisp growth lines, Image 2's stone below the rail is replaced by a patch of it (box in that phone master).
+CRISP_STONE = {"EMERALD": ("ENV_HOME_PHONE_EMERALD_P1.webp", (0, 1330, 1179, 1900))}
+RAIL_PC = {"BOARD": ANCHOR["BOARD"][1], **{k: v[2] for k, v in COMPOSE.items()}}
+
+
+def crisp(im, name, look, out):
+    """Paste the look's crisp counter stone under the rail of Image 2 (the rail is found as the gold row nearest RAIL_PC)."""
+    if look not in CRISP_STONE or name not in RAIL_PC or name == "HOME":
+        return im
+    a = np.asarray(im).astype(float); w, h = im.size
+    if name in COMPOSE:
+        y = round(h * RAIL_PC[name] / 100)  # compose() puts the wall/stone seam exactly here
+        return paste_stone(im, y, look, out)
+    gold = (a[..., 0] + a[..., 1]) / 2 - a[..., 2]; row = gold.mean(1)
+    e = round(h * RAIL_PC[name] / 100); lo, hi = max(0, e - h // 12), min(h, e + h // 12)
+    y = lo + int(np.argmax(row[lo:hi]))
+    top = row[y]; n = 0
+    while y + 1 < h and n < h // 40 and row[y + 1] > top * 0.5: y += 1; n += 1
+    y += 2
+    return paste_stone(im, y, look, out)
+
+
+def paste_stone(im, y, look, out):
+    w, h = im.size
+    f, box = CRISP_STONE[look]; st = Image.open(out + f).convert("RGB").crop(box)
+    sc = max(w / st.width, (h - y) / st.height); st = st.resize((round(st.width * sc), round(st.height * sc)), Image.LANCZOS)
+    im = im.copy(); im.paste(st.crop((0, 0, w, h - y)), (0, y)); return im
+
+
 def main():
     key = sys.argv[1].lower(); LOOK = key.upper()
     out, src = f"{HC}{key}/", f"{HC}src/"
@@ -99,7 +130,7 @@ def main():
             a, b = run(room); cuts[room] = p.crop((a, 0, b, 1728))
     for name, im in cuts.items():
         im.save(f"{out}REF_{name}_{LOOK}_SWATCH.webp", quality=90)
-        im2 = compose(Image.open(f"{out}ENV_{name}_PLATE_{LOOK}_P1_2X.webp").convert("RGB"), name, Image.open(f"{out}ENV_{STONE_FROM[name]}_PLATE_{LOOK}_P1_2X.webp").convert("RGB") if name in STONE_FROM else None) if name in COMPOSE else (Image.open(f"{out}ENV_{MAT_BOX[name][0]}_PLATE_{LOOK}_P1_2X.webp").convert("RGB").crop(MAT_BOX[name][1]) if name in MAT_BOX else fit916(im, name)); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
+        im2 = compose(Image.open(f"{out}ENV_{name}_PLATE_{LOOK}_P1_2X.webp").convert("RGB"), name, Image.open(f"{out}ENV_{STONE_FROM[name]}_PLATE_{LOOK}_P1_2X.webp").convert("RGB") if name in STONE_FROM else None) if name in COMPOSE else (Image.open(f"{out}ENV_{MAT_BOX[name][0]}_PLATE_{LOOK}_P1_2X.webp").convert("RGB").crop(MAT_BOX[name][1]) if name in MAT_BOX else fit916(im, name)); im2 = crisp(im2, name, LOOK, out); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
         print("swatch", name, im.size, "image 2", im2.size)
     for room in ROOMS:
         f = PHONE[room]; n = "IMG1_" + os.path.basename(f).replace(".webp", ".png")
