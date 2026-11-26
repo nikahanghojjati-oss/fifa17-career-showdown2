@@ -921,6 +921,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (25 Nov 9:10 p.m. Boston) **9/10, accepted on try 1.** Align: scale 1.006, 1.6 px, OK. ruby_check LR_PHONE PASS: vs Black 19.6, sat 0.824, spread 64.4, glint 1.6, brown 0.10. Leather wall band and side panels, rosewood window frames with one upright bar, stadium and pitch unchanged, a dim satin gold rail, two warm pools on the polished counter, one long calm cream vein. No people, no lamps added, the middle calm for the board.
 
 ### R-23 · Ruby Clubhouse: League Roulette room without the men, desktop
 - Image 1: [IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png)), 3072x1728
