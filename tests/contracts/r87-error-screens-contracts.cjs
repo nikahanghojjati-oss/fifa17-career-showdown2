@@ -150,16 +150,19 @@ async function bootFail(browser,base,opts){
   await context.addInitScript(()=>{for(const k of ["localStorage","sessionStorage"])Object.defineProperty(window,k,{configurable:true,get(){throw new DOMException("blocked","SecurityError");}});});
   await context.route("**/js/app.js*",route=>route.abort());
   await context.route("https://**/*",route=>route.abort());
-  const page=await context.newPage();
+  // Every request is recorded from the page's own network events (no Resource Timing, whose entries can land late under load),
+  // and the wait is for the lounge's download to finish, armed before the page loads so it cannot be missed.
+  const page=await context.newPage(),asked=[];
+  page.on("request",r=>asked.push(r.url().replace(base,"")));
+  const lounge=page.waitForEvent("requestfinished",{predicate:r=>/ENV_SIGNIN_/.test(r.url()),timeout:30000});
   try{
     await page.goto(base,{waitUntil:"domcontentloaded"});
     await page.waitForSelector("#bootFailScreen",{timeout:30000});
-    await page.waitForFunction(()=>/ENV_SIGNIN_/.test(getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage),null,{timeout:15000});
-    await page.waitForFunction(()=>performance.getEntriesByType("resource").some(e=>/ENV_SIGNIN_/.test(e.name)&&e.responseEnd>0),null,{timeout:15000});
+    await page.waitForFunction(()=>/ENV_SIGNIN_/.test(getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage),null,{timeout:30000});
+    await lounge;
     return await page.evaluate(()=>({bg:getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage.replace(location.origin+"/",""),
-      loaded:performance.getEntriesByType("resource").map(e=>e.name.replace(location.origin+"/","")).filter(n=>/ENV_SIGNIN_|ENV_SETTINGS_|plates-v2/.test(n)),
-      title:document.getElementById("bootFailTitle")?.textContent,clubhouse:document.documentElement.getAttribute("data-clubhouse")}));
-  }finally{await context.close();}
+      title:document.getElementById("bootFailTitle")?.textContent,clubhouse:document.documentElement.getAttribute("data-clubhouse")})).then(seen=>({...seen,loaded:asked.filter(n=>/ENV_SIGNIN_|ENV_SETTINGS_|plates-v2/.test(n))}));
+  }finally{lounge.catch(()=>{});await context.close();}
 }
 
 // E10: the same failed start in a picked clubhouse (the pick is readable; sessionStorage still throws, so the screen shows at
@@ -169,18 +172,18 @@ async function bootFailThemed(browser,base,opts,theme){
   await context.addInitScript(t=>{try{localStorage.setItem("cmsClubhouseTheme",t);}catch(_e){}Object.defineProperty(window,"sessionStorage",{configurable:true,get(){throw new DOMException("blocked","SecurityError");}});},theme);
   await context.route("**/js/app.js*",route=>route.abort());
   await context.route("https://**/*",route=>route.abort());
-  const page=await context.newPage(),asked=[],done=[],own=new RegExp(`plates-hc/${theme}/ENV_SIGNIN_`);
+  const page=await context.newPage(),asked=[],own=new RegExp(`plates-hc/${theme}/ENV_SIGNIN_`);
   page.on("request",r=>asked.push(r.url().replace(base,"")));
-  page.on("requestfinished",r=>done.push(r.url()));
+  const lounge=page.waitForEvent("requestfinished",{predicate:r=>own.test(r.url()),timeout:30000});
   try{
     await page.goto(base,{waitUntil:"domcontentloaded"});
     await page.waitForSelector("#bootFailScreen",{timeout:30000});
-    await page.waitForFunction(()=>/ENV_SIGNIN_/.test(getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage),null,{timeout:15000});
-    for(const end=Date.now()+15000;!done.some(u=>own.test(u));){if(Date.now()>end)throw new Error(`${theme}: its lounge never finished downloading (${asked.join(", ")})`);await page.waitForTimeout(100);}
+    await page.waitForFunction(()=>/ENV_SIGNIN_/.test(getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage),null,{timeout:30000});
+    await lounge;
     await page.waitForTimeout(300);
     return {asked:asked.filter(n=>/ENV_SIGNIN_|ENV_SETTINGS_|plates-v2/.test(n)),bg:await page.evaluate(()=>getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage.replace(location.origin+"/","")),
       clubhouse:await page.evaluate(()=>document.documentElement.getAttribute("data-clubhouse"))};
-  }finally{await context.close();}
+  }finally{lounge.catch(()=>{});await context.close();}
 }
 
 // Nik's pick (#1118 card): on a portrait phone the free-limit note is one line inside Continue Career; elsewhere it stays a note.
