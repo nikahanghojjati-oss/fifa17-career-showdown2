@@ -44,6 +44,9 @@ SIBLINGS = ["SILVER", "BLACK", "MATTE"]  # Platinum (key silver), Metallic Black
 LOOKS = {
     "RUBY": dict(name="Ruby Clubhouse", hue=(330, 12), hue_min=0.50, brown_max=0.25, sat=(0.35, 0.90),
                  luma=(14, 60), gold_max=0.04,
+                 # Sign-in lounge floors: 85% of the medians of the accepted Ruby rooms (desktop spread 70, detail 3.7;
+                 # phone 59, 2.9), not the raw V2 plate (176/184, 7.8/11.0). Reason in ruby/COLOUR_STUDY.md.
+                 rooms=dict(SIGNIN=dict(spread_min=60, detail_min=3.1), SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5)),
                  provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
@@ -64,11 +67,15 @@ def wooden(room):
         r = room[:-6]
         if r == "LOADING":
             return os.path.join(ROOT, "assets/loading/ENV_LOADING_PHONE_HC.webp")
+        if r == "SIGNIN":  # sign-in / error lounge (B7 kit mk_signin.py): the Settings lounge V2
+            return os.path.join(ROOT, "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp")
         if r == "LR":  # League Roulette phone: the men-free Directors' box V4 (HO-097)
             return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp")
         return os.path.join(ROOT, f"visual-assets/v10_1/plates-hc/ENV_{r}_PHONE_HC_{'V4' if r == 'CLUB' else 'V3'}.webp")
     if room == "LR":
         return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp")
+    if room == "SIGNIN":
+        return os.path.join(ROOT, "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp")
     if room == "CLUBSIDE":
         return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp")
     if room == "LOADING":
@@ -193,10 +200,14 @@ def check(key, room, d, sib):
     ]
     gl = max(3.0, min(8.0, .6 * sb["glint"])) if sb else 3.0
     sp = max(sw["spread"], .75 * sb["spread"]) if sb else sw["spread"]
+    # Sign-in lounge: its Wooden is B7's raw Settings V2 plate (blazing gold strips, AI over-sharpening; B7 repaints it
+    # too), so its spread and detail are no floor for a handcrafted room. Rooms may set their own floors in LOOKS.
+    sp = cfg.get("spread_min", sp)
+    dmin = cfg.get("detail_min", 1.05 * sw["detail"])
     rows += [
         ("glint", sm["glint"], sm["glint"] <= gl, f"<= {gl:.1f}" + (f" (Black {sb['glint']:.1f})" if sb else "")),
         ("spread", sm["spread"], sm["spread"] >= sp, f">= {sp:.0f} (Wooden {sw['spread']:.0f})"),
-        ("detail", sm["detail"], sm["detail"] >= 1.05 * sw["detail"], f">= {1.05 * sw['detail']:.2f}"),
+        ("detail", sm["detail"], sm["detail"] >= dmin, f">= {dmin:.2f}"),
     ]
     ok = all(r[2] for r in rows)
     head = f"{room} {look}: {'PASS' if ok else 'FAIL'}" + (" (limits provisional until the pilot is approved)" if cfg.get("provisional") else "")
