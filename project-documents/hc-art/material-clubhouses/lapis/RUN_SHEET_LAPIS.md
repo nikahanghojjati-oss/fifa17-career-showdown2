@@ -247,6 +247,7 @@ Change only one thing: the big tall leather panel in the middle of the wall, bet
 Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
 -
+- T2 (C F1 in the same chat, 19:06 UTC, `ENV_BOARD_PLATE_LAPIS_P1C_2X_T2_RAW.png`): stones gone; check PASS (sat 0.915, luma 51.5, glint 1.4). Nik, by eye: "this looked too glassy." Agreed: the counter turned to glass with mirror reflections, and the room got brighter. F2 not used; the next try is a fresh chat (L-1D).
 
 ### L-1D · Lapis pilot Board: B design, honed stone, faded sunburst (fresh chat)
 
@@ -283,9 +284,19 @@ Same 16:9 framing as the original, exactly 3072 by 1728 pixels, nothing cropped 
 ```
 
 Tries:
-- (waiting for the first picture)
+- T1 (fresh chat, 19:12 UTC, `ENV_BOARD_PLATE_LAPIS_P1D_2X_T1_RAW.png`; Nik sent it twice): 8.5. Men untouched (diff 4.9), sat 0.957, luma 35.0, glint 14.7 MISS. Sunburst: faint two-shade rays with hairline gold, right for a watermark. Leather satin and stitched; ebony reeded. The honed wording killed the glass. Miss: the counter and pillars carry scattered white star dots and faint scratch lines, so they read as a night sky, not stone. Small drift: the lower middle panel split in two. Screen check (Lapis-blue UI boxes, `p3-lapis/mocks`): the rays fan out behind the title and meet behind the score box; the counter is mostly under the player cards, so the stars show only at the bottom corners and pillars. Next: F1 in the same chat, one change (stone: no stars, no scratches).
 
- T2 (C F1 in the same chat, 19:06 UTC, `ENV_BOARD_PLATE_LAPIS_P1C_2X_T2_RAW.png`): stones gone; check PASS (sat 0.915, luma 51.5, glint 1.4). Nik, by eye: "this looked too glassy." Agreed: the counter turned to glass with mirror reflections, and the room got brighter. F2 not used; the next try is a fresh chat (L-1D).
+L-1D F1 (same chat, edit 1 of 2):
+
+```
+Edit the picture you just made. Keep it exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same lamp, door, leather panels, sunburst, ebony mouldings, gold rail, colours and light.
+
+Change only one thing: the lapis stone of the counter and the two pillars at the far edges. Remove every white star-like dot and every fine scratch line from it, so it no longer looks like a starry night sky. The stone becomes calm, honed natural lapis lazuli, like a fine stone tabletop seen at night: smooth deep vivid ultramarine with a few soft, broad cloud drifts of deeper and brighter blue, and at most a handful of tiny, faint crystal flecks spaced far apart, each one smaller and dimmer than the stitching. Keep exactly the present brightness, colour and the soft warm lamp glow on the counter.
+
+Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
+
 
 ### L-2B · Lapis pilot Home, version B (craftsmanship)
 
