@@ -1164,6 +1164,17 @@ Same tall 9:16 framing as the attached picture, nothing cropped or extended at a
 
 Tries:
 
+- T1 (Nov 26 22:25 UTC): 8.5/10. Framing holds (align scale 1.002, peak 0.050 OK, as E-26's 0.056); tooled lapis leather walls and shelf backs, honed lapis pillar, floor and tables, tufted lapis sofa, Persian rug all right; hue 0.824, sat 0.865, brown 0.090 pass. MISS glint 5.7 (needs 3.9): about 250 of 353 points are one thin bright gold line down the left edge of the recess at 32% of the width (the same line as E-26's fix 2), about 40 the shelf light strips. Raw kept as ENV_SIGNIN_PHONE_LAPIS_P1_T1_RAW.png.
+- T1 fix 1 (same chat): dim the recess line and the shelf strips.
+
+T1 fix 1 prompt:
+
+```
+Keep this image exactly the same: the same camera, framing, size and shape, every object in the same place, every colour and the same light. Change only one thing: the thin bright gold light line running down the left edge of the tall recess, between the lapis pillar and the tooled leather panel behind the plant, and along the top of that recess, becomes a dim soft satin gold glow, about half its present brightness, never a bright white or hot yellow line. The small light strips under the shelves on the left become a little dimmer too.
+
+Everything else stays exactly as it is: the tooled Persian lapis-blue leather walls and shelf backs, the lapis pillar, the plant, the window with the night city, the tufted lapis-blue leather sofa, the coffee tables, the Persian rug, the gold trophies, balls and crown, the books, the ceiling and the honed lapis floor.
+```
+
 ## Pilot versions B and C (Nik, 26 Nov 18:44 UTC)
 Nik asked for three pilot versions to compare: more creative, premium and handcrafted, with attention to where the game's
 UI sits, either one or two subtle elements in open spots or no element but a more premium design, never heavy, classy.
