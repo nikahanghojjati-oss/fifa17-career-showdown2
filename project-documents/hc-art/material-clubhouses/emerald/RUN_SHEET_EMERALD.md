@@ -69,6 +69,7 @@ Tries:
 ```
 Keep this image exactly the same. Change only the counter: it becomes smooth, glassy polished malachite everywhere, including inside the warm lamp reflection. The reflection is one soft, smooth, blurred cream-gold glow on glassy stone, with no crinkled, crumpled, wrinkled or scratchy texture anywhere on the counter. The counter keeps its exact colour, its few broad calm green bands, its brightness, its reflection's size and its place; the rail, the walls, the pillars, the lamp and the two men stay exactly as they are.
 ```
+- Fix 1 (26 Nov 12:12 a.m. Boston) **9/10, accepted.** Align: scale 0.9990, shift 0.5 px, men unchanged (mean diff 5.7). The counter is smooth glassy malachite with one soft cream-gold lamp reflection and broad calm bands, no crinkles. The edit also redrew the wall panels closer to Image 1 (the lower panel row and the door frame are back). emerald_check PASS (hue 0.74, brown 0.15, sat 0.68, luma 33, glint 1.1, spread 72, detail 3.4, vs Black 18.8). Small notes, not worth a redo: the lamp's pool on the wall is a little smaller than on try 1, and the counter bands read a touch silky. Side by side: [ENV_BOARD_PLATE_EMERALD_P1_2X.cmp.jpg](ENV_BOARD_PLATE_EMERALD_P1_2X.cmp.jpg).
 
 ### E-2 · Emerald pilot 2/2: Home
 
