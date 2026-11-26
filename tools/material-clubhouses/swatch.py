@@ -10,6 +10,8 @@ LOADING the right wall x 2624..3840 of the 3840 painting scaled to 1728 high, an
 x 560..1050 and LOADING_MAT, a 620x730 close-up of the left wall with no lamp (Team V lessons HO-140 and HO-160:
 the Club and Loading phones take a strip with no objects or lamps, or Astra copies its layout).
 Writes <key>/REF_<ROOM>_<LOOK>_SWATCH.webp (the record) and src/IMG2_REF_<ROOM>_<LOOK>_SWATCH.png (what Nik attaches),
+the latter centre-cropped to the phone's exact 9:16 shape (R-13, 25 Nov: Astra copies Image 2's shape, so an 802x1728
+Board swatch gave 854x1840 pictures that could not be aligned),
 and src/IMG1_ENV_<ROOM>_PHONE_*.png from the Wooden phone plates.
 """
 import os, sys
@@ -36,6 +38,25 @@ def run(room):
     return round((a + 12) * 1.6), round((b - 12) * 1.6)
 
 
+# Rooms whose Image 2 is cut so its counter rail sits where the phone Image 1 has it: (rail y in the 1728-high swatch,
+# rail % of the phone height). R-13 try 2 (25 Nov): a centre crop kept the desktop Board's tall leather panel and the
+# rail at 79%, and Astra rebuilt the phone room to match. Measure the rail for each room before its ticket goes out.
+ANCHOR = {"BOARD": (1286, 52)}
+
+
+def fit916(im, name=None):
+    """Crop to the 9:16 shape of the phone Image 1 (1179x2096): around the counter rail where ANCHOR has it, else centred."""
+    w, h = im.size
+    if name in ANCHOR:
+        y, pc = ANCHOR[name]; f = pc / 100
+        nh = int(min(y / f, (h - y) / (1 - f), w * 16 / 9)); nw = round(nh * 9 / 16)
+        t = round(y - f * nh); l = (w - nw) // 2
+        return im.crop((l, t, l + nw, t + nh))
+    if w / h < 9 / 16:
+        nh = round(w * 16 / 9); t = (h - nh) // 2; return im.crop((0, t, w, t + nh))
+    nw = round(h * 9 / 16); l = (w - nw) // 2; return im.crop((l, 0, l + nw, h))
+
+
 def main():
     key = sys.argv[1].lower(); LOOK = key.upper()
     out, src = f"{HC}{key}/", f"{HC}src/"
@@ -51,8 +72,8 @@ def main():
             a, b = run(room); cuts[room] = p.crop((a, 0, b, 1728))
     for name, im in cuts.items():
         im.save(f"{out}REF_{name}_{LOOK}_SWATCH.webp", quality=90)
-        im.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
-        print("swatch", name, im.size)
+        im2 = fit916(im, name); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
+        print("swatch", name, im.size, "image 2", im2.size)
     for room in ROOMS:
         f = PHONE[room]; n = "IMG1_" + os.path.basename(f).replace(".webp", ".png")
         if not os.path.exists(src + n):

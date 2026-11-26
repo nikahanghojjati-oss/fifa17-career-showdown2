@@ -562,6 +562,8 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
 ```
 
+- Try 2 (25 Nov 7:06 p.m. Boston, new chat) **5/10, new chat.** 854x1840 again, and Astra rebuilt the room: one tall leather panel from the top down to the men's waists, men 144 px lower, counter rail at 59% (align rejects, men diff 31.3). Cause found: Astra copies Image 2's shape and layout. The Board swatch was 802x1728 (0.464, exactly the shape it returned) and showed the desktop Board's tall panel with its rail at 74%. Fix: swatch.py now cuts every phone Image 2 to the exact 9:16 phone shape, and the Board one around its rail so the rail sits at 52% like Image 1 (518x920). Try 3 (the last fresh chat before a flag) uses the try 2 prompt above with the new Image 2. Raw kept as ENV_BOARD_PHONE_RUBY_P1_T2_RAW.png.
+
 ### R-14 · Ruby Clubhouse: Office, phone
 - Image 1: [IMG1_ENV_OFFICE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png)), 1179x2096
 - Image 2: [IMG2_REF_OFFICE_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_OFFICE_RUBY_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_OFFICE_RUBY_SWATCH.png))
