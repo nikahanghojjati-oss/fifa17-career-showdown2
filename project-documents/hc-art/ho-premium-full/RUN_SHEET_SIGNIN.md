@@ -143,6 +143,21 @@ Nothing else changes. No new objects, no extra lamps, no text, no logos and no p
 Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
 ```
 
+### HO-177 try 5: dull the metal (Team G RETURNED, relay a7403ed41)
+
+Team G's matte_check: 19.8 glints per 10k pixels against a limit of 5 (Metallic Black lounge 12.5), from polished steel trim and bright nailheads. Our own count (pixels above 230 brightness): try 4 48.9 per 10k, Black lounge 28.4, approved Matte Office 11.8. Try 5 edits the accepted try 4 and changes only the metal. Brand-new chat.
+
+- Image 1: [HO177_TRY4_MATTE.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_HO177_TRY4_MATTE.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_HO177_TRY4_MATTE.png))
+- No Image 2.
+
+```
+Image 1 is the picture to edit. Change only one thing: make every metal trim, light strip edge, table leg, table base, plant pot, lamp stand and sofa nailhead brushed satin titanium with a soft, dull, diffuse sheen: no polished or mirror highlights, no bright points of light, no chrome, no glints. The light strips keep a soft, even, gentle glow with no hot spots.
+
+Keep everything else exactly as it is: the same camera, framing, layout, every object and every edge, the same colours of the walls, floor and furniture, and exactly the same size and shape as image 1, never narrower, wider or taller. The gold trophies, gold balls, gold crowns, gold cup, books, plants and city lights stay exactly as they are.
+
+No new objects, no text, no logos and no people. Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest size available.
+```
+
 ## HO-178 · Sign-in lounge 5/8: Wooden Clubhouse, phone upright
 
 - Image 1: [ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude/project-thread-ie3afv/project-documents/hc-art/ho-premium-full/src/IMG1_ENV_SETTINGS_PHONE_V2.png))
