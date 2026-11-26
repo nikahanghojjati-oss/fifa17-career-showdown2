@@ -496,4 +496,5 @@ Real stone as a mason would finish it, with clean sharp detail and no noise grai
 Same 16:9 framing as the original, largest size available.
 ```
 
+- Try 2 (16:04 UTC, new chat, two pictures back): **9/10, accepted (second picture).** Plain resize to 3072x1728. The second picture passes every check: sat 0.80, detail 1.51, spread 55, luma 50, no brown, no glint. Muted, greyed bottle green with calm broad jade bands, fine crisp growth lines along each band, smooth polished stone, no vignette (corners follow the bands). The first picture missed both sat 0.91 and detail 0.99 (too soft); raw kept as ENV_SLAB_EMERALD_P1_2X_T2A_RAW.png. Lesson: a colour edit cannot add red to a pure dark green; name the dark tones as greyed greens with hex values in the first prompt, and ask for crisp growth lines inside each band so a slab never reads as smoke. Side by side: [ENV_SLAB_EMERALD_P1_2X.cmp.jpg](ENV_SLAB_EMERALD_P1_2X.cmp.jpg).
 
