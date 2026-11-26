@@ -273,6 +273,9 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 Tries:
 
+**Log (26 Nov):**
+- T1 (`ENV_HALL_PLATE_LAPIS_P1_2X_T1_RAW.png`): **9, Hall master, first try.** Tooled Persian panels on walls and door, round lapis pillars with vertical drifts, honed counter, lapis stairs with gold balusters; men diff 4.5. Check PASS (glint 1.4). The runner came back as a lapis-and-gold Persian runner instead of its dark brown; kept, since it fits the Persian rug direction.
+
 ### L-5 · Lapis Clubhouse: Archive
 - Image 1: [IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png)), 3072x1728
 - Image 2: [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
