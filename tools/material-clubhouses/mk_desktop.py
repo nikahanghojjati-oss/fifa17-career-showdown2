@@ -85,7 +85,7 @@ D = [
   objs="All other objects keep their identity and their own colours (the leather bag, the book, the runner rug with its pattern) and are relit by the new room, each with a real soft contact shadow.")),
  ("ARCHIVE", dict(name="Archive", img1="IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png", men=True, win=False, nolamps=True,
   keep="Keep in the same places and at the same sizes: the vaulted corridor of arches receding to the middle, the shelves along both sides, the two lit display niches on the left and right walls (an old ball in the left one, books in the right one), and the counter with its thin rail along the top edge, at exactly the same height, filling the lower part.",
-  room="The arches and vault become {stone}, and the wall panels become {wall}. The shelves become {shelf}. The display niches become {case}, lit warm from inside. The corridor floor becomes {floor}. The rail along the counter becomes {rail}. The counter becomes {counter}.",
+  room="The arches and vault become solid, opaque {stone}, with the {grain} running along the curve of each arch like the grain of a carved stone ring, lit only by the warm light with one soft dim reflection, so each arch edge is no brighter than the lit walls beside it (never see-through, glassy, smoky or glowing from inside, and no bright rim lines) (V), and the wall panels become {wall}. The shelves become {shelf}. The display niches become {case}, lit warm from inside. The corridor floor becomes {floor}. The rail along the counter becomes {rail}. The counter becomes {counter}.",
   objs="The old ball and the books in the niches keep their identity and their own colours and are relit by the niche light.")),
  ("BOX", dict(name="Directors' box", img1="IMG1_ENV_BOX_PLATE_HC_V3_2X.png", men=True, win=True,
   keep="Keep in the same places and at the same sizes: the big three-pane window across the middle with the night stadium, the crowd, the small ceiling spots and the green pitch exactly as they are, the coat hooks on the left with the grey coat and the yellow and black striped scarf, the glass wall cabinet on the right with the decanter and glasses, and the thin rail along the top of the counter at exactly the same height.",
@@ -122,8 +122,8 @@ def desktop(L, rm, R):
     men = ("Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. "
            "Do not touch them.\n\n") if R["men"] else ""
     if R.get("nolamps"):
-        src = ("No wall lamps are visible in this room: light comes only from the lights inside the two display niches and a soft "
-               "glow along the vault. Add no lamps, sconces or wall lights anywhere; the far end of the corridor stays plain. "
+        src = ("No wall lamps are visible in this room: light comes only from the lights inside the two display niches and soft warm "
+               "light falling along the vault. Add no lamps, sconces or wall lights anywhere; the far end of the corridor stays plain. "
                f"Each niche casts a soft warm pool on the leather or stone around it, and the {L.get('fall', 'red falls off to wine near-black')} in "
                "the corners and toward the vault, so the room has depth and never looks flat.")
     else:
