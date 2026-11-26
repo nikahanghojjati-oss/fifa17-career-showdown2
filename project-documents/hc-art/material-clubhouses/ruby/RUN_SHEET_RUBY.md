@@ -746,6 +746,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 - Image 2 (26 Nov 01:25 UTC): the centre-cut swatch was two thirds stadium window, which Astra would copy to the top of the picture, so it is now a composed swatch, the lower left leather panel over calm stone with the edge at 58%, pinned to df92949b2b0c5c183fe20194ac567bc2d72e31b6[:9]. The box carries the new first-try lines (bright spots, muted aged reds).
+- Try 1 (26 Nov 01:23 UTC): **9/10, ACCEPTED on the first try** (the first phone with the lessons built in). 941x1672, aligned at scale 1.000, men 5.2 levels, both faces held. Every check passes: sat 0.804, spread 67.3, luma 21.7, vs Black 18.0, brown 0.07, glint 0.8. Window clear glass with the stadium and floodlights unchanged, wall band and rail where image 1 has them, calm Rosso Levanto counter with two long cream veins and warm reflections, no lamps added.
 
 ### R-18 · Ruby Clubhouse: Coaches' room, phone
 - Image 1: [IMG1_ENV_COACHES_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PHONE_HC_V3.png)), 1179x2096
