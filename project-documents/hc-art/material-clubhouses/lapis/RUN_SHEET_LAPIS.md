@@ -181,6 +181,7 @@ Change only one thing: the surface of the counter slabs below the rail, so it re
 Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
 - T2 (B F1 in the same chat, 18:59 UTC, `ENV_BOARD_PLATE_LAPIS_P1B_2X_T2_RAW.png`): Eye **7/10**, worse: "dense mottling" turned the counter and pillars into busy, crumpled blue cloud like marbled velvet, and the counter joint is gone. Lesson: never "dense" for lapis drifts; C T1's counter (same words as B, no fix) is the target. This chat is closed; B continues from C's chat (see L-1C).
+- T3 (sunburst edit run in the B chat after T2, 19:07 UTC, `ENV_BOARD_PLATE_LAPIS_P1B_2X_T3_RAW.png`): the faded art deco sunburst lands well (faint two-shade rays, hairline gold, fills the middle panel). A mock under the Season Results screen shows it stays behind the title and score box without competing. The counter and pillars are still T2's busy crumpled stone. Nik, 19:07 UTC: "if the element in the background doesn't compete with the boxes ... I like this direction we're going." Next: L-1D (fresh chat) with honed stone plus the sunburst.
 
 ### L-1C · Lapis pilot Board, version C (B plus crystal cabochons)
 
