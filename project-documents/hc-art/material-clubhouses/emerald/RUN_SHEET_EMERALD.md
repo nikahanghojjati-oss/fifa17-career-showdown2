@@ -705,6 +705,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (17:04 UTC): **9/10, accepted on the first try.** Scale 1.001, 0.4 px, men 5.2. The wall is bottle-green leather with walnut window frames and a satin brass rail; the window stays clear glass with the stadium untouched; the counter is calm muted-jade malachite with two broad warm reflections just under the rail, matching the Hall and Archive phones. Every check passes: sat 0.71, detail 2.74, spread 66, luma 30, brown 0.05, glint 1.1. Side by side: [ENV_BOX_PHONE_EMERALD_P1.cmp.jpg](ENV_BOX_PHONE_EMERALD_P1.cmp.jpg).
 
 ### E-18 · Emerald Clubhouse: Coaches' room, phone
 - Image 1: [IMG1_ENV_COACHES_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PHONE_HC_V3.png)), 1179x2096
