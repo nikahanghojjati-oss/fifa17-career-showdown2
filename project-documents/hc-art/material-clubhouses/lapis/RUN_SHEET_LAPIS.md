@@ -330,7 +330,9 @@ Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or ex
 
 Nik, 19:26 UTC (on a call, via the desk): "Yes, absolutely" to folding the lessons into Lapis: master Board to 9 then Image 2 for every room; screen check before he sees a picture; stone sample instead of words; GTA 6 ideas 1 and 2 in the next Board try (warm against cool, soft glow behind each man, real depth); idea 3, one hero detail per screen; mock idea 4 (UI boxes that pick up the room's light, `p3-lapis/mocks/lapis_idea4_compare.jpg`).
 
-L-1D F3 (light only, run on the F2 result once its stone passes; fresh chat, Image 1 = the F2 result), saves as `ENV_BOARD_PLATE_LAPIS_P1D_2X_T5_RAW.png`:
+- T4 (F2: fresh chat, Image 2 = `LAPIS_STONE_SAMPLE_C1_CALM.png`, 19:28 UTC, `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`): 9. The stone finally reads as honed lapis: soft diagonal drifts, fine mottling up close, a few tiny blue flecks, no stars, no glass, no velvet. Sunburst and leather kept. Under the real screen it is calm and rich. Men diff 8.9 (levels OK; the men are pasted from the source plate anyway); sat 0.988 (over the provisional 0.97), luma 26.8 (a little darker each edit), glint 18.0 (gold hairlines; recalibrate on the approved pilot). The split lower middle panel sits behind the player cards. Lesson: the stone sample as Image 2 fixed in one try what four rounds of words could not. Master Board candidate; F3 (light) next as an upgrade, keep T4 if F3 is not better.
+
+L-1D F3 (light only; fresh chat, Image 1 = T4), saves as `ENV_BOARD_PLATE_LAPIS_P1D_2X_T5_RAW.png`:
 
 ```
 Image 1 is the picture to edit. Use only image 1.
