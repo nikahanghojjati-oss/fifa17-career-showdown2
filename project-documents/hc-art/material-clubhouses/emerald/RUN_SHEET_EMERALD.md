@@ -189,6 +189,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 Tries:
 - Try 1 (14:08 UTC): **8/10**. Scale 1.000, men 5.3. Numbers pass except detail 3.89 (needs 3.95); vs Black 16.1. Eye: green door, walnut rail, malachite floor and counter, lamps right; the two pillars carry diagonal barber-pole stripes instead of calm lengthwise bands. Fix 1 sent: pillars only, bands running up and down.
+- Fix 1 (14:11 UTC): **8.5/10**. Scale 1.002, men 5.2. Pillars now calm lengthwise bands; the counter got back Image 1's thin brass edge; detail 5.2. Brown 0.226: the kept rug is 24% of it and the rest is the near-black walnut door frame (rgb 19,14,9, the palette's #241A12); without the rug 0.19. Eye: the leather wall beside the wall lamp shows a crinkled web of lines in the lamp light (as on Office try 1). Fix 2 sent in the same chat: leather texture only.
 
 ### E-5 · Emerald Clubhouse: Archive
 - Image 1: [IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png)), 3072x1728
