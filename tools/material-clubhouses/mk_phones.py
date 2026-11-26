@@ -114,7 +114,22 @@ def prompt(key, rm):
                "Each lamp throws a soft warm pool onto the leather and marble around it, with soft warm reflections on the polished front of the counter")
         if extra == "tunnel":
             src += "; where the pitch light meets the top step it is a gentle warm glow that fades smoothly, with no hot bright line and no white highlight"
-    light = (f"Light: It is night. {Y['light_rule']} {src}, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat."
+    # Ruby lessons, 26 Nov (Nik: land closer to 9 on the first try). Flat light was the most common miss (R-5, R-8 to R-10, R-13,
+    # R-14, R-16): only "brighter brightest spots, the rest unchanged" fixed it; darker shadows failed (R-14 fix 1). Too-vivid reds were
+    # the other (R-5, R-7, R-10, R-12 to R-16): only "a touch more muted and aged" fixed it. Both go in every first try.
+    if rm == "LOADING":
+        bright = "the pitch glow at the end of the tunnel lights a wide warm pool on the marble and the floor near it"
+    elif extra == "nolamps":
+        bright = ("the two display niches glow clearly bright and throw a wide warm pool onto the leather around them, the soft glow along the edges of the vault arches is bright, "
+                  "and the two warm reflections on the polished counter just below the rail are large and clearly bright, a soft cream-gold candlelight sheen on the red stone")
+    elif rm == "CLUB":
+        bright = "each lamp throws a wide, clearly bright warm pool onto the leather wall around it, a soft cream-gold candlelight sheen"
+    else:
+        bright = ("each lamp throws a wide, clearly bright warm pool onto the leather around it, and the warm reflections on the polished counter are large and clearly bright, "
+                  "a soft cream-gold candlelight sheen on the red stone")
+    depth = (f" The brightest spots are clearly bright: {bright}. Everything else keeps a deep, muted, aged red. Where the light is brightest the red turns lighter and creamier, "
+             "never more vivid and never orange. Every red in the room is a touch muted and aged, a deep worn oxblood, never a vivid or saturated red.")
+    light = (f"Light: It is night. {Y['light_rule']} {src}, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat.{depth}"
              f"{L['men'] if men else ''} {L['sheen']}" + (" The two men stay lit exactly as they are now." if men else ""))
     lock = L["lock"].replace(*Y["veins"])
     if rm == "LOADING":
