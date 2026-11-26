@@ -154,6 +154,8 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 Tries:
 - Try 1 (07:15 UTC): **8.5/10**. Scale 1.002, men 7.0. Numbers all pass (brown 0.26 under Office's 0.30, see the study's calibration log; vs Black 19.5). Eye: panes clear, desk malachite calm and lit, pot and lamp right; the far-left leather panels carry a crinkled web of thin lines (Ruby lesson 9, now on leather). Fix 1 sent: smooth leather grain only.
 - Fix 1 (13:42 UTC): **rejected**, framing changed (align scale 0.936, shift -97,-59 px, men 19.3: Astra zoomed in about 7% and cut the lamp at the right edge). Leather itself came back smooth. Fix 1 redone in a new chat on try 1 (`ENV_OFFICE_PLATE_EMERALD_P1_2X_T1_RAW.png`) with a framing lock.
+- Fix 1 redo (14:04 UTC): **9/10, accepted**. Scale 1.001, men 7.6. Numbers all pass (vs Black 19.9, brown 0.26, spread 165, detail 3.67). Leather now reads as smooth upholstery with a faint natural grain at full size; framing, panes, desk bands, lamp pool and pot unchanged from try 1.
+- Lesson: a texture-only edit zoomed in 7% once. Every edit prompt now opens with a framing lock that names the object at the edge ("the table lamp stays fully in the picture").
 
 ### E-4 · Emerald Clubhouse: Hall
 - Image 1: [IMG1_ENV_HALL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png)), 3072x1728
