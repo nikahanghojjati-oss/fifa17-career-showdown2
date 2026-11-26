@@ -556,6 +556,23 @@ Same 16:9 framing as the original, largest size available.
 
 - T3 (`ENV_SLAB_LAPIS_P1_2X_T3_RAW.png`): **7.5.** The fabric texture is gone and the face is smooth, but it swung to the Emerald T1 failure: soft smoky parallel diagonal bands that read as a night sky, not stone (detail 0.68, needs 1.17). Fix F1 (same chat), drifts only: irregular crisp-edged patches at varied angles with a few crisp flecks, surface kept smooth.
 
+- T3 F1 (`ENV_SLAB_LAPIS_P1_2X_T3F1_RAW.png`): **6.5.** Crisp edges came out as ragged digital camouflage patches. Chat used up.
+- Finding: the approved counters (Coaches, Box, Club) are this same soft, smoky drifting stone; on a thin strip it reads as stone, but blown up to a full frame the drifts become one or two huge sweeping bands, which read as a sky. The cure is scale, not texture words. T4 (new chat) uses a new Image 2, `src/IMG2_REF_SLAB_LAPIS_COUNTER.png` (the approved Coaches counter's left slab, 2x), and asks for the same stone at the same distance, so many small drifts cover the frame.
+
+T4 prompt (new chat, Image 1 = `IMG1_ENV_SLAB_HC_V1_2X.png`, Image 2 = `IMG2_REF_SLAB_LAPIS_COUNTER.png`):
+
+```
+Image 1 is the picture to edit. Image 2 is a close crop of an approved lapis lazuli counter top from a finished room of this clubhouse. Copy its stone exactly: the same honed lapis lazuli, the same vivid ultramarine colours, the same soft drifts and the same tiny crystal flakes. Copy nothing else from it: no lamp light, no edge and no joint.
+
+Keep image 1 exactly the same size and framing. Repaint the whole surface as a larger piece of exactly the stone in image 2, seen straight on from the same distance, so every drift is the same size as the drifts in image 2: many small soft drifts of brighter and deeper ultramarine spread evenly over the whole frame at gentle, varied angles, never one or two big bands sweeping across it, never parallel diagonal stripes, and never anything like a night sky, smoke, clouds or camouflage.
+
+The face of the stone is hard, smooth and even, like a fine stone table top, with a soft satin finish. No felt, velvet, flock, fuzz or nap; no cracks, veins or thin lines; no cells, crackle or repeating pattern; no gold specks and no star-shaped sparkles.
+
+It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top, a touch brighter overall than image 2 so the blue reads as vivid ultramarine, never navy-grey, purple, teal or green. No objects, no reflections of objects, no text, no logos.
+
+Same 16:9 framing as the original, largest size available.
+```
+
 T2 prompt (new chat, same Image 1 and Image 2):
 
 ```
