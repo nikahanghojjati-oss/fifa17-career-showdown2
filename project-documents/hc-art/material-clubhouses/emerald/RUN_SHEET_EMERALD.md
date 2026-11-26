@@ -431,7 +431,7 @@ Tries:
 ```
 Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
 
-Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+Keep image 1 exactly the same in camera, zoom, framing and layout: the handrail running out of the bottom left edge and the caged bulkhead lamp at the top right stay fully in the picture, and the pitch at the far end stays the same small size in the centre. Change only the materials and finish of the room itself.
 
 Keep in the same places and at the same sizes: the tunnel receding to the steps and the floodlit pitch with the goal at the far end, the ribbed pillars and wall panels on both sides, the handrails, the caged bulkhead lamp on the right wall, the ribbed floor mat, and the counter strip along the bottom at exactly the same height. The tunnel is empty of people.
 
