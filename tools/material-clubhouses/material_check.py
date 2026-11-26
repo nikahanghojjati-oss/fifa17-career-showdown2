@@ -104,6 +104,8 @@ LOOKS = {
            HALL_PHONE=dict(sat=(0.45, 0.995)),
            # Archive phone: master T1 (L-16) sat 0.990, the pure blue counter again (the desktop Archive has the same 0.995).
            ARCHIVE_PHONE=dict(sat=(0.45, 0.995)),
+           # Coaches phone: master T1 (L-18) sat 0.990; its counter fills the lower 61% of the band in the pure blue stone.
+           COACHES_PHONE=dict(sat=(0.45, 0.995)),
            # Slab: the locked rooms' own lapis (Club counter and floor) is pure blue with no red, sat 1.00, so the slab
            # may sit just as high; it is matched to the stone already approved.
            # may sit just as high; it is matched to the stone already approved. Its detail floor is the approved

@@ -853,6 +853,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (21:52 UTC): **9/10, accepted.** Aligned scale 0.999, men diff 6.7. The wall row held left to right (narrow window, lamp pillar, wide window, door, narrow window) with the shelf and both old balls; tooled Persian panels with flowered borders, the door tooled too; the lamp throws a warm pool down onto the counter; the counter is book-matched readable lapis to the bottom. sat 0.990 is the counter's pure blue over 61% of the band, so COACHES_PHONE gets sat to 0.995; PASS. Master `lapis/ENV_COACHES_PHONE_LAPIS_P1.webp`.
+
 ### L-19 · Lapis Clubhouse: Players' tunnel, phone
 - Image 1: [IMG1_ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)), 1179x2096
 - Image 2: [IMG2_REF_TUNNEL_LAPIS_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_LAPIS_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_LAPIS_SWATCH.png))
