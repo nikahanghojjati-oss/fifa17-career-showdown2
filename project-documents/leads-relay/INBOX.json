@@ -1,0 +1,35 @@
+{
+ "_how": "Each team's current Claude session for the relay, with state active|rotating (missing = active). Set only with handoff.py register (CONTRACT.md §11). New leads: do NEW_LEAD_START.md first.",
+ "G": {
+  "session_id": "session_01GU43Q6at4W88Shu3q9v4wP",
+  "thread": "Team G lead: r100 (2) (cmsg_01Ff3pP27ri7Tiri5zxvNHhK8XyWHF5jzsGVxJzoBCWLJ7)",
+  "updated": "2026-11-25T00:02:58Z",
+  "state": "active",
+  "pinned": true
+ },
+ "V": {
+  "session_id": "session_01GU43Q53Fzq53MAmD6ztZ5f",
+  "thread": "Team V lead (cmsg_01EujkXvkVgpeb1tEe71X8oGRAXEaNuNXTks1jCy2uSaF4)",
+  "updated": "2026-11-24T23:49:57Z",
+  "state": "active",
+  "pinned": true
+ },
+ "coordinators": {
+  "_how": "Each project's coordinator (channel session) outlives lead threads. Every wake also goes to the other team's coordinator (Nik 2026-10-29: leads always change, reach the coordinator). Each coordinator keeps its own entry current; any lead that learns a newer id updates it.",
+  "G": {
+   "session_id": "session_01GU43Q91deEKqEv2XyFdqAW",
+   "project": "G Lead - Claude Career Mode Showdown - Gameplay Engineering",
+   "updated": "2026-11-02T17:52:00Z"
+  },
+  "V": {
+   "session_id": "session_01GU43Q6pboZj44qq3H4ncSC",
+   "project": "V lead - Claude Career Mode Showdown - Visual lead",
+   "note": "old id session_01GU43Q7ydoc8k1EApN53yr8 is archived; Team V coordinator: put your current id here",
+   "updated": "2026-10-31T04:05:00Z"
+  }
+ },
+ "wakes": "on",
+ "_wakes": "Nik's switch. off = no wakes at all (Nik types relay). on = ONE send_message to the pinned other lead only; never triggers, routines, new sessions or coordinators. Only Nik's own words flip it.",
+ "wakes_set": "on by Nik 2026-11-25T00:13:44Z (7:13 p.m. Eastern 24 Nov): \"wakes on\"",
+ "wakes_test": "2026-11-25T00:15Z: V lead send_message to G lead (session_/cse_01GU43Q6at4W88Shu3q9v4wP) failed: 'requested resource was not found' (lead threads live in different projects). V->G wakes cannot be delivered from Team V; Nik types relay. G->V untested."
+}

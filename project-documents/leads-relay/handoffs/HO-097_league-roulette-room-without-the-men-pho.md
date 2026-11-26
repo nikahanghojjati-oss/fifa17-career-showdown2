@@ -1,0 +1,44 @@
+# HO-097 · Team G → Team V · League Roulette room without the men (phone upright, tall, sideways)
+
+```ticket
+{
+ "id": "HO-097",
+ "from": "G",
+ "to": "V",
+ "title": "League Roulette room without the men (phone upright, tall, sideways)",
+ "kind": "design",
+ "priority": "top",
+ "worker": "images",
+ "parent": null,
+ "job": null,
+ "status": "DONE",
+ "steps": [],
+ "evidence": ["claude/project-thread-ie3afv 4cd0d1736 project-documents/hc-art/ho097/"],
+ "log": [{"at": "2026-11-22T02:24:41Z", "by": "G", "status": "SENT", "note": ""}, {"at": "2026-11-22T02:30:06Z", "by": "V", "status": "WORKING", "note": "New Team V lead: parts 1+2. Astra removes the men (desktop + upright phone), V builds tall/sideways in code; part 2 = men re-placed further apart in code from V3 pixels (faces untouched)."}, {"at": "2026-11-22T02:48:42Z", "by": "V", "status": "DONE", "note": "Nik OK 21 Nov 9:48 p.m. Eastern. ENV_BOX_PHONE_HC_V4 (+590W), ENV_BOX_PHONE_HC_V4_TALL (+590W), ENV_BOX_SIDEWAYS_HC_V4 2400x1200, part 2 ENV_BOX_PLATE_HC_V4_1X/2X (men 120px@2X further apart each, ~29% more window, faces original pixels), spare ENV_BOX_PLATE_EMPTY_HC_V4_1X/2X. SHA256.json in folder."}],
+ "from_session": "session_01GU43Q7tkNNiwFECumxKomV",
+ "sessions": {"G": "session_01GU43Q7tkNNiwFECumxKomV", "V": "session_01GU43Q53Fzq53MAmD6ztZ5f"}
+}
+```
+
+### Why
+Nik, 2026-11-22 02:17-02:21 UTC (R98-01 League Roulette thread), in short: the league screen is now "League Roulette", a 3D casino roulette board. On phones, upright and sideways, the heroes are removed: the screen is only a very big roulette (60-80% of the screen) over the room background, which must match the current desktop room (the clubhouse "box room") with the men removed. "If we need new pictures, we can ask Team V."
+
+### Assets (one asset = one image ticket = one new chat)
+1. **ENV_BOX_PHONE_HC_V4** (phone upright): edit of `project-documents/hc-art/box/ENV_BOX_PHONE_HC_V3.webp`, 1179x2096 WebP + 590W.
+2. **ENV_BOX_PHONE_HC_V4_TALL** (tall phones): edit of `ENV_BOX_PHONE_HC_V3_TALL.webp`, 1179x2620 WebP + 590W.
+3. **ENV_BOX_SIDEWAYS_HC_V4** (phone sideways, about 2:1, e.g. 2400x1200): same room, crop/compose from `ENV_BOX_PLATE_HC_V3_2X.webp` with the men removed.
+
+### What changes (scene edit, no faces generated)
+- Remove Daniel and Nik completely (bodies, hands, shadows). Repaint behind them as the same room: stadium window, wall, counter, lighting, continuous and in place.
+- Keep everything else as it is: house look, warm calm light, marble and gold, the window and counter. No people, no readable text, no added objects.
+- The middle of each picture will hold a big 3D roulette (60-80% of the screen): keep the middle calm, the edges rich.
+
+### Accept when
+- Nik OKs each at a glance; no trace of a person; room looks like nothing was ever there; outside the edited zones matches V3 pixels.
+- WebP + SHA256.json in project-documents/hc-art/ho097/.
+
+### Part 2: GO (Nik picked "Team V widens the room" on the R98-01 builder's card, 2026-11-22 02:28 UTC)
+**ENV_BOX_PLATE_HC_V4** desktop (1536x864 1X + 2X): the men moved a bit further apart so there is about 30% more window between Daniel's fingertip and Nik's arm (for a 20-30% bigger board at 1920x866). Faces, hooks and the cabinet stay. Confirmed: start it. Team G's placement code sizes the board from the plate's two man outlines, so with the new plate Team G only retraces those two outlines; the board then grows 25-30% (ships ~14% bigger at 1920x866 until then).
+
+### After DONE
+Team G (R98-01 builder, branch claude-gameplay/r98-league-roulette-3-look) wires the phone plates into League Roulette; until then phones use the empty middle of the desktop plate. V3 files stay; nothing is deleted.
