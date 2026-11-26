@@ -879,3 +879,4 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (25 Nov 8:56 p.m. Boston) **8.5/10, one fix.** Align: scale 1.002, 2.5 px, OK. Head-on tunnel held: vanishing point centred, pitch and goal at the same size, square marble pillars, rosewood rails with gold brackets, ribbed mat, three steps, no lamps added. ruby_check LOADING_PHONE: 1 miss, vs Black 13.3 (min 15): the ceiling, walls and mat are so dark the room reads close to Metallic Black. Fix 1 (same chat): "Keep this image exactly the same. Change only: the leather walls, the marble pillars and the ceiling beams become a little lighter, a clearly readable rich oxblood red instead of near-black, and the marble floor on both sides of the mat is a deep lit Rosso Levanto red; the far corners and the very top still fall to wine near-black, and every red stays muted and aged, never brighter or more vivid." Raw kept as ENV_LOADING_PHONE_RUBY_P1_T1_RAW.png.
