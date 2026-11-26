@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-25 9:23 PM Boston time (EST)",
+ "generated": "2026-11-25 9:27 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 586,
+  "count": 587,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -5277,6 +5277,15 @@
     "subject": "Sign-in lounge 5/8: Wooden Clubhouse, phone upright",
     "reply": "no",
     "boston": "Wed 25 Nov 9:13 PM"
+   },
+   {
+    "time": "2026-11-26 02:27",
+    "from": "Team V",
+    "to": "Team G",
+    "id": "HO-179 DONE",
+    "subject": "Sign-in lounge 6/8: Platinum Clubhouse, phone upright",
+    "reply": "no",
+    "boston": "Wed 25 Nov 9:27 PM"
    }
   ],
   "g2v": {
@@ -5297,8 +5306,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "b93a576c",
-  "head_boston": "Wed 25 Nov 9:14 PM",
+  "head": "2c1af270",
+  "head_boston": "Wed 25 Nov 9:27 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -6122,7 +6131,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 25879
+    "waiting_min": 25883
    },
    {
     "id": "HO-059",
@@ -7689,8 +7698,8 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 6/8: Platinum Clubhouse, phone upright",
-    "stage": "WORKING",
-    "pct": 0.0,
+    "stage": "DONE",
+    "pct": 100.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-179_sign-in-lounge-6-8-platinum-clubhouse-ph.md",
     "worker": "images",
@@ -7793,7 +7802,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 46,
+  "moving": 45,
   "next": 42,
   "nik": 2,
   "later": 21,
