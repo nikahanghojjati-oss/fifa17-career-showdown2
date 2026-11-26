@@ -95,6 +95,9 @@ LOOKS = {
            # Loading tunnel: master T1 glint 9.4, on the gold mat edge strips, the handrail brackets, the counter's
            # lit top edge and the tooled leather lit by the bulkhead lamp; no stone hot spots.
            LOADING=dict(glint_max=10.0),
+           # Board phone: master T2 (L-13) sat 0.991 (half the band is the counter's pure blue lapis, like the approved stone,
+           # R=0) and glint 3.2, all on the lamp-lit left end of the gold rail straight under the wall lamp and the lamp itself.
+           BOARD_PHONE=dict(sat=(0.45, 0.995), glint_max=3.5),
            # Slab: the locked rooms' own lapis (Club counter and floor) is pure blue with no red, sat 1.00, so the slab
            # may sit just as high; it is matched to the stone already approved.
            # may sit just as high; it is matched to the stone already approved. Its detail floor is the approved
