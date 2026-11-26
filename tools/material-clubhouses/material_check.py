@@ -49,6 +49,12 @@ LOOKS = {
                  rooms=dict(SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 0.98, 0.42)),
                             SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
                  provisional=True),
+    # Emerald: malachite, bottle-green leather, walnut, satin brass (#0B2E22 / #145A3C / #2E8B57 = 159 / 154 / 146 deg).
+    # Green band 115-175 deg: malachite and bottle green, never lime (under 115) or teal (over 175). The walnut frames
+    # sit in the brown band, so brown_max is 0.20, not Ruby's 0.25: walnut is near-black, and Wooden's honey wood must go.
+    # Reasons in emerald/COLOUR_STUDY.md.
+    "EMERALD": dict(name="Emerald Clubhouse", hue=(115, 175), hue_min=0.50, brown_max=0.20, sat=(0.35, 0.90),
+                    luma=(14, 60), gold_max=0.04, provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
