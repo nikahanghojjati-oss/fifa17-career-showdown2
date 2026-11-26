@@ -60,7 +60,11 @@ LOOKS = {
                     # alone measured brown 0.07 (Ruby 0.02, Wooden 0.85) while the whole picture read 0.26.
                     # Hall: the kept runner rug is 27% of the brown on E-4 try 2, and the big double door's frame and
                     # stiles are walnut at the palette's #241A12 (measured rgb 38,25,14), so they count as brown too.
-                    rooms=dict(OFFICE=dict(brown_max=0.30), HALL=dict(brown_max=0.30)),
+                    rooms=dict(OFFICE=dict(brown_max=0.30), HALL=dict(brown_max=0.30),
+                               # Sign-in lounge (E-25, 26 Nov): the same view boxes and floors as Ruby; the raw V2 plate's
+                               # own spread and detail (176/184, 7.8/11.0) come from its glowing gold panels, not a target.
+                               SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 0.98, 0.42)),
+                               SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
                     provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]

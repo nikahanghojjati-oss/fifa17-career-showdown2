@@ -1052,6 +1052,21 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 ```
 
 Tries:
+- Try 1 (26 Nov): 8.5/10. Layout locked (align scale 0.999, peak 0.227 OK), black marble and gold panels gone, green leather sofa, malachite pillar, floor and tables right. Brown 0.26 > 0.20 and hue 0.41 < 0.50, mostly from the amber-lit backs of the left shelves (twice Ruby's brown there); glint 3.01. SIGNIN now uses Ruby's view box and spread/detail floors (COLOUR_STUDY.md). Raw kept as ENV_SIGNIN_PLATE_EMERALD_P1_2X_T1_RAW.png.
+- Try 1 fix 1 (same chat): shelf backs bottle-green leather; shelf light strips dim.
+
+Try 1 fix 1 prompt:
+
+```
+Keep this image exactly the same: the same framing, size and shape, the same light, and every shape and object in it stays exactly where it is. Change only these two things:
+
+1. Inside the tall shelves on the left, the back wall behind the trophies, balls and books becomes the same deep bottle-green leather as the walls, never warm brown, amber or orange; the shelves themselves stay near-black walnut.
+
+2. The light strips under each shelf become a dim, soft satin glow, much softer than now, so the back of each shelf reads as bottle green, not glowing amber; the gold trophies, balls and books stay exactly as they are.
+
+Everything else stays exactly as it is.
+```
+
 
 ### E-26 · Emerald Clubhouse: Sign-in lounge, phone upright
 - Image 1: [IMG1_ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SETTINGS_PHONE_V2.png)), 1179x2096
