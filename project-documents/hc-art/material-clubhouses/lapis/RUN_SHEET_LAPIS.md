@@ -328,6 +328,21 @@ Change only one thing: the lapis stone of the counter and the two pillars at the
 Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
 
+Nik, 19:26 UTC (on a call, via the desk): "Yes, absolutely" to folding the lessons into Lapis: master Board to 9 then Image 2 for every room; screen check before he sees a picture; stone sample instead of words; GTA 6 ideas 1 and 2 in the next Board try (warm against cool, soft glow behind each man, real depth); idea 3, one hero detail per screen; mock idea 4 (UI boxes that pick up the room's light, `p3-lapis/mocks/lapis_idea4_compare.jpg`).
+
+L-1D F3 (light only, run on the F2 result once its stone passes; fresh chat, Image 1 = the F2 result), saves as `ENV_BOARD_PLATE_LAPIS_P1D_2X_T5_RAW.png`:
+
+```
+Image 1 is the picture to edit. Use only image 1.
+
+Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same materials, stone, leather, sunburst, mouldings, gold and colours. Only brightness moves.
+
+Change only the light, like a film still at night. The warm wall lamp is the one warm light, and everything away from it falls into cool, deep ultramarine shadow. On the wall right behind each man, a soft, faint warm glow, as if the lamp light lands there, so each man stands out a little more from the wall; the men themselves stay exactly as they are. The lamp pool on the wall is a little brighter, and the far corners, the ceiling and the bottom of the counter fall a little deeper toward ultramarine near-black, so the room has real depth. The middle panel with the sunburst stays clearly readable. No beams, no halo, no haze and no new lights.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
+
 
 
 
