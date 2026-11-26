@@ -123,7 +123,9 @@ jobs:
     name: L2 browser full
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    # r100 B7: the full browser bundle already ran 38-40 min (sign-in lounge PR 38m17s and 39m42s); the Trophy Room BACK check
+    # (reach audit R8) took it past 40, cancelling a run whose every audit had passed. 55, as the other long lanes.
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -716,7 +718,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        leg: [none, network, lock, evict, reload, tabkill, twotabs, quota, coldoffline, ce2pg]
+        leg: [none, network, lock, evict, reload, tabkill, twotabs, quota, coldoffline, swap, skew, double, listener, lostreply, tapkill, ce2pg]
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
@@ -780,7 +782,15 @@ jobs:
         env:
           CMS_CHROMIUM_MULTI_CONTEXT: '1'
           IRONMAN_SEED: ${{ steps.route.outputs.seed }}
-        run: node scripts/ironman-leg.mjs --leg ${{ matrix.leg }} --seed "$IRONMAN_SEED" --seasons 3 --out "test-results/ironman-${{ matrix.leg }}.json"
+          # The heavy set (epilogue points) runs when the route says so; fail-closed in scripts/showdown-gate.mjs l7Decision.
+          IRONMAN_EPILOGUE: ${{ steps.route.outputs.l7_heavy }}
+        run: node scripts/ironman-leg.mjs --leg ${{ matrix.leg }} --seed "$IRONMAN_SEED" --seasons 3 --epilogue "$IRONMAN_EPILOGUE" --out "test-results/ironman-${{ matrix.leg }}.json"
+      # POS1M Ring 3 (Phoenix B1): the ce2pg leg's CE2PG report (its Ring 3 meter) against the hard budgets of
+      # tests/pos1m/ring3-baseline.json: billed reads, writes, minutes outside FIFA, tap/Reus/rival p90. ce2pg leg only.
+      - name: 'TEST: POS1M Ring 3 budgets (ce2pg leg)'
+        id: ring3
+        if: steps.route.outputs.l7_run == 'true' && matrix.leg == 'ce2pg'
+        run: node tests/pos1m/ring3.cjs --after "$(node -p "require('./test-results/ironman-ce2pg.json').report")" --out test-results/pos1m-ring3.json
       - name: Upload Ironman reports
         if: always() && steps.route.outputs.l7_run == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -884,9 +894,112 @@ jobs:
           overwrite: true
           retention-days: 7
 
+  # L9 POS1M Ring 2 (Phoenix B1, lead 2026-11-25): the Ring 1 stories replayed call for call on the Firestore emulator under the
+  # composed production Rules (tests/pos1m/ring2.cjs), 4 shards x 50 stories (seeds 200000-200199). Heavy set only (fail-closed,
+  # scripts/showdown-gate.mjs l9Decision) and whenever tests/pos1m changes; a skip is verified by the seal. Emulator only.
+  l9-pos1m-ring2:
+    name: L9 POS1M Ring 2 ${{ matrix.shard }}
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BASE_REF: ${{ github.event.pull_request.base.ref }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L9-${{ matrix.shard }} --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        if: steps.route.outputs.l9_run == 'true'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        if: steps.route.outputs.l9_run == 'true'
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L5-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Install locked dependencies
+        if: steps.route.outputs.l9_run == 'true'
+        run: npm ci
+      # Ring 2 runs the real Firebase JS SDK in Node (no browser), so it takes the Rules lanes' firebase@12.17.1.
+      - name: Install pinned Firebase emulator test dependencies
+        if: steps.route.outputs.l9_run == 'true'
+        run: npm install --no-save --package-lock=false firebase@12.17.1 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: 'TEST: Build the composed production Rules'
+        id: rules
+        if: steps.route.outputs.l9_run == 'true'
+        run: |
+          node scripts/build-production-firestore-rules.mjs
+          node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+      - name: 'TEST: POS1M Ring 2 (50 stories on the emulator under the composed Rules, shard of 4)'
+        id: pos1m_ring2
+        if: steps.route.outputs.l9_run == 'true'
+        env:
+          RING2_SEED: ${{ steps.route.outputs.seed }}
+          RING2_STORIES: ${{ steps.route.outputs.stories }}
+        run: npx --yes firebase-tools@15.28.1 emulators:exec --only firestore --project demo-pos1m-ring2 "node tests/pos1m/ring2.cjs --stories $RING2_STORIES --seed $RING2_SEED --workers 4 --out $RUNNER_TEMP/pos1m-ring2-${{ matrix.shard }}.json"
+      - name: Upload POS1M Ring 2 report
+        if: always() && steps.route.outputs.l9_run == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: pos1m-ring2-${{ matrix.shard }}
+          path: ${{ runner.temp }}/pos1m-ring2-*.json
+          if-no-files-found: ignore
+          retention-days: 7
+          overwrite: true
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L9-${{ matrix.shard }} --route "$RUNNER_TEMP/route.json" --ring2 "$RUNNER_TEMP/pos1m-ring2-${{ matrix.shard }}.json" --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: showdown-gate-lane-L9-${{ matrix.shard }}
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
   seal:
     name: seal
-    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey, l7-ironman, l8-pos1m]
+    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey, l7-ironman, l8-pos1m, l9-pos1m-ring2]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 8
