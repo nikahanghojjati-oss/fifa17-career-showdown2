@@ -42,7 +42,7 @@ M = {
   lock="Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice. Between those few veins the stone is clean, even deep red, with no fine web of thin hairline lines anywhere.",
   slab="polished Rosso Levanto marble: a deep wine-red stone, oxblood (#6E1423) to lit red (#9B2335) with wine near-black (#2A0A10) in its deepest tones, with a few long, calm, softly curving pale cream veins (#D8C8B4) flowing in gentle diagonals like brush strokes",
   slab_lock="The stone stays a rich deep ruby red, exactly the red of the marble in image 2: the light only brightens it, it never tints it pink, cherry, orange or brown, and the veins stay few, long and calm, never jagged or cracked like ice."),
- "EMERALD": dict(
+ "EMERALD": dict(grain="bands",
   name="Emerald Clubhouse",
   base="deep bottle green",
   fall="green falls off to near-black",
@@ -77,11 +77,11 @@ D = [
  ("OFFICE", dict(name="Office", img1="IMG1_ENV_OFFICE_PLATE_HC_V3_2X.png", men=True, win=True,
   keep="Keep in the same places and at the same sizes: the wide desk filling the lower half with its front edge at exactly the same height, the two leather desk blotters, the old leather ball, the coffee cup and saucer and the bundle of papers tied with string on the left, the table lamp with its pleated shade on the right, the olive tree in its pot behind, the wall panel at the far left, and the tall dark window behind with the night stadium and its floodlight.",
   room="The wall panel becomes {wall}. The window frames become {frame}. The lamp base and stem become {metal}; the shade stays warm cream and lit. The desk top becomes {counter}. The plant pot becomes {stone}.",
-  lightx=" The table lamp casts a soft warm pool of light on the polished marble desk top around its base, with a dim soft reflection of the lit shade in the stone, fading back to {base} within a short distance (Ruby R-3 try 1: the desk stayed dark).",
+  lightx=" The table lamp casts a soft warm pool of light on the polished stone desk top around its base, with a dim soft reflection of the lit shade in the stone, fading back to {base} within a short distance (Ruby R-3 try 1: the desk stayed dark).",
   objs="All other objects keep their identity and their own colours (the old leather ball, the white cup, the paper bundle and string, the leather blotters, the olive tree) and are relit by the new room, each with a real soft contact shadow on the desk.")),
  ("HALL", dict(name="Hall", img1="IMG1_ENV_HALL_PLATE_HC_V3_2X.png", men=True, win=False,
   keep="Keep in the same places and at the same sizes: the staircase on the left with its railing and the leather bag on the steps, the stone pillars, the tall double door in the middle with its arched fanlight, the small side table beside the door with its table lamp and book, the patterned runner rug, the wall lamp with its pleated shade at the top right, and the counter strip along the bottom at exactly the same height.",
-  room="The pillars keep their exact round shape and become smooth {stone}, polished and even all the way round, with the veins running calmly down them (V). The walls become {stone}, with wall panels in {wall}. The double door becomes {door}, and the fanlight frame becomes {frame}. The stair railing becomes {handrail}. The side table becomes {shelf}. The floor becomes {floor}. The lamp arms and bases become {metal}; the shades stay warm cream and lit. The counter strip becomes {counter}.",
+  room="The pillars keep their exact round shape and become smooth {stone}, polished and even all the way round, with the {grain} running calmly down them (V). The walls become {stone}, with wall panels in {wall}. The double door becomes {door}, and the fanlight frame becomes {frame}. The stair railing becomes {handrail}. The side table becomes {shelf}. The floor becomes {floor}. The lamp arms and bases become {metal}; the shades stay warm cream and lit. The counter strip becomes {counter}.",
   objs="All other objects keep their identity and their own colours (the leather bag, the book, the runner rug with its pattern) and are relit by the new room, each with a real soft contact shadow.")),
  ("ARCHIVE", dict(name="Archive", img1="IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png", men=True, win=False, nolamps=True,
   keep="Keep in the same places and at the same sizes: the vaulted corridor of arches receding to the middle, the shelves along both sides, the two lit display niches on the left and right walls (an old ball in the left one, books in the right one), and the counter with its thin rail along the top edge, at exactly the same height, filling the lower part.",
@@ -138,7 +138,7 @@ Keep image 1 exactly the same in camera, framing and layout. Change only the mat
 {men}{R['keep']}
 
 The room: {L['feel']}
-{strip_marks(R['room'].format(**L))}
+{strip_marks(R['room'].format(**{'grain': 'veins', **L}))}
 
 Every wall, door, frame, shelf, panel and pillar takes one of these materials ({L['materials']}); no light wood is left anywhere in the room.
 
