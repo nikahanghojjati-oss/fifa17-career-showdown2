@@ -1818,7 +1818,7 @@
   // r91 old-art: upright tablets (to 900 wide) use the same tall plate and lip layout; sideways phones draw the tall plate in
   // the left band under the title (as Career Statistics and Rivalry do), so the two V1 cut-outs never load. The plates-v2/v3 Trophy Room plates and the cut-out files stay in the repo as rollback.
   function trArchive(markup){
-    const lean=root.document?.documentElement?.dataset?.assets==="0",hc=BASE+"plates-hc/",tr=BASE+"trophy-room/assets/";
+    const lean=root.document?.documentElement?.dataset?.assets==="0",hc=BASE+"plates-hc/",tr=BASE+"trophy-room/";
     return markup
       .replace(`media="(max-width: 400px) and (orientation: portrait)" type="image/webp" srcset="${BASE}plates-v3/ENV_TROPHY_ROOM_PHONE_V3.webp"`,`media="(max-width: 900px) and (orientation: portrait), (max-height: 480px) and (orientation: landscape), (max-width: 760px) and (orientation: landscape)" type="image/webp" srcset="${hc}ENV_ARCHIVE_PHONE_HC_V3${lean?"_590W":""}.webp"`)
       .split(`<source media="(min-width: 401px) and (max-width: 900px) and (orientation: portrait), (max-height: 480px) and (orientation: landscape)" type="image/webp" srcset="${tr}assets/OVL_TR_DANIEL_PHONE_V1.webp">`).join("")
@@ -1908,6 +1908,12 @@
 }
 @media (min-width:901px) and (max-height:900px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .backButton {position:static}
+}
+/* r100 B7 (Verify F1 on #1631): windows 761-900 wide in landscape from 481 tall keep the desktop room but also show the bottom
+   tab bar, so the records end in a strip the bar's height (after BACK, which is the last thing in the column) and main can
+   scroll BACK clear above the bar instead of leaving it under it. The strip draws nothing. */
+@media (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
+  html[data-nav="hub"] #app #trophyRoom .trophyRoomContent::after {content:"";display:block;flex:none;order:99;height:var(--sd-nav-bottom-space,56px);pointer-events:none}
 }
 /* r91 old-art: sideways phones. The archive plate stands in the left band (the title, the champion cup and its plinth),
    the whole plate width, its men's heads (from 28% of the plate) just under the title; stone beside it. */

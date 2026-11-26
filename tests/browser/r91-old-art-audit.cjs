@@ -130,7 +130,7 @@ const CURRENT = new RegExp(`visual-assets/v10_1/plates-hc/|assets/loading/${THEM
 // Legacy, Trophy Room and Rivalry phone pictures; then Season Results hands and phone room, Final Winner near arms, the
 // Start and League phone heroes, the held-pack Club lounge (desktop and phone), and the Transfer TR2 locked plate and Nik's fingertip.
 const RETIRED_NEVER = new RegExp([
-  "plates-v2/ENV_LEGACY_PHONE_V2", "trophy-room/assets/ENV_TR_PHONE_V1",
+  "plates-v2/ENV_LEGACY_PHONE_V2", "trophy-room/assets/(?:ENV_TR_PHONE_V1|OVL_TR_(?:DANIEL|NIK)_PHONE_V1)",
   "rivalry-statistics/assets/(?:ENV_RV_PHONE_V1|OVL_RV_(?:DANIEL|NIK)_PHONE_V1)",
   "season-results/assets/(?:OVL_SR_(?:DANIEL|NIK)_HAND_V1_|ENV_SR_PHONE_V1|OVL_SR_(?:DANIEL|NIK)_PHONE_V1)",
   "final-winner/assets/OVL_FW_(?:DANIEL|NIK)_NEAR_ARM_V1_[12]X",

@@ -84,6 +84,10 @@ const homeCss=read("css/homeV10.css");
   const careerJs=read("js/careerScreensV10.js");
   assert.doesNotMatch(careerJs,/\(min-width:761px\) and \(max-width:900px\) and \(min-height:501px\)/,"no 481-500 gap in the Trophy Room");
   assert.ok(careerJs.split("(min-width:761px) and (max-width:900px) and (min-height:481px)").length-1>=10,"the Trophy Room's 761-900 desktop layout starts at 481 tall");
+  // Verify F1 on #1631: in that band the bottom tab bar shows too; the records end in a strip its height so BACK scrolls clear.
+  assert.ok(careerJs.includes("@media (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {\n  html[data-nav=\"hub\"] #app #trophyRoom .trophyRoomContent::after {content:\"\";display:block;flex:none;order:99;height:var(--sd-nav-bottom-space,56px);pointer-events:none}"),"the Trophy Room leaves the tab bar's height under BACK in the 761-900 band");
+  const reach=read("tests/browser/season-results-reach-audit.cjs");
+  assert.ok(reach.includes("async function trophyBackFindings()")&&reach.includes("R8 BACK cannot be clicked")&&/TROPHY_SIZES[\s\S]{0,200}"761x481", "800x490", "800x520", "880x640", "900x481", "900x700"/.test(reach),"the reach audit clicks the Trophy Room's BACK in the 761-900 band");
   assert.doesNotMatch(src,/\(min-width:1880px\) and \(max-width:2620px\) and \(min-height:1040px\) and \(max-height:1120px\) \{/,"no size-band gaps on wide windows");
   assert.match(src,/\(min-aspect-ratio:16\/9\) and \(orientation:landscape\) \{ #app #seasonEntry\.seasonScreenV10:not\(\.v10FinalMode\) \.v10SeasonStage \.sd-stage__registered \{ top:0!important;width:100vw!important;height:56\.25vw!important; \}/,"wide windows fill the width with the plate");
   const body=mediaBlock(seasonJs,"(min-width:901px) and (max-width:1239px) and (max-height:800px) and (orientation:landscape)");
