@@ -80,6 +80,9 @@ LOOKS = {
     "LAPIS": dict(name="Lapis Clubhouse", hue=(200, 255), hue_min=0.50, brown_max=0.20, sat=(0.45, 0.99),
                   luma=(14, 70), gold_max=0.04,
                   rooms=dict(BOARD=dict(glint_max=45.0),
+                             # Office: the glints sit on the satin gold window lines, the lamp stem and the lamp-lit olive
+                             # leaves, not on the honed desk (33 px below the desk line, on the paper bundle). Master F1: 20.2.
+                             OFFICE=dict(glint_max=22.0),
                              SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                              SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
 }

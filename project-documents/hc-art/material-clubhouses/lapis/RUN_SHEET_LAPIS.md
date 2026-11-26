@@ -238,6 +238,8 @@ Change only one thing: the desk top. Right now it reads like crushed velvet or b
 Same 16:9 framing, nothing cropped or extended at any edge, largest size available.
 ```
 
+- F1 (`ENV_OFFICE_PLATE_LAPIS_P1_2X_F1_RAW.png`): **9, Office master.** Desk now calm honed stone with soft drifts and a clear warm lamp wash; men diff 8.2. Check PASS with an Office glint ceiling of 22 (glints on the gold window lines, lamp stem and olive leaves, none on the stone).
+
 ### L-4 · Lapis Clubhouse: Hall
 - Image 1: [IMG1_ENV_HALL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png)), 3072x1728
 - Image 2: [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
