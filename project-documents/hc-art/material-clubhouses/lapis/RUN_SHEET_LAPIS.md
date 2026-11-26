@@ -436,6 +436,9 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 Tries:
 
+**Log (26 Nov):**
+- T1 (`ENV_TUNNEL_PLATE_LAPIS_P1_2X_T1_RAW.png`): **9, Players' tunnel master, first try.** Tooled Persian panels, square lapis pillars, ebony handrails with gold brackets, ribbed near-black mat with gold edges, pitch and goal kept, gold bulkhead lamp; men diff 5.0. Glint 5.0 sits on the gold mat strips, step edges, the far goal and the lamp, so the Tunnel gets a 5.5 ceiling; PASS.
+
 ### L-9 · Lapis Clubhouse: Club room
 - Image 1: [IMG1_ENV_CLUB_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png)), 3072x1728
 - Image 2: [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
