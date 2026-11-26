@@ -7,6 +7,8 @@
 // League Roulette (Nik 2026-11-26): with 3D on (WebGL through SwiftShader), at every tier and device, the League screen shows
 // the 3D roulette board and never the old flat wheel: the board is on screen, the flat wheel and its pointer are hidden, and
 // the board's marble is Ruby's tile. The old wheel is only the backup for a device with no 3D at all.
+// After Home each run also opens the sign-in gate (signed out, through the module's own render path as r91 does): it must draw
+// Ruby's own sign-in lounge (plates-hc/ruby/ENV_SIGNIN_*, lead A-24 point 3), never the Wooden or another clubhouse's lounge.
 // The static half checks the files; the browser half boots the real game (no service worker) and logs every picture request.
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -45,7 +47,7 @@ const OTHER_THEME = /(?:plates-hc|assets\/loading)\/(?:silver|black|matte)\//;
 const ROOM = /visual-assets\/v10_1\/plates-hc\//, TUNNEL = /assets\/loading\/(?:[a-z]+\/)?ENV_LOADING_/, TILE = /css\/r78-marble-tile(?:-[a-z]+)?\.webp$/;
 const OLD_PLATE = /(?:^|\/)(ENV_[A-Z0-9_]+\.webp)$/;
 
-function judge(urls, where){
+function judge([urls, loaded], where){
   const bad = [];
   for(const u of urls){
     if(OTHER_THEME.test(u)) bad.push(`another clubhouse's art ${u}`);
@@ -55,8 +57,9 @@ function judge(urls, where){
     else if(!ROOM.test(u) && !TUNNEL.test(u)){ const m = u.match(OLD_PLATE); if(m && (rubyRooms.has(m[1]) || rubyLoading.has(m[1]))) bad.push(`an old copy ${u} of a room Ruby has`); }
   }
   assert.deepEqual(bad, [], `${where}: Ruby downloads only Ruby art`);
-  assert.ok(urls.some(u => /plates-hc\/ruby\/ENV_HOME_/.test(u)), `${where}: the Ruby Home room is downloaded (not vacuous)`);
-  assert.ok(urls.some(u => /assets\/loading\/ruby\/ENV_LOADING_/.test(u)), `${where}: the Ruby tunnel is downloaded`);
+  assert.ok(loaded.some(u => /plates-hc\/ruby\/ENV_HOME_/.test(u)), `${where}: the Ruby Home room is downloaded and served (not vacuous)`);
+  assert.ok(loaded.some(u => /assets\/loading\/ruby\/ENV_LOADING_/.test(u)), `${where}: the Ruby tunnel is downloaded and served`);
+  assert.ok(loaded.some(u => /plates-hc\/ruby\/ENV_SIGNIN_/.test(u)), `${where}: the Ruby sign-in lounge is downloaded and served`);
 }
 
 function freePort(){ return new Promise((resolve, reject) => { const s = net.createServer(); s.unref(); s.on("error", reject); s.listen(0, "127.0.0.1", () => { const { port } = s.address(); s.close(() => resolve(port)); }); }); }
@@ -69,7 +72,10 @@ async function boot(browser, base, device, tier){
     await context.route("**/*", route => new URL(route.request().url()).origin === new URL(base).origin ? route.continue() : route.abort());
     await context.addInitScript(t => { try{ localStorage.setItem("cmsClubhouseTheme", "ruby"); localStorage.setItem("careerModeShowdown.gfxQuality.v1", t); }catch(_error){} }, tier);
     const page = await context.newPage(), seen = new Set();
+    await page.route("**/js/onlinePlayerIdentity.js*", async route => { const res = await route.fetch(); const body = (await res.text()).replace('"use strict";', '"use strict";root.__p3SetGate=s=>{gateOpen=true;setOnlineIdentityState(s);renderOnlineIdentityOverlay();};'); await route.fulfill({ response: res, body }); });
     page.on("request", r => { const u = r.url(); if(u.startsWith(base) && /\.(webp|png|jpe?g|avif)(\?|$)/.test(u)) seen.add(u.slice(base.length).replace(/\?.*$/, "")); });
+    const served = new Set();
+    page.on("response", r => { const u = r.url(); if(r.ok() && u.startsWith(base) && /\.(webp|png|jpe?g|avif)(\?|$)/.test(u)) served.add(u.slice(base.length).replace(/\?.*$/, "")); });
     await page.goto(base, { waitUntil: "domcontentloaded" });
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 40000 });
     await page.evaluate(() => window.CareerModeSharedJourneyReady?.());
@@ -78,7 +84,14 @@ async function boot(browser, base, device, tier){
     assert.equal(await page.evaluate(() => document.documentElement.getAttribute("data-clubhouse")), "ruby", `${tag} ${tier}: Ruby is applied`);
     const drawn = await page.evaluate(() => [...document.querySelectorAll("body, body *")].flatMap(el => ["", "::before", "::after"].map(p => getComputedStyle(el, p || null).backgroundImage)).join(" "));
     for(const m of drawn.matchAll(/plates-hc\/(?:([a-z]+)\/)?ENV_[A-Z0-9_]+\.webp/g)) assert.equal(m[1], "ruby", `${tag} ${tier}: every room drawn is Ruby's (${m[0]})`);
-    return [...seen];
+    assert.equal(await page.evaluate(() => typeof window.__p3SetGate), "function", `${tag} ${tier}: the sign-in gate hook is in place`);
+    await page.evaluate(() => window.__p3SetGate({ status: "signed-out", online: true, busy: false, message: "" }));
+    await page.locator("#onlinePlayerIdentityOverlay").waitFor({ state: "visible", timeout: 15000 });
+    await page.waitForTimeout(1200);
+    const lounge = await page.evaluate(() => getComputedStyle(document.getElementById("onlinePlayerIdentityOverlay")).backgroundImage);
+    const rooms = [...lounge.matchAll(/plates-hc\/(?:([a-z]+)\/)?(ENV_[A-Z0-9_]+)\.webp/g)];
+    assert.ok(rooms.length > 0 && rooms.every(m => m[1] === "ruby" && /^ENV_SIGNIN_/.test(m[2])), `${tag} ${tier}: the sign-in gate draws Ruby's own lounge (${lounge.slice(0, 300)})`);
+    return [[...seen], [...served]];
   }finally{ await context.close(); }
 }
 
@@ -137,7 +150,7 @@ async function league(browser, base, device, tier){
     for(const tier of TIERS){
       const runs = await Promise.all(DEVICES.map(d => boot(browser, base, d, tier).then(urls => [d.tag, urls])));
       for(const [tag, urls] of runs) judge(urls, `${tag} at ${tier}`);
-      ok(`${tier}: desktop, 2x desktop, upright and sideways phone boot to Home in Ruby and download only Ruby rooms, tunnel and marble`);
+      ok(`${tier}: desktop, 2x desktop, upright and sideways phone boot to Home and open the sign-in gate in Ruby, downloading only Ruby rooms, sign-in lounge, tunnel and marble`);
     }
     await browser.close(); browser = null;
     // 3D on, as on Nik's Chromebook and phones (CI's browser starts with WebGL off).
