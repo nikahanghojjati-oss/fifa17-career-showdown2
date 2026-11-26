@@ -771,6 +771,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (17:13 UTC): **9/10, accepted on the first try.** Scale 1.005, 3.6 px, men 7.6. The tunnel recedes to the same pitch opening and steps; the square pillars are straight-banded malachite, the handrails near-black walnut with brass brackets, the side walls bottle-green leather and the floor a green ribbed mat; the counter is calm muted-jade malachite with the warm reflection under the rail. Every check passes: sat 0.72, detail 2.91, spread 70, luma 34, brown 0.03, glint 2.1. Side by side: [ENV_TUNNEL_PHONE_EMERALD_P1.cmp.jpg](ENV_TUNNEL_PHONE_EMERALD_P1.cmp.jpg).
 
 ### E-20 · Emerald Clubhouse: Club room, phone
 - Image 1: [IMG1_ENV_CLUB_PHONE_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PHONE_HC_V4.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PHONE_HC_V4.png)), 1179x2096
