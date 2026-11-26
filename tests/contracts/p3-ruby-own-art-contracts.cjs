@@ -17,6 +17,7 @@ const path = require("node:path");
 const { spawn } = require("node:child_process");
 const ROOT = path.resolve(__dirname, "../..");
 let passed = 0;
+const LEAGUE_ONLY = process.env.P3_RUBY_PHASE === "league";
 const ok = name => { passed++; console.log(`ok ${passed} ${name}`); };
 
 const PLATES = path.join(ROOT, "visual-assets/v10_1/plates-hc");
@@ -36,7 +37,9 @@ for(const f of listed) assert.match(man.files[f].painting, /_RUBY_/, `${f} comes
 ok(`static: ${plain.length} rooms, ${rubyLoading.size} tunnel sizes and the marble each have their Ruby copy, all from Ruby paintings`);
 
 // ---------- browser ----------
-const TIERS = ["light", "medium", "high", "extra"];
+const ALL_TIERS = ["light", "medium", "high", "extra"];
+// The League half runs as two files of two tiers each (P3_RUBY_TIERS), so each stays well inside the census limit.
+const TIERS = process.env.P3_RUBY_TIERS ? process.env.P3_RUBY_TIERS.split(",").filter(t => ALL_TIERS.includes(t)) : ALL_TIERS;
 const DEVICES = [
   { tag: "desktop 1920x866", viewport: { width: 1920, height: 866 } },
   { tag: "desktop 2x 1440x900", viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 },
@@ -147,19 +150,24 @@ async function league(browser, base, device, tier){
     const runtime = await resolveChromiumRuntime();
     browser = await chromium.launch({ executablePath: runtime.executablePath, headless: true, args: runtime.args.filter(arg => arg !== "--single-process") });
     const base = `http://127.0.0.1:${port}/`;
-    for(const tier of TIERS){
+    // The two browser halves run as two contract files so each stays inside the census's 120 s limit per file (CI, 26 Nov:
+    // the combined run timed out); p3-ruby-league-3d-contracts.cjs sets P3_RUBY_PHASE=league and requires this file.
+    if(LEAGUE_ONLY && !TIERS.length) throw new Error("P3_RUBY_TIERS names no quality tier");
+    if(!LEAGUE_ONLY) for(const tier of TIERS){
       const runs = await Promise.all(DEVICES.map(d => boot(browser, base, d, tier).then(urls => [d.tag, urls])));
       for(const [tag, urls] of runs) judge(urls, `${tag} at ${tier}`);
       ok(`${tier}: desktop, 2x desktop, upright and sideways phone boot to Home and open the sign-in gate in Ruby, downloading only Ruby rooms, sign-in lounge, tunnel and marble`);
     }
+    if(LEAGUE_ONLY){
     await browser.close(); browser = null;
     // 3D on, as on Nik's Chromebook and phones (CI's browser starts with WebGL off).
     browser = await chromium.launch({ executablePath: runtime.executablePath, headless: true, args: [...runtime.args.filter(arg => !["--single-process", "--disable-webgl", "--in-process-gpu"].includes(arg)), "--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
     for(const tier of TIERS){
-      for(const d of DEVICES) await league(browser, base, d, tier);
+      await Promise.all(DEVICES.map(d => league(browser, base, d, tier)));  // the four devices at once, as the boot half does (one by one took 198 s, past the census limit)
       ok(`${tier}: League Roulette shows the 3D roulette board on Ruby's marble, never the old flat wheel, on desktop, 2x desktop, upright and sideways phone`);
     }
-    console.log(`PASS P3 Ruby own art: ${passed} checks.`);
+    }
+    console.log(`PASS P3 Ruby own art${LEAGUE_ONLY ? ` (League Roulette 3D board, ${TIERS.join(" and ")})` : " (rooms, tunnel, marble and sign-in lounge)"}: ${passed} checks.`);
   }catch(error){ console.error(error); process.exitCode = 1; }
   finally{ if(browser) await browser.close(); server.kill(); }
 })();
