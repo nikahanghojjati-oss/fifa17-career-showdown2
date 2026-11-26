@@ -102,8 +102,25 @@ const l7Proof=leg=>`IRONMAN_${leg.toUpperCase()}`;
 export const L8_SHARDS=Object.freeze([1,2,3]);
 export const l8Lane=shard=>`L8-${shard}`;
 export const isL8=lane=>typeof lane==='string'&&lane.startsWith('L8-');
-// The lane argument a matrix job passes: its matrix value (L7-${{ matrix.leg }}, L8-${{ matrix.shard }}).
-export const laneArgOf=lane=>isL7(lane)?'L7-${{ matrix.leg }}':isL8(lane)?'L8-${{ matrix.shard }}':lane;
+// L9 POS1M Ring 2 (Phoenix B1, lead 2026-11-25): the Ring 1 stories replayed call for call on the real Firestore emulator under
+// the composed production Rules, 4 shard jobs of 50 stories each (seeds 200000-200199, a fixed sample: every length and Sacked
+// first, middle, last and none). It runs with the heavy set (l9Decision, fail-closed like l7_heavy) and whenever POS1M itself
+// changes; a skipped shard is a verified skip in the seal, the same as a skipped L7 leg.
+export const L9_SHARDS=Object.freeze([1,2,3,4]);
+export const L9_STORIES=50;
+export const L9_SEED=200000;
+export const l9Seed=shard=>L9_SEED+(shard-1)*L9_STORIES;
+export const l9Lane=shard=>`L9-${shard}`;
+export const isL9=lane=>typeof lane==='string'&&lane.startsWith('L9-');
+export const L9_ALWAYS=Object.freeze(['tests/pos1m/**']);
+export function l9Decision({event,baseRef,files}){
+  const heavy=l7Decision({event,baseRef,files});
+  if(heavy.l7_heavy!==false)return {l9_run:true,l9_reason:`heavy set: ${heavy.l7_reason}`};
+  if(files.some(file=>L9_ALWAYS.some(glob=>path.matchesGlob(file,glob))))return {l9_run:true,l9_reason:'POS1M files changed'};
+  return {l9_run:false,l9_reason:`light set: ${heavy.l7_reason} (Ring 2 runs in the heavy set and on PRs into main)`};
+}
+// The lane argument a matrix job passes: its matrix value (L7-${{ matrix.leg }}, L8-${{ matrix.shard }}, L9-${{ matrix.shard }}).
+export const laneArgOf=lane=>isL7(lane)?'L7-${{ matrix.leg }}':isL8(lane)?'L8-${{ matrix.shard }}':isL9(lane)?'L9-${{ matrix.shard }}':lane;
 
 // Exactly the list `node tests/support/run-selected-product-contracts.cjs --all` executes.
 export function registeredContracts(){
@@ -127,9 +144,15 @@ const LANE_DEFS={
   L6:{job:'l6-browser-journey',name:'L6 browser journey',groups:[],fixed:['JOURNEY_RULES_BUILD_ZERO_BILLING','TWO_MANAGER_BROWSER_JOURNEY','R79_TWO_PLAYER_JOURNEY'],steps:{rules:['JOURNEY_RULES_BUILD_ZERO_BILLING'],journey:['TWO_MANAGER_BROWSER_JOURNEY'],r79_journey:['R79_TWO_PLAYER_JOURNEY']}}
 };
 // L7 is one matrix job (l7-ironman); each leg is its own lane record (showdown-gate-lane-L7-<leg>), checked like a lane.
-for(const leg of L7_LEGS)LANE_DEFS[l7Lane(leg)]={job:'l7-ironman',name:'L7 Ironman',leg,groups:[],fixed:[l7Proof(leg)],steps:{ironman:[l7Proof(leg)]}};
+// The ce2pg leg also proves POS1M Ring 3 (Phoenix B1, lead 2026-11-25): its CE2PG report's Ring 3 meter against the hard budgets
+// of tests/pos1m/ring3-baseline.json (billed reads, writes, minutes outside FIFA, tap/Reus/rival p90). The step sits in every
+// leg's job (one matrix), but only the ce2pg leg runs it and records it.
+export const L7_RING3_PROOF='POS1M_RING3';
+for(const leg of L7_LEGS)LANE_DEFS[l7Lane(leg)]={job:'l7-ironman',name:'L7 Ironman',leg,groups:[],fixed:leg==='ce2pg'?[l7Proof(leg),L7_RING3_PROOF]:[l7Proof(leg)],steps:{ironman:[l7Proof(leg)],ring3:leg==='ce2pg'?[L7_RING3_PROOF]:[]}};
 for(const shard of L8_SHARDS)LANE_DEFS[l8Lane(shard)]={job:'l8-pos1m',name:'L8 POS1M',shard,groups:[],fixed:['POS1M_STANDIN',`POS1M_RING1_${shard}`,'POS1M_PLANTED'],
   steps:{pos1m_standin:['POS1M_STANDIN'],pos1m_ring1:[`POS1M_RING1_${shard}`],pos1m_planted:['POS1M_PLANTED']}};
+for(const shard of L9_SHARDS)LANE_DEFS[l9Lane(shard)]={job:'l9-pos1m-ring2',name:'L9 POS1M Ring 2',shard,groups:[],fixed:['POS1M_RING2_RULES_BUILD',`POS1M_RING2_${shard}`],
+  steps:{rules:['POS1M_RING2_RULES_BUILD'],pos1m_ring2:[`POS1M_RING2_${shard}`]}};
 export const LANES=Object.freeze(LANE_DEFS);
 export const LANE_IDS=Object.freeze(Object.keys(LANES));
 export const ALL_GROUPS=Object.freeze([...new Set(Object.values(graph.proofBundleGroups))].sort());
@@ -140,10 +163,11 @@ export function laneFlags(route){
   return Object.fromEntries([...ALL_GROUPS.map(group=>[`has_${group.toLowerCase()}`,groups.has(group)]),['lifecycle_routed',(route.proofs||[]).includes(LIFECYCLE_PROOF)]]);
 }
 // What a lane is responsible for on this route.
-export function selectedFor(lane,route,{l5Run=true,l7Run=true}={}){
+export function selectedFor(lane,route,{l5Run=true,l7Run=true,l9Run=true}={}){
   const def=LANES[lane];if(!def)throw new Error(`Unknown lane ${lane}`);
   if(lane==='L5'&&l5Run===false)return [];
   if(isL7(lane)&&l7Run===false)return [];
+  if(isL9(lane)&&l9Run===false)return [];
   const ids=[...def.fixed,...routedProofs(route,def.groups)];
   if(lane==='L1'){ids.push(...(route.tests||[]));if(route.operations)ids.push('OPERATIONS');}
   if(lane==='L4'&&(route.proofs||[]).includes(LIFECYCLE_PROOF))ids.push('LIFECYCLE_COMPOSED_RULES_BUILD','LIFECYCLE_COMPOSED_1_3_5_10');
@@ -223,12 +247,26 @@ export function baseRefFromEnv(env=process.env){
   return env.GATE_BASE_REF||payload.pull_request?.base?.ref||null;
 }
 
-export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,l7Run=true,l7Reason=null,l7Heavy=null,files=null,ironman=null}){
-  const selected=route?selectedFor(lane,route,{l5Run,l7Run}):[];
+export function buildLaneRecord({lane,headSha,baseSha,runId,runAttempt,route,steps,jobStatus,l5Run=true,l5Reason=null,l7Run=true,l7Reason=null,l7Heavy=null,l9Run=true,l9Reason=null,files=null,ironman=null,ring2=null}){
+  const selected=route?selectedFor(lane,route,{l5Run,l7Run,l9Run}):[];
   const ran=route?ranFor(lane,route,steps):[];
   // An L7 leg also carries its seed, its attempts and whether it only passed on the rerun (FLAKY: filed and fixed, never skipped).
   const l7=isL7(lane)?{leg:LANES[lane].leg,l7_run:l7Run,l7_reason:l7Reason,l7_heavy:l7Heavy===true?true:l7Heavy===false?false:null,files,ironman:ironman&&typeof ironman==='object'?{verdict:ironman.verdict??null,seed:ironman.seed??null,seasons:ironman.seasons??null,epilogue:typeof ironman.epilogue==='boolean'?ironman.epilogue:null,attempts:Array.isArray(ironman.attempts)?ironman.attempts.length:null,replay:ironman.replay??null}:null}:{};
-  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown',...(lane==='L5'?{l5_run:l5Run,l5_reason:l5Reason,files}: {}),...l7};
+  return {schema:LANE_SCHEMA,lane,job:LANES[lane].job,head_sha:headSha,base_sha:baseSha??null,run_id:runId==null?null:Number(runId),run_attempt:runAttempt==null?null:Number(runAttempt),route_profile:route?.profile??null,route_digest:routeDigest(route),selected,ran,missing:selected.filter(id=>!ran.includes(id)),result:jobStatus||'unknown',...(lane==='L5'?{l5_run:l5Run,l5_reason:l5Reason,files}: {}),...(isL9(lane)?{shard:LANES[lane].shard,l9_run:l9Run,l9_reason:l9Reason,files,ring2:ring2Summary(ring2)}:{}),...l7};
+}
+
+// The shard's own Ring 2 report, as finalize reads it: how many stories it ran, which seeds, how many survived (Verify on #1627:
+// a shard that ran 0 stories must not pass the seal).
+const ring2Summary=report=>report&&typeof report==='object'?{stories:report.stories??null,asked:report.asked??null,first_seed:report.firstSeed??null,last_seed:report.lastSeed??null,seeds_ok:report.seedsOk===true,survived:report.survived??null}:null;
+export function l9ReportFailures(lane,record){
+  const shard=LANES[lane].shard,first=l9Seed(shard),last=first+L9_STORIES-1,r=record.ring2;
+  if(!r||typeof r!=='object')return [`${lane}: POS1M Ring 2 ran but the lane record has no shard report`];
+  const out=[];
+  if(r.stories!==L9_STORIES||r.asked!==L9_STORIES)out.push(`${lane}: POS1M Ring 2 ran ${r.stories} of ${r.asked} stories, the shard needs ${L9_STORIES}`);
+  if(r.first_seed!==first||r.last_seed!==last)out.push(`${lane}: POS1M Ring 2 seeds ${r.first_seed}-${r.last_seed}, the shard needs ${first}-${last}`);
+  if(r.seeds_ok!==true)out.push(`${lane}: POS1M Ring 2 did not report every asked seed exactly once`);
+  if(r.survived!==L9_STORIES)out.push(`${lane}: POS1M Ring 2 survived ${r.survived} of ${L9_STORIES} stories`);
+  return out;
 }
 
 // Pure seal evaluation. needs: {jobId:{result}}; lanes: {L1:laneRecord|null}; classification: classifyRun output or null.
@@ -293,7 +331,16 @@ export function evaluateSeal({event,draft,headSha,baseSha=null,baseRef=null,file
       }
       if(record.ran.includes(LANES[lane].fixed[0])&&record.ironman?.verdict==='FLAKY')flaky.push(`${lane}: passed only on the rerun (seed ${record.ironman.seed}); replay: ${record.ironman.replay}`);
     }
-    const expected=selectedFor(lane,route,{l5Run:!l5Skip,l7Run:!l7Skip});
+    let l9Skip=false;
+    if(isL9(lane)){
+      if(record.shard!==LANES[lane].shard)failures.push(`${lane}: shard identity ${record.shard} != ${LANES[lane].shard}`);
+      if(!record.ran.includes(`POS1M_RING2_${LANES[lane].shard}`)){
+        l9Skip=record.l9_run===false&&Array.isArray(files)&&l9Decision({event,baseRef,files}).l9_run===false&&
+          Array.isArray(record.files)&&JSON.stringify(record.files)===JSON.stringify(files);
+        if(!l9Skip)failures.push(`${lane}: POS1M Ring 2 did not pass and the independent input recompute did not verify the recorded skip`);
+      }else failures.push(...l9ReportFailures(lane,record));
+    }
+    const expected=selectedFor(lane,route,{l5Run:!l5Skip,l7Run:!l7Skip,l9Run:!l9Skip});
     const missingSelection=expected.filter(id=>!(record.selected||[]).includes(id));
     if(missingSelection.length)failures.push(`${lane}: lane selected fewer ids than the route requires: ${missingSelection.join(', ')}`);
     const notRun=expected.filter(id=>!(record.ran||[]).includes(id));
@@ -344,11 +391,12 @@ async function cmdRoute(opts){
   const {event,files,route}=routeFromEnv();
   const l5=l5Decision({event,baseRef:baseRefFromEnv(),files});
   const l7=l7Decision({event,baseRef:baseRefFromEnv(),files,leg:isL7(lane)?LANES[lane].leg:null});
-  const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,base_sha:baseFromEnv(),files,route,...l5,...l7};
+  const l9=l9Decision({event,baseRef:baseRefFromEnv(),files});
+  const record={schema:'showdown-gate-route/v1',event,head_sha:process.env.GATE_HEAD_SHA,base_sha:baseFromEnv(),files,route,...l5,...l7,...l9};
   if(opts.out)fs.writeFileSync(opts.out,`${JSON.stringify(record,null,2)}\n`);
-  const flags={...laneFlags(route),...(lane==='L5'?l5:{}),...(isL7(lane)?{...l7,seed:l7Seed(process.env.GATE_HEAD_SHA)}:{})};
+  const flags={...laneFlags(route),...(lane==='L5'?l5:{}),...(isL7(lane)?{...l7,seed:l7Seed(process.env.GATE_HEAD_SHA)}:{}),...(isL9(lane)?{...l9,seed:l9Seed(LANES[lane].shard),stories:L9_STORIES}:{})};
   writeOutputs(opts['github-output'],{profile:route.profile,proofs_csv:route.proofs.join(','),...flags});
-  console.log(`Showdown Gate route ${route.profile}: ${route.testCount} tests, ${route.proofCount} proofs, groups ${JSON.stringify(route.proofGroups||[])}${lane?`; ${lane} selects ${selectedFor(lane,route,{l5Run:l5.l5_run,l7Run:l7.l7_run}).length} ids`:''}${isL7(lane)?` (${l7.l7_reason})`:''}`);
+  console.log(`Showdown Gate route ${route.profile}: ${route.testCount} tests, ${route.proofCount} proofs, groups ${JSON.stringify(route.proofGroups||[])}${lane?`; ${lane} selects ${selectedFor(lane,route,{l5Run:l5.l5_run,l7Run:l7.l7_run,l9Run:l9.l9_run}).length} ids`:''}${isL7(lane)?` (${l7.l7_reason})`:''}${isL9(lane)?` (${l9.l9_reason})`:''}`);
   console.log(JSON.stringify({files,profile:route.profile,proofs:route.proofs,flags}));
 }
 function readRouteRecord(file){
@@ -362,7 +410,9 @@ async function cmdFinalize(opts){
   const routeRecord=readRouteRecord(opts.route);
   let ironman=null;
   if(isL7(lane)&&opts.ironman&&fs.existsSync(opts.ironman)){try{ironman=JSON.parse(fs.readFileSync(opts.ironman,'utf8'));}catch{ironman=null;}}
-  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,l7Run:routeRecord?.l7_run===false?false:true,l7Reason:routeRecord?.l7_reason,l7Heavy:routeRecord?.l7_heavy,files:routeRecord?.files,ironman});
+  let ring2=null;
+  if(isL9(lane)&&typeof opts.ring2==='string'&&fs.existsSync(opts.ring2)){try{ring2=JSON.parse(fs.readFileSync(opts.ring2,'utf8'));}catch{ring2=null;}}
+  const record=buildLaneRecord({lane,headSha:process.env.GATE_HEAD_SHA,baseSha:baseFromEnv(),runId:process.env.GITHUB_RUN_ID,runAttempt:process.env.GATE_RUN_ATTEMPT,route:routeRecord?.route,steps,jobStatus:process.env.GATE_JOB_STATUS,l5Run:routeRecord?.l5_run===false?false:true,l5Reason:routeRecord?.l5_reason,l7Run:routeRecord?.l7_run===false?false:true,l7Reason:routeRecord?.l7_reason,l7Heavy:routeRecord?.l7_heavy,l9Run:routeRecord?.l9_run===false?false:true,l9Reason:routeRecord?.l9_reason,files:routeRecord?.files,ironman,ring2});
   const out=opts.out||'lane.json';
   fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});
   fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);
