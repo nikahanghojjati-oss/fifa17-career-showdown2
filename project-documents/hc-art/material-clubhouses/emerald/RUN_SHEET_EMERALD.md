@@ -802,6 +802,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (17:15 UTC): **9/10, accepted on the first try.** Scale 1.002, 2.3 px (no hero mask for this room). The layout of image 1 holds exactly: both lamps and pennant hangers in the top band, the three-pane window with the stadium untouched, the panelled wall with its seam lines, the trophies and balls along the bottom; the walls are bottle-green leather with clear warm pools round the lamps and walnut window frames with a brass line. Every check passes: sat 0.79, detail 2.26, spread 52, luma 30, brown 0.10, glint 3.8. Side by side: [ENV_CLUB_PHONE_EMERALD_P1.cmp.jpg](ENV_CLUB_PHONE_EMERALD_P1.cmp.jpg).
 
 ### E-21 · Emerald Clubhouse: Loading tunnel, phone
 - Image 1: [IMG1_ENV_LOADING_PHONE_HC.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png)), 1179x2096
