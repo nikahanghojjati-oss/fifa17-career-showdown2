@@ -13,8 +13,8 @@ Phone band -> files (phone_out): the 9:16 band becomes ENV_<ROOM>_PHONE_HC_V3 an
 also the TALL upright (1179x2620) and its _590W where the game has one. TALL is a different framing, not a resize: it is the
 same picture down to the top of the counter and a longer counter below it, so the band is laid 1:1 above TALL_KNEE and the
 counter below is stretched to the TALL height (tall_rows; measured on the Wooden pairs, see `--check-tall`). CLUB's band
-becomes ENV_CLUB_PHONE_HC_V4 and LOADING's becomes assets/loading/<theme>/ENV_LOADING_PHONE_HC (+ _590W); neither has the
-men in it, so they take the painting as it is.
+becomes ENV_CLUB_PHONE_HC_V4, LOADING's becomes assets/loading/<theme>/ENV_LOADING_PHONE_HC (+ _590W) and SIGNIN's (the
+sign-in lounge, HO-178..181) becomes ENV_SIGNIN_PHONE_HC_V1 (+ _590W); none has the men in it, so they take the painting as it is.
 The other phone pictures have nobody in them, so they take their painting as it is too (no mask; OTHER_MASTERS):
   ENV_BOX_PHONE_V4_<LOOK>_P1        (HO-162..164) -> ENV_BOX_PHONE_HC_V4 (+_590W) and its TALL (+_590W), same knee as BOX V3
   ENV_BOX_PLATE_EMPTY_<LOOK>_P1_2X  (HO-165..167) -> ENV_BOX_SIDEWAYS_HC_V4: the empty desktop room cut to 2:1 (BOX_SIDE_CUT)
@@ -22,7 +22,8 @@ The other phone pictures have nobody in them, so they take their painting as it 
   ENV_SLAB_<LOOK>_P1_2X             (HO-112/131/150) -> ENV_SLAB_PHONE_HC_V1 (+_590W): the desktop slab turned upright (rot90)
 B7 builds the desktop files from the same deliveries (desk_out, paint_desk):
   ENV_<ROOM>_PLATE_<LOOK>_P1_2X   -> ENV_<ROOM>_PLATE_HC_V3_{1920,1X,2X} with the men laid back (hero mask, as the pilot);
-                                     CLUB -> ENV_CLUB_PLATE_HC_V3_{1X,2X} and LOADING -> assets/loading/<theme>/ENV_LOADING_PLATE_HC_{1X,2X}
+                                     CLUB -> ENV_CLUB_PLATE_HC_V3_{1X,2X}, LOADING -> assets/loading/<theme>/ENV_LOADING_PLATE_HC_{1X,2X}
+                                     and SIGNIN (the sign-in lounge, HO-174..177) -> ENV_SIGNIN_PLATE_HC_V1_{1920,1X,2X}
                                      (nobody in them: the painting as it is)
   ENV_SLAB_<LOOK>_P1_2X           -> ENV_SLAB_HC_V1_{1920,1X,2X} and TILE_SLAB_HC_V1_512 (the Wooden tile is the 2X slab's
                                      1024 px square at SLAB_TILE_BOX, halved; made seamless across its edges, tile_from)
@@ -61,6 +62,9 @@ PHONE_SIZE_SLACK = 0.10  # a phone plate may be at most this much bigger than th
 # Matte, so they skip the size ceiling. q75 (lead 2026-11-25 07:04 UTC; was q80): 153 KB lighter on phones, flannel and
 # floor side by side at 390x844@3 show no visible loss.
 PHONE_SIZE_EXCEPTIONS = {("matte", "CLUB"): 75, ("matte", "COACHES"): 75}
+# r100 B7 (HO-174..181, lead 2026-11-26): the sign-in lounge behind the sign-in and error screens is drawn once per sign-in or
+# error, never during play, so its premium files are written at q90 like the Wooden lounge, with no size ceiling.
+FIXED_Q_ROOMS = {"SIGNIN": 90}
 # Lead decision 2026-11-24 19:15 UTC: small files win. After WebP the faces may drift up to this many levels (mean, inside the
 # fully Wooden core of the mask) as long as a 4x side-by-side of each face against Wooden shows no visible change (face_crops).
 FACE_DRIFT_MAX = 3.0
@@ -96,6 +100,8 @@ def phone_out(room):
         return [(LOADING, n, None, "band") for n in _plates(LOADING, r"^ENV_LOADING_PHONE_HC(_590W)?\.webp$")]
     if room == "CLUB":
         return [(SRC, n, None, "band") for n in _plates(SRC, r"^ENV_CLUB_PHONE_HC_V4\.webp$")]
+    if room == "SIGNIN":
+        return [(SRC, n, None, "band") for n in _plates(SRC, r"^ENV_SIGNIN_PHONE_HC_V1(_590W)?\.webp$")]
     out = [(SRC, n, f"ENV_{room}_PHONE_HC_V3", "band") for n in _plates(SRC, rf"^ENV_{room}_PHONE_HC_V3(_590W)?\.webp$")]
     if room in TALL_KNEE:
         out += [(SRC, n, f"ENV_{room}_PHONE_HC_V3_TALL", "tall") for n in _plates(SRC, rf"^ENV_{room}_PHONE_HC_V3_TALL(_590W)?\.webp$")]
@@ -120,6 +126,8 @@ def desk_out(room):
         return [(LOADING, n, None) for n in _plates(LOADING, r"^ENV_LOADING_PLATE_HC_(1X|2X)\.webp$")]
     if room == "CLUB":
         return [(SRC, n, None) for n in _plates(SRC, r"^ENV_CLUB_PLATE_HC_V3_(1X|2X)\.webp$")]
+    if room == "SIGNIN":
+        return [(SRC, n, None) for n in _plates(SRC, r"^ENV_SIGNIN_PLATE_HC_V1_(1920|1X|2X)\.webp$")]
     return [(SRC, n, f"ENV_{room}_PLATE_HC_V3_1920") for n in _plates(SRC, rf"^ENV_{room}_PLATE_HC_V3_(1920|1X|2X)\.webp$")]
 
 def desk_extra(kind):
@@ -278,7 +286,7 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, 
     changed = int(np.any(out[core] != w8[core], axis=-1).sum()) if core.any() else 0
     assert changed == 0, f"{theme}/{name}: {changed} face pixels changed before encoding"
     wood_bytes = os.path.getsize(os.path.join(folder, name + ".webp"))
-    fixed_q = PHONE_SIZE_EXCEPTIONS.get((theme, room)) if kind == "phone" else None
+    fixed_q = (PHONE_SIZE_EXCEPTIONS.get((theme, room)) or FIXED_Q_ROOMS.get(room)) if kind == "phone" else None
     if fixed_q:
         buf = io.BytesIO(); Image.fromarray(out).save(buf, "WEBP", quality=fixed_q, method=6); data, q = buf.getvalue(), fixed_q
     else:
@@ -328,7 +336,10 @@ def paint_desk(theme, name, path, room, folder, mask, framing, crops_root=None):
     changed = int(np.any(out[core] != w8[core], axis=-1).sum()) if core.any() else 0
     assert changed == 0, f"{theme}/{name}: {changed} face pixels changed before encoding"
     wood_bytes = os.path.getsize(os.path.join(folder, name + ".webp"))
-    data, q = encode(Image.fromarray(out), int(wood_bytes * (1 + DESK_SIZE_SLACK)), 76 if core.any() else 40)
+    if room in FIXED_Q_ROOMS:
+        q = FIXED_Q_ROOMS[room]; buf = io.BytesIO(); Image.fromarray(out).save(buf, "WEBP", quality=q, method=6); data = buf.getvalue()
+    else:
+        data, q = encode(Image.fromarray(out), int(wood_bytes * (1 + DESK_SIZE_SLACK)), 76 if core.any() else 40)
     dec = np.asarray(Image.open(io.BytesIO(data)).convert("RGB"), np.float32)
     drift = round(float(np.abs(dec[core] - w[core]).mean()), 3) if core.any() else None
     assert drift is None or drift <= FACE_DRIFT_MAX, f"{theme}/{name}: faces drift {drift} levels after WebP (max {FACE_DRIFT_MAX})"
