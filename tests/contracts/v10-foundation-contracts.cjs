@@ -765,7 +765,7 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp":"897f5639fe3ac3790594070d0fd55b121094bae70265c9bcc96e7038c152c78c",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp":"774945d8dee301e6f147f943df9abea1ea3263444853256e6cdf7a8ef2b5ab11",
     "visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp":"76cf5166df341e532ae707615c2daddd49ad8fa83b0db2ca018640658f083e71",
-    // R99-01 clubhouse themes (Nik 2026-11-23): the Silver, Metallic Black and Premium Matte Black copies of the rooms (tools/clubhouse-themes/build.py).
+    // R99-01 clubhouse themes (Nik 2026-11-23): the Silver, Metallic Black, Premium Matte Black and Ruby copies of the rooms (tools/clubhouse-themes/build.py).
     "visual-assets/v10_1/plates-hc/silver/ENV_ARCHIVE_PHONE_HC_V3.webp":"27e07aca096b22f69782347fa81ccd4f875d9348872ca37f9308e3011bb71f03",
     "visual-assets/v10_1/plates-hc/silver/ENV_ARCHIVE_PHONE_HC_V3_590W.webp":"c3b63424b160c11fb678bfb93c9e556efd606c3ed27929cc293d96f6d84da3a1",
     "visual-assets/v10_1/plates-hc/silver/ENV_ARCHIVE_PLATE_HC_V3_1920.webp":"d5167855f8e969819fcd2a4f44751cfcd08cd08e1ac31ff26bcdab1438ddcf47",

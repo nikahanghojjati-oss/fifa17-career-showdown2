@@ -29,10 +29,10 @@ const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_OLD_ART_SHOTS || "";
 const reportFile = process.env.CMS_OLD_ART_REPORT || "";
 const touchSize = (w, h, pointer) => pointer ? pointer === "touch" : w < 900 || h < 500;
-// R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte opens every screen in that clubhouse (this device's pick, localStorage).
+// R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte|ruby opens every screen in that clubhouse (this device's pick, localStorage).
 // Every room drawn must then be that theme's copy (plates-hc/<theme>/), and no plain room may even be downloaded: a plain room
 // fetched first could paint for a moment before the themed one (A3, A4).
-const THEME = /^(silver|black|matte)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
+const THEME = /^(silver|black|matte|ruby)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
 const PLAIN_ROOM = /visual-assets\/v10_1\/plates-hc\/(?:ENV|TILE)_/;
 
 // ---------- window shapes ----------
@@ -133,7 +133,7 @@ const RETIRED_NEVER = new RegExp([
   "start-join/assets/OVL_SJ_(?:DANIEL|NIK)_PHONE_V1", "league/assets/OVL_LEAGUE_(?:DANIEL|NIK)_PHONE_V1",
   "plates-v2/ENV_CLUB_PLATE_V2_", "plates-v2/ENV_CLUB_PHONE_V2", "/ENV_TR2_PLATE_G_LOCKED_V1_", "/OVL_NIK_FINGERTIP_V1_"
 ].join("|"));
-const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_/;
+const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte|ruby)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte|ruby)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
     const urls = s => [...String(s || "").matchAll(/url\(["']?([^"')]+)["']?\)/g)].map(m => m[1]);

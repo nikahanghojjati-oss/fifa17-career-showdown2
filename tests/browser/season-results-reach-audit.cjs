@@ -25,7 +25,7 @@ const HEIGHTS = [340, 380, 420, 460, 520];
 const SIZES = process.env.CMS_REACH_SIZES
     ? process.env.CMS_REACH_SIZES.split(",").map(s => s.split("x").map(Number))
     : WIDTHS.flatMap(w => HEIGHTS.map(h => [w, h]));
-const CLUBHOUSES = (process.env.CMS_REACH_CLUBHOUSES || "wooden,silver,black,matte").split(",");
+const CLUBHOUSES = (process.env.CMS_REACH_CLUBHOUSES || "wooden,silver,black,matte,ruby").split(",");
 
 // runs in the page: every finding at the current window size
 async function reachFindings(){
