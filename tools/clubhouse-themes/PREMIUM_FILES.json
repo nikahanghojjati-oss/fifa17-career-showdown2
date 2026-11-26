@@ -1026,6 +1026,31 @@
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_RUBY_P1_2X.webp",
    "room": "OFFICE"
   },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_SIGNIN_PHONE_HC_V1.webp": {
+   "sha256": "d06fe2f398dde795ff6e6b99ccfb0d90e44eca8ab550c97de12b7bed9b67f3dd",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_RUBY_P1.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_SIGNIN_PHONE_HC_V1_590W.webp": {
+   "sha256": "131957aff786d3603f180b20dc4436a3d35a36ca0c1fafc46a3b293fe5799f37",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_RUBY_P1.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_SIGNIN_PLATE_HC_V1_1920.webp": {
+   "sha256": "b0fc8cf6fe59cc2385e8bc32c661064caec3554b0d8cfa12812fe77270a00e00",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_RUBY_P1_2X.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_SIGNIN_PLATE_HC_V1_1X.webp": {
+   "sha256": "9247b35d1ac48f8a40272c37fc870afa1d0cae21bf17a2dc51fb1458eb7769b4",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_RUBY_P1_2X.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_SIGNIN_PLATE_HC_V1_2X.webp": {
+   "sha256": "e7be696a1c0031db5fb827117bbe542beeaa154fe19d3e5b5dc6863e3fab3476",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_RUBY_P1_2X.webp",
+   "room": "SIGNIN"
+  },
   "visual-assets/v10_1/plates-hc/ruby/ENV_SLAB_HC_V1_1920.webp": {
    "sha256": "7ede5381c114fcfa5b5fcbed6ba810cd20883b09dca400fb25c07d0f536ed0dc",
    "painting": "tools/clubhouse-themes/paintings/ENV_SLAB_RUBY_P1_2X.webp",
@@ -1504,9 +1529,11 @@
   "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_SILVER_P1_2X.webp": "2937bca660ea1f85af7fc062aa234bdb2a2b7c9ed4057096f7d205bb22c4d690",
   "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_BLACK_P1.webp": "44c7e99d88b6cc5a3df27382d4e39cd836ce67d10875fb1c5a4b5c5c06556262",
   "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_MATTE_P1.webp": "d5e3eb31e3c6ef06b39b93b48bc6241865184494956f983515079bfb1cf413c6",
+  "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_RUBY_P1.webp": "3c0d7c54d3c250dea7bc8515d3f03ae87caeefd26d0572a3455db5f9e9d3217c",
   "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_SILVER_P1.webp": "2b794fe10a442fea7a3a2dddbfc54ce9ba352a9863e223162504fdccc580746e",
   "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_BLACK_P1_2X.webp": "721939041c50c5b5e380df2c90629c6012b841e74654c282c40b45f682f09e50",
   "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_MATTE_P1_2X.webp": "e4822b6c039a5666e593ccf18be9bfc73234c839f266491be22c331e91aee3f5",
+  "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_RUBY_P1_2X.webp": "60b918a760d344cf14b61768de04aa5c150d861a62bb69dd6996b9d2c6db661c",
   "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_SILVER_P1_2X.webp": "40ed39114cdc08eb73c41c96067a8d9b8f2a7ebe4a290b07104a0721aad4ba88",
   "tools/clubhouse-themes/paintings/ENV_SLAB_BLACK_P1_2X.webp": "397c92201f76821e4c37fc1475f8638d195cc053a442a95c8cc1a8156547c647",
   "tools/clubhouse-themes/paintings/ENV_SLAB_MATTE_P1_2X.webp": "1d36c6c673ec094f9f676c5bff7b6814dc4eadb7cd3a523ff0eca6a8d299180f",
