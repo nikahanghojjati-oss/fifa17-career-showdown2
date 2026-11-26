@@ -268,14 +268,14 @@ Tries:
 
 ### L-1F · Lapis Board: Persian hand-tooled sunburst (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
 
-Nik, 19:31 UTC: "Can you make the patterns in the background to look more handcrafted and look more like a Persian rug design and look like a very premium design? Right now, look very basic." Runs before the light edit (L-1D F3), so each change is judged on its own. Keeps the rays because they frame the title and the score box; the Persian work stays tone-on-tone so it never fights the UI. No medallion: the score box would hide it. Saves as `ENV_BOARD_PLATE_LAPIS_P1F_2X_T1_RAW.png`.
+Nik, 19:31 UTC: "I want a sophisticated and also neat soft design." Nik, 19:31 UTC: "Can you make the patterns in the background to look more handcrafted and look more like a Persian rug design and look like a very premium design? Right now, look very basic." Runs before the light edit (L-1D F3), so each change is judged on its own. Keeps the rays because they frame the title and the score box; the Persian work stays tone-on-tone so it never fights the UI. No medallion: the score box would hide it. Saves as `ENV_BOARD_PLATE_LAPIS_P1F_2X_T1_RAW.png`.
 
 ```
 Image 1 is the picture to edit. Use only image 1.
 
 Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same lamp, door, stone, leather colour, mouldings, gold rail and light.
 
-Change only one thing: the pattern inside the big middle panel between the two men. Keep the fan of rays rising from the middle of the panel's bottom edge, but turn it into a master craftsman's hand-tooled leather design inspired by a fine antique Persian carpet. Each ray is filled with delicate Persian arabesques, slender scrolling vines, small palmette flowers and split leaves, finely tooled and gently embossed into the lapis-blue leather. A narrow Persian carpet border, with a fine guard stripe of tiny repeating flowers, runs just inside the panel's frame. Everything is tone-on-tone, only a shade or two lighter and deeper than the leather, like the blind tooling on a fine leather-bound book. Gold appears only as the existing hairline lines between the rays. From a distance the panel reads as a soft, rich texture behind the men; up close it shows real handwork with small natural irregularities, never a printed or computer-perfect pattern. It is never bold, busy or high contrast, with no centre medallion, emblem, circle, text or new colours. Every other panel stays plain.
+Change only one thing: the pattern inside the big middle panel between the two men. Keep the fan of rays rising from the middle of the panel's bottom edge, but turn it into a master craftsman's hand-tooled leather design inspired by a fine antique Persian carpet. Each ray is filled with delicate Persian arabesques, slender scrolling vines, small palmette flowers and split leaves, finely tooled and gently embossed into the lapis-blue leather. A narrow Persian carpet border, with a fine guard stripe of tiny repeating flowers, runs just inside the panel's frame. The design is sophisticated, neat and soft: calm, orderly and mirror-symmetrical on both halves of the fan, with even spacing and fine, light lines. Everything is tone-on-tone, only a shade or two lighter and deeper than the leather, like the blind tooling on a fine leather-bound book. Gold appears only as the existing hairline lines between the rays. From a distance the panel reads as a soft, rich texture behind the men; up close it shows real handwork with small natural irregularities, never a printed or computer-perfect pattern. It is never bold, busy or high contrast, with no centre medallion, emblem, circle, text or new colours. Every other panel stays plain.
 
 Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
@@ -360,6 +360,9 @@ Change only the light, like a film still at night. The warm wall lamp is the one
 
 Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
+
+- T5 (F3 light edit, 19:31 UTC, `ENV_BOARD_PLATE_LAPIS_P1D_2X_T5_RAW.png`): 8. The warm wash behind the men and the film-still mood land, but the whole room went much darker (luma 26.8 to 20.0, against the prompt's "no darker" line) and the lapis lost its vivid life. Men diff 11.5; sat 0.982; glint 7.8. Kept T4 as the master. Lesson: on a night room already near 27 luma, any "deeper shadow" wording drags everything down; a later try asks only for the warm wash behind the men, with no shadow words.
+
 
 
 
