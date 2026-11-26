@@ -56,14 +56,21 @@ def is_phone(room):
     return room.endswith("_PHONE")
 
 
+SIDE_SIZE = (1266, 585)  # CLUBSIDE: the Club room phone sideways (2532x1170), checked at half size
+
+
 def wooden(room):
     if is_phone(room):
         r = room[:-6]
         if r == "LOADING":
             return os.path.join(ROOT, "assets/loading/ENV_LOADING_PHONE_HC.webp")
+        if r == "LR":  # League Roulette phone: the men-free Directors' box V4 (HO-097)
+            return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_BOX_PHONE_HC_V4.webp")
         return os.path.join(ROOT, f"visual-assets/v10_1/plates-hc/ENV_{r}_PHONE_HC_{'V4' if r == 'CLUB' else 'V3'}.webp")
     if room == "LR":
         return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_BOX_PLATE_HC_V4_2X.webp")
+    if room == "CLUBSIDE":
+        return os.path.join(ROOT, "visual-assets/v10_1/plates-hc/ENV_CLUB_SIDEWAYS_HC_V4.webp")
     if room == "LOADING":
         return os.path.join(ROOT, "assets/loading/ENV_LOADING_PLATE_HC_2X.webp")
     if room == "SLAB":
@@ -72,6 +79,10 @@ def wooden(room):
 
 
 def master(d, room, look):
+    if room == "LR_PHONE":
+        return os.path.join(d, f"ENV_BOX_PHONE_V4_{look}_P1.webp")
+    if room == "CLUBSIDE":
+        return os.path.join(d, f"ENV_CLUB_SIDEWAYS_{look}_P1.webp")
     if is_phone(room):
         return os.path.join(d, f"ENV_{room}_{look}_P1.webp")
     if room == "LR":
@@ -133,7 +144,7 @@ def stats(a, free, lit, room_px=None):
 
 def check(key, room, d, sib):
     look = key.upper()
-    CUR[0] = PHONE_SIZE if is_phone(room) else SIZE
+    CUR[0] = PHONE_SIZE if is_phone(room) else SIDE_SIZE if room == "CLUBSIDE" else SIZE
     cfg = dict(LOOKS[look]); cfg.update(cfg.get("rooms", {}).get(room, {}))
     m, w = master(d, room, look), wooden(room)
     if not os.path.exists(m):
