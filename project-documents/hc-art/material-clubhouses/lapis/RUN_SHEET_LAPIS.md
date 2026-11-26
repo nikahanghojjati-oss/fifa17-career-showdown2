@@ -746,6 +746,12 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (21:37 UTC): 8.5. Aligned scale 1.000, men diff 4.6; columns keep their round shape, doors tooled, side table, lamps, stair and floor right, counter readable with a warm wash. But the half-round fanlight over the door, dark glass in image 1, is filled with tooled leather; sat 0.990 sits on the line. Fix 1 (same chat) = the fanlight only:
+
+```
+Change only the half-round fanlight above the double door: its panes are clear dark glass showing the dark night beyond, exactly as in image 1, between the same thin satin gold glazing bars, with no leather, pattern or panel inside the fanlight. Keep everything else exactly as it is: the doors, walls, columns, table, lamps, stair, floor, counter, the two men and the framing.
+```
+
 ### L-16 · Lapis Clubhouse: Archive, phone
 - Image 1: [IMG1_ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)), 1179x2096
 - Image 2: [IMG2_REF_ARCHIVE_LAPIS_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_LAPIS_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_LAPIS_SWATCH.png))
