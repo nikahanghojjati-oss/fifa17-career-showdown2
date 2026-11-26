@@ -32,6 +32,7 @@ const touchSize = (w, h, pointer) => pointer ? pointer === "touch" : w < 900 || 
 // R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte opens every screen in that clubhouse (this device's pick, localStorage).
 // Every room drawn must then be that theme's copy (plates-hc/<theme>/), and no plain room may even be downloaded: a plain room
 // fetched first could paint for a moment before the themed one (A3, A4).
+// No clubhouse draws or downloads another clubhouse's room or loading room, on any screen (A5; Wooden included).
 const THEME = /^(silver|black|matte)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
 const PLAIN_ROOM = /visual-assets\/v10_1\/plates-hc\/(?:ENV|TILE)_/;
 
@@ -143,6 +144,9 @@ const RETIRED_NEVER = new RegExp([
   // r100 B7: the old marble Settings room that sat behind the sign-in and error screens (now each clubhouse's own lounge)
   "plates-v2/ENV_SETTINGS_(?:PLATE|PHONE)_V2"
 ].join("|"));
+// r100 B7 (Verify nit on #1632): premium only also means one clubhouse never draws or downloads another clubhouse's room, on
+// any screen (A5), not only the loading room.
+const OTHER_ROOM = THEME ? new RegExp(`plates-hc/(?!${THEME}/)(?:silver|black|matte)/`) : /plates-hc\/(?:silver|black|matte)\//;
 const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
@@ -168,6 +172,7 @@ function judge(key, drawn){
     const old = scenery.filter(d => !CURRENT.test(d.url) && !(listed && listed.allow.test(d.url)));
     const findings = old.map(d => `A1 old picture ${d.url.replace(/^.*visual-assets\/v10_1\//, "")} on ${d.el}`);
     if(THEME) for(const d of scenery) if(PLAIN_ROOM.test(d.url)) findings.push(`A3 plain room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${THEME} clubhouse on ${d.el}`);
+    for(const d of drawn) if(OTHER_ROOM.test(d.url)) findings.push(`A5 another clubhouse's room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${THEME || "Wooden"} clubhouse on ${d.el}`);
     const room = ROOM[key];
     if(room && !scenery.some(d => CURRENT.test(d.url) && new RegExp(`ENV_(${room})_`).test(d.url))) findings.push(`A2 the ${room.replace("|", " or ")} room is not drawn`);
     return [...new Set(findings)];
@@ -187,6 +192,7 @@ if(require.main === module){
             const findings = judge(key, drawn), known = KNOWN_SHAPES.find(k => k.match(w, h));
             if(THEME && requested) for(const u of requested) if(PLAIN_ROOM.test(u) && !KNOWN_PLAIN_FETCH.test(u)) findings.push(`A4 plain room ${u.replace(/^.*plates-hc\//, "")} downloaded in the ${THEME} clubhouse`);
             if(requested) for(const u of requested) if(RETIRED_NEVER.test(u)) findings.push(`A6 retired picture ${u.replace(/^.*v10_1\//, "")} downloaded (no screen draws it)`);
+            if(requested) for(const u of requested) if(OTHER_ROOM.test(u)) findings.push(`A5 another clubhouse's room ${u.replace(/^.*plates-hc\//, "")} downloaded in the ${THEME || "Wooden"} clubhouse`);
             if(requested) for(const u of requested) if(OTHER_LOADING.test(u)) findings.push(`A5 another clubhouse's loading room ${u.replace(/^.*assets\/loading\//, "")} downloaded in the ${THEME || "Wooden"} clubhouse`);
             if(known && findings.length){ console.log(`KNOWN ${key} ${w}x${h} (${known.name}; ${known.follow})${findings.map(f => "\n   " + f).join("")}`); return; }
             for(const what of findings) report.push({ screen: key, size: `${w}x${h}`, what });

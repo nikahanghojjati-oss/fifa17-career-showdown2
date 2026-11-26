@@ -11,6 +11,9 @@
 // E6  Browser: the real gate at 390x844 and 1440x900 shows those words and buttons on the marble screen, no dimming.
 // E9  r100 B7 (lead 2026-11-26): the boot-fail screen, with the clubhouse pick unreadable (first boot, storage blocked or
 //     cleared), still draws a sign-in lounge: the Wooden one, downloaded and drawn, never a blank or the old Settings room.
+// E10 r100 B7 (Verify F1 on #1632): in Platinum, Black Steel and Graphite the boot-fail screen downloads only that clubhouse's
+//     lounge (plates-hc/<clubhouse>/ENV_SIGNIN_*), never the plain Wooden one first: its four style sheets are injected with the
+//     screen and wait unapplied until the clubhouse has rewritten them.
 const assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),net=require("node:net"),vm=require("node:vm");
 const {spawn}=require("node:child_process");
 const ROOT=path.resolve(__dirname,"../..");
@@ -159,6 +162,27 @@ async function bootFail(browser,base,opts){
   }finally{await context.close();}
 }
 
+// E10: the same failed start in a picked clubhouse (the pick is readable; sessionStorage still throws, so the screen shows at
+// once). Every request the page makes is collected, so a plain lounge asked for before the clubhouse one is caught.
+async function bootFailThemed(browser,base,opts,theme){
+  const context=await browser.newContext(opts);
+  await context.addInitScript(t=>{try{localStorage.setItem("cmsClubhouseTheme",t);}catch(_e){}Object.defineProperty(window,"sessionStorage",{configurable:true,get(){throw new DOMException("blocked","SecurityError");}});},theme);
+  await context.route("**/js/app.js*",route=>route.abort());
+  await context.route("https://**/*",route=>route.abort());
+  const page=await context.newPage(),asked=[],done=[],own=new RegExp(`plates-hc/${theme}/ENV_SIGNIN_`);
+  page.on("request",r=>asked.push(r.url().replace(base,"")));
+  page.on("requestfinished",r=>done.push(r.url()));
+  try{
+    await page.goto(base,{waitUntil:"domcontentloaded"});
+    await page.waitForSelector("#bootFailScreen",{timeout:30000});
+    await page.waitForFunction(()=>/ENV_SIGNIN_/.test(getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage),null,{timeout:15000});
+    for(const end=Date.now()+15000;!done.some(u=>own.test(u));){if(Date.now()>end)throw new Error(`${theme}: its lounge never finished downloading (${asked.join(", ")})`);await page.waitForTimeout(100);}
+    await page.waitForTimeout(300);
+    return {asked:asked.filter(n=>/ENV_SIGNIN_|ENV_SETTINGS_|plates-v2/.test(n)),bg:await page.evaluate(()=>getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage.replace(location.origin+"/","")),
+      clubhouse:await page.evaluate(()=>document.documentElement.getAttribute("data-clubhouse"))};
+  }finally{await context.close();}
+}
+
 // Nik's pick (#1118 card): on a portrait phone the free-limit note is one line inside Continue Career; elsewhere it stays a note.
 async function homeQuota(browser,base,opts,shot){
   const context=await browser.newContext(opts);
@@ -238,6 +262,18 @@ async function homeQuota(browser,base,opts,shot){
       assert.ok(b.loaded.length>=1&&b.loaded.every(n=>want.test(n)),`${tag} only the Wooden lounge is downloaded, never the old Settings room (${b.loaded.join(", ")})`);
     }
     passed+=1;console.log(`ok ${passed} E9 the boot-fail screen falls back to the Wooden lounge when the clubhouse pick cannot be read (1920x866, 390x844)`);
+    const seenWrong=[];
+    for(const theme of ["silver","black","matte"])for(const opts of [{viewport:{width:1920,height:866}},{viewport:{width:390,height:844},deviceScaleFactor:2,isMobile:true,hasTouch:true}])for(let run=0;run<2;run++){
+      const tag=`${theme} ${opts.viewport.width}x${opts.viewport.height} run ${run+1}`;
+      const b=await bootFailThemed(browser,base,opts,theme);
+      assert.equal(b.clubhouse,theme,`${tag} the clubhouse is set`);
+      assert.match(b.bg,new RegExp(`plates-hc/${theme}/ENV_SIGNIN_`),`${tag} the clubhouse's own lounge is the screen (${b.bg})`);
+      assert.ok(b.asked.length>=1,`${tag} the lounge is downloaded`);
+      const wrong=b.asked.filter(n=>!new RegExp(`^visual-assets/v10_1/plates-hc/${theme}/ENV_SIGNIN_`).test(n));
+      if(wrong.length)seenWrong.push(`${tag}: ${wrong.join(", ")}`);
+    }
+    assert.deepEqual(seenWrong,[],`E10 a themed boot-fail screen downloads only its own clubhouse's lounge`);
+    passed+=1;console.log(`ok ${passed} E10 in Platinum, Black Steel and Graphite the boot-fail screen downloads only that clubhouse's lounge (1920x866, 390x844, 2 runs each)`);
     console.log(`PASS r87 error screens contracts: ${passed} checks.`);
   }finally{
     if(browser)await browser.close();
