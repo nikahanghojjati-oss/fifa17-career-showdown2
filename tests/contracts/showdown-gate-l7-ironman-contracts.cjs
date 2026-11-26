@@ -238,17 +238,22 @@ async function run(){
     const fijSrc=fs.readFileSync(path.join(root,'tests/browser/fault-injection-journey.cjs'),'utf8');
     const src=fijSrc.match(/const settingsActor=\(m,\{done,button\}\)=>\{[\s\S]*?return taps;\};/)[0];
     const make=state=>{
-      const calls=[];
-      const deps={settingsOpen:async()=>state.settings,closeSettingsOn:async()=>{calls.push('close-settings');state.settings=false;return true;},signedIn:async()=>state.signedIn,
+      const calls=[];const report={notes:[]};
+      const deps={report,pointNow:'unpair',finalShown:async()=>state.champion,settingsOpen:async()=>state.settings,closeSettingsOn:async()=>{calls.push('close-settings');state.settings=false;return true;},signedIn:async()=>state.signedIn,
         visible:async(_p,sel)=>sel==='#mainMenu'?state.home:false,openSettingsOn:async()=>{calls.push('open-settings');state.settings=true;return true;},
         backHome:async()=>{calls.push('backHome');if(state.champion){state.champion=false;state.home=true;return true;}return state.home;},clickIf:async()=>{calls.push('click');return true;}};
       const factory=new Function(...Object.keys(deps),`${src}\nreturn settingsActor;`)(...Object.values(deps));
-      return {taps:factory({user:'daniel'},{done:async()=>state.landed,button:()=>null}),calls};
+      return {taps:factory({user:'daniel'},{done:async()=>state.landed,button:()=>null}),calls,report};
     };
-    {const state={landed:true,settings:false,signedIn:true,home:false,champion:true};const {taps,calls}=make(state);
+    {const state={landed:true,settings:false,signedIn:true,home:false,champion:true};const {taps,calls,report}=make(state);
       assert.equal(await taps({}),'back-home','UNPAIR landed, fresh browser on the Champion screen: the actor goes Home');
       assert.deepEqual(calls,['backHome']);assert.equal(state.home,true);
+      assert.deepEqual(report.notes,["unpair: daniel went Home from the closed Showdown's Champion screen after the write landed (fresh device)"],'every such tap is noted');
       assert.equal(await taps({}),'','on Home with the write landed: nothing more to tap (the settle goal holds)');}
+    // A screen that is neither Home nor the Champion screen after the write landed (a page that wrongly left Home after END
+    // SHOWDOWN or UNPAIR) is not tapped away: the settle fails the point (Verify on #1629).
+    {const state={landed:true,settings:false,signedIn:true,home:false,champion:false};const {taps,calls,report}=make(state);
+      assert.equal(await taps({}),'','not Home, not the Champion screen: the actor does not go Home');assert.deepEqual(calls,[]);assert.deepEqual(report.notes,[]);}
     {const state={landed:true,settings:true,signedIn:true,home:true,champion:false};const {taps,calls}=make(state);
       assert.equal(await taps({}),'close-settings');assert.deepEqual(calls,['close-settings']);}
     {const state={landed:true,settings:false,signedIn:false,home:false,champion:true};const {taps,calls}=make(state);
