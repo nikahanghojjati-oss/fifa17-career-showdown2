@@ -89,6 +89,9 @@ LOOKS = {
                              # Tunnel: master T1 glint 5.0, on the gold mat edge strips, the step nosings, the white goal
                              # and stands at the far end and the lit bulkhead lamp; no stone hot spots.
                              TUNNEL=dict(glint_max=5.5),
+           # Club room: master F1 glint 16.9, all on the satin gold window and panel frame lines, the lit flowered
+           # borders beside the lamps, the lamp metal, armchair highlights and the books; the floor and counter are clean.
+           CLUB=dict(glint_max=17.5),
                              SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                              SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
 }
