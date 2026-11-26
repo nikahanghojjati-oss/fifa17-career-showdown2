@@ -58,6 +58,9 @@ COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40),
            # plain upper wall over the Office desk stone (the Home counter strip is too short for the phone's 50%)
            "HOME": ((100, 300, 300, 540), (700, 1180, 900, 1400), 50)}
 STONE_FROM = {"TUNNEL": "COACHES", "HOME": "OFFICE"}
+# Per-look boxes where a look's own painting puts something else in the shared box (L-12, 26 Nov: the Lapis Home upper
+# wall at the shared box is plain dark ceiling; its tooled Persian leather panels sit lower, left of the window).
+COMPOSE_LOOK = {"LAPIS": {"HOME": ((360, 575, 560, 905), (700, 1180, 900, 1400), 50)}}
 # R-20 (26 Nov): the Club materials strip held a window band, a floor with a vein and an armchair edge, none of which the Club phone
 # has; IMG2_REF_CLUB_MAT_<LOOK>_SWATCH.png is now one stitched leather wall panel cut from the accepted desktop painting at this box (9:16).
 MAT_BOX = {"CLUB_MAT": ("CLUB", (600, 578, 850, 1022))}  # room whose accepted desktop painting gives the stone patch
@@ -118,6 +121,7 @@ def paste_stone(im, y, look, out):
 def main():
     key = sys.argv[1].lower(); LOOK = key.upper()
     out, src = f"{HC}{key}/", f"{HC}src/"
+    COMPOSE.update(COMPOSE_LOOK.get(LOOK, {}))
     cuts = {}
     for room in ROOMS:
         p = Image.open(f"{out}ENV_{room}_PLATE_{LOOK}_P1_2X.webp").convert("RGB")
