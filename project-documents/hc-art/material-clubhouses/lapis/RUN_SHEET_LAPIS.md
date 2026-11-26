@@ -554,6 +554,8 @@ Real stone as a mason would finish it, with clean sharp edges to the drifts and 
 Same 16:9 framing as the original, largest size available.
 ```
 
+- T3 (`ENV_SLAB_LAPIS_P1_2X_T3_RAW.png`): **7.5.** The fabric texture is gone and the face is smooth, but it swung to the Emerald T1 failure: soft smoky parallel diagonal bands that read as a night sky, not stone (detail 0.68, needs 1.17). Fix F1 (same chat), drifts only: irregular crisp-edged patches at varied angles with a few crisp flecks, surface kept smooth.
+
 T2 prompt (new chat, same Image 1 and Image 2):
 
 ```
