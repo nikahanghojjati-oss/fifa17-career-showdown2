@@ -67,6 +67,17 @@ LOOKS = {
                                SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                                SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
                     provisional=True),
+    # Lapis: lapis lazuli with diamond, glass and gem flakes (Nik 18:40 UTC: no gold flakes), lapis-blue leather, ebony,
+    # satin gold trim. Nik's pick "Lapis Vivid" #165CC4, "Vivid Vibrant" #1268E8 in lamp pools (both 216 deg). Blue band 200-255 deg: ultramarine, never teal (under 200) or
+    # violet (over 255). Nik, 26 Nov 2026 18:37 UTC: "I want the lapis to really look vibrant and in some type of way even
+    # vivid ... like a lively touch." So Lapis drops the "muted and aged" ceiling: sat may run to 0.97 (Ruby/Emerald 0.90)
+    # and luma to 70. Plastic flatness is still caught by spread and detail.
+    # Reasons in lapis/COLOUR_STUDY.md.
+    "LAPIS": dict(name="Lapis Clubhouse", hue=(200, 255), hue_min=0.50, brown_max=0.20, sat=(0.45, 0.97),
+                  luma=(14, 70), gold_max=0.04,
+                  rooms=dict(SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
+                             SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
+                  provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
