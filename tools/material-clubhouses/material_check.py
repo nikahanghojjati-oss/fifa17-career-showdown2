@@ -63,7 +63,8 @@ LOOKS = {
                     rooms=dict(OFFICE=dict(brown_max=0.30), HALL=dict(brown_max=0.30),
                                # Sign-in lounge (E-25, 26 Nov): the same view boxes and floors as Ruby; the raw V2 plate's
                                # own spread and detail (176/184, 7.8/11.0) come from its glowing gold panels, not a target.
-                               SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 0.98, 0.42)),
+                               # E-25: the windows reach the right edge and their sill at 43%, so the view box does too.
+                               SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                                SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
                     provisional=True),
 }
@@ -206,6 +207,9 @@ def check(key, room, d, sib):
     h, s, _ = hsv(M)
     surf = free & (L >= 6) & (L <= 140)
     col = free & (s > 0.15) & (L >= 6)
+    if cfg.get("view"):  # the city lights are not a room surface: hue and brown leave them out too (E-25, 26 Nov)
+        x0, y0, x1, y1 = cfg["view"]; H, Wd = col.shape
+        col = col.copy(); col[int(y0 * H):int(y1 * H), int(x0 * Wd):int(x1 * Wd)] = False
     hue_share = float(in_band(h, cfg["hue"])[col].mean())
     brown = float(((h >= 15) & (h <= 45))[col].mean())
     sat = float(np.median(s[surf]))

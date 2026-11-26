@@ -1054,6 +1054,7 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 Tries:
 - Try 1 (26 Nov): 8.5/10. Layout locked (align scale 0.999, peak 0.227 OK), black marble and gold panels gone, green leather sofa, malachite pillar, floor and tables right. Brown 0.26 > 0.20 and hue 0.41 < 0.50, mostly from the amber-lit backs of the left shelves (twice Ruby's brown there); glint 3.01. SIGNIN now uses Ruby's view box and spread/detail floors (COLOUR_STUDY.md). Raw kept as ENV_SIGNIN_PLATE_EMERALD_P1_2X_T1_RAW.png.
 - Try 1 fix 1 (same chat): shelf backs bottle-green leather; shelf light strips dim.
+- Try 1 fix 1 (26 Nov): 9/10, ACCEPTED. Shelf backs now bottle green with dim shelf lights. Align scale 0.997, peak 0.161 OK; emerald_check SIGNIN PASS with the city view left out of hue and brown (hue 0.58, brown 0.18, glint 2.4, luma 36.7).
 
 Try 1 fix 1 prompt:
 

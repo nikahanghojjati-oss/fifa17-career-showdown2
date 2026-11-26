@@ -89,3 +89,4 @@ runs with 3D on and is proven on screen first (`#leagueWheel.lr3d-on`, `html.lr3
 
 ## Sign-in lounge limits (E-25, 26 Nov 2026)
 SIGNIN and SIGNIN_PHONE take Ruby's room limits: the city view box is left out of every count, and the spread and detail floors are 60/3.1 (desktop) and 50/2.5 (phone), not the raw V2 plate's 176/7.8, which come from its glowing gold panels. Hue, brown and glint keep Emerald's limits.
+The SIGNIN view box now runs to the right edge and down to 43% (the windows and their sill), and hue and brown leave the view box out as glint already did: the city lights are not a room surface. On E-25 fix 1 the whole picture read hue 0.48 and brown 0.23; the room alone reads 0.58 and 0.18. Ruby's sign-in rooms still pass (hue 0.83/0.86, brown 0.13/0.10).
