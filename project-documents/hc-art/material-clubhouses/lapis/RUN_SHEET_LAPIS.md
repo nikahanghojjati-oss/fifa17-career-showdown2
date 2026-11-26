@@ -95,6 +95,45 @@ Change only one thing: the surface of the lapis on the counter and the two edge 
 Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
 
+### Board master (Nik, 19:48 UTC: "Yes.")
+
+`ENV_BOARD_PLATE_LAPIS_P1F_2X_T4_RAW.png` is the Lapis Board master (Persian rug, 9/10). The SEASON RESULTS title gets a Lapis-only soft dark shadow in code at wiring (mock `p3-lapis/mocks/lapis_board_persian_rug_T4_title_shadow.jpg`). The check's sat and glint limits get recalibrated on this picture.
+
+### L-2D · Lapis pilot Home on the Persian rug master (fresh chat)
+
+- Image 1: `src/IMG1_ENV_HOME_PLATE_HC_V3_2X.png`
+- Image 2: `lapis/ENV_BOARD_PLATE_LAPIS_P1F_2X_T4_RAW.png` (material sample, nothing else)
+- Saves as `ENV_HOME_PLATE_LAPIS_P1D_2X_T1_RAW.png`
+
+Lessons in it: master Board as Image 2; honed stone (no stars, no mirror, men not reflected); "warm wash of lamplight"; one hero detail (the existing rug becomes an antique Persian silk carpet, same size and place); no decanter, no "dense" mottling.
+
+```
+Image 1 is the picture to edit. Image 2 is only a sample of the finished materials: the lapis-blue leather with its hand-tooled Persian pattern and flowered carpet borders, the honed lapis lazuli stone, the blue-black ebony and the satin gold. Take nothing else from image 2: not its layout, its men, its lamp, its door or its framing.
+
+Keep image 1 exactly the same in camera, zoom, framing and layout, exactly 3072 by 1728 pixels, never narrower, wider or taller. The edges cut the room exactly where image 1 cuts it: the sofa with the grey throw cut by the left edge, the far right window pane with the stadium running off the right edge, the dark ceiling along the top edge, and the counter running off the bottom edge. Change only the materials and finish of the room itself.
+
+Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, watch, pose, size and position. Do not touch them.
+
+Keep in the same places and at the same sizes: the lounge on the left, in the left 28% of the picture (the table lamp on the sideboard at about 10% across and 50% down, the folded plaid blankets beside it, the two leather armchairs, the round table with the old leather ball in a bowl and the glass of whisky, the sofa with the grey throw at the left edge, the rug); the narrow stone pillar between the lounge and the window, from 24% to 29% across; the big window exactly as it is: three tall panes of clear glass with the same sizes and edges as in image 1 (one wide pane from 30% to 56% across, one from 57% to 80% across, and one more pane at the far right from 89% across to the right edge, beyond the lamp pillar), each pane running from its top frame, 12% of the way down the picture, all the way down to the counter, and showing the night sky, the floodlit stands, the crowd, the floodlights and the green pitch exactly as in image 1; the narrow pillar between the window panes from 81% to 89% across with the wall lamp on it (shade at about 22% to 30% down); and the counter along the bottom edge at exactly the same height, its top 90% of the way down the picture.
+
+The room, in exactly the materials of image 2: A private members' club at night in vivid lapis blue, handcrafted by master craftsmen in the spirit of a fine antique Persian carpet. The lounge walls become tall panels of the same rich lapis-blue leather as image 2, each panel framed in thin blue-black ebony with a hairline satin gold line, with the same narrow flowered Persian carpet border just inside its frame, and filled with the same hand-tooled, embossed Persian vines, palmette flowers and leaves as image 2, in a brighter lapis blue pressed into the leather, bold, rich and clearly readable, never pale silver, grey-white or gold. The big wall above and behind the lounge is a clearly readable vivid ultramarine, never near-black. The ceiling becomes deep ultramarine lacquered plaster that darkens only at the far top corners, meeting the walls at a stepped blue-black ebony cornice with one hairline satin gold line. The two pillars beside the window become the same honed lapis lazuli as the pillars in image 2: two book-matched slabs meeting at one fine straight vertical joint. The window frames become blue-black ebony with a thin satin gold inner line. The lamp arms and bases become satin gold; the shades stay warm cream and lit. The sideboard becomes blue-black ebony with a honed lapis top and a thin satin gold edge. The floor around the rug becomes honed deep lapis with real soft contact shadows under the chairs, the table and the sofa. The counter becomes the same calm, honed lapis lazuli as the counter in image 2, two book-matched slabs meeting at one fine straight joint; the lamps show in it only as soft, blurred warm glows, and the men are not reflected in it. The two armchairs and the sofa keep exactly their shape, size, cushions, seams and place, reupholstered in the same lapis-blue leather with neat hand-stitched seams, a touch brighter where the lamp light falls so they read clearly against the walls.
+
+One hero detail: the rug under the armchairs keeps its exact size, shape and place, and becomes a fine antique hand-knotted Persian silk carpet in deep lapis blue, ivory and soft muted gold, with a central medallion, corner pieces, flowering vines and several fine border bands, its silk pile catching the lamp light softly. It lies flat on the floor with real soft shadows under the furniture standing on it.
+
+Every window pane stays clear glass from its bottom frame all the way up to its top frame, showing the stadium: no leather, panel, wall or door is placed over any part of the glass or inside any window frame, and there is no door anywhere in this room. No light wood is left anywhere in the room.
+
+Light: It is night, like a film still. Light comes only from the same warm lamps in the same places and the floodlit stadium through the window. Each lamp throws a wide, clearly bright warm wash of lamplight onto the leather and stone around it, where the blue turns a brighter, clearer ultramarine, never grey, green or purple. Everything else keeps a vivid, saturated ultramarine, deepening to ultramarine near-black only in the far corners and toward the top of the ceiling, so the room has depth. The leather has a soft satin sheen; gold shows only as small satin accents; the stone is honed with a soft satin finish, never glass or a mirror. The two men stay lit exactly as they are now.
+
+Colour lock: rich deep lapis blue (#1450AE) on the leather walls and seating, vivid lapis blue (#165CC4) on the stone, brighter lapis blue (#1268E8) only where the lamps fall, deep lapis blue (#0D2A66) in the shadows, and ebony so dark it reads blue-black (#12131A); every blue is vivid and jewel-like, never navy-grey, purple or teal. The warm brown wood of image 1 is gone completely from the walls, panels, pillars, frames and floor. All other objects keep their identity and their own colours exactly as in image 1 (the plaid wool blankets, the old leather ball, the glass of whisky, the grey throw, the lamp shades), relit by the new room, each with a real soft contact shadow.
+
+Finish: real materials as a set builder would make them, like a photograph of a real private club, never a render or an AI image, with clean sharp detail and small natural variation; clear air, no fog, no glow halo, no noise grain. No new objects and no extra lamps, no text, no logos, no people other than the two men.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
+Tries:
+- (waiting for the first picture)
+
 ### L-2 · Lapis pilot 2/2: Home
 
 - Image 1: [ENV_HOME_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/0aa05806fb302c8cffa40e4413d7c632fa8cb98a/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HOME_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/0aa05806fb302c8cffa40e4413d7c632fa8cb98a/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HOME_PLATE_HC_V3_2X.png))
