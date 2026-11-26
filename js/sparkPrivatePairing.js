@@ -755,7 +755,7 @@
     let lo=t-10*60000;while(t-lo>1){const mid=lo+Math.floor((t-lo)/2);if(fsbPacificDay(mid)===today)lo=mid;else t=mid;}
     return t;
   }
-  function fsbDayState(at=fsbNow()){
+  function fsbDayState(at=fsbCalendarNow()){
     const day=fsbPacificDay(at);
     if(!fsbDay){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:0,bill:fsbBillFrom(null,day)};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");fsbDay.bill=fsbBillFrom(saved,day);if(saved&&Number.isFinite(saved.lastCost)&&saved.lastCost>0)fsbDay.lastCost=Math.floor(saved.lastCost);if(saved&&saved.day!==day&&Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(saved&&saved.day!==day){if(fsbSeasonCost(saved))fsbDay.lastCost=fsbSeasonCost(saved);fsbDay.markReads=-fsbCarried(saved);}if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0){fsbDay.reads=Math.floor(saved.reads);if(Number.isFinite(saved.markReads)&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);if(Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(Array.isArray(saved.costs))fsbDay.costs=saved.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS);}}catch(_error){}fsbDayMark();}
     // F3-14 (Fable job 3): the noted season keys carry over the Pacific reset, so a season acknowledged yesterday is not noted again
@@ -810,7 +810,7 @@
   // lookups: the Rules lookups this request is billed (fsbReadLookups); career: a career-page read (fsbBill).
   function fsbCountRead(count=1,brake=true,lookups=0,career=false){
     if(!(count>0))return;
-    const at=fsbNow(),day=fsbDayState(at);
+    const at=fsbNow(),day=fsbDayState();
     if(brake)for(let index=0;index<count;index+=1)fsbReadTimes.push(at);
     while(fsbReadTimes.length&&at-fsbReadTimes[0]>FSB_BRAKE_WINDOW_MS)fsbReadTimes.shift();
     if(fsbReadTimes.length>FSB_BRAKE_READS*4)fsbReadTimes.splice(0,fsbReadTimes.length-FSB_BRAKE_READS*4);
@@ -1139,7 +1139,22 @@
     return frozen;
   }
 
-  function fsbNow(){return Date.now();}
+  // Phoenix B2 (r100, B1's quota leg with the clock put back, seed 4181106201): every pause and window this budget holds in page
+  // memory (the quota pause, refused paths, listener health, cached reads, recent input) is measured on this clock. It runs on the
+  // page's monotonic clock (performance.now), so a phone clock set back while the app is open can never bring a finished pause
+  // back or keep a window open longer; a clock that jumps ahead (a phone woken the next day, where the monotonic clock may have
+  // stood still) is followed, so the free reads' Pacific day still turns. It never runs backwards.
+  // The free reads' Pacific billing day is a calendar date, so it reads the phone's own clock (as the partner's phone does, so the
+  // shared meter's days match): only elapsed-time windows use fsbNow (Codex on #1628).
+  function fsbCalendarNow(){return Date.now();}
+  let fsbClockBase=null;
+  function fsbNow(){
+    const wall=Date.now();let mono=NaN;try{mono=root.performance&&typeof root.performance.now==="function"?Number(root.performance.now()):NaN;}catch(_error){mono=NaN;}
+    if(!Number.isFinite(mono))return fsbClockBase===null||wall>fsbClockBase?(fsbClockBase=wall):fsbClockBase;
+    if(fsbClockBase===null)fsbClockBase=wall-mono;
+    const at=fsbClockBase+mono;if(wall>at){fsbClockBase=wall-mono;return wall;}
+    return at;
+  }
   function fsbPathOf(ref){return ref&&typeof ref.path==="string"?ref.path:"";}
   // r100 Phoenix B5: the Flight Recorder (js/flightRecorder.js) sees each server copy of a rivalry document this layer already
   // holds (transaction and probe reads, listener deliveries, direct gets). It keeps only the public step ledger of the live
@@ -1154,10 +1169,10 @@
       if(typeof path!=="string"||!fsbFlightPath.test(path)||!snapshot||typeof snapshot!=="object"||Array.isArray(snapshot.docs))return;
       const recorder=root.CareerModeFlightRecorder;
       if(recorder&&typeof recorder.observe==="function"){fsbTapFlush(recorder);recorder.observe(path,snapshot);return;}
-      if(Date.now()<fsbFlightRetryAt)return;
+      if(fsbNow()<fsbFlightRetryAt)return;
       if(fsbFlightQueue.length>=128)fsbFlightQueue.shift();
       fsbFlightQueue.push([path,snapshot]);
-      if(!fsbFlightAsked&&typeof root.loadRuntimeScript==="function"){fsbFlightAsked=true;Promise.resolve().then(()=>root.loadRuntimeScript("flight-recorder","js/flightRecorder.js",()=>Boolean(root.CareerModeFlightRecorder))).then(()=>fsbTapFlush(root.CareerModeFlightRecorder),()=>{fsbFlightAsked=false;fsbFlightQueue.length=0;fsbFlightRetryAt=Date.now()+60000;});}
+      if(!fsbFlightAsked&&typeof root.loadRuntimeScript==="function"){fsbFlightAsked=true;Promise.resolve().then(()=>root.loadRuntimeScript("flight-recorder","js/flightRecorder.js",()=>Boolean(root.CareerModeFlightRecorder))).then(()=>fsbTapFlush(root.CareerModeFlightRecorder),()=>{fsbFlightAsked=false;fsbFlightQueue.length=0;fsbFlightRetryAt=fsbNow()+60000;});}
     }catch(_error){}
   }
   function fsbTapFlush(recorder){try{if(!recorder||typeof recorder.observe!=="function")return;while(fsbFlightQueue.length){const [path,snapshot]=fsbFlightQueue.shift();try{recorder.observe(path,snapshot);}catch(_error){}}}catch(_error){}}
@@ -1199,28 +1214,32 @@
     }
     try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-authority-denied"));}catch(_error){}
   }
-  function fsbPaused(){return Boolean(fsbPause&&fsbNow()<fsbPause.until);}
+  // Phoenix B2: the resume timer runs on the page's timers, which can lag a clock that jumped ahead (a phone woken the next day):
+  // the first check that finds the pause over tells the screens itself, once (fsbShownPaused is what was last told).
+  let fsbShownPaused=false;
+  function fsbPaused(){const paused=Boolean(fsbPause&&fsbNow()<fsbPause.until);if(!paused&&fsbShownPaused){fsbShownPaused=false;if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!fsbPaused())fsbPublish();},0);}return paused;}
   function fsbQuotaError(){fsbStats.pausedRefusals+=1;const error=new Error(FSB_QUOTA_MESSAGE);error.code="resource-exhausted";error.quotaPaused=true;return error;}
   function fsbQuotaMessage(error){return fsbPaused()||(error!==undefined&&fsbIsQuotaError(error))?FSB_QUOTA_MESSAGE:null;}
   function fsbState(){const paused=fsbPaused();return Object.freeze({paused,until:fsbPause?fsbPause.until:null,step:fsbPause?fsbPause.step:null,message:paused?FSB_QUOTA_MESSAGE:null});}
   function fsbPublish(){
-    const state=fsbState();
+    fsbShownPaused=false;const state=fsbState();fsbShownPaused=state.paused;
     try{const html=root.document&&root.document.documentElement;if(html&&html.dataset){if(state.paused)html.dataset.firestoreQuota="paused";else delete html.dataset.firestoreQuota;}}catch(_error){}
     try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-quota",{detail:state}));}catch(_error){}
   }
   function fsbTrip(){
     if(fsbPaused())return;
-    const at=fsbNow(),recent=fsbPause&&at-fsbPause.until<2*60*60000&&fsbPacificDay(fsbPause.since)===fsbPacificDay(at);
+    const at=fsbNow(),wall=fsbCalendarNow(),today=fsbPacificDay(wall),recent=fsbPause&&at-fsbPause.until<2*60*60000&&fsbPause.day===today;
     const step=recent?Math.min(fsbPause.step+1,FSB_PAUSE_STEPS_MS.length-1):0;
     // F3-07 (Fable job 3): the free reads come back at midnight Pacific, so no pause runs past the reset (+1 min).
-    const until=Math.min(at+FSB_PAUSE_STEPS_MS[step],fsbNextPacificDayAt(at)+60000);
-    fsbPause=Object.freeze({step,since:at,until});
+    // The reset is a calendar time (the phone's own clock, like the partner's phone); the pause itself runs on fsbNow.
+    const until=Math.min(at+FSB_PAUSE_STEPS_MS[step],at+Math.max(0,fsbNextPacificDayAt(wall)-wall)+60000);
+    fsbPause=Object.freeze({step,since:at,day:today,until});
     fsbStats.quotaTrips+=1;
     fsbEntries.clear();
     fsbDetachWait();fsbCtxDetach();
     if(fsbResumeTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(fsbResumeTimer);
     // One timer per pause, only to tell the screens that online play may resume; it reads nothing itself.
-    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;fsbPublish();},Math.max(0,until-at)+50):null;
+    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;if(fsbShownPaused)fsbPublish();},Math.max(0,until-at)+50):null;
     fsbPublish();
   }
   function fsbHidden(){return Boolean(root.document&&root.document.visibilityState==="hidden");}

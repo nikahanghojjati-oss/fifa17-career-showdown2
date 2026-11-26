@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r100-budget-clock-contracts.cjs",
+  "patterns": [
+    "^js/sparkPrivatePairing\\.js$",
+    "^tests/contracts/r100\\-budget\\-clock\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-budget\\-clock\\-contracts\\.json$"
+  ]
+}
