@@ -309,6 +309,20 @@ Change only one thing: how clearly the hand-tooled Persian pattern reads. Right 
 Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
 
+Nik, 19:44 UTC: "I want the Persian rug culture to be dominant, and also the [rays] be visible and everything look premium." So F2 above is replaced: the faded T2 is the wrong base. F2b goes back to T1, whose pattern is already dominant with clear rays, and changes only the tooling colour (pale silver to a lighter embossed lapis blue).
+
+L-1F F2b (new chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1F_2X_T1_RAW.png`), saves as `ENV_BOARD_PLATE_LAPIS_P1F_2X_T3_RAW.png`:
+
+```
+Image 1 is the picture to edit. Use only image 1.
+
+Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same Persian design exactly as it is: every vine, palmette, flower, leaf and border, at the same size, density, detail and strength, in the same places, with the same fan of gold rays just as clearly visible. Keep the lamp, door, stone, gold lines, leather colour and light the same.
+
+Change only one thing: the colour of the tooled Persian pattern. Right now its lines are pale silver, so it looks printed. Make every line, flower and border a rich, brighter lapis blue, a few clear shades lighter than the leather and pressed into it as hand-tooled, embossed leather, each line with a soft darker groove and a lighter blue raised edge where the lamp light catches it, like the finest tooled leather of a Persian royal book binding. The pattern stays bold, rich and clearly readable across the whole panel and every border, never faded, never pale silver, grey-white or gold.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
 ### L-1G · Lapis Board: Persian architecture arch with girih lattice (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
 
 Nik, 19:33 UTC: "Persian rug / Persian ancient architecture / Any ither neat design". Run beside L-1F (rug) and judge both under the real screen. The arch frames the title; the girih sits mostly behind the score box. Saves as `ENV_BOARD_PLATE_LAPIS_P1G_2X_T1_RAW.png`.
