@@ -987,6 +987,19 @@ Same wide 2.16:1 framing as image 1, nothing cropped or extended at any edge, la
 Tries:
 - Try 1 (26 Nov): 8/10. Layout locked (align scale 1.002, peak 0.441 OK), green armchairs, malachite floor and counter right. Too dark: luma 23.5, vs black 12.3 < 15; the lamp pools on the wall are weak. Raw kept as ENV_CLUB_SIDEWAYS_EMERALD_P1_T1_RAW.png.
 - Try 1 fix 1 (same chat): walls one step lighter; wide bright lamp pools.
+- Try 1 fix 1 (26 Nov): 8.5/10. Brightness and lamp pools now right (luma 36.4, vs black 20.5), layout held (peak 0.390). The walls drifted warm: wall hue 114 (try 1: 130), hue share 0.36 < 0.50. Raw kept as ENV_CLUB_SIDEWAYS_EMERALD_P1_F1_RAW.png.
+- Try 1 fix 2 (same chat): walls back to cool bottle green at the same brightness.
+
+Try 1 fix 2 prompt:
+
+```
+Keep this image exactly the same: the same framing, size and shape, the same brightness and the same light, and every shape in it stays exactly where it is. Change only one thing:
+
+The green of the leather walls, the top band, the back wall below the window and the tall panel on the right turns a touch cooler, back to a true deep bottle green with a slight cool blue lean, like #145A3C, never olive, grass, khaki or yellow-green, even inside the lamp pools, where it becomes a lighter, clearer jade. The walls keep exactly their present brightness; only the hue moves from yellow-green toward blue-green.
+
+The armchairs, the floor, the counter strip, the lamps, the trophy, the ball, the pennant and the stadium stay exactly as they are.
+```
+
 
 Try 1 fix 1 prompt:
 
