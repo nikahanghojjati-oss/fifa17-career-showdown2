@@ -83,6 +83,9 @@ LOOKS = {
                              # Office: the glints sit on the satin gold window lines, the lamp stem and the lamp-lit olive
                              # leaves, not on the honed desk (33 px below the desk line, on the paper bundle). Master F1: 20.2.
                              OFFICE=dict(glint_max=22.0),
+                             # Archive: master F2 sits on the lines (sat 0.991, glint 8.09, on the gold shelf edges
+                             # and niche trims); the counter stone is clean, so the Archive gets a hair of headroom.
+                             ARCHIVE=dict(sat=(0.45, 0.995), glint_max=8.5),
                              SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                              SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
 }

@@ -332,6 +332,8 @@ Change only one thing: clean the surface of the counter stone. Remove every smal
 Same 16:9 framing, nothing cropped or extended at any edge, largest size available.
 ```
 
+- F2 (`ENV_ARCHIVE_PLATE_LAPIS_P1_2X_F2_RAW.png`): **9, Archive master.** Clean honed counter with warm glows under the niches and calm drifts, no specks; men diff 5.8. Check sat 0.991 and glint 8.09 sat on the lines, so the Archive gets sat to 0.995 and glint 8.5; PASS.
+
 ### L-6 · Lapis Clubhouse: Directors' box
 - Image 1: [IMG1_ENV_BOX_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png)), 3072x1728
 - Image 2: [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
