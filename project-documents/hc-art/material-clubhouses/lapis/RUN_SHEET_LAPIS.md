@@ -527,6 +527,25 @@ Same 16:9 framing as the original, largest size available.
 
 Tries:
 
+**Log (26 Nov):**
+- T1 (`ENV_SLAB_LAPIS_P1_2X_T1_RAW.png`): **7.5.** Plain resize (no align for a slab). Misses: thin white hairline cracks run across it; the drifts are parallel diagonal bands that read as brushed suede; the blue is a pure screen blue with no red at all (median RGB 0,35,126; sat 1.00, range 0.45-0.99) and darker than the rooms' lapis; detail 1.10 (needs 1.17). Texture and colour both missed, so try 2 starts a NEW chat (Emerald lesson: a 'more muted' edit does not move a pure hue). T2 names the tones with a trace of red (#1E52B0, #2A66CC, #152C6A), a crisp mineral grain, drifts at varied angles, and no cracks.
+
+T2 prompt (new chat, same Image 1 and Image 2):
+
+```
+Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms: the lapis-blue leather with its hand-tooled Persian pattern and flowered carpet borders, the honed lapis lazuli stone, the blue-black ebony and the satin gold. Match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball, carpet, fan of gold rays or layout.
+
+Keep image 1 exactly the same size and framing. Repaint the whole surface as one new stone, seen straight on, like a close photograph of a fine stone table top.
+
+The stone: real honed lapis lazuli, exactly the stone of image 2: a vivid ultramarine with the faint warm violet undertone of real lapis, never a pure electric or screen blue. Its field is rich lapis blue (#1E52B0), brighter lapis blue (#2A66CC) in the drifts and where the light falls best, and deep lapis blue (#152C6A) only in its deepest tones. A few soft, broad, cloud-like drifts of brighter ultramarine lie flat inside the stone at gentle, varied angles, never parallel diagonal bands. Between them the stone shows a fine, crisp mineral grain of tiny deeper and brighter blue specks, sharp in focus like real cut stone, never blurred, smoky, misty or soft like velvet or suede, and a sparse scattering of tiny pale crystal flakes spaced well apart.
+
+It is a flat, seamless material surface: the pattern continues off every edge so it can tile, with no border, no vignette, no frame and no darker corners. Light is a soft, even, warm wash from above, very slightly brighter at the top. The stone stays a rich, vivid lapis blue: the light only brightens it, it never tints it navy-grey, purple, teal or green. No hairline cracks, veins, scratches or thin white lines anywhere, no diagonal streaks, brush marks or nap, no gold specks and no star-shaped sparkles; the surface is smooth honed stone with a soft satin finish, never grainy-noisy, scratched or glassy. No objects, no reflections of objects, no text, no logos.
+
+Real stone as a mason would finish it, with clean sharp detail and no noise grain, no streaks, no repeating cells.
+
+Same 16:9 framing as the original, largest size available.
+```
+
 ## Pilot versions B and C (Nik, 26 Nov 18:44 UTC)
 Nik asked for three pilot versions to compare: more creative, premium and handcrafted, with attention to where the game's
 UI sits, either one or two subtle elements in open spots or no element but a more premium design, never heavy, classy.
