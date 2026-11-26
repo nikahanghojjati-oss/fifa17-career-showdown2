@@ -165,7 +165,16 @@ Same 16:9 framing as the original, exactly 3072 by 1728 pixels, nothing cropped 
 ```
 
 Tries:
-- (waiting for the first picture)
+- T1 (Nik 18:56 UTC, `ENV_BOARD_PLATE_LAPIS_P1B_2X_T1_RAW.png`): scale 1.0000, men diff 4.6. Check: all pass but glint 6.6 (flakes). Eye **8.5/10**, the best Lapis so far: stitched panels with hairline gold inlays, stepped ebony cornice, book-matched counter joint and mottled pillars all read handcrafted. Short of 9: the counter front still reads a touch like blue suede (cloudy, matte, little sheen).
+  Fix F1, same chat (one change: the counter surface):
+
+```
+Keep this picture exactly as it is: the same framing, exactly 3072 by 1728 pixels, the two men untouched, the wall lamp, the door and its handle, the stitched leather panels with their gold inlays, the ebony cornice, the lapis pillars at the far left and far right edges, the thin gold rail at the same height and the two counter slabs with their fine joint. Keep exactly the present brightness and the same lapis blue.
+
+Change only one thing: the surface of the counter slabs below the rail, so it reads as real polished natural stone, not blue felt, suede or fabric. Give it the dense, irregular natural mottling of a real lapis lazuli slab, the same as on the edge pillars: soft clouds of deeper ultramarine and brighter ultramarine running through the whole surface, different on each slab, with the same few tiny crystal flakes. Give it a satin stone polish: a soft, clear warm reflection of the wall lamp in the stone below the lamp, and the two suits show only as a faint, soft dark shadow, never a mirror image. No veins, cracks, glitter or new objects.
+
+Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
 
 ### L-1C · Lapis pilot Board, version C (B plus crystal cabochons)
 
