@@ -67,6 +67,12 @@ def prompt(key, rm):
                   "The window must not grow upward to the top of the picture. This is the directors' box from image 1, not any other room: the big dark window with the night stadium "
                   "fills the wall behind the two men, with its one thin upright bar down the middle and the small floodlights above the stands. Add no arches, vaults, corridors, niches or shelves. "
                   "The stadium, crowd and seats inside the window stay exactly as they are, not redrawn.")
+    if extra == "tunnel":
+        # R-19 try 1 (26 Nov): Astra painted the Coaches room (shelf, balls, lamp, door, windows onto a training pitch) behind the tunnel men
+        frame += (" Positions stay where they are in image 1: a plain dark wall band fills the top 14% of the picture; below it, from 14% to 50% of the height, the players' tunnel "
+                  "runs straight away from the camera between square pillars and handrails on both sides, to a small bright opening onto the floodlit pitch in the middle, "
+                  "at about 22% to 34% of the height and 38% to 56% of the width, with the steps up to it. This is the players' tunnel from image 1, not any other room: "
+                  "add no windows, doors, shelves, balls, lamps or wall panels across the back, and the pitch is seen only through the far end of the tunnel.")
     if extra == "club":
         frame += " The wide window runs across the top down to 42% of the height, and the panelled wall fills the rest down to the trophies and balls along the bottom edge."
     frame += " Change only the materials and finish of the room itself."
