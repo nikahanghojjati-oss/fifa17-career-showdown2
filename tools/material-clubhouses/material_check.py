@@ -92,6 +92,9 @@ LOOKS = {
            # Club room: master F1 glint 16.9, all on the satin gold window and panel frame lines, the lit flowered
            # borders beside the lamps, the lamp metal, armchair highlights and the books; the floor and counter are clean.
            CLUB=dict(glint_max=17.5),
+           # Loading tunnel: master T1 glint 9.4, on the gold mat edge strips, the handrail brackets, the counter's
+           # lit top edge and the tooled leather lit by the bulkhead lamp; no stone hot spots.
+           LOADING=dict(glint_max=10.0),
                              SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                              SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
 }
