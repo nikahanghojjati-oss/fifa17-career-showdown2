@@ -452,6 +452,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (15:53 UTC): **9/10, accepted on the first try**. Scale 0.995 (no hero mask; empty tunnel, whole-picture fit). Framing lock held: handrail out of the bottom left, caged bulkhead lamp top right, pitch the same small size in the centre. Pillar bands run straight up and down with soft broad satin sheen (the E-8 lessons worked). Leather smooth bottle green. All numbers pass: vs Black 15.9, hue 0.76, brown 0.06, sat 0.69, glint 5.2 (limit 8.0), spread 71, detail 3.5.
 
 ### E-11 · Emerald Clubhouse: Material slab
 - Image 1: [IMG1_ENV_SLAB_HC_V1_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SLAB_HC_V1_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SLAB_HC_V1_2X.png)), 3072x1728
