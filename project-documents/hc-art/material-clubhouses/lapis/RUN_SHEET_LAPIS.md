@@ -666,6 +666,11 @@ Tries:
 ```
 Change only the counter slab below the gold rail: make it a touch lighter and clearer, the same vivid lapis blue as the stone in image 2 (#165CC4), with its few soft, broad drifts of brighter ultramarine and its sparse tiny crystal flakes clearly visible all the way down. It still deepens gently toward the bottom, but stays a rich, readable lapis blue, never navy or near-black. Keep everything else exactly as it is: the walls, panels, door, lamp, rail, the two men and the framing.
 ```
+- F1 (21:22 UTC): 8.5. Counter now a clear vivid lapis with drifts (lower counter B122 G30), but the warm wash along the rail is gone (counter top R 3 vs Home phone 13), so sat stays 1.000; glint 3.3 > 3.0 from the hot left end of the gold rail by the lamp. Fix 2 (same chat, last edit here):
+
+```
+Change only two things. First, add back a soft warm wash of lamplight along the top of the counter just below the gold rail, strongest on the left under the wall lamp and fading gently to the right, a soft cream-gold candlelight glow that makes the blue there a little lighter and warmer, never brown, orange or grey. Second, make the gold rail a soft, dim satin gold line all the way along, with no bright shine or white highlight at its left end. Keep everything else exactly as it is: the counter stone and its drifts, the walls, panels, door, lamp, the two men and the framing.
+```
 
 ### L-14 · Lapis Clubhouse: Office, phone
 - Image 1: [IMG1_ENV_OFFICE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png)), 1179x2096
