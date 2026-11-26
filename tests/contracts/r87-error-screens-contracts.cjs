@@ -154,7 +154,7 @@ async function bootFail(browser,base,opts){
   // and the wait is for the lounge's download to finish, armed before the page loads so it cannot be missed.
   const page=await context.newPage(),asked=[];
   page.on("request",r=>asked.push(r.url().replace(base,"")));
-  const lounge=page.waitForEvent("requestfinished",{predicate:r=>/ENV_SIGNIN_/.test(r.url()),timeout:30000});
+  const lounge=page.waitForEvent("requestfinished",{predicate:r=>/ENV_SIGNIN_/.test(r.url()),timeout:30000});lounge.catch(()=>{}); // handled where awaited; an early timeout must not end Node first
   try{
     await page.goto(base,{waitUntil:"domcontentloaded"});
     await page.waitForSelector("#bootFailScreen",{timeout:30000});
@@ -162,7 +162,7 @@ async function bootFail(browser,base,opts){
     await lounge;
     return await page.evaluate(()=>({bg:getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage.replace(location.origin+"/",""),
       title:document.getElementById("bootFailTitle")?.textContent,clubhouse:document.documentElement.getAttribute("data-clubhouse")})).then(seen=>({...seen,loaded:asked.filter(n=>/ENV_SIGNIN_|ENV_SETTINGS_|plates-v2/.test(n))}));
-  }finally{lounge.catch(()=>{});await context.close();}
+  }finally{await context.close();}
 }
 
 // E10: the same failed start in a picked clubhouse (the pick is readable; sessionStorage still throws, so the screen shows at
@@ -174,7 +174,7 @@ async function bootFailThemed(browser,base,opts,theme){
   await context.route("https://**/*",route=>route.abort());
   const page=await context.newPage(),asked=[],own=new RegExp(`plates-hc/${theme}/ENV_SIGNIN_`);
   page.on("request",r=>asked.push(r.url().replace(base,"")));
-  const lounge=page.waitForEvent("requestfinished",{predicate:r=>own.test(r.url()),timeout:30000});
+  const lounge=page.waitForEvent("requestfinished",{predicate:r=>own.test(r.url()),timeout:30000});lounge.catch(()=>{});
   try{
     await page.goto(base,{waitUntil:"domcontentloaded"});
     await page.waitForSelector("#bootFailScreen",{timeout:30000});
@@ -183,7 +183,7 @@ async function bootFailThemed(browser,base,opts,theme){
     await page.waitForTimeout(300);
     return {asked:asked.filter(n=>/ENV_SIGNIN_|ENV_SETTINGS_|plates-v2/.test(n)),bg:await page.evaluate(()=>getComputedStyle(document.getElementById("bootFailScreen")).backgroundImage.replace(location.origin+"/","")),
       clubhouse:await page.evaluate(()=>document.documentElement.getAttribute("data-clubhouse"))};
-  }finally{lounge.catch(()=>{});await context.close();}
+  }finally{await context.close();}
 }
 
 // Nik's pick (#1118 card): on a portrait phone the free-limit note is one line inside Continue Career; elsewhere it stays a note.
