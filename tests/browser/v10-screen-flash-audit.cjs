@@ -36,9 +36,9 @@ async function slowLateSkins(context){
         await route.continue().catch(() => {});
     });
 }
-// r100 B7 (Nik 2026-11-23 "flash test is most important thing"): CMS_CLUBHOUSE=silver|black|matte|ruby runs the whole audit in that
+// r100 B7 (Nik 2026-11-23 "flash test is most important thing"): CMS_CLUBHOUSE=silver|black|matte|ruby|emerald runs the whole audit in that
 // clubhouse (this device's pick, localStorage), so every clubhouse's own UI finish is held to the same no-flash rules as Wooden.
-const CLUBHOUSE = /^(silver|black|matte|ruby)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
+const CLUBHOUSE = /^(silver|black|matte|ruby|emerald)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
 async function pickClubhouse(target){
     if(CLUBHOUSE) await target.addInitScript(theme => { try{ localStorage.setItem("cmsClubhouseTheme", theme); }catch(_error){} }, CLUBHOUSE);
 }

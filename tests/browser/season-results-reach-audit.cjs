@@ -22,7 +22,7 @@
 //   R8 BACK cannot be clicked after it is scrolled into view (the bar, or anything else, holds the point at its centre).
 // Usage: node tests/browser/season-results-reach-audit.cjs
 //   CMS_BASE_URL (default http://127.0.0.1:4173/), CMS_REACH_SIZES="1100x340,901x520" (overrides the grid),
-//   CMS_REACH_CLUBHOUSES="wooden,silver" (default all four).
+//   CMS_REACH_CLUBHOUSES="wooden,silver" (default all six; test:browser runs them in two groups, each about 3 min).
 process.env.CMS_CHROMIUM_MULTI_CONTEXT = process.env.CMS_CHROMIUM_MULTI_CONTEXT || "1";
 const { chromium } = require("playwright");
 const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
@@ -36,7 +36,7 @@ const SIZES = (process.env.CMS_REACH_SIZES ? process.env.CMS_REACH_SIZES.split("
     .map(s => { const [w, h] = s.split("x").map(parseFloat); return { w, h, touch: /t$/.test(s), name: s }; });
 const TROPHY_SIZES = (process.env.CMS_REACH_TROPHY_SIZES ? process.env.CMS_REACH_TROPHY_SIZES.split(",") : ["761x481", "800x490", "800x520", "880x640", "900x481", "900x700", "1024x600", "700x450", "800x490t", "900x500t"])
     .map(s => { const [w, h] = s.split("x").map(parseFloat); return { w, h, touch: /t$/.test(s), name: s }; });
-const CLUBHOUSES = (process.env.CMS_REACH_CLUBHOUSES || "wooden,silver,black,matte,ruby").split(",");
+const CLUBHOUSES = (process.env.CMS_REACH_CLUBHOUSES || "wooden,silver,black,matte,ruby,emerald").split(",");
 
 // runs in the page: every finding at the current window size
 async function reachFindings(){

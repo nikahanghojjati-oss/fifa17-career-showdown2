@@ -43,7 +43,7 @@ const DEVICES = [
   { tag: "phone 390x844", viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true },
   { tag: "phone sideways 844x390", viewport: { width: 844, height: 390 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true }
 ];
-const OTHER_THEME = /(?:plates-hc|assets\/loading)\/(?:silver|black|matte)\//;
+const OTHER_THEME = /(?:plates-hc|assets\/loading)\/(?:silver|black|matte|emerald)\//;
 const ROOM = /visual-assets\/v10_1\/plates-hc\//, TUNNEL = /assets\/loading\/(?:[a-z]+\/)?ENV_LOADING_/, TILE = /css\/r78-marble-tile(?:-[a-z]+)?\.webp$/;
 const OLD_PLATE = /(?:^|\/)(ENV_[A-Z0-9_]+\.webp)$/;
 
@@ -130,7 +130,7 @@ async function league(browser, base, device, tier){
     assert.deepEqual([shown.flat, shown.pointer], [[], 0], `${tag} ${tier}: the old flat wheel and its pointer are hidden`);
     const urls = [...seen];
     assert.ok(urls.includes("css/r78-marble-tile-ruby.webp"), `${tag} ${tier}: the board's marble is Ruby's tile`);
-    const wrong = urls.filter(u => (/(?:plates-hc|assets\/loading)\/(?:silver|black|matte)\//.test(u)) || (/plates-hc\/ENV_/.test(u)) || (/r78-marble-tile(?:-[a-z]+)?\.webp$/.test(u) && !/tile-ruby\.webp$/.test(u)));
+    const wrong = urls.filter(u => (/(?:plates-hc|assets\/loading)\/(?:silver|black|matte|emerald)\//.test(u)) || (/plates-hc\/ENV_/.test(u)) || (/r78-marble-tile(?:-[a-z]+)?\.webp$/.test(u) && !/tile-ruby\.webp$/.test(u)));
     assert.deepEqual(wrong, [], `${tag} ${tier}: League Roulette downloads only Ruby rooms and marble`);
     assert.ok(urls.some(u => /plates-hc\/ruby\/ENV_BOX_/.test(u)), `${tag} ${tier}: the room behind the board is Ruby's box`);
   }finally{ await context.close(); }
