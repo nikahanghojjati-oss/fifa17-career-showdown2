@@ -532,6 +532,8 @@ Tries:
 
 - T2 (`ENV_SLAB_LAPIS_P1_2X_T2_RAW.png`): **8.** Cracks and suede bands gone, drifts calm at varied angles, detail now 2.77. Still pure blue (sat 0.993), but the locked rooms' own counter and floor stone measure the same (Club: RGB 0,18,98, sat 1.00), so the slab matches the approved lapis and SLAB gets a sat ceiling of 1.0. Miss: the fine grain reads as scribbled hair-like squiggles over a regular diagonal tick pattern, like felt or knurled metal. Fix F1 (same chat), grain only: irregular fine stone mottling, no lines or repeats.
 
+- T2 F1 (`ENV_SLAB_LAPIS_P1_2X_T2F1_RAW.png`): **8.5.** The tick lattice is gone and every number passes (sat 0.975, detail 2.78). Miss: the slab is the full-screen backdrop (Squad screen, Club draw), and up close it still reads as felt or flocked velvet with tiny lint fibres. Fix F2 (last in this chat), surface only: smooth hard honed stone face, mottling inside the stone, no fibres or nap.
+
 T2 prompt (new chat, same Image 1 and Image 2):
 
 ```
