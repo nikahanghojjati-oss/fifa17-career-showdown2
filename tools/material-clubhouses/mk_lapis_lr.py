@@ -121,5 +121,98 @@ def club_sideways():
     return t
 
 
+def _lapis_parts():
+    """The accepted Lapis wording, cut from L-22 (room line, leather, pillar stone, light opening and blues, colour lock)."""
+    ps = prompt("L-22").split("\n\n")
+    room = [p for p in ps if p.startswith("The room:")][0]
+    head, walls = room.split("\n", 1)
+    leather = walls.split("Walls and panels: ", 1)[1].split(" Pillars: ")[0]
+    pillar = walls.split(" Pillars: ", 1)[1].split(" Frames: ")[0]
+    light = [p for p in ps if p.startswith("Light:")][0]
+    lock = [p for p in ps if p.startswith("Colour lock:")][0]
+    every = [p for p in ps if p.startswith("Every wall, door")][0]
+    return head, leather, pillar, light, lock, every
+
+
+def _signin(e, one_image):
+    """L-25/L-26: Emerald's sign-in lounge layout paragraphs (E-25 / E-26 try 2, with its edge lock) and the Lapis materials,
+    with Emerald's sign-in fixes built in: shelf backs in the wall leather, dim light strips and recess lines."""
+    head, leather, pillar, light, lock, every = _lapis_parts()
+    ps = list(e)
+    if not one_image:
+        ps[0] = ps[0].replace("blankets, ball, layout", "blankets, ball, carpet, fan of gold rays, layout")
+        assert "fan of gold rays" in ps[0]
+    ref = "the attached picture" if one_image else "image 1"
+    stone = "honed lapis lazuli exactly like the stone in image 2" if not one_image else "honed lapis lazuli"
+    if one_image:
+        leather = leather.replace("the same rich lapis-blue leather as image 2", "a rich lapis-blue leather (#1450AE)")
+        leather = leather.replace("the same narrow flowered Persian carpet border", "a narrow flowered Persian carpet border")
+        leather = leather.replace("the same hand-tooled, embossed Persian vines, palmette flowers and leaves as image 2", "hand-tooled, embossed Persian vines, palmette flowers and leaves")
+        pillar = pillar.replace("honed lapis lazuli exactly like the stone in image 2", "honed lapis lazuli")
+    assert "image 2" not in (leather + pillar) or not one_image
+    leather, pillar = leather.rstrip("."), pillar.rstrip(".")
+    leather_obj = "the same rich lapis-blue leather as the walls"
+    flake = ("a deep vivid ultramarine with a few soft, broad, cloud-like drifts of brighter ultramarine and a sparse scattering of tiny "
+             "crystal flakes, smooth with a soft satin finish, hard natural stone, never velvet, suede or fabric")
+    room = (head + "\nThe wall panels and the back walls become " + leather + ". The dark stone pillar becomes " + pillar +
+            ". Every stone table top becomes " + stone + ": " + flake + ". The shelving becomes blue-black ebony (#12131A) with a thin satin gold edge. "
+            "The back wall inside the shelves, behind the trophies and books, is the same lapis-blue leather as the walls, never warm brown, amber or orange. "
+            "The gold light strips along the shelves, walls and pillars" + (", and the thin light lines along the top of the tall recess and down its left edge," if one_image else "") +
+            " become thin satin gold lines lit softly warm, a dim soft satin glow at about half their present brightness, never a bright yellow or white line and never a glowing gold panel. "
+            "The table rims, table legs, plant pots' bands and lamp metal become satin gold with soft broad highlights, dim and never shining white. "
+            "The floor becomes large tiles of honed lapis lazuli: " + flake + ", the drifts flowing across the tiles without stopping at a tile edge, laid in straight even rows, "
+            "showing the lamps only as soft, blurred warm glows and real soft contact shadows, never a mirror and never bright streaks. "
+            "The ceiling becomes a blue-black ebony coffered ceiling with straight even beams and lapis-blue leather panels between them. "
+            "The sofa" + ("" if one_image else " and the armchair") + " become " + leather_obj + ", smooth satin finish with real tufting, real seams and soft natural creases, "
+            "a touch brighter where the light falls so they read clearly against the wall behind them, never olive, teal or grey. "
+            "The soft rug becomes a deep lapis-blue hand-knotted Persian wool rug with a calm flowered border, soft and matte"
+            + ("" if one_image else ". The crown emblem panel becomes lapis-blue leather with the crown in satin gold") + ".")
+    if one_image:
+        room = room.replace("The sofa become", "The sofa becomes")
+        room = room.replace("so they read clearly against the wall behind them", "so it reads clearly against the wall behind it")
+    ps[4] = room
+    ps[5] = every
+    ps[6] = ps[6].replace("reflections on the floor are true, soft mirror images of what is above them.",
+                          "the honed stone floor shows the lamps only as soft, blurred warm glows, never mirror images or streaks.")
+    lt = light.split("Image 1 has no lamps in this room")[0]
+    assert lt != light
+    lt += ("Light comes only from the floor lamp, the soft warm shelf lights and the city through the windows. The shelf lights and the floor lamp "
+           "throw soft warm pools onto the leather and the ebony around them, the window glow lights the sofa softly, and the blue falls off to "
+           "ultramarine near-black only in the far corners and toward the ceiling, so the room has depth and never looks flat. The brightest spots are "
+           "clearly bright: the floor lamp lights a wide, clearly bright warm pool, a soft cream-gold candlelight sheen on the blue, while the shelf lights "
+           "stay a dim, soft satin glow. Everything else keeps a vivid, saturated ultramarine, and the walls read as a clearly readable vivid mid "
+           "ultramarine, never near-black, so the sofa, the plants and the gold trophies read clearly against them. ")
+    lt += "Where the light is brightest" + light.split("Where the light is brightest", 1)[1]
+    ps[7] = lt
+    lk = lock.replace("every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is vivid lapis blue",
+                      "every wall, panel, pillar, shelf back, the ceiling, the floor stone, the stone table tops, the sofa" + ("" if one_image else ", the armchair") + " and the rug are vivid lapis blue")
+    lk = lk.replace("The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor",
+                    "The black marble, the black walls and the glowing gold panels of " + ref + " must be gone completely from the room itself, and no warm brown is left on the walls, panels, pillars, shelves, ceiling or floor")
+    lk = lk.replace("Gold is only the lamp metal, the rails, the handles and the hairline trims",
+                    "Gold is only the lamp metal, the table rims and legs, the thin dim light lines and the hairline trims, besides the gold trophies, balls and crowns")
+    if one_image:
+        lk = lk.replace("exactly the blues of image 2: ", "in these blues: ")
+    ps[8] = lk
+    p = "\n\n".join(ps)
+    assert p.count("Light comes only from") == 1 and "no lamps" not in p
+    assert ".." not in p
+    for w in ("malachite", "walnut", "brass", "bottle", "emerald", "Emerald", "jade"):
+        assert w not in p, w
+    if one_image:
+        assert "image 2" not in p and "image 1" not in p
+    return p
+
+
+def signin_desktop():
+    return _signin(eprompt("E-25"), one_image=False)
+
+
+def signin_phone():
+    s = open(EMERALD).read()
+    i = s.index("### E-26 ")
+    t2 = s[i:].split("Try 2 prompt:", 1)[1].split("```")[1].strip("\n").split("\n\n")
+    return _signin(t2, one_image=True)
+
+
 if __name__ == "__main__":
-    print({"phone": lr_phone, "desktop": lr_desktop, "sideways": club_sideways}[sys.argv[1]]())
+    print({"phone": lr_phone, "desktop": lr_desktop, "sideways": club_sideways, "signin": signin_desktop, "signin_phone": signin_phone}[sys.argv[1]]())
