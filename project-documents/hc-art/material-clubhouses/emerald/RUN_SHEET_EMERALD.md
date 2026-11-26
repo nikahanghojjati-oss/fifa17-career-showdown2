@@ -111,4 +111,7 @@ Tries:
 ```
 Keep this image exactly the same. Change only the walls and the ceiling: the big wall above and behind the lounge, the lounge wall panels and the ceiling become a clearly readable rich bottle green (#145A3C), a little lighter than now, instead of near-black, falling off to green near-black only in the far top corners. Keep their leather grain and seams. The window and the stadium, the malachite pillars, the counter, the lamps and their pools, the armchairs, the sofa, every object and the two men stay exactly as they are.
 ```
+- Fix 1 (26 Nov 12:14 a.m. Boston) **9/10, accepted.** Align: scale 1.0000, shift 0.4 px, men unchanged (mean diff 5.5). The wall above the lounge, the lounge panels and the ceiling are now a readable rich bottle-green leather with grain and seams; everything else held. emerald_check PASS with room to spare (vs Black 18.3, hue 0.56, brown 0.15, sat 0.62, luma 33, glint 2.2, spread 84, detail 3.9). Small notes, not worth a redo: the lamp reflections on the counter carry a faint texture at 2x, and the wall above the lounge is still a plain field. Side by side: [ENV_HOME_PLATE_EMERALD_P1_2X.cmp.jpg](ENV_HOME_PLATE_EMERALD_P1_2X.cmp.jpg).
+
+**Pilot result:** Board 9/10 (fix 1), Home 9/10 (fix 1). Sent to Nik for the pilot OK, 26 Nov 12:15 a.m. Boston.
 
