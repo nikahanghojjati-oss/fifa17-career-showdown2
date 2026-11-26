@@ -661,6 +661,12 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (21:19 UTC): 8.5. Aligned scale 1.003, men diff 4.4. lapis_check BOARD_PHONE misses only sat (1.000 vs 0.99): the counter below the rail is darker and flatter than the accepted Home phone's (lower counter mean blue 73 vs 91, green 10 vs 20) and its drifts fade out, so it reads as a flat dark field. Walls, tooled panels, door, lamp and men are right. Fix 1 (same chat) = counter only:
+
+```
+Change only the counter slab below the gold rail: make it a touch lighter and clearer, the same vivid lapis blue as the stone in image 2 (#165CC4), with its few soft, broad drifts of brighter ultramarine and its sparse tiny crystal flakes clearly visible all the way down. It still deepens gently toward the bottom, but stays a rich, readable lapis blue, never navy or near-black. Keep everything else exactly as it is: the walls, panels, door, lamp, rail, the two men and the framing.
+```
+
 ### L-14 · Lapis Clubhouse: Office, phone
 - Image 1: [IMG1_ENV_OFFICE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png)), 1179x2096
 - Image 2: [IMG2_REF_OFFICE_LAPIS_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_OFFICE_LAPIS_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_OFFICE_LAPIS_SWATCH.png))
