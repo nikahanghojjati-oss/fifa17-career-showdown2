@@ -637,7 +637,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 ### R-15 · Ruby Clubhouse: Hall, phone
 - Image 1: [IMG1_ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_HALL_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_RUBY_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_RUBY_SWATCH.png))
+- Image 2: [IMG2_REF_HALL_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_RUBY_SWATCH.png) ([raw, pinned](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/80437e813a7462279feedb94103bc1d8debd2f9a/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_RUBY_SWATCH.png)), 240x427 composed: leather panel by the door over calm counter stone, edge at 67%
 - Saves as `ENV_HALL_PHONE_RUBY_P1`
 
 ```
