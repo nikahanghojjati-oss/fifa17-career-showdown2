@@ -27,6 +27,7 @@ The full list with scores is in [RUN_SHEET_RUBY.md](../ruby/RUN_SHEET_RUBY.md), 
 8. **Reads as Metallic Black** (9): the walls are a clearly readable rich bottle green, never near-black except in the far corners.
 9. **Sparkle points** (13): satin brass with soft broad highlights, never hot white sparkle points or glitter.
 10. **Pale bands** (new for Emerald): the light malachite bands are named as mid jade (#5E9E74) so they don't come back as pale mint, which fails the "pale" check.
+11. **Smoky stone copied from Image 2** (E-13, 26 Nov): Astra copies Image 2's stone over the prompt's words, so a crisp-stone line can't beat a smoky swatch. Every phone Image 2 now carries the crisp malachite of the accepted Home phone counter below its rail (swatch.py CRISP_STONE). For Lapis and the rest: once the first phone counter passes, rebuild the other phone swatches from it before their tickets go out.
 
 ## Pilot (2 pictures). Nik OKs both on the board before any other Emerald prompt is written.
 The pilot has no Image 2: no Emerald room is approved yet, so the materials are described in words only.
@@ -538,8 +539,8 @@ Tries:
 - Fix 1 (16:14 UTC): **9/10, accepted.** Scale 1.005, 3.6 px, men 8.8. The counter is now crisp cut malachite with fine growth lines in broad calm bands; men, windows, lamp, pillars, rail and floor strip unchanged. Every check passes: sat 0.80, detail 3.02, spread 78, luma 42, brown 0.05, glint 0.4. The lamp reflection on the counter is a warm gold sheen. Side by side: [ENV_HOME_PHONE_EMERALD_P1.cmp.jpg](ENV_HOME_PHONE_EMERALD_P1.cmp.jpg).
 
 ### E-13 · Emerald Clubhouse: Board Room, phone
-- Image 1: [IMG1_ENV_BOARD_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_BOARD_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOARD_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOARD_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_BOARD_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png)), 1179x2096
+- Image 2: [IMG2_REF_BOARD_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOARD_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOARD_EMERALD_SWATCH.png))
 - Saves as `ENV_BOARD_PHONE_EMERALD_P1`
 
 ```
@@ -568,10 +569,11 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (16:21 UTC): **6/10, new chat.** Came back 877x1794, narrower than 9:16 (align REJECT: scale 1.056, shift 78 px), so it can't be fixed by an edit. The colour checks pass (sat 0.86, detail 2.60, brown 0.05) and the men, lamp, panels and door held, but the counter is soft smoky streaks again, the same as the old desktop counters. Cause: Image 2's stone was cut from the desktop Board painting, whose counter reads as smoke at that scale, and Astra copies Image 2. Fix: every phone Image 2 now takes its stone from the accepted Home phone counter, which has crisp growth lines (swatch.py CRISP_STONE, commit 4dc992c6). Try 2 is the same prompt with the new Image 2, in a new chat. Raw kept as ENV_BOARD_PHONE_EMERALD_P1_T1_RAW.png.
 
 ### E-14 · Emerald Clubhouse: Office, phone
-- Image 1: [IMG1_ENV_OFFICE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_OFFICE_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_OFFICE_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_OFFICE_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_OFFICE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_OFFICE_PHONE_HC_V3.png)), 1179x2096
+- Image 2: [IMG2_REF_OFFICE_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_OFFICE_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_OFFICE_EMERALD_SWATCH.png))
 - Saves as `ENV_OFFICE_PHONE_EMERALD_P1`
 
 ```
@@ -602,8 +604,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 Tries:
 
 ### E-15 · Emerald Clubhouse: Hall, phone
-- Image 1: [IMG1_ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_HALL_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png)), 1179x2096
+- Image 2: [IMG2_REF_HALL_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_HALL_EMERALD_SWATCH.png))
 - Saves as `ENV_HALL_PHONE_EMERALD_P1`
 
 ```
@@ -634,8 +636,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 Tries:
 
 ### E-16 · Emerald Clubhouse: Archive, phone
-- Image 1: [IMG1_ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_ARCHIVE_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)), 1179x2096
+- Image 2: [IMG2_REF_ARCHIVE_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_ARCHIVE_EMERALD_SWATCH.png))
 - Saves as `ENV_ARCHIVE_PHONE_EMERALD_P1`
 
 ```
@@ -666,8 +668,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 Tries:
 
 ### E-17 · Emerald Clubhouse: Directors' box, phone
-- Image 1: [IMG1_ENV_BOX_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_BOX_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOX_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOX_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_BOX_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PHONE_HC_V3.png)), 1179x2096
+- Image 2: [IMG2_REF_BOX_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOX_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_BOX_EMERALD_SWATCH.png))
 - Saves as `ENV_BOX_PHONE_EMERALD_P1`
 
 ```
@@ -698,8 +700,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 Tries:
 
 ### E-18 · Emerald Clubhouse: Coaches' room, phone
-- Image 1: [IMG1_ENV_COACHES_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_COACHES_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_COACHES_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_COACHES_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_COACHES_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_COACHES_PHONE_HC_V3.png)), 1179x2096
+- Image 2: [IMG2_REF_COACHES_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_COACHES_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_COACHES_EMERALD_SWATCH.png))
 - Saves as `ENV_COACHES_PHONE_EMERALD_P1`
 
 ```
@@ -730,8 +732,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 Tries:
 
 ### E-19 · Emerald Clubhouse: Players' tunnel, phone
-- Image 1: [IMG1_ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_TUNNEL_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)), 1179x2096
+- Image 2: [IMG2_REF_TUNNEL_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_EMERALD_SWATCH.png))
 - Saves as `ENV_TUNNEL_PHONE_EMERALD_P1`
 
 ```
@@ -762,8 +764,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 Tries:
 
 ### E-20 · Emerald Clubhouse: Club room, phone
-- Image 1: [IMG1_ENV_CLUB_PHONE_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PHONE_HC_V4.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PHONE_HC_V4.png)), 1179x2096
-- Image 2 (materials-only strip): [IMG2_REF_CLUB_MAT_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_CLUB_MAT_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_CLUB_MAT_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_CLUB_PHONE_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PHONE_HC_V4.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PHONE_HC_V4.png)), 1179x2096
+- Image 2 (materials-only strip): [IMG2_REF_CLUB_MAT_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_CLUB_MAT_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_CLUB_MAT_EMERALD_SWATCH.png))
 - Saves as `ENV_CLUB_PHONE_EMERALD_P1`
 
 ```
@@ -792,8 +794,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 Tries:
 
 ### E-21 · Emerald Clubhouse: Loading tunnel, phone
-- Image 1: [IMG1_ENV_LOADING_PHONE_HC.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png)), 1179x2096
-- Image 2 (materials-only strip): [IMG2_REF_LOADING_MAT_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_EMERALD_SWATCH.png))
+- Image 1: [IMG1_ENV_LOADING_PHONE_HC.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png)), 1179x2096
+- Image 2 (materials-only strip): [IMG2_REF_LOADING_MAT_EMERALD_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_EMERALD_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_EMERALD_SWATCH.png))
 - Saves as `ENV_LOADING_PHONE_EMERALD_P1`
 
 ```
@@ -820,4 +822,3 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
-
