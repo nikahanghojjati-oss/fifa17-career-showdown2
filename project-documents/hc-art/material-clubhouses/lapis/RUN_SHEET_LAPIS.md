@@ -337,7 +337,7 @@ Image 1 is the picture to edit. Use only image 1.
 
 Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same materials, stone, leather, sunburst, mouldings, gold and colours. Only brightness moves.
 
-Change only the light, like a film still at night. The warm wall lamp is the one warm light, and everything away from it falls into cool, deep ultramarine shadow. On the wall right behind each man, a soft, faint warm glow, as if the lamp light lands there, so each man stands out a little more from the wall; the men themselves stay exactly as they are. The lamp pool on the wall is a little brighter, and the far corners, the ceiling and the bottom of the counter fall a little deeper toward ultramarine near-black, so the room has real depth. The middle panel with the sunburst stays clearly readable. No beams, no halo, no haze and no new lights.
+Change only the light, like a film still at night. The warm wall lamp is the one warm light, and everything away from it falls into cool, deep ultramarine shadow. On the wall right behind each man, a soft warm wash of lamplight, so each man stands out a little more from the wall; the men themselves stay exactly as they are. The lamp pool on the wall is a little brighter, and the far corners, the ceiling and the bottom of the counter fall a little deeper toward ultramarine near-black, so the room has real depth. The middle panel with the sunburst stays clearly readable. No beams, no halo, no haze and no new lights.
 
 Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
