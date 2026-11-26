@@ -189,6 +189,8 @@ def prompt(key, rm):
     people = "no people other than the two men" if men else "no people"
     fin = (f"Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, "
            f"no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, {people}.")
+    if key == "EMERALD":  # E-14: one lighter-band jade in the whole prompt, the muted one the counter line names
+        lock = lock.replace("a soft mid jade (#5E9E74)", "a soft muted jade (#4F8A66)")
     return "\n\n".join([head, frame, menl.strip(), keepl, room, light, lock, objs, fin,
                         "Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available."]).replace("\n\n\n\n", "\n\n")
 
