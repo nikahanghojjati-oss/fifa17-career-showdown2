@@ -17,7 +17,7 @@ for theme, name, painting, room, folder, *_ in paint._targets():
     if not os.path.exists(f): sys.exit(f"missing painted file {rel(f)}: run paint.py first")
     files[rel(f)] = {"sha256": sha(f), "painting": rel(painting), "room": room}
     paintings[rel(painting)] = sha(painting)
-for theme in ("silver", "black", "matte"):  # each clubhouse's panel marble, cut from its painted slab (panel_tiles.py)
+for theme in ("silver", "black", "matte", "ruby"):  # each clubhouse's panel marble, cut from its painted slab (panel_tiles.py)
     t = os.path.join(ROOT, "css", f"r78-marble-tile-{theme}.webp")
     slab = files[f"visual-assets/v10_1/plates-hc/{theme}/TILE_SLAB_HC_V1_512.webp"]
     files[rel(t)] = {"sha256": sha(t), "painting": slab["painting"], "room": "PANEL_MARBLE"}

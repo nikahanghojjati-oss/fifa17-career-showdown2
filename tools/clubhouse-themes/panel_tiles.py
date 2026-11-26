@@ -3,14 +3,16 @@
 that clubhouse's own painted material slab (plates-hc/<theme>/TILE_SLAB_HC_V1_512.webp), so panels show the clubhouse's stone,
 never the old shared metal grade (Nik 2026-11-25: only the premium versions, for every material).
 Metallic Black keeps its slab as painted (near-black granite). Platinum and Premium Matte Black press the slab's veins into a
-dark band so light text on the panels keeps its contrast: Platinum a grey marble with darker veins, Matte a graphite slate.
+dark band so light text on the panels keeps its contrast: Platinum a grey marble with darker veins, Matte a graphite slate, Ruby a deep oxblood marble.
 Run after paint.py; then manifest.py."""
 import os
 import numpy as np
 from PIL import Image
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SLAB = os.path.join(ROOT, "visual-assets", "v10_1", "plates-hc", "%s", "TILE_SLAB_HC_V1_512.webp")
-BAND = {"silver": ((0x17, 0x19, 0x1c), (0x36, 0x39, 0x3e)), "matte": ((0x18, 0x19, 0x1b), (0x34, 0x35, 0x38)), "black": None}
+BAND = {"silver": ((0x17, 0x19, 0x1c), (0x36, 0x39, 0x3e)), "matte": ((0x18, 0x19, 0x1b), (0x34, 0x35, 0x38)), "black": None,
+        # Ruby Clubhouse: the red Rosso Levanto slab pressed into a deep oxblood band (wine near-black to dark oxblood) so light text keeps its contrast
+        "ruby": ((0x22, 0x08, 0x0d), (0x4e, 0x16, 0x22))}
 
 def tile(theme):
     img = Image.open(SLAB % theme).convert("RGB").resize((256, 256), Image.LANCZOS)
