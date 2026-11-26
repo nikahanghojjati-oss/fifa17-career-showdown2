@@ -10,21 +10,26 @@
 //   R3 a manager card is drawn over the scoring panel;
 //   R4 a row sticks out of its card;
 //   R5 a score box runs into the trophies column or over another row's words;
-//   R6 the two cards are not centred under the scoring panel.
+//   R6 the two cards are not centred under the scoring panel;
+//   R7 the Season Results room is not drawn, or an old picture is (the r91 old-art judge, A1/A2).
+// r100 B7 4th pass (lead 2026-11-25): landscape windows under 901 wide and up to 500 tall outside 560-880 x 340-410 (a mouse window
+// at 640-900 x 411-500, phones under 560 wide or under 340 tall, a touch screen the 880 zoom turns into 880 x 411-500) lost the room
+// (a black single column). The leftover sizes below are checked too: mouse sizes in the same dragged window, touch sizes (suffix t)
+// in a fresh phone context, as a real phone lays the page out.
 // Usage: node tests/browser/season-results-reach-audit.cjs
 //   CMS_BASE_URL (default http://127.0.0.1:4173/), CMS_REACH_SIZES="1100x340,901x520" (overrides the grid),
 //   CMS_REACH_CLUBHOUSES="wooden,silver" (default all four).
 process.env.CMS_CHROMIUM_MULTI_CONTEXT = process.env.CMS_CHROMIUM_MULTI_CONTEXT || "1";
 const { chromium } = require("playwright");
 const { resolveChromiumRuntime } = require("../support/chromium-runtime.cjs");
-const { openScreen } = require("./r91-old-art-audit.cjs");
+const { openScreen, drawnPictures, judge } = require("./r91-old-art-audit.cjs");
 
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const WIDTHS = [900, 901, 1011, 1100, 1280, 1366];
 const HEIGHTS = [340, 380, 420, 460, 520];
-const SIZES = process.env.CMS_REACH_SIZES
-    ? process.env.CMS_REACH_SIZES.split(",").map(s => s.split("x").map(Number))
-    : WIDTHS.flatMap(w => HEIGHTS.map(h => [w, h]));
+const LEFTOVER = ["480x300", "559x339", "640x411", "700x450", "760x420", "800x480", "880x500", "900x500", "534x320t", "640x411t", "960x480t", "900x500t"];
+const SIZES = (process.env.CMS_REACH_SIZES ? process.env.CMS_REACH_SIZES.split(",") : [...WIDTHS.flatMap(w => HEIGHTS.map(h => `${w}x${h}`)), ...LEFTOVER])
+    .map(s => { const [w, h] = s.split("x").map(parseFloat); return { w, h, touch: /t$/.test(s), name: s }; });
 const CLUBHOUSES = (process.env.CMS_REACH_CLUBHOUSES || "wooden,silver,black,matte").split(",");
 
 // runs in the page: every finding at the current window size
@@ -97,26 +102,45 @@ if(require.main === module){
         try{
             for(const club of CLUBHOUSES){
                 const theme = club === "wooden" ? "" : club;
-                const context = await browser.newContext({ viewport: { width: SIZES[0][0], height: SIZES[0][1] }, serviceWorkers: "block", reducedMotion: "reduce" });
-                await context.route("**/*", route => new URL(route.request().url()).origin === baseUrl.origin ? route.continue() : route.abort());
-                if(theme) await context.addInitScript(t => { try{ localStorage.setItem("cmsClubhouseTheme", t); }catch(_error){} }, theme);
-                const page = await context.newPage();
-                await openScreen(page, "SEASON_ENTRY");
-                for(const [w, h] of SIZES){
-                    await page.setViewportSize({ width: w, height: h });
-                    await page.waitForTimeout(250);
+                const open = async options => {
+                    const context = await browser.newContext({ serviceWorkers: "block", reducedMotion: "reduce", ...options });
+                    await context.route("**/*", route => new URL(route.request().url()).origin === baseUrl.origin ? route.continue() : route.abort());
+                    if(theme) await context.addInitScript(t => { try{ localStorage.setItem("cmsClubhouseTheme", t); }catch(_error){} }, theme);
+                    const page = await context.newPage();
+                    await openScreen(page, "SEASON_ENTRY");
+                    return { context, page };
+                };
+                const check = async (page, size) => {
                     const findings = [...new Set(await page.evaluate(reachFindings))];
-                    for(const what of findings) report.push({ club, size: `${w}x${h}`, what });
-                    console.log(`${findings.length ? "FINDING" : "ok"} ${club} ${w}x${h}${findings.map(f => "\n   " + f).join("")}`);
+                    for(const f of judge("SEASON_ENTRY", await page.evaluate(drawnPictures))) findings.push(`R7 ${f}`);
+                    for(const what of findings) report.push({ club, size: size.name, what });
+                    console.log(`${findings.length ? "FINDING" : "ok"} ${club} ${size.name}${findings.map(f => "\n   " + f).join("")}`);
+                };
+                // mouse: one window dragged through every size
+                const desk = SIZES.filter(size => !size.touch);
+                if(desk.length){
+                    const { context, page } = await open({ viewport: { width: desk[0].w, height: desk[0].h } });
+                    for(const size of desk){
+                        await page.setViewportSize({ width: size.w, height: size.h });
+                        await page.waitForTimeout(250);
+                        await check(page, size);
+                    }
+                    await context.close();
                 }
-                await context.close();
+                // touch: a fresh phone context per size
+                for(const size of SIZES.filter(size => size.touch)){
+                    const { context, page } = await open({ viewport: { width: size.w, height: size.h }, isMobile: true, hasTouch: true });
+                    await page.waitForTimeout(250);
+                    await check(page, size);
+                    await context.close();
+                }
             }
         } finally {
             await browser.close();
         }
         const secs = Math.round((Date.now() - started) / 1000);
-        if(report.length){ console.error(`FAIL Season Results reach: ${report.length} finding(s) across ${CLUBHOUSES.length} clubhouses x ${SIZES.length} short windows (${secs}s).`); process.exitCode = 1; }
-        else console.log(`PASS Season Results reach: every input and button can be clicked, ${CLUBHOUSES.length} clubhouses x ${SIZES.length} short windows (${secs}s).`);
+        if(report.length){ console.error(`FAIL Season Results reach: ${report.length} finding(s) across ${CLUBHOUSES.length} clubhouses x ${SIZES.length} windows (${secs}s).`); process.exitCode = 1; }
+        else console.log(`PASS Season Results reach: every input and button can be clicked, ${CLUBHOUSES.length} clubhouses x ${SIZES.length} windows (${secs}s).`);
     })().catch(error => { console.error(error); process.exitCode = 1; });
 }
 

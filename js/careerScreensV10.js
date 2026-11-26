@@ -897,7 +897,7 @@
   #app #trophyRoom .phoneMoreToggle:checked ~ #trophyRoomContent .careerRank {min-height:130px;padding:18px 8px}
   #app #trophyRoom .careerRank small {font-size:10px}
 }
-@media (min-width:901px) and (min-height:481px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px) and (min-height:481px), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom {--tr-case:clamp(90px,calc(14svh - 2px),160px)}
   #app #trophyRoom .trophyPhoneArt {display:none!important}
   #app #trophyRoom .trophyRoomContent.sd-stage__ui-content {display:flex;flex-direction:column;height:auto!important;min-height:100svh;padding:calc(62svh - 20px) 8% 14px;background:none}
@@ -957,7 +957,7 @@
 }
 /* r80 short screens: on 600px-tall desktop windows (1100x600, 1024x600) the cabinet ran 5px under the docked BACK. There
    BACK joins the flow under the cabinet, so it never sits on the shelf; main scrolls the few pixels to reach it. */
-@media (min-width:901px) and (min-height:481px) and (max-height:630px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:630px) and (orientation:landscape) {
+@media (min-width:901px) and (min-height:481px) and (max-height:630px), (min-width:761px) and (max-width:900px) and (min-height:481px) and (max-height:630px) and (orientation:landscape) {
   #app #trophyRoom .trophyBack {position:relative;bottom:auto}
 }
 /* r78 HO-031 v3 phone marble: upright phones up to 400px wide draw Team V's ENV_TROPHY_ROOM_PHONE_V3 (both managers
@@ -1366,7 +1366,7 @@
   // name and counts are written on the pedestal's face. Everything is placed in plate units (--tr-k = one plate pixel), so it
   // stays registered on every window shape. Looks only: every word, id and tap order stays as it was.
   const TROPHY_PLATE_V2_CSS=String.raw`
-@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom {
     --tr-k:calc(100svh / 864);
     --tr-bevel:linear-gradient(135deg,#fff1b8 0%,#e8b94a 15%,#8a6a12 36%,#f2c45b 56%,#fff1b8 73%,#b8862a 100%);
@@ -1445,7 +1445,7 @@
   #app #trophyRoom .careerRanks {top:calc(530 * var(--tr-k));height:0}
   #app #trophyRoom .careerRank {top:auto;bottom:0}
 }
-@media (min-width:901px) and (max-height:820px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:501px) and (max-height:820px) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:820px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:481px) and (max-height:820px) and (orientation:landscape) {
   #app #trophyRoom .heroPlinth {top:calc(229 * var(--tr-k))}
   /* r90 W9 (LOOK hunt L42): the lifted pedestal ran 14 units into the cup's 243-unit box, so its foot covered the start of
      SHOWDOWN CHAMPION (1366x640, 1280x700). The cup's box now ends 3 units above the pedestal. */
@@ -1637,7 +1637,7 @@
   #app #careerStatistics.careerScreenV10 :is(.headlinePair b,.headlineNumber) {font-size:19px}
   #app #careerStatistics.careerScreenV10 .headlinePair small {font-size:11px}
 }
-@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .managerCounts span {font-size:max(9.5px,.6vw)}
   #app #trophyRoom .recordItem span {font-size:max(10px,.62vw);font-weight:700}
   #app #trophyRoom .recordItem strong {font-size:max(16px,1.15vw)}
@@ -1712,7 +1712,7 @@
 /* r93: the GOLDEN tab makes seven tabs. Wide screens keep one row of seven; upright phones and tablets (and short sideways
    windows below 481px tall, which share their layout) keep two rows, four over three, instead of a third row; short sideways
    windows keep their single row of seven. */
-@media (min-width:901px) and (min-height:481px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px) and (min-height:481px), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .trophyShelf .trophyTabs {grid-template-columns:repeat(7,minmax(0,1fr))}
 }
 @media (max-width:900px) and (orientation:portrait), (max-height:480px) and (orientation:landscape) {
@@ -1813,6 +1813,8 @@
   // it). Upright phones draw the tall archive plate (590W on Light or Save-Data); the two cut-outs no longer load there.
   // r91 old-art follow-up: small landscape windows over 500 tall get Team V's desktop stage from 761 wide (the archive room
   // and its plate-unit layout, as desktop) and its phone layout up to 760 (the tall plate, as upright phones).
+  // r100 B7 4th pass: from 481 tall at 761-900 wide, as from 901 wide; at 481-500 the old stadium picture showed between the
+  // sideways layout (up to 480) and the desktop one.
   // r91 old-art: upright tablets (to 900 wide) use the same tall plate and lip layout; sideways phones draw the tall plate in
   // the left band under the title (as Career Statistics and Rivalry do), so the two V1 cut-outs never load. The plates-v2/v3 Trophy Room plates and the cut-out files stay in the repo as rollback.
   function trArchive(markup){
@@ -1876,7 +1878,7 @@
    block below already hid the beam and the outline; phones and tablets now match). Every cup keeps a dark contact shadow. */
 #app #trophyRoom .trophyCardGlow,#app #trophyRoom .heroSpotlight,#app #trophyRoom .heroReflection {display:none}
 #app #trophyRoom .heroTrophyPicture img {filter:drop-shadow(0 7px 8px rgba(0,0,0,.78))}
-@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .sd-stage__layer--plate::before {background:linear-gradient(180deg,#2e2823,#1c1814 60%,#1a1613);filter:none}
   #app #trophyRoom .sd-stage__plate {background-image:url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp')}
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #trophyRoom .sd-stage__plate {background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1X.webp') 1x,url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_2X.webp') 2x)}
@@ -1894,17 +1896,17 @@
   #app #trophyRoom .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1920.webp') 1.25x)}
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #trophyRoom .sd-stage__plate{background-image:image-set(url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_1920.webp') 1.25x,url('visual-assets/v10_1/plates-hc/ENV_ARCHIVE_PLATE_HC_V3_2X.webp') 2x)}
 }
-@media (min-width:901px) and (max-height:820px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:820px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .heroCeremony {top:calc(253 * var(--tr-k))}
 }
 /* HO-068 (Nik: nothing may cover a face): the plate is drawn the window's height from its top edge, so on windows up to
    about 900px tall the top bar covered the men's hair (from 5.79% of the plate). The whole stage moves down just enough for
    the hair to clear the bar by 6px (the strip above stays behind the bar), and BACK follows the records instead of riding
    over them; main scrolls the few pixels more. */
-@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .sd-stage {margin-top:max(0px,calc(var(--sd-nav-top-h,52px) + 6px - 100svh * .0579))}
 }
-@media (min-width:901px) and (max-height:900px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:501px) and (orientation:landscape) {
+@media (min-width:901px) and (max-height:900px) and (orientation:landscape), (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {
   #app #trophyRoom .backButton {position:static}
 }
 /* r91 old-art: sideways phones. The archive plate stands in the left band (the title, the champion cup and its plinth),

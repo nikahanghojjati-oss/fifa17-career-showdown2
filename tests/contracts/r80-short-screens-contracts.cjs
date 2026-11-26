@@ -76,6 +76,14 @@ const homeCss=read("css/homeV10.css");
   assert.doesNotMatch(src,/\(min-width:901px\) and \(min-height:501px\) and \(orientation:landscape\)/,"no 501px height floor on the page-scroll layout or its :active list");
   assert.match(src,/\.seasonEntryGrid:not\(\.hidden\) \{\s*display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);gap:1\.3%;width:max\(72\.66%,640px\);min-width:0;margin:0;align-self:center;/,"short windows keep the entry cards wide enough for their rows, centred");
   assert.ok(JSON.parse(read("package.json")).scripts["test:browser"].includes("node tests/browser/season-results-reach-audit.cjs"),"test:browser clicks every Season Results input in short windows");
+  // r100 B7 4th pass: every landscape window under 901 wide and up to 500 tall takes the sideways room layout (no roomless
+  // single column), and the Trophy Room's 761-900 desktop layout starts at 481 tall as it does from 901 (no old stadium picture).
+  assert.doesNotMatch(seasonJs,/\(min-width:560px\) and \(max-width:(?:880|639)px\) and \(min-height:340px\) and \(max-height:410px\)/,"no narrower Season Results room band is left");
+  assert.ok(seasonJs.split("(max-width:900px) and (max-height:500px) and (orientation:landscape)").length-1>=7,"the Season Results room band covers every short landscape window under 901 wide");
+  assert.ok(seasonJs.includes("@media (max-width:639px) and (max-height:500px) and (orientation:landscape) {"),"under 640 wide the panels keep their 340px");
+  const careerJs=read("js/careerScreensV10.js");
+  assert.doesNotMatch(careerJs,/\(min-width:761px\) and \(max-width:900px\) and \(min-height:501px\)/,"no 481-500 gap in the Trophy Room");
+  assert.ok(careerJs.split("(min-width:761px) and (max-width:900px) and (min-height:481px)").length-1>=10,"the Trophy Room's 761-900 desktop layout starts at 481 tall");
   assert.doesNotMatch(src,/\(min-width:1880px\) and \(max-width:2620px\) and \(min-height:1040px\) and \(max-height:1120px\) \{/,"no size-band gaps on wide windows");
   assert.match(src,/\(min-aspect-ratio:16\/9\) and \(orientation:landscape\) \{ #app #seasonEntry\.seasonScreenV10:not\(\.v10FinalMode\) \.v10SeasonStage \.sd-stage__registered \{ top:0!important;width:100vw!important;height:56\.25vw!important; \}/,"wide windows fill the width with the plate");
   const body=mediaBlock(seasonJs,"(min-width:901px) and (max-width:1239px) and (max-height:800px) and (orientation:landscape)");

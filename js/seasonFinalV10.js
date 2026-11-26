@@ -1061,8 +1061,11 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 }
 
 /* JOB-1598: adopted 1229 sideways composition only (740x360 and 844x390).
-   Reuse the live form in document order. Review/errors expand in main's flow. */
-@media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+   Reuse the live form in document order. Review/errors expand in main's flow.
+   r100 B7 4th pass: every landscape window under 901 wide and up to 500 tall uses it (it was 560-880 x 340-410; the rest, a
+   mouse window at 640-900 x 411-500, phones under 560 wide or 340 tall, a touch screen zoomed to 880 x 411-500, got a black
+   single column with no room). From 501 tall the existing layouts take over. */
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
  #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   overflow-y:auto; overflow-x:hidden;
  }
@@ -1186,7 +1189,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 }
 /* r100 B7: 560-639 px wide (no sideways phone layout before: a black page with no room) keeps the panels' own 340px and
    gives the room what is left, so nothing is cut off at the right edge. 640 px and wider are unchanged. */
-@media (min-width:560px) and (max-width:639px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (max-width:639px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .season-layout { grid-template-columns:minmax(0,.8fr) minmax(340px,1.2fr); }
 }
 
@@ -1715,7 +1718,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
 /* JOB-1700: finish the adopted entry compositions, using the live nodes only.
    Entry fits the first view; review, scoring and error states grow in main. */
 @media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
-       (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (max-width:900px) and (max-height:500px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  html[data-v10-screen="seasonEntry"] #app main:has(#seasonEntry.seasonScreenV10:not(.hidden):not(.v10FinalMode)) {
   position:fixed;inset:0;height:100svh;padding:0;overflow-x:hidden;overflow-y:auto;
@@ -1775,7 +1778,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .seasonResultCard { min-height:232px; }
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-action-row button { letter-spacing:.5px;line-height:1.3; }
 }
-@media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage .season-layout:has(.season-review-panel.hidden) {
   grid-template-rows:44px minmax(224px,1fr) auto;gap:8px 14px;
  }
@@ -1940,7 +1943,7 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
 }
 @media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
-       (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (max-width:900px) and (max-height:500px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait),
        (min-width:901px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,.season-phone-tab,.season-phone-scoring-open,.season-phone-sheet-close):active {
@@ -2517,13 +2520,13 @@ html[data-motion-reduced="true"] #app #seasonEntry.seasonScreenV10:not(.v10Final
  }
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background:none; }
 }
-@media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene {
   background:#090b0e url("${assetUrl(BASE+"plates-v2/ENV_SEASON_RESULTS_PHONE_V2.webp")}") center top/cover no-repeat;
  }
 }
 @media (max-width:699px) and (orientation:portrait), (min-width:700px) and (max-width:900px) and (max-height:959px) and (orientation:portrait),
-       (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape),
+       (max-width:900px) and (max-height:500px) and (orientation:landscape),
        (min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene::before { content:none; }
 }
@@ -2932,7 +2935,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 @media (min-width:901px) and (max-width:1499px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #screen-title { left:29.8%; width:36.4%; }
 }
-@media (min-width:560px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {
+@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {
  #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3.webp")}"); }
  html[data-assets="0"] #app #seasonEntry.seasonScreenV10 .v10SeasonStage .v10SeasonPhoneScene { background-image:url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PHONE_HC_V3_590W.webp")}"); }
 }

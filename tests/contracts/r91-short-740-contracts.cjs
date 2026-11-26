@@ -12,9 +12,9 @@ const root = path.resolve(__dirname, "../..");
 const season = fs.readFileSync(path.join(root, "js/seasonFinalV10.js"), "utf8");
 const career = fs.readFileSync(path.join(root, "js/careerScreensV10.js"), "utf8");
 const WIN = "@media (min-width:640px) and (max-width:880px) and (min-height:340px) and (max-height:410px) and (orientation:landscape) {";
-// r100 B7: the Season Results side of this window now starts at 560 px (touch 560-639 got the room band); Final Winner and
-// the Trophy Room keep 640.
-const SEASON_WIN = WIN.replace("(min-width:640px)", "(min-width:560px)");
+// r100 B7: the Season Results side of this window covers every landscape window under 901 wide and up to 500 tall (touch 560-639
+// got the room band first; the 4th pass took in the rest, which had no room); Final Winner and the Trophy Room keep 640-880.
+const SEASON_WIN = "@media (max-width:900px) and (max-height:500px) and (orientation:landscape) {";
 const start = season.indexOf(SEASON_WIN);
 assert.ok(start >= 0, "S1 the 740x360 window block exists");
 const end = season.indexOf("\n}", start);
