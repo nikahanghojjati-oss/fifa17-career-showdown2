@@ -542,6 +542,8 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-25 00:21 | Team V | Team G | HO-138 DONE | Premium full set 35/57: Metallic Black Clubhouse, Coaches' room, phone band repaint | no |
 | 2026-11-25 01:06 | Team G | Team V | HO-173 SENT | Premium Matte Black must look truly premium (Nik): bar for every Matte painting | yes (receive it) |
 | 2026-11-25 01:12 | Team G | Team V | HO-102, HO-103 RETURNED (REDO graphite, TOP) | Nik picked graphite for Premium Matte Black: redo the Matte Board Room and Home from the Wooden plate only (no car photos), prompts in each ticket's REDO section, same asset names, HO-173 bar; all other Matte tickets wait for Nik's OK on these two | yes (receive it) |
+| 2026-11-25 01:12 | Team G | Team V | HO-102 RETURNED | Premium pilot 5/6: Premium Matte Black Board Room repaint | yes (see reason) |
+| 2026-11-25 01:12 | Team G | Team V | HO-103 RETURNED | Premium pilot 6/6: Premium Matte Black Home repaint | yes (see reason) |
 | 2026-11-25 01:13 | Team V | Team G | HO-173 RECEIVED | Premium Matte Black must look truly premium (Nik): bar for every Matte painting | no |
 | 2026-11-25 01:14 | Team G | Team V | HO-142..160, 164, 167, 170 re-worded for graphite, ON HOLD | Premium Matte Black prompts now graphite (neutral graphite velvet, satin titanium, no brown/brass/glint); each ticket has a HOLD box at the top: do not start until Nik OKs the HO-102/103 graphite redos and Team G re-cuts REF_PILOT_MATTE | no |
 | 2026-11-25 01:21 | Team V | Team G | HO-102 DONE | Premium pilot 5/6: Premium Matte Black Board Room repaint | no |
@@ -576,6 +578,14 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-25 04:39 | Team V | Team G | HO-164 DONE | Premium League Roulette room 3/6: Premium Matte Black Clubhouse, phone upright, no men | no |
 | 2026-11-25 04:39 | Team V | Team G | HO-167 DONE | Premium League Roulette room 6/6: Premium Matte Black Clubhouse, desktop, no men | no |
 | 2026-11-25 04:40 | Team V | Team G | HO-170 DONE | Premium Club room sideways 3/3: Premium Matte Black Clubhouse, phone sideways | no |
+| 2026-11-25 06:01 | Team G | Team V | HO-174 SENT | Sign-in lounge 1/8: Wooden Clubhouse, desktop | yes (receive it) |
+| 2026-11-25 06:01 | Team G | Team V | HO-175 SENT | Sign-in lounge 2/8: Platinum Clubhouse, desktop | yes (receive it) |
+| 2026-11-25 06:01 | Team G | Team V | HO-176 SENT | Sign-in lounge 3/8: Metallic Black Clubhouse, desktop | yes (receive it) |
+| 2026-11-25 06:01 | Team G | Team V | HO-177 SENT | Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop | yes (receive it) |
+| 2026-11-25 06:01 | Team G | Team V | HO-178 SENT | Sign-in lounge 5/8: Wooden Clubhouse, phone upright | yes (receive it) |
+| 2026-11-25 06:01 | Team G | Team V | HO-179 SENT | Sign-in lounge 6/8: Platinum Clubhouse, phone upright | yes (receive it) |
+| 2026-11-25 06:01 | Team G | Team V | HO-180 SENT | Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright | yes (receive it) |
+| 2026-11-25 06:01 | Team G | Team V | HO-181 SENT | Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright | yes (receive it) |
 | 2026-11-25 06:05 | Team G | Team V | HO-174..181 SENT | Sign-in lounge repaint x8 (Wooden, Platinum, Metallic Black, Premium Matte Black; desktop + phone), Nik 05:57 UTC: handcrafted, each clubhouse's colours, same view and furniture; new REF_PILOT_WOODEN | yes: run in Astra |
 | 2026-11-25 06:11 | Team V | Team G | HO-174 RECEIVED | Sign-in lounge 1/8: Wooden Clubhouse, desktop | no |
 | 2026-11-25 06:11 | Team V | Team G | HO-175 RECEIVED | Sign-in lounge 2/8: Platinum Clubhouse, desktop | no |
@@ -593,3 +603,4 @@ One row per message, newest at the bottom. Full text in archive/. Rules in CONTR
 | 2026-11-26 02:27 | Team V | Team G | HO-179 DONE | Sign-in lounge 6/8: Platinum Clubhouse, phone upright | no |
 | 2026-11-26 02:31 | Team V | Team G | HO-180 DONE | Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright | no |
 | 2026-11-26 02:36 | Team V | Team G | HO-181 DONE | Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright | no |
+| 2026-11-26 02:47 | Team G | Team V | HO-177 RETURNED | Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop | yes (see reason) |
