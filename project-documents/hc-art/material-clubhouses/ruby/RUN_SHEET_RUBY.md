@@ -780,6 +780,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 - Image 2 (26 Nov 01:30 UTC): the centre-cut swatch was four tall windows over a thick bright vein, which Astra would copy, so it is now a composed swatch, the left leather wall under the shelf over lamp-lit calm stone, with the edge at 39%, pinned to 16b2d9fef4830d7adefbd99578c848f93f3286f3[:9].
+- Try 1 (26 Nov 01:37 UTC): **9/10, ACCEPTED on the first try.** 940x1673, aligned at scale 1.000, men 6.2 levels, both faces held. Every check passes: sat 0.822, spread 45.9, luma 21.7, vs Black 17.8, brown 0.05, glint 0.7. Shelf with both balls, lamp on its marble pillar, the five-part wall row (narrow window, pillar, wide window, door, narrow window) and the training pitch all kept; counter one calm slab with long cream veins and two warm reflections.
 
 ### R-19 · Ruby Clubhouse: Players' tunnel, phone
 - Image 1: [IMG1_ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)), 1179x2096
