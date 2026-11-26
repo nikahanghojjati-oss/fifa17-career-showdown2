@@ -132,7 +132,19 @@ Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or ex
 ```
 
 Tries:
-- (waiting for the first picture)
+- T1 (19:52 UTC, `ENV_HOME_PLATE_LAPIS_P1D_2X_T1_RAW.png`): 8.5. Aligned scale 1.002, men diff 6.5. Check: all pass but sat 0.977 (provisional 0.97, same as the approved Board). Eye: the lounge reads beautifully: tooled Persian leather panels, lapis leather chairs and sofa, a real Persian carpet, plaid blankets and ball kept; stadium and window right; counter honed and calm. Miss: the two window pillars read as grainy, sponged electric-blue plaster, brighter than the room, not the calm honed stone of the master. Screen check (`p3-lapis/mocks/lapis_home_T1_with_ui.jpg`): the SHOWDOWN 17 title sits on plain blue and reads cleanly; the tiles hide most of the carpet and counter. Next: F1, one change (pillars).
+
+L-2D F1 (Image 1 = Home T1, Image 2 = Board master), saves as `ENV_HOME_PLATE_LAPIS_P1D_2X_T2_RAW.png`:
+
+```
+Image 1 is the picture to edit. Image 2 is only a sample of the finished lapis stone, seen in its two tall pillars at the far left and far right edges; take nothing else from image 2.
+
+Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same lounge, tooled Persian leather panels, Persian carpet, armchairs, sofa, lamps, window, stadium, ceiling, counter, colours and light.
+
+Change only one thing: the two tall stone pillars beside the window (the one between the lounge and the window, and the one with the wall lamp). Right now they read as grainy, sponged blue plaster and are brighter than the rest of the room. Make each one the same calm, honed lapis lazuli as the pillars in image 2: two hand-cut, book-matched slabs meeting at one fine straight vertical joint down the middle, a deep vivid ultramarine one shade deeper than now, with a few soft, broad, cloud-like drifts of brighter ultramarine running up and down and a sparse scattering of tiny crystal flakes, smooth and honed with a soft satin finish, never grainy, sponged, crackled, scaly or fuzzy. The wall lamp keeps its warm wash of lamplight on the stone around it.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
 
 ### L-2 · Lapis pilot 2/2: Home
 
