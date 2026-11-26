@@ -190,8 +190,8 @@ def _signin(e, one_image):
                     "The black marble, the black walls and the glowing gold panels of " + ref + " must be gone completely from the room itself, and no warm brown is left on the walls, panels, pillars, shelves, ceiling or floor")
     lk = lk.replace("Gold is only the lamp metal, the rails, the handles and the hairline trims",
                     "Gold is only the lamp metal, the table rims and legs, the thin dim light lines and the hairline trims, besides the gold trophies, balls and crowns")
-    lk = lk.replace("no gold flecks in the stone.", "no gold flecks in the stone; every thin gold line, frame edge and trim stays a dim soft satin gold, never a bright shining line (L-24 lesson).")
-    assert "L-24 lesson" in lk
+    lk = lk.replace("no gold flecks in the stone.", "no gold flecks in the stone; every thin gold line, frame edge and trim stays a dim soft satin gold, never a bright shining line.")  # L-24 lesson
+    assert "never a bright shining line" in lk
     if one_image:
         lk = lk.replace("exactly the blues of image 2: ", "in these blues: ")
     ps[8] = lk
