@@ -1115,9 +1115,8 @@
     --st2-bw: max(2px, calc(min(1vw, 1.7778vh) * .2));
     --st2-ring: inset 0 0 0 1px rgba(5, 5, 5, .9), inset 0 1px 0 1px rgba(255, 236, 160, .2), 0 8px 22px rgba(0, 0, 0, .5);
   }
-  body #settingsOverlay.v10Settings #v10SettingsStage .sd-stage__plate {
-    background-image: image-set(url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp") 1x, url("../visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp") 2x);
-  }
+  /* r100 B7: the old plates-v2 Settings room this rule drew is gone (premium only, Nik 2026-11-25); the HO-068 reading slab
+     below was already drawn over it at every size. */
   /* r87: the title block ends 10px above the card grid (top 26.2%) instead of starting at 6.7%, so the cards never sit over
      the tagline (at 1366x768 they covered its lower half); at 1920x1080 it is within a few px of where it was. */
   body #settingsOverlay.v10Settings .settingsTitleBlock { top: auto; bottom: calc(73.8% + 10px); width: min(34vw, 52.4vh); }
@@ -1188,7 +1187,7 @@
   #app #ruleBook.v10RuleBook #ruleBookSections.ruleBookGrid { margin-bottom:30px; }
 }
 
-/* r78 phone marble: below 1200px Settings shows Team V's marble phone plate (ENV_SETTINGS_PHONE_V2, js/rulesSettingsV10.js).
+/* r78 phone marble: below 1200px Settings shows Team V's phone plate (now the HO-068 phone slab, js/rulesSettingsV10.js).
    HO-033: the light shade that sat over it is gone with the settings scrim (owner rule HO-027, no dimming), so the cards
    get a solid near-black base under their gradients: the plate no longer shows through them (no see-through panels). */
 @media (max-width:1199px) {
@@ -1233,7 +1232,7 @@ body #settingsOverlay.v10Settings #settingsContent .menuButton.settingsApplicati
    plain black marble surface with no people, no banners and no slogans, at every size. The stage plane draws the slab where
    it showed the V2 picture plates or the old system plate (desktop, sideways, the wide tablet range); upright phones and
    tablets draw the phone slab (picked in js/rulesSettingsV10.js). The desktop slab gained its 2X master in HO-077 (below). The Settings line "TWO MANAGERS. ONE LEGACY." is not drawn (it keeps its room, so nothing moves). The
-   plates-v2 and shared/plates files stay as the rollback. */
+   plates-v2 Rule Book and shared/plates files stay as the rollback; the plates-v2 Settings room is gone (r100 B7, premium only). */
 :is(#app #ruleBook.v10RuleBook #v10RuleBookStage,#app #settingsOverlay.v10Settings #v10SettingsStage,#app ~ #settingsOverlay.v10Settings #v10SettingsStage,body #settingsOverlay.v10Settings #v10SettingsStage) .sd-stage__plate {
   background-image:url('../visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1X.webp');
 }
