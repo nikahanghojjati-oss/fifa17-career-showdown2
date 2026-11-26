@@ -2,7 +2,8 @@
 """mk_lapis_lr.py: Lapis L-22 (League Roulette room without the men, phone upright), built from the accepted Lapis L-17
 Directors' box phone prompt with the same edits Emerald made from E-17 to E-22 (no men, middle kept calm for the 3D board,
 Image 2 as a materials-only sample, plain leather strip under the window). Prints the prompt.
-Usage: python3 tools/material-clubhouses/mk_lapis_lr.py phone"""
+Also L-23 (desktop) from E-23's layout with L-6's materials.
+Usage: python3 tools/material-clubhouses/mk_lapis_lr.py phone|desktop"""
 import os, sys
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "..")
@@ -46,5 +47,40 @@ def lr_phone():
     return p
 
 
+EMERALD = os.path.join(ROOT, "project-documents/hc-art/material-clubhouses/emerald/RUN_SHEET_EMERALD.md")
+
+
+def eprompt(tag):
+    s = open(EMERALD).read()
+    i = s.index("### " + tag + " ")
+    return s[i:].split("```")[1].strip("\n").split("\n\n")
+
+
+def lr_desktop():
+    """L-23: E-23's layout paragraphs (no men, window, wall band, rail at 76%, middle calm) with the Lapis material, light and
+    colour paragraphs of the accepted L-6 desktop box and the L-13 counter lesson from L-22."""
+    e, l6, l22 = eprompt("E-23"), prompt("L-6").split("\n\n"), lr_phone().split("\n\n")
+    assert len(e) == 11 and e[2].startswith("There are no people") and e[7].startswith("Colour lock")
+    p0 = ("Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms: the "
+          "lapis-blue leather with its hand-tooled Persian pattern and flowered carpet borders, the honed lapis lazuli stone, the blue-black ebony and "
+          "the satin gold. Match its materials, colours, finish and light, and copy nothing else from it: none of its furniture, lamps, blankets, ball, "
+          "carpet, fan of gold rays, layout, camera angle or shape. The picture keeps the layout and the shape of image 1.")
+    p3 = sub(e[3], "one plain, calm slab of polished malachite", "one plain, calm slab of honed lapis lazuli")
+    room = [x for x in l6 if x.startswith("The room:")][0]
+    room = sub(room, "The wall panels become", "The wall panels and the band below the window become")
+    counter = [x for x in l22 if x.startswith("The room:")][0]
+    counter = counter[counter.index("Counter: ") + len("Counter: "):]
+    k = room.index("The counter becomes ")
+    room = room[:k] + "The counter becomes " + counter
+    mats = [x for x in l6 if x.startswith("Every wall, door")][0]
+    light = [x for x in l22 if x.startswith("Light:")][0].replace("the window frame,", "the window frames,")
+    lock = [x for x in l6 if x.startswith("Colour lock:")][0]
+    out = [p0, e[1], e[2], p3, room, mats, light, lock, e[8], e[9], e[10]]
+    t = "\n\n".join(out)
+    import re
+    assert not re.search(r"malachite|walnut|brass|bottle|green near|Emerald| men |suits", t), re.findall(r".{30}(?:malachite|walnut|brass|bottle|Emerald| men |suits).{30}", t)
+    return t
+
+
 if __name__ == "__main__":
-    print({"phone": lr_phone}[sys.argv[1]]())
+    print({"phone": lr_phone, "desktop": lr_desktop}[sys.argv[1]]())
