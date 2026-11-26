@@ -260,7 +260,8 @@ async function runOne(browser,run){
     for(const m of both)await m.page.waitForFunction(id=>{const s=window.CareerModePersistentNikDanielPair?.getState?.();return Boolean(s&&s.connectionState==="active"&&s.rivalryId===id);},rivalryId,{timeout:60000});
     step("pair active on both phones");
     // Both boards come up once the pair connects (Daniel's waiting screen hands over to the 3D board).
-    for(const m of both)await waitFor(()=>boardUp(m.page),{timeout:120000,label:`${m.user}'s 3D board after the pair connected`}).catch(async e=>{await fail(m,"no-board",`${e.message}: ${JSON.stringify(await boardStage(m.page))} ${await screens(m.page)}`);throw e;});
+    // Both phones are watched at once, so one slow phone never hides the other's wait.
+    await Promise.all(both.map(m=>waitFor(()=>boardUp(m.page),{timeout:120000,label:`${m.user}'s 3D board after the pair connected`}).catch(async e=>{await fail(m,"no-board",`${e.message}: ${JSON.stringify(await boardStage(m.page))} ${await screens(m.page)}`);throw e;})));
     step("both 3D boards up");
     // --- late-join: Nik's tab closes; Daniel drops ball 1 alone; Nik opens a fresh tab and comes in.
     beatNow="late-join";
@@ -349,7 +350,7 @@ async function runOne(browser,run){
     step("context lost for good done");
     beatNow="ball4";
     await dropBall(nik,4);
-    for(const m of both)await waitFor(()=>visible(m.page,"#clubWheelScreen"),{timeout:120000,label:`${m.user} on the Ball Game`}).catch(async e=>{await fail(m,"no-ball-game",`${e.message}: ${await screens(m.page)}`);});
+    await Promise.all(both.map(m=>waitFor(()=>visible(m.page,"#clubWheelScreen"),{timeout:120000,label:`${m.user} on the Ball Game`}).catch(async e=>{await fail(m,"no-ball-game",`${e.message}: ${await screens(m.page)}`);})));
   }catch(error){
     if(!report.failures.some(f=>f.run===run.name))await fail(null,"error",error.stack||error.message);
     else report.notes.push(`${run.name}: stopped at ${beatNow}: ${String(error.message).split("\n")[0]}`);
