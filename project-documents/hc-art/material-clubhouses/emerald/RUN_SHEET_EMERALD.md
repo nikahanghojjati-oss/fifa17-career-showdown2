@@ -639,6 +639,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (16:41 UTC): **9/10, accepted on the first try.** Scale 1.001, 0.3 px, men 3.7. Malachite pillars with straight bands, green leather double door with its fanlight, side table and lamp, wall lamp, green stone floor and a crisp counter with a warm lamp sheen; no copied objects. Every check passes: sat 0.65, detail 3.55, spread 79, luma 35, brown 0.08, glint 0.2. The E-13 and E-14 lessons (crisp-stone Image 2, muted jade) landed it first time. Side by side: [ENV_HALL_PHONE_EMERALD_P1.cmp.jpg](ENV_HALL_PHONE_EMERALD_P1.cmp.jpg).
 
 ### E-16 · Emerald Clubhouse: Archive, phone
 - Image 1: [IMG1_ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)), 1179x2096
