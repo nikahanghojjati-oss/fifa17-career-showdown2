@@ -1114,7 +1114,17 @@ async function main(){
     // a tab that went back into the Showdown goes Home, then Settings again, and the button is tapped again every 8 s until the
     // database shows it landed.
     const settingsActor=(m,{done,button})=>{let last=0;const taps=async p=>{
-      if(await done()){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
+      // Landed: close Settings, or (a fresh device after a swap opens on the closed Showdown's Champion screen) go Home the way
+      // a player does, with the screen's own BACK TO SHOWDOWN HOME (swap seed 1522882020 at unpair, #1626/#1628). Only from the
+      // Champion screen, and noted: any other screen after the write landed is left to fail the point (Verify on #1629).
+      if(await done()){
+        if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";
+        if(await signedIn(p,m)&&await finalShown(p)&&await backHome({...m,page:p})){
+          const note=`${pointNow}: ${m.user} went Home from the closed Showdown's Champion screen after the write landed (fresh device)`;if(!report.notes.includes(note))report.notes.push(note);
+          return "back-home";
+        }
+        return "";
+      }
       if(!(await signedIn(p,m))){if(await settingsOpen(p)&&await closeSettingsOn(p))return "close-settings";return "";}
       if(await settingsOpen(p)){if(Date.now()-last>8000&&await clickIf(p,button(p))){last=Date.now();return "settings-again";}return "partner-wait";}
       if(await visible(p,"#mainMenu")&&await openSettingsOn(p))return "open-settings";
