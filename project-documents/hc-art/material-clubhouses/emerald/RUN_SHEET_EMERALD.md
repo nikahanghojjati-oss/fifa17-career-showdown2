@@ -63,7 +63,12 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
-- (waiting for Nik's first try)
+- Try 1 (26 Nov 12:09 a.m. Boston) **8.5/10, one fix.** Align: scale 0.9990, shift 0.3 px, men unchanged (mean diff 4.9). Bottle-green leather walls with grain and stitched seams, near-black walnut mouldings with brass hairlines, malachite pillars and counter, brass only on the lamp, rail and handle, clear lamp pool. emerald_check PASS (hue 0.74, brown 0.15, sat 0.71, luma 34, spread 69, detail 3.9, vs Black 18.4). Miss: inside the lamp's reflection the counter turns crinkled and crumpled like foil (Ruby lesson 11's AI texture). Raw kept as ENV_BOARD_PLATE_EMERALD_P1_2X_T1_RAW.png.
+- Fix 1 (same chat):
+
+```
+Keep this image exactly the same. Change only the counter: it becomes smooth, glassy polished malachite everywhere, including inside the warm lamp reflection. The reflection is one soft, smooth, blurred cream-gold glow on glassy stone, with no crinkled, crumpled, wrinkled or scratchy texture anywhere on the counter. The counter keeps its exact colour, its few broad calm green bands, its brightness, its reflection's size and its place; the rail, the walls, the pillars, the lamp and the two men stay exactly as they are.
+```
 
 ### E-2 · Emerald pilot 2/2: Home
 
