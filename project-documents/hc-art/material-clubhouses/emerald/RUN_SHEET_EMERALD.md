@@ -1109,7 +1109,7 @@ Tries:
 - Try 2 result (26 Nov): 8/10. Framing now holds (align scale 0.998, shift +1.9 px, OK). But the sofa, recess walls and shelf backs came back olive (median hue 78-95; whole-room hue 0.30, needs 0.50) and glint is 3.7 (needs 3.0) from the brass table base and floor streaks. Raw kept as ENV_SIGNIN_PHONE_EMERALD_P1_T2_RAW.png.
 - Try 2 fix 1 (same chat): colour-only edit to bottle green at the same brightness, plus dimmer brass and floor streaks.
 - Try 2 fix 1 result (26 Nov): 8.5/10. Colour fixed (hue 0.73, brown 0.14), framing OK (scale 0.998), but glint 3.6 (needs 3.0): nearly all of it is the thin light line along the top of the recess and down its left edge. Raw kept as ENV_SIGNIN_PHONE_EMERALD_P1_T2_F1_RAW.png.
-- Try 2 fix 2 (same chat): dims only those light lines.
+- Try 2 fix 2 (26 Nov): 9/10, ACCEPTED. Recess light lines now a dim satin glow. Align scale 0.999, peak 0.056 OK; emerald_check SIGNIN_PHONE PASS (hue 0.73, brown 0.14, glint 1.8, luma 36.2). Bottle-green walls, sofa and shelf backs, malachite pillar and floor, layout matches image 1.
 
 Try 2 fix 1 prompt:
 
