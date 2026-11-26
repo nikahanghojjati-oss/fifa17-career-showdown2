@@ -836,6 +836,21 @@ Tries:
 - Try 1 (26 Nov): 7/10, REJECT. Materials right (malachite pillars, walnut beams, ribbed mat), but framing changed (align scale 1.05, shift 16 px, peak 0.084): the near floor and mat end were redrawn lower and the pillars rearranged. Glint 11.7 (pillar and beam highlights at 25-35% and 50-60% height). Raw kept as ENV_LOADING_PHONE_EMERALD_P1_T1_RAW.png.
 - Try 2 (new chat): adds the measured front-half lock (steps 57-62%, mat end 88%, floor strip 88-95%, nearest pillars and handrails) and dim pillar, beam and step-edge sheen.
 
+- Try 2 (26 Nov): 8/10. Framing locked (align scale 1.004, peak 0.150 OK); materials right. Too dark: luma 25 (Tunnel 34), vs black 11.6 < 15, mw 11.9 < 12; glint 3.4 > 3.0 from the bottom brass lines at 88% and 95%. Raw kept as ENV_LOADING_PHONE_EMERALD_P1_T2_RAW.png.
+- Try 2 fix 1 (same chat): walls, ceiling and pillars one step lighter; brass floor lines and step edges dim satin bronze.
+
+Try 2 fix 1 prompt:
+
+```
+Keep this image exactly the same: the same framing, size and shape, and every shape in it stays exactly where it is: the ceiling beams, the square malachite pillars, the handrails, the ribbed mat, the three steps, the floor strip and the night pitch with the white goal. Change only these two things:
+
+1. Lift the leather walls, the ceiling panels and the malachite pillars about one step lighter, to a clearly readable rich mid bottle green, like a dark green glass bottle with candlelight behind it, so the walls and pillars read clearly against the black beams; the stone bands on the pillars stay visible. Keep every green muted and aged, never vivid, mint or lime, and let only the far corners and the top of the ceiling fall to green near-black. The mat and the floor keep their present brightness.
+
+2. The two thin brass lines across the floor at the bottom of the picture, and the brass edges of the steps, become a dim satin bronze line, no brighter than the handrails, with no bright highlight and no white spot anywhere along them.
+
+Everything else stays exactly as it is.
+```
+
 Try 2 prompt:
 
 ```
