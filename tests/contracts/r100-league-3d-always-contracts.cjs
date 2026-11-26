@@ -14,10 +14,14 @@
 //   G3 a lost context given back in time is left to three.js; one never given back is rebuilt on a new canvas on the same ball,
 //      the 3D room staying on meanwhile; a rebuild that cannot run falls back to the plain wheel and its text steps
 //   G4 the startup loading screen stays while a resume lands on Select League that is not drawn yet (bounded by the 15 s cap)
-//   G5 js/v10Screens.js: a slow hold (Select League's board) brings the loading screen up at once and whole, takes it over from
-//      the startup splash once that has gone, and never covers a screen already drawn; other screens keep the grace
+//   G5 js/v10Screens.js: a slow hold (Select League's board) brings the loading screen up at once and whole (from the screen's
+//      first frame, and never faded in), takes it over from the startup splash with no frame between (its fade called off, the
+//      gate up in the same task it is hidden), and never covers a screen already drawn; other screens keep the grace
 //   G6 the board asks for that cover before it starts building (not for a rebuild on a drawn screen)
 //   G7 nothing here reads or writes Firestore or the device: 0 new reads, 0 new writes; the ledger and the result are untouched
+//   G8 (Verify on #1633: the board crawling at 1.5 fps on a software renderer) the board keeps real time: a frame plays up to a
+//      quarter second of the drop, so a slow picture drops frames instead of playing the ball in slow motion, and the phones
+//      stay in step; still one render loop and one WebGL context per board (the old one freed before a new one is built)
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -216,8 +220,27 @@ async function g5(){
   {const g=gateWorld();g.registry.set("transferChallenge",{});g.shown.add("transferChallenge");g.pending.set("transferChallenge",{});
     g.hold();assert.equal(g.L.hidden,true,"other screens keep the grace");assert.equal(g.timers[0].ms,250);
     g.L.hidden=false;g.L.cls.delete("hidden");g.run();assert.equal(g.timers.length,0,"and leave another owner's loading screen alone, as before");}
+  // (Verify on #1633) another owner leaving (the startup splash at its cap) hands over with no frame between: its fade is called
+  // off, and the moment it is hidden the gate is up whole, in the observer's microtask
+  {const g=gateWorld();const obs=[];g.root.MutationObserver=function(cb){this.observe=(target,opts)=>obs.push({cb,target,opts});};
+    g.registry.set("leagueWheelScreen",{slowHold:true});g.shown.add("leagueWheelScreen");
+    g.L.hidden=false;g.L.cls.delete("hidden");// the splash, still up
+    g.holdNow("leagueWheelScreen");assert.equal(obs.length,1,"the loading screen is watched");assert.equal(JSON.stringify(obs[0].opts.attributeFilter),JSON.stringify(["class","hidden"]));
+    g.L.cls.add("is-exiting");obs[0].cb();assert.ok(!g.L.cls.has("is-exiting"),"the splash's fade is called off: the held screen stays covered");
+    assert.equal(g.L.dataset.v10Gate,undefined,"still the splash's");
+    g.L.hidden=true;g.L.cls.add("hidden");obs[0].cb();
+    assert.equal(g.L.hidden,false,"hidden: the gate is up again before the next frame");assert.equal(g.L.dataset.v10Gate,"1");assert.ok(!g.L.cls.has("is-exiting"),"whole");
+    assert.ok(g.timers.every(t=>t.f===null),"the 50 ms look is called off");
+    const was=g.L.log.length;obs[0].cb();assert.equal(g.L.log.length,was,"its own loading screen is left alone");}
+  // a slow screen raised through the grace (its frame did not hold yet) comes up whole too, never faded in
+  {const g=gateWorld();g.registry.set("leagueWheelScreen",{slowHold:true});g.shown.add("leagueWheelScreen");g.pending.set("leagueWheelScreen",{});
+    g.hold();assert.equal(g.timers[0].ms,250);g.run();
+    assert.equal(g.L.hidden,false);assert.ok(!g.L.cls.has("is-exiting"),"whole");assert.ok(g.L.log.some(([k,t])=>k==="reflow"&&t==="none"),"no fade-in");}
+  {const g=gateWorld();g.registry.set("transferChallenge",{});g.shown.add("transferChallenge");g.pending.set("transferChallenge",{});
+    g.hold();g.run();assert.ok(g.L.log.some(([k,...t])=>k==="add"&&t.includes("is-exiting")),"other screens still fade in after the grace");}
   const Vs=read("js/v10Screens.js");
   assert.ok(Vs.includes("vsGateHold(def.slowHold);vsSyncStyles();}\n        else if(def.slowHold)vsGateHold(true);"),"a HOLD from a slow screen raises it at once");
+  assert.ok(Vs.includes("vsGateHold(registry.get(id)?.slowHold===true&&vsHeld(id));"),"a slow screen whose frame will hold is covered from its first frame (expect), others keep the grace");
   assert.ok(Vs.includes("holdNow:vsHoldNow,"));
   ok("G5","a slow hold brings the loading screen up at once and whole, takes it over from the startup splash once that has gone, never covers a drawn screen; other screens unchanged");
 }
@@ -251,4 +274,21 @@ function g7(){
   ok("G7","no Firestore read, write or listener and no device storage in any changed path; the ledger and the result stay the shared Setup's");
 }
 
-(async()=>{await g1();await g2();await g3();await g4();await g5();await g6();g7();console.log(`PASS r100 League Roulette 3D-always contracts (${n} checks)`);})().catch(error=>{console.error(error);process.exit(1);});
+// ---- G8: real time ----
+function g8(){
+  const S=read("js/leagueRouletteScene3d.js");
+  const tick=pick(S,/    const MAX_STEP_S=[\d.]+;\n    const tick=now=>\{[\s\S]*?\n    \};/);
+  assert.match(tick,/const MAX_STEP_S=\.25;/,"a frame plays up to a quarter second");
+  assert.ok(tick.includes("const dt=Math.min(MAX_STEP_S,Math.max(0,(now-last)/1000));last=now;"),"the drop's clock is the real one, capped");
+  assert.doesNotMatch(tick,/Math\.min\(\.05/,"no 50 ms cap: under 20 fps the ball no longer plays in slow motion");
+  assert.equal((tick.match(/requestAnimationFrame/g)||[]).length,1,"one loop: the tick schedules only itself");
+  assert.ok(S.includes("renderer.dispose();try{renderer.forceContextLoss();}catch(_error){}"),"a freed board gives its WebGL context back");
+  // The beat is a pure function of its time: beatPos(b,t) and the after-landing beats read only t and dt (no per-frame state
+  // that a longer frame could skip), so a bigger step only moves the ball further along its one path.
+  const pos=pick(S,/    function beatPos\(b,t\)\{[\s\S]*?\n    \}\n/);assert.doesNotMatch(pos.replace(/for\(let i=0;i<n;i\+\+\)/g,""),/\+=|-=|\+\+|--|\b(?:b|ball|stage|beat)\.?\w*\s*=[^=]/,"beatPos keeps no state (only its own loop counter)");
+  const step=read("js/leagueRouletteStep.js");
+  assert.ok(step.includes("const was=scene;scene=null;mountPromise=null;playing=null;planKey=\"\";")&&step.includes("if(was){try{was.dispose();}catch(_error){}}"),"the step frees the old board before it builds another");
+  ok("G8","the board keeps real time (up to 0.25 s a frame, the ball on its one path), one render loop and one context per board");
+}
+
+(async()=>{await g1();await g2();await g3();await g4();await g5();await g6();g7();g8();console.log(`PASS r100 League Roulette 3D-always contracts (${n} checks)`);})().catch(error=>{console.error(error);process.exit(1);});

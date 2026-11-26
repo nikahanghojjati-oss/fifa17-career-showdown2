@@ -474,10 +474,15 @@
 
     function lrClock(){return root.performance?.now?.()??Date.now();}
     let raf=0,last=lrClock(),disposed=false,dirty=true;
+    // r100 (Verify on #1633): the roulette keeps real time. At most 50 ms of play a frame made a slow picture (a software
+    // renderer, an old phone under 20 fps) play the ball in slow motion: a ten-second drop took 45 s to 2 minutes there, and
+    // the two phones fell out of step. A frame plays up to MAX_STEP_S of the drop (the ball's path is a pure function of its
+    // time, so a long frame only moves it further along); a longer stall (a hidden tab, a compile) never jumps more than that.
+    const MAX_STEP_S=.25;
     const tick=now=>{
       raf=0;if(disposed)return;
       if(!canvas.isConnected){lrFree();return;}
-      const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
+      const dt=Math.min(MAX_STEP_S,Math.max(0,(now-last)/1000));last=now;
       if(d.visibilityState!=="hidden"&&host.clientWidth>0){gov?.frame(now);if(dirty){dirty=false;lrLayout();}frame(dt);lrPaint();}
       raf=root.requestAnimationFrame(tick);
     };

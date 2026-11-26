@@ -51,7 +51,35 @@ const k=JSON.stringify(f);if(k!==last){last=k;F.push({t:Math.round(performance.n
 else if(last!=="off"){last="off";F.push({t:Math.round(performance.now()),off:true});}}catch(e){}requestAnimationFrame(tick);};requestAnimationFrame(tick);})();`;
 
 // L4: every ball this page's board rolls (a page opened on a ledger with balls already in must roll none of them).
-const ROLLS_INIT=`(()=>{window.__lr3dRolls=[];const hook=()=>{const st=window.CareerModeLeagueRouletteStep;if(!st){setTimeout(hook,5);return;}st.on((type,data)=>{if(type==="rolling"||type==="drop")window.__lr3dRolls.push({type,index:data&&data.index,t:Math.round(performance.now())});});};hook();})();`;
+const ROLLS_INIT=`(()=>{window.__lr3dRolls=[];window.__lr3dBeats=[];const hook=()=>{const st=window.CareerModeLeagueRouletteStep;if(!st){setTimeout(hook,5);return;}st.on((type,data)=>{const t=Math.round(performance.now());if(type==="rolling"||type==="drop")window.__lr3dRolls.push({type,index:data&&data.index,t});if(type==="rolling"||type==="settled")window.__lr3dBeats.push({type,index:data&&data.index,stage:data&&data.stage,t});});};hook();})();`;
+
+
+// Verify on #1633 (Daniel's board crawling at ~1.5 fps after a ball): every second, on both pages, how many WebGL contexts are
+// alive, how many rAF loops run (a callback scheduled 3+ times in the second) and what each costs, the frame times, the
+// long tasks, and the board's own probe (pixel ratio, governor frame time, draws, canvas size).
+const PERF_INIT=`(()=>{const P=window.__lrPerf=[];const gls=[];const oc=HTMLCanvasElement.prototype.getContext;
+HTMLCanvasElement.prototype.getContext=function(t,...a){const c=oc.call(this,t,...a);if(c&&/webgl/i.test(String(t))&&!gls.some(g=>g.c===c))gls.push({c,cv:this,t:Math.round(performance.now())});return c;};
+const raf=window.requestAnimationFrame.bind(window);let calls=new Map();
+const label=f=>{let s="";try{s=Function.prototype.toString.call(f).replace(/\\s+/g," ").slice(0,48);}catch(e){}return s;};
+window.requestAnimationFrame=function(f){const k=f;return raf(now=>{const t0=performance.now();try{f(now);}finally{const e=calls.get(k)||{n:0,ms:0,l:""};e.n+=1;e.ms+=performance.now()-t0;if(!e.l)e.l=label(f);calls.set(k,e);}});};
+let long=0;try{new PerformanceObserver(l=>{for(const e of l.getEntries())long+=e.duration;}).observe({type:"longtask",buffered:false});}catch(e){}
+const dts=[];let lastT=0;const ft=now=>{if(lastT)dts.push(now-lastT);lastT=now;raf(ft);};raf(ft);
+setInterval(()=>{try{const loops=[...calls.values()].filter(e=>e.n>=3).map(e=>({n:e.n,ms:Math.round(e.ms),l:e.l}));calls=new Map();
+const live=gls.filter(g=>{try{return !g.c.isContextLost()&&g.cv.isConnected;}catch(e){return false;}}).length;
+const board=gls.filter(g=>{try{return !g.c.isContextLost()&&g.cv.isConnected&&Boolean(g.cv.closest("#leagueWheel"));}catch(e){return false;}}).length;
+const orphan=gls.filter(g=>{try{return !g.c.isContextLost()&&!g.cv.isConnected;}catch(e){return false;}}).length;
+const d=dts.splice(0).sort((a,b)=>a-b),q=x=>d.length?Math.round(d[Math.min(d.length-1,Math.floor(d.length*x))]):null;
+const sc=window.CareerModeLeagueRoulette3d?.mount?.last,pr=sc&&sc.alive?sc.probe():null,cv=document.querySelector("#leagueWheel .lr3dHost canvas");
+const st=window.CareerModeLeagueRouletteStep;
+P.push({t:Math.round(performance.now()),scr:window.getActiveScreenName?.()||"",glMade:gls.length,glLive:live,glBoard:board,glOrphan:orphan,canvases:document.querySelectorAll("canvas").length,
+loops:loops.length,loopMs:loops.reduce((a,e)=>a+e.ms,0),top:loops.sort((a,b)=>b.ms-a.ms).slice(0,3),fps:d.length,p50:q(.5),p95:q(.95),long:Math.round(long),
+pr:pr&&pr.pixelRatio,fms:pr&&pr.frameMs,draws:pr&&pr.draws,lvl:pr&&pr.level,busy:pr&&pr.busy,stage:pr&&pr.stage,cw:cv&&cv.width,ch:cv&&cv.height,
+armed:st?.armed?.(),hold:st?.holding?.()});long=0;if(P.length>900)P.splice(0,P.length-900);}catch(e){}},1000);})();`;
+async function perf(m,label){const p=await m.page.evaluate(()=>(window.__lrPerf||[]).splice(0)).catch(()=>[]);(report.perf[m.user]||(report.perf[m.user]=[])).push({label,samples:p});
+  const live=Math.max(0,...p.map(x=>x.glLive)),loops=Math.max(0,...p.map(x=>x.loops)),orphan=Math.max(0,...p.map(x=>x.glOrphan)),fps=p.filter(x=>x.scr==="leagueWheelScreen").map(x=>x.fps),
+    lo=fps.length?Math.min(...fps):null,p95=Math.max(0,...p.map(x=>x.p95||0));
+  console.log(`LR3D PERF ${m.user} ${label}: glLive max ${live}, orphan max ${orphan}, rAF loops max ${loops}, fps min ${lo}, frame p95 max ${p95} ms, pr ${[...new Set(p.map(x=>x.pr).filter(v=>v!=null))].join("/")}`);
+  return {live,loops,orphan,lo,p95};}
 
 function install(){
   const pw=require("playwright");
@@ -69,7 +97,7 @@ function install(){
       if(who){
         ctx.__lr3dWho=who;ctx.__lr3dReq=[];
         await ctx.addInitScript(t=>{try{if(t==="wooden")localStorage.removeItem("cmsClubhouseTheme");else localStorage.setItem("cmsClubhouseTheme",t);}catch(_e){}},THEME);
-        await ctx.addInitScript(FRAMES_INIT);await ctx.addInitScript(ROLLS_INIT);
+        await ctx.addInitScript(PERF_INIT);await ctx.addInitScript(FRAMES_INIT);await ctx.addInitScript(ROLLS_INIT);
         ctx.on("request",r=>{const u=r.url();if(/WHEEL_RIM|ENV_BOX_[A-Z_]*V3|ENV_BOX_[A-Z_]*V4/.test(u))ctx.__lr3dReq.push(u.replace(/^.*visual-assets\/v10_1\//,""));});
       }
       return ctx;
@@ -86,7 +114,7 @@ function install(){
   };
 }
 
-const report={theme:THEME,swap:SWAP,checks:[],visits:[],requests:[],errors:[],ok:false};
+const report={theme:THEME,swap:SWAP,perf:{},checks:[],visits:[],requests:[],errors:[],ok:false};
 function check(id,label,ok,detail){report.checks.push({id,label,ok:Boolean(ok),detail});console.log(`LR3D ${ok?"PASS":"FAIL"} ${id} ${label}${ok?"":` :: ${typeof detail==="string"?detail:JSON.stringify(detail).slice(0,900)}`}`);}
 function finish(){
   report.ok=report.checks.length>0&&report.checks.every(c=>c.ok)&&!report.errors.length;
@@ -176,6 +204,9 @@ async function lateJoin(m,label){
   }
   await reopened(m,label,before);
 }
+const beats=[];
+async function m8(m){const list=await m.page.evaluate(()=>window.__lr3dBeats||[]).catch(()=>[]);const out=[];let open=null;
+  for(const e of list){if(e.type==="rolling")open=e;else if(e.type==="settled"&&open){out.push({index:open.index+1,ms:e.t-open.t});open=null;}}return out;}
 async function dropNext(daniel,nik){
   const want=(await drops(daniel))+1;
   for(let i=0;i<120;i+=1){
@@ -183,11 +214,13 @@ async function dropNext(daniel,nik){
       const ready=await m.page.evaluate(()=>{const b=document.getElementById("spinLeague");return Boolean(b&&!b.disabled&&!b.classList.contains("hidden")&&/^DROP BALL$/.test(b.textContent.trim()));}).catch(()=>false);
       if(ready){await m.page.locator("#spinLeague").click({timeout:30000});
         for(const p of [daniel,nik])await p.page.waitForFunction(b=>(window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setupDrops||0)>=b,want,{timeout:45000});
-        for(const p of [daniel,nik])await p.page.waitForFunction(()=>window.CareerModeLeagueRouletteStep?.caughtUp?.(),null,{timeout:60000}).catch(async error=>{
+        // Both pages at once (Verify on #1633: one after the other, a slow board on the first page hid the second's).
+        const t0=Date.now();
+        await Promise.all([daniel,nik].map(p=>p.page.waitForFunction(()=>window.CareerModeLeagueRouletteStep?.caughtUp?.(),null,{timeout:60000}).then(()=>{beats.push({ball:want,who:p.user,ms:Date.now()-t0});},async error=>{
           const why=await p.page.evaluate(()=>{const st=window.CareerModeLeagueRouletteStep,sc=window.CareerModeLeagueRoulette3d?.mount?.last,c=document.querySelector("#leagueWheel .lr3dHost canvas");
             return {armed:st?.armed(),failed:st?.failed(),stage:st?.stage(),busy:st?.busy(),caughtUp:st?.caughtUp(),probe:sc?.probe?.()||null,alive:sc?.alive,lost:c?c.getContext("webgl2")?.isContextLost():null,hosts:document.querySelectorAll("#leagueWheel .lr3dHost").length,
-              vis:document.visibilityState,frames:(window.__lr3dFrames||[]).slice(-5),rolls:window.__lr3dRolls||[]};}).catch(e=>String(e.message));
-          report.errors.push(`${p.user} board never caught up on ball ${want}: ${JSON.stringify(why).slice(0,1500)}`);throw error;});
+              vis:document.visibilityState,frames:(window.__lr3dFrames||[]).slice(-5),rolls:window.__lr3dRolls||[],perf:(window.__lrPerf||[]).slice(-12)};}).catch(e=>String(e.message));
+          report.errors.push(`${p.user} board never caught up on ball ${want}: ${JSON.stringify(why).slice(0,6000)}`);throw error;})));
         return m.user;}
     }
     await sleep(500);
@@ -215,28 +248,45 @@ async function run(daniel,nik){
   const d0=judge(await frames(daniel),"first entry (waiting for Nik, then both connected)","daniel");
   check("L3.daniel.waiting",`Daniel's waiting screen (before Nik joined) was sampled: ${Math.round(d0.waiting)} ms of it uncovered and on the 3D board`,d0.waiting>0&&d0.faults.length===0,{waitingMs:d0.waiting,faults:d0.faults.slice(0,4)});
   judge(await frames(nik),"first entry","nik");
+  for(const m of [daniel,nik])await perf(m,"first entry");
   for(const m of [daniel,nik])await shot(m,"first entry");
   // Ball 1, then a reload on each phone mid-roulette.
   await dropNext(daniel,nik);
   for(const m of [daniel,nik])judge(await frames(m),"ball 1",m.user);
+  for(const m of [daniel,nik])await perf(m,"ball 1");
   await reload(nik,"reload after ball 1");
   await reload(daniel,"reload after ball 1");
   // Ball 2, then a late join (the tab closed, a new tab of the same browser opens the game).
   await dropNext(daniel,nik);
   for(const m of [daniel,nik])judge(await frames(m),"ball 2",m.user);
+  for(const m of [daniel,nik])await perf(m,"ball 2 (after reloads)");
   await lateJoin(nik,"late join in a new tab after ball 2");
   // A lost WebGL context on each phone: given back on one, never given back on the other.
   await loseContext(daniel,"context lost and given back",{restore:true});
   await loseContext(nik,"context lost for good",{restore:false});
   // Balls 3 and 4: the result.
+  for(const m of [daniel,nik])await perf(m,"late join and lost contexts");
   await dropNext(daniel,nik);await dropNext(daniel,nik);
   for(const m of [daniel,nik])judge(await frames(m),"balls 3 and 4",m.user);
+  for(const m of [daniel,nik])await perf(m,"balls 3 and 4");
   const v={daniel:await view(daniel),nik:await view(nik)};
   check("L6.result","four balls on both boards, the same league named on both phones, the ledger's league",
     v.daniel.stage===4&&v.nik.stage===4&&v.daniel.drops===4&&v.nik.drops===4&&v.daniel.league&&v.daniel.league===v.nik.league&&v.daniel.shown&&v.daniel.shown===v.nik.shown,v);
   const reqs={daniel:[...new Set(daniel.page.context().__lr3dReq||[])],nik:[...new Set(nik.page.context().__lr3dReq||[])]};report.requests=reqs;
   const old=[...reqs.daniel,...reqs.nik].filter(u=>/WHEEL_RIM|ENV_BOX_[A-Z_]*V3/.test(u));
   check("L7.requests","no old-wheel picture asked for (WHEEL_RIM, the V3 League room)",old.length===0,old);
+  // L8 (Verify on #1633): each ball's drop runs in real time on both pages, however slow the picture: from the tap to both
+  // boards resting, and on each page from its roll to its settle. A drop is about 10 s; slow motion took 45 s to 2 minutes.
+  const own={daniel:await m8(daniel),nik:await m8(nik)};report.beats={wait:beats,own};
+  const slowest=Math.max(0,...beats.map(b=>b.ms)),ownMax=Math.max(0,...Object.values(own).flat().map(b=>b.ms));
+  console.log(`LR3D BEATS tap->both rested: ${beats.map(b=>`${b.who[0]}${b.ball}=${(b.ms/1000).toFixed(1)}s`).join(" ")}; own roll->settle: ${Object.entries(own).map(([w,l])=>l.map(b=>`${w[0]}${b.index}=${(b.ms/1000).toFixed(1)}s`).join(" ")).join(" ")}`);
+  check("L8.realtime",`every drop plays in real time on both pages (tap to both rested ${(slowest/1000).toFixed(1)} s at most, a page's own roll to settle ${(ownMax/1000).toFixed(1)} s at most; under 25 s)`,beats.length>=8&&slowest<25000&&ownMax<25000,{beats,own});
+  const perfAll=Object.values(report.perf).flat().flatMap(s=>s.samples).filter(x=>x.scr==="leagueWheelScreen");
+  // The Ball Game's scene (js/clubDrawScene3d.js, the same loop shape) is built behind the last ball: loops are counted while
+  // the board's canvas is the page's only one, contexts by where their canvas is.
+  const board=Math.max(0,...perfAll.map(x=>x.glBoard||0)),live=Math.max(0,...perfAll.map(x=>x.glLive)),
+    boardLoops=Math.max(0,...perfAll.filter(x=>x.canvases<=1).map(x=>(x.top||[]).filter(t=>/raf=0;if\(disposed\)/.test(t.l)).length));
+  check("L9.one-board",`one board on each page: at most one live WebGL context in the board (seen ${board}) and one board render loop at any second (seen ${boardLoops}); ${live} live on the page at most (the Ball Game's scene built behind the last ball)`,board<=1&&boardLoops<=1,{board,boardLoops,live});
   return true;
 }
 module.exports={FRAMES_INIT,frameFault};

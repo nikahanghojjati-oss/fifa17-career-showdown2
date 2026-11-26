@@ -2,6 +2,7 @@
   "path": "tests/contracts/r100-league-3d-always-contracts.cjs",
   "patterns": [
     "^js/leagueRouletteStep\\.js$",
+    "^js/leagueRouletteScene3d\\.js$",
     "^js/v10Setup\\.js$",
     "^js/v10Screens\\.js$",
     "^js/ssjr\\.js$",

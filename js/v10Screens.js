@@ -354,7 +354,9 @@
     const el=vsGateEl();
     // Another owner already shows it (or it is on its way out from startup): leave it alone.
     if(!el||!vsGateHeld())return;
-    if(!el.hidden&&!el.classList.contains("hidden")){if(vsGateSlow())gate.timer=root.setTimeout(()=>vsGateRaise(true),50);return;}
+    // (Verify on #1633) a slow screen is never faded in: it is up whole however it came to be raised.
+    const slow=vsGateSlow();if(slow){now=true;vsGateWatch(el);}
+    if(!el.hidden&&!el.classList.contains("hidden")){if(slow)gate.timer=root.setTimeout(()=>vsGateRaise(true),50);return;}
     const text=vsHost("loadingText");
     el.dataset.v10Gate="1";el.dataset.v10GateText=text?text.textContent:"";el.dataset.v10GateLabel=el.getAttribute("aria-label")||"";
     if(text)text.textContent="LOADING";
@@ -364,6 +366,21 @@
     else{el.classList.add("is-exiting");el.classList.remove("hidden");el.hidden=false;void el.offsetWidth;el.classList.remove("is-exiting");}
     gate.raisedAt=Date.now();
     vsSetNavMode("none");
+  }
+  // (Verify on #1633: Nik's first entry, once in 12, showed the empty held screen for 1.1 s) another owner's loading screen
+  // leaving while a slow screen is held (the startup splash at its 15 s cap, its 240 ms fade, a timer a busy page runs late)
+  // no longer uncovers it: its fade is called off (it stays whole), and the moment it is hidden the gate puts it back up, in the
+  // same task (a MutationObserver runs before the next frame is painted). The 50 ms look above stays as the fallback.
+  let gateWatch=null;
+  function vsGateWatch(el){
+    if(gateWatch||!el||typeof root.MutationObserver!=="function")return;
+    gateWatch=new root.MutationObserver(()=>{
+      if(vsGateOwns(el)||gate.lowering!==null||!vsGateSlow())return;
+      if(!el.hidden&&!el.classList.contains("hidden")){if(el.classList.contains("is-exiting"))el.classList.remove("is-exiting");return;}
+      if(gate.timer!==null){root.clearTimeout(gate.timer);gate.timer=null;}
+      if(!gate.raisedAt)vsGateRaise(true);
+    });
+    try{gateWatch.observe(el,{attributes:true,attributeFilter:["class","hidden"]});}catch(_error){gateWatch=null;}
   }
   // Roster Roulette or the Special Player reveal may take the loading screen over while it is up (they relabel it): from then
   // on it is theirs to hide.
@@ -459,7 +476,9 @@
     vsSettle(id);
     host.dataset.v10Pending="1";
     pending.set(id,{host,since:Date.now(),timer:vsPendingTimer(id)});
-    vsGateHold();
+    // (Verify on #1633) a slow screen whose frame will hold (Select League while its board is built) is covered from its first
+    // frame: drawing it waits for Team V's file, and the grace before the cover was the gap a busy page stretched to a second.
+    vsGateHold(registry.get(id)?.slowHold===true&&vsHeld(id));
     vsSyncStyles();
     return true;
   }
