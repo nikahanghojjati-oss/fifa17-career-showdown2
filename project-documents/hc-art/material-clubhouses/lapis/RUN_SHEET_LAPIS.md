@@ -312,6 +312,22 @@ Change only one thing: the lapis stone of the counter and the two pillars at the
 
 Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
+- T2 (D F1 in a fresh chat, 19:22 UTC, `ENV_BOARD_PLATE_LAPIS_P1D_2X_T2_RAW.png`): stars and scratches gone. Diagonal drifts read a bit like brushed suede. Men diff 6.3; sat 0.979 (just over the provisional 0.97), luma 30.1, glint 10.5.
+- T3 (same prompt, second picture, 19:22 UTC, `ENV_BOARD_PLATE_LAPIS_P1D_2X_T3_RAW.png`): 8.5, best so far. Calm and premium under the real screen; sunburst clean. Miss: the pillars and counter went so plain they could be blue velvet, with no stone character or flakes left. Men diff 6.6; sat 0.977, luma 28.9, glint 15.6 (the gold sunburst hairlines; recalibrate on the approved pilot).
+- Lesson: words alone swing the stone between starry, busy, glassy and plain. Next is the plan's Image 2 step with `LAPIS_STONE_SAMPLE_C1_CALM.png`, cut from the C T1 counter clear of the reflections and the cabochon.
+
+L-1D F2 (fresh chat, Image 1 = T3, Image 2 = `LAPIS_STONE_SAMPLE_C1_CALM.png`), saves as `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`:
+
+```
+Image 1 is the picture to edit. Image 2 is only a close-up sample of a lapis stone finish; take nothing else from it.
+
+Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same lamp, door, leather panels, sunburst, ebony mouldings, gold rail, colours and light.
+
+Change only one thing: the lapis stone of the counter and the two pillars at the far edges. Right now it is so plain it could be blue velvet. Give it the stone finish of image 2: honed natural lapis lazuli with soft, broad, diagonal cloud drifts of deeper and brighter ultramarine, a fine natural mottling you only see up close, and a sparse scattering of tiny, faint crystal flecks spaced far apart. Keep the counter's two slabs with their one fine vertical joint. No reflections of the men, no mirror shine, no white star dots and no scratch lines. Keep exactly the present brightness and colour, and the same soft warm lamp glow on the counter.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
 
 
 
