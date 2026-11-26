@@ -57,3 +57,5 @@ On the 3.0.0 build only (old versions are out of scope): first open on a fresh p
 ## D13 Clubhouses look check (premium, Platinum)
 Files: `css/r78-marble-surfaces.css`, `js/settings.js`, `tools/clubhouse-themes/`, `tests/browser/v10-screen-flash-audit.cjs`. Use PRs #1600, #1604 and #1607 heads if they are not merged yet.
 In all four clubhouses (Wooden, Platinum, Metallic Black, Premium Matte Black), at 1920x866, 1920x1035, 1366x768, 390x844 upright and 844x390 sideways: flash test, faces identical to Wooden, no element covering a face or a button, readable text, and no player-visible "Silver". Report with screenshots described in words. This job is about looks, so a cheaper model at high effort is fine here.
+
+- **P4 hero faces** (Nik 2026-11-26 04:05 UTC): r100-duet/DUET_P4_HERO_FACES.md, mailbox r100-duet/DUET_P4_MAILBOX.md. Own Duet channel. Opus high. Study every hero picture against the Home anchor, then likeness-locked fixes, never slimmer.
