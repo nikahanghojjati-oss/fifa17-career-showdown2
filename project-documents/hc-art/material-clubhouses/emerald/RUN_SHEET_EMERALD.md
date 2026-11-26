@@ -385,6 +385,8 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 Tries:
 - Try 1 (15:41 UTC): **8.5/10**. Scale 1.000, 0.4 px, men 5.9; the framing lock held. All numbers pass (hue 0.76, brown 0.09, sat 0.67, glint 2.1, spread 81, detail 4.4). Leather smooth bottle green; handrail, bulkhead lamp, counter, mat and pitch right. Miss: pillar bands run diagonal (about 30-45 degrees) although the prompt said lengthwise. Fix 1 sent in the same chat: pillar bands only, straight up and down, parallel to the corners.
+- Fix 1 (15:44 UTC): **8.5/10**. Scale 0.999, 1.0 px, men 7.0. Pillar bands now vertical. One miss: glint 4.10 (limit 4.0), hot cream points from the lamp highlights on the pillar faces (about 2/3 of the glint px) and a few on the brass trims. Fix 2 (last in this chat) sent: pillar and trim reflections become soft broad dim satin sheen. If it misses, try 2 in a new chat with the pillar line 'run straight up and down the full height, parallel to its corners' and a no-hot-spots line on pillars.
+
 
 ### E-9 · Emerald Clubhouse: Club room
 - Image 1: [IMG1_ENV_CLUB_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PLATE_HC_V3_2X.png)), 3072x1728
