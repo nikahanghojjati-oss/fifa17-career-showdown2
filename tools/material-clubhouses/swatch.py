@@ -49,7 +49,9 @@ COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40),
            "HALL": ((1840, 314, 2080, 600), (480, 1585, 720, 1726), 67),
            "ARCHIVE": ((0, 0, 220, 760), (440, 1400, 660, 1600), 50),
            # Box: the desktop strip is two thirds stadium window, which Astra would copy up to the top; lower left leather panel over calm stone
-           "BOX": ((25, 1084, 225, 1290), (1880, 1530, 2080, 1680), 58)}
+           "BOX": ((25, 1084, 225, 1290), (1880, 1530, 2080, 1680), 58),
+           # Coaches: the centre cut was four tall windows and a thick bright vein; a leather wall patch (left wall, under the shelf) over calm stone
+           "COACHES": ((420, 470, 620, 609), (1180, 1310, 1380, 1527), 39)}
 
 
 def compose(p, name):
