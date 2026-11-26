@@ -290,7 +290,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms; match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball or layout.
 
-Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
+Keep image 1 exactly the same in camera, zoom, framing and layout: the scarves on their hooks at the left and the wall cabinet with the decanter at the right stay fully in the picture. Change only the materials and finish of the room itself.
 
 Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. Do not touch them.
 
