@@ -1066,6 +1066,7 @@ Tries:
 - T1 fix 1 (same chat): dim the rail to a satin line; armchairs to a soft broad satin sheen.
 - T1 fix 1 result (Nov 26 22:14 UTC): 8.5/10. Rail and armchairs fixed (rail glints 339 to 44, armchair gloss gone); align scale 1.000, peak 0.227 OK; hue 0.827, sat 0.903, brown 0.116 pass. But glint rose to 15.0 (needs 8.0): 622 of 1113 points are now one bright gold line along the bottom of the window frame at 51.6%, about 200 the gold line under the top band at 14%, and 67 the shelf edge. Raw kept as ENV_CLUB_SIDEWAYS_LAPIS_P1_T1_F1_RAW.png.
 - T1 fix 2 (same chat, last edit there): dim those three gold lines.
+- T1 fix 2 result (Nov 26 22:16 UTC): 9/10, ACCEPTED. The window-bottom line, the band line and the shelf edge are now dim satin gold. Align scale 1.000, peak 0.233 OK; CLUBSIDE PASS: hue 0.835, sat 0.908, brown 0.108, glint 3.4, spread 78, luma 25.6. Tooled Persian lapis leather walls and band, lapis-leather armchairs, honed lapis floor and strip, trophy, ball and pennant kept.
 
 T1 fix 1 prompt:
 
