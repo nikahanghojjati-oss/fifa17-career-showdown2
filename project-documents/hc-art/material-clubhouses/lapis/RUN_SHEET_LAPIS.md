@@ -226,6 +226,18 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 Tries:
 
+**Log (26 Nov):**
+- T1 (`ENV_OFFICE_PLATE_LAPIS_P1_2X_T1_RAW.png`): 8.5. Aligns cleanly (men diff 6.7). Persian leather panel, lamp, pot and colour are right. Miss: the desk top reads as crushed velvet or brushed suede with diagonal streaks, not honed stone, and the lamp barely warms it. Check: all pass except glint 17.6, which sits on the gold window lines, the lamp stem and the lamp-lit olive leaves, not on the stone.
+- F1, same chat, desk top only:
+
+```
+Edit the picture you just made. Keep it exactly the same: the same camera, zoom, framing and layout, the same two men untouched, and the same Persian leather panel, window, olive tree, lamp, ball, cup, papers, blotters, colours and light.
+
+Change only one thing: the desk top. Right now it reads like crushed velvet or brushed suede, with soft diagonal streaks across it. Make it hard, natural honed lapis lazuli stone, two calm book-matched slabs meeting at the same fine straight joint: a vivid ultramarine field with a few soft, broad, cloud-like drifts of deeper and brighter blue lying flat inside the stone, and a sparse scattering of tiny crystal flakes spaced well apart, with a smooth soft satin finish like a fine stone tabletop. No streaks, brush marks, nap, fibres or grain. The table lamp throws a clearly bright warm wash of lamplight onto the stone around its base, with one soft, blurred warm glow in the stone below it, fading back to deep lapis blue within a short distance; nothing is mirrored in it. Keep exactly the present blue and brightness of the desk everywhere else.
+
+Same 16:9 framing, nothing cropped or extended at any edge, largest size available.
+```
+
 ### L-4 · Lapis Clubhouse: Hall
 - Image 1: [IMG1_ENV_HALL_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PLATE_HC_V3_2X.png)), 3072x1728
 - Image 2: [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
