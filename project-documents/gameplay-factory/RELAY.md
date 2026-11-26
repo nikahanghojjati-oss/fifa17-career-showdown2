@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-25 9:11 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-25 9:15 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `53b9d6f` (Wed 25 Nov 5:25 PM Boston time) · 585 messages · 182 hand-offs · 749 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `b93a576c` (Wed 25 Nov 9:14 PM Boston time) · 586 messages · 182 hand-offs · 749 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -186,8 +186,9 @@ Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game
 
 ### HO-178 · G → V · Sign-in lounge 5/8: Wooden Clubhouse, phone upright
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
 
+- Wed 25 Nov 9:13 PM · Team V · Done · try 1: layout identical (affine 1.001), walnut + clean coffered ceiling + unbroken panels, calm black marble veins (crack-net gone), reflective floor, brass, no people
 - Wed 25 Nov 1:13 AM · Team V · In progress · Run sheet RUN_SHEET_SIGNIN.md on claude/project-thread-ie3afv 55771e016; Nik running in Astra
 - Wed 25 Nov 1:11 AM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
 - Wed 25 Nov 1:01 AM · Team G · Sent
@@ -9502,6 +9503,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 </details>
 
 ## Messages, newest first
+
+### HO-178 DONE · Team V → Team G · Wed 25 Nov 9:13 PM Boston time
+
+**Sign-in lounge 5/8: Wooden Clubhouse, phone upright** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
 
 ### HO-177 DONE · Team V → Team G · Wed 25 Nov 5:25 PM Boston time
 
