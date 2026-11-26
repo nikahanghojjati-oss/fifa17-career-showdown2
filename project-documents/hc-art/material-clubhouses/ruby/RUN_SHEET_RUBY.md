@@ -631,6 +631,7 @@ Finish: real materials as a set builder would make them, handcrafted, with clean
 
 Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available.
 ```
+- Try 2, 26 Nov 00:47 UTC: **7.5/10.** Men held (7.2 levels), sat 0.855 now passes, windows and lamp held. Misses: spread 38.0 (needs 45), the bright-highlight sentence did not take; a new seam line runs across the desk at about 47% down, like a second slab edge; and the lower desk carries a web of thin red hairline cracks. Fix 1 (same chat), the desk only: "Keep this image exactly the same. Change only: the desk slab. The desk top is one single unbroken slab of polished deep wine-red marble from the blotters all the way down to the bottom edge of the picture, with no seam, step, edge or line running across it. Its stone is clean and calm, with soft cloudy patches of darker and lighter red and only the one long pale cream vein, and no web of thin red hairline cracks anywhere." Fix 2 will be the highlights.
 
 ### R-15 · Ruby Clubhouse: Hall, phone
 - Image 1: [IMG1_ENV_HALL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_HALL_PHONE_HC_V3.png)), 1179x2096
