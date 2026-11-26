@@ -852,14 +852,6 @@ Keep this image exactly the same: the same framing, size and shape, and every sh
 Everything else stays exactly as it is.
 ```
 
-Try 2 fix 2 prompt:
-
-```
-Keep this image exactly the same: the same camera, framing, size and shape, every object in the same place, every colour and the same light. Change only one thing: the thin light lines along the top of the tall recess behind the plant, down its left edge and along the ceiling above it become a dim soft satin glow, about half their present brightness, a warm satin brass line, never a bright white or hot yellow line.
-
-Everything else stays exactly as it is: the bottle-green walls, sofa and armchair, the malachite pillar and floor, the rug, the shelves with the gold trophies and books, the plant, the window with the night city, the coffee table, the ceiling and the round front table.
-```
-
 Try 2 prompt:
 
 ```
@@ -1129,6 +1121,14 @@ Keep this image exactly the same: the same camera, framing, size and shape, ever
 2. Highlights: the polished brass base of the round coffee table and the bright streaks reflected in the floor tiles become a soft, broad, dim satin sheen, never a bright mirror glare or a hot white streak.
 
 Everything else stays exactly as it is: the malachite pillar and floor, the rug, the shelves with the gold trophies and books, the plant, the window with the night city, the ceiling and the round front table.
+```
+
+Try 2 fix 2 prompt:
+
+```
+Keep this image exactly the same: the same camera, framing, size and shape, every object in the same place, every colour and the same light. Change only one thing: the thin light lines along the top of the tall recess behind the plant, down its left edge and along the ceiling above it become a dim soft satin glow, about half their present brightness, a warm satin brass line, never a bright white or hot yellow line.
+
+Everything else stays exactly as it is: the bottle-green walls, sofa and armchair, the malachite pillar and floor, the rug, the shelves with the gold trophies and books, the plant, the window with the night city, the coffee table, the ceiling and the round front table.
 ```
 
 Try 2 prompt:
