@@ -142,7 +142,7 @@ if(require.main === module){
                         console.log(`${findings.length ? "FINDING" : "ok"} ${club} TROPHY_ROOM ${size.name}${findings.map(f => "\n   " + f).join("")}`);
                         return;
                     }
-                    for(const f of judge("SEASON_ENTRY", await page.evaluate(drawnPictures))) findings.push(`R7 ${f}`);
+                    for(const f of judge("SEASON_ENTRY", await page.evaluate(drawnPictures), theme)) findings.push(`R7 ${f}`);
                     for(const what of findings) report.push({ club, size: size.name, what });
                     console.log(`${findings.length ? "FINDING" : "ok"} ${club} ${size.name}${findings.map(f => "\n   " + f).join("")}`);
                 };

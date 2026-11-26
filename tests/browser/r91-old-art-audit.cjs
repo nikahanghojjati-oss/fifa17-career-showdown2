@@ -150,7 +150,8 @@ const RETIRED_NEVER = new RegExp([
 ].join("|"));
 // r100 B7 (Verify nit on #1632): premium only also means one clubhouse never draws or downloads another clubhouse's room, on
 // any screen (A5), not only the loading room.
-const OTHER_ROOM = THEME ? new RegExp(`plates-hc/(?!${THEME}/)(?:silver|black|matte)/`) : /plates-hc\/(?:silver|black|matte)\//;
+const otherRoom = theme => theme ? new RegExp(`plates-hc/(?!${theme}/)(?:silver|black|matte)/`) : /plates-hc\/(?:silver|black|matte)\//;
+const OTHER_ROOM = otherRoom(THEME);
 const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
@@ -170,13 +171,16 @@ function drawnPictures(){
     }
     return out;
 }
-function judge(key, drawn){
+// theme: the clubhouse the page was opened in. Callers that pick the clubhouse themselves (the Season Results reach audit opens
+// all four in one run) pass it; this audit's own runs take CMS_CLUBHOUSE.
+function judge(key, drawn, theme = THEME){
     const scenery = drawn.filter(d => /visual-assets\//.test(d.url) && SCENERY.test(d.url));
     const listed = LISTED[key];
     const old = scenery.filter(d => !CURRENT.test(d.url) && !(listed && listed.allow.test(d.url)));
     const findings = old.map(d => `A1 old picture ${d.url.replace(/^.*visual-assets\/v10_1\//, "")} on ${d.el}`);
-    if(THEME) for(const d of scenery) if(PLAIN_ROOM.test(d.url)) findings.push(`A3 plain room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${THEME} clubhouse on ${d.el}`);
-    for(const d of drawn) if(OTHER_ROOM.test(d.url)) findings.push(`A5 another clubhouse's room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${THEME || "Wooden"} clubhouse on ${d.el}`);
+    if(theme) for(const d of scenery) if(PLAIN_ROOM.test(d.url)) findings.push(`A3 plain room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${theme} clubhouse on ${d.el}`);
+    const other = otherRoom(theme);
+    for(const d of drawn) if(other.test(d.url)) findings.push(`A5 another clubhouse's room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${theme || "Wooden"} clubhouse on ${d.el}`);
     const room = ROOM[key];
     if(room && !scenery.some(d => CURRENT.test(d.url) && new RegExp(`ENV_(${room})_`).test(d.url))) findings.push(`A2 the ${room.replace("|", " or ")} room is not drawn`);
     return [...new Set(findings)];
