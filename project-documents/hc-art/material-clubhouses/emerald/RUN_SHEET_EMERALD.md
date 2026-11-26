@@ -950,6 +950,7 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 ```
 
 Tries:
+- Try 1 (26 Nov): 9/10, ACCEPTED. Align scale 1.001, peak 0.363 OK; emerald_check LR PASS (vs black 19.9, mw 16.5, luma 26.9, glint 0.04). Three-pane window, coat and striped scarf, cabinet with decanter, rail at 76% and one calm malachite counter; middle clear for the roulette board.
 
 ### E-24 · Emerald Clubhouse: Club room, phone sideways
 - Image 1: [IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/4dc992c67f05cefee86a4bc7a18c7213a9dd7279/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png)), 2532x1170
