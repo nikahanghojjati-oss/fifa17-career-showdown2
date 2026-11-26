@@ -321,6 +321,17 @@ Change only one thing: the counter below the gold rail. Right now it reads like 
 Same 16:9 framing, nothing cropped or extended at any edge, largest size available.
 ```
 
+- F1 (`ENV_ARCHIVE_PLATE_LAPIS_P1_2X_F1_RAW.png`): 8.5. Counter now has light and shade (spread 63.6) and calm drifts, but up close it carries small gold four-pointed star specks and a fine scribbled texture; glint 10.7 > 8.0, on those specks.
+- F2, same chat (second and last edit there), counter surface only:
+
+```
+Edit the picture you just made. Keep it exactly the same: the same camera, zoom, framing and layout, the same two men untouched, and the same room, counter, drifts, warm wash of lamplight, colours and light.
+
+Change only one thing: clean the surface of the counter stone. Remove every small gold four-pointed star speck scattered across the counter, so no gold shows in the stone at all, and smooth away the fine scribbled, crackled texture over the stone, so it reads as clean honed lapis with only its soft broad drifts and a sparse scattering of tiny soft blue-white crystal points. Keep the warm wash along the top and the light and shade exactly as they are now.
+
+Same 16:9 framing, nothing cropped or extended at any edge, largest size available.
+```
+
 ### L-6 · Lapis Clubhouse: Directors' box
 - Image 1: [IMG1_ENV_BOX_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png)), 3072x1728
 - Image 2: [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
