@@ -919,6 +919,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (21:57 UTC): **9/10, accepted.** Aligned scale 1.003, 2.2 px (no hero mask for this room). Layout held: both lamps with lit pools and the pennant hangers in the top band, the three-pane window 17 to 43% with the stadium kept (floodlights a touch crisper), three tall tooled Persian leather panels with flowered bead borders, trophies and old balls along the bottom on a lapis ledge; no wood left. glint 10.9 counted 191 points on the stadium floodlights, so CLUB_PHONE leaves the window view out (as Sign-in does) and the rest is 7.8 under the usual 8.0; PASS. Master `lapis/ENV_CLUB_PHONE_LAPIS_P1.webp`.
+
 ### L-21 · Lapis Clubhouse: Loading tunnel, phone
 - Image 1: [IMG1_ENV_LOADING_PHONE_HC.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png)), 1179x2096
 - Image 2 (materials-only strip): [IMG2_REF_LOADING_MAT_LAPIS_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_LAPIS_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_LAPIS_SWATCH.png))

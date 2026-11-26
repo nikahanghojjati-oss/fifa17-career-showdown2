@@ -108,6 +108,10 @@ LOOKS = {
            COACHES_PHONE=dict(sat=(0.45, 0.995)),
            # Tunnel phone: master T1 (L-19) sat 0.992; the pure blue counter fills the lower half of the band.
            TUNNEL_PHONE=dict(sat=(0.45, 0.995)),
+           # Club phone: master T1 (L-20) glint 10.9, of which 191 of 676 points are the stadium floodlights through the
+           # window (the view, not a room surface), so the view is left out; the other 7.8 sit on the lamp-lit bead borders and flower
+           # centres of the tooled panels, as on the desktop Club (17.5), so the ceiling is the usual top of 8.0.
+           CLUB_PHONE=dict(view=(0.0, 0.17, 1.0, 0.43), glint_max=8.0),
            # Slab: the locked rooms' own lapis (Club counter and floor) is pure blue with no red, sat 1.00, so the slab
            # may sit just as high; it is matched to the stone already approved.
            # may sit just as high; it is matched to the stone already approved. Its detail floor is the approved
