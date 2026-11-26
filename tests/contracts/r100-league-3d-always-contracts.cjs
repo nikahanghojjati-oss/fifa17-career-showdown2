@@ -39,13 +39,13 @@ function el(id){const e={id,classList:classes(),style:{removeProperty(){}},child
 function world(){
   const wheel=el("leagueWheel"),screen=el("leagueWheelScreen"),html=el("html");
   const doc={documentElement:html,head:el("head"),getElementById:id=>id==="leagueWheel"?wheel:id==="leagueWheelScreen"?screen:null,createElement:()=>el("")};
-  const mounts=[];let mountResult="scene";
+  const mounts=[];let mountResult="scene",mountGate=null;
   const R={mount:async(box,opts)=>{const canvas=el("canvas");canvas.isCanvas=true;box.prepend(canvas);
     const s={alive:true,stage:opts.stage||0,busy:false,plan:opts.winner?{drops:[]}:null,canvas,setPlan(){this.plan={drops:[]};return true;},showStage(k){this.stage=k;},
       async drop(i){this.busy=true;await new Promise(r=>setImmediate(r));this.busy=false;this.stage=i+1;},on(){},dispose(){this.alive=false;}};
-    mounts.push({opts,scene:s});await new Promise(r=>setImmediate(r));return mountResult==="scene"?s:null;}};
+    mounts.push({opts,scene:s});await new Promise(r=>setImmediate(r));if(mountGate)await mountGate;return mountResult==="scene"?s:null;}};
   const timers=[];const cover=[];
-  return {wheel,screen,html,doc,R,mounts,timers,cover,setMount:v=>{mountResult=v;},
+  return {wheel,screen,html,doc,R,mounts,timers,cover,setMount:v=>{mountResult=v;},holdMount(){let open;mountGate=new Promise(r=>{open=r;});return ()=>{mountGate=null;open();};},
     install(){globalThis.document=doc;globalThis.CareerModeLeagueRoulette3d=R;
       globalThis.CareerModeV10Screens={show:async()=>true,holdNow:id=>{cover.push(id);return true;}};
       this.savedTimeout=globalThis.setTimeout;this.savedClear=globalThis.clearTimeout;
@@ -113,6 +113,15 @@ async function g2(){
     assert.equal(step.stage(),2,"the balls in the ledger show at once");assert.deepEqual(rolled,[],"none of them rolls again");
     step.sync({seed:"s|r",winner:"laliga",drops:3});for(let i=0;i<60&&!step.caughtUp();i+=1)await flush(2);
     assert.equal(step.stage(),3);assert.deepEqual(rolled,[2],"a ball dropped after rolls once");
+    // (Codex P2 on #1633) the first ledger arrives while the idle board is still building, and the screen syncs the same
+    // ledger again as the board opens ("ready"): its balls still show at once
+    step.arm(false);step.arm(true);rolled.length=0;
+    const off=step.on(type=>{if(type==="ready")step.sync({seed:"s|r",winner:"bundesliga",drops:2});});
+    const release=w.holdMount();step.idle();const building=step.ensure();await flush();
+    assert.equal(w.mounts[w.mounts.length-1].opts.stage,0,"the idle board is already building");
+    step.sync({seed:"s|r",winner:"bundesliga",drops:2});release();await building;
+    for(let i=0;i<60&&!step.caughtUp();i+=1)await flush(2);off();
+    assert.equal(step.stage(),2);assert.deepEqual(rolled,[],"a ledger synced again before the board caught up rolls nothing again");
     // Daniel waiting: the first ledger has no ball; balls dropped after both are connected roll
     step.arm(false);step.arm(true);rolled.length=0;step.idle();await step.ensure();
     step.sync({seed:"",winner:null,drops:0});await flush();
@@ -122,7 +131,7 @@ async function g2(){
     step.idle();await flush();assert.equal(step.stage(),1);
     // a new Showdown on this page (the reset in js/persistentNikDanielPair.js): the next waiting screen builds idle again
     globalThis.CareerModeShowdownClears["league-roulette"]();step.idle();const again=await step.ensure();
-    assert.ok(again&&w.mounts.length===3&&w.mounts[2].opts.stage===0,"a new Showdown's waiting screen gets its idle board, never a hold that waits for a ledger");
+    assert.ok(again&&w.mounts.length===4&&w.mounts[3].opts.stage===0,"a new Showdown's waiting screen gets its idle board, never a hold that waits for a ledger");
   }finally{step.arm(false);w.restore();}
   ok("G2","a board built idle shows the balls the first ledger already holds at once (never rolled again), and rolls each later ball once");
 }

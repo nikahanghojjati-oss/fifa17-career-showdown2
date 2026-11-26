@@ -183,7 +183,11 @@ async function dropNext(daniel,nik){
       const ready=await m.page.evaluate(()=>{const b=document.getElementById("spinLeague");return Boolean(b&&!b.disabled&&!b.classList.contains("hidden")&&/^DROP BALL$/.test(b.textContent.trim()));}).catch(()=>false);
       if(ready){await m.page.locator("#spinLeague").click({timeout:30000});
         for(const p of [daniel,nik])await p.page.waitForFunction(b=>(window.CareerModeProductionSharedShowdownSetup?.getState?.()?.setupDrops||0)>=b,want,{timeout:45000});
-        for(const p of [daniel,nik])await p.page.waitForFunction(()=>window.CareerModeLeagueRouletteStep?.caughtUp?.(),null,{timeout:60000});
+        for(const p of [daniel,nik])await p.page.waitForFunction(()=>window.CareerModeLeagueRouletteStep?.caughtUp?.(),null,{timeout:60000}).catch(async error=>{
+          const why=await p.page.evaluate(()=>{const st=window.CareerModeLeagueRouletteStep,sc=window.CareerModeLeagueRoulette3d?.mount?.last,c=document.querySelector("#leagueWheel .lr3dHost canvas");
+            return {armed:st?.armed(),failed:st?.failed(),stage:st?.stage(),busy:st?.busy(),caughtUp:st?.caughtUp(),probe:sc?.probe?.()||null,alive:sc?.alive,lost:c?c.getContext("webgl2")?.isContextLost():null,hosts:document.querySelectorAll("#leagueWheel .lr3dHost").length,
+              vis:document.visibilityState,frames:(window.__lr3dFrames||[]).slice(-5),rolls:window.__lr3dRolls||[]};}).catch(e=>String(e.message));
+          report.errors.push(`${p.user} board never caught up on ball ${want}: ${JSON.stringify(why).slice(0,1500)}`);throw error;});
         return m.user;}
     }
     await sleep(500);

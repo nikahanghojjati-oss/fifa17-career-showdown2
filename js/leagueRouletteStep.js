@@ -79,7 +79,7 @@
   let target={seed:"",winner:null,drops:0,instant:false};
   // The board mounts on the ledger as the screen first renders it (never on a guess), so a ball dropped before the screen
   // opened is shown at once instead of rolling again.
-  let synced=null,markSynced=()=>{},ledgerSeen=false,lostTimer=null;
+  let synced=null,markSynced=()=>{},ledgerSeen=false,firstDrops=0,lostTimer=null;
   function lrsFreshSync(){synced=new Promise(resolve=>{markSynced=resolve;});}
   lrsFreshSync();
   const listeners=new Set();
@@ -224,7 +224,7 @@
     if(screen&&typeof root.MutationObserver==="function")new root.MutationObserver(lrsLayoutSoon).observe(screen,{attributes:true,attributeFilter:["class","hidden","data-v26-league"],childList:true,characterData:true,subtree:true});}
 
   function lrsArm(on){
-    if(!on){lrsTeardown();failed=false;target={seed:"",winner:null,drops:0,instant:false};ledgerSeen=false;lrsFreshSync();}
+    if(!on){lrsTeardown();failed=false;target={seed:"",winner:null,drops:0,instant:false};ledgerSeen=false;firstDrops=0;lrsFreshSync();}
     armed=Boolean(on);
     return armed;
   }
@@ -294,8 +294,10 @@
   // The first ledger this board is given shows its balls at once: a board built idle before it (above) never rolls a ball
   // dropped before this page saw the ledger (a reload, a late join), exactly as a board built on that ledger.
   function lrsSync(next){
-    const drops=Math.max(0,Math.min(4,Number(next&&next.drops)|0)),first=!ledgerSeen;ledgerSeen=true;
-    target={seed:String(next&&next.seed||""),winner:next&&next.winner||null,drops,instant:Boolean(next&&next.instant)||(first&&drops>0)};
+    // (Codex P2 on #1633) kept until the board has shown them: the screen syncs the same ledger again on every board event.
+    const drops=Math.max(0,Math.min(4,Number(next&&next.drops)|0));
+    if(!ledgerSeen){ledgerSeen=true;firstDrops=drops;}
+    target={seed:String(next&&next.seed||""),winner:next&&next.winner||null,drops,instant:Boolean(next&&next.instant)};
     markSynced();
     if(lrsAlive())void lrsCatchUp();
   }
@@ -319,7 +321,8 @@
         if(planKey!==key){if(s.stage!==0||s.busy||!s.setPlan(target.seed,target.winner))return;planKey=key;}
         if(s.stage>=target.drops)return;
         shown=true;
-        if(target.instant){s.showStage(target.drops);lrsEmit("merged",{stage:s.stage});return;}
+        const atOnce=target.instant?target.drops:Math.min(target.drops,firstDrops);
+        if(s.stage<atOnce){s.showStage(atOnce);lrsEmit("merged",{stage:s.stage});continue;}
         const index=s.stage;lrsEmit("rolling",{index});
         await s.drop(index);
         if(scene!==s)return;
@@ -339,7 +342,7 @@
   function lrsOn(fn){listeners.add(fn);return()=>listeners.delete(fn);}
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
-  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["league-roulette"]=()=>{if(root.getActiveScreenName?.()===SCREEN_ID)return "skip";lrsTeardown();target={seed:"",winner:null,drops:0,instant:false};ledgerSeen=false;lrsFreshSync();};}catch(_error){}
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["league-roulette"]=()=>{if(root.getActiveScreenName?.()===SCREEN_ID)return "skip";lrsTeardown();target={seed:"",winner:null,drops:0,instant:false};ledgerSeen=false;firstDrops=0;lrsFreshSync();};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"cms-league-roulette-step",screenId:SCREEN_ID,
     arm:lrsArm,idle:lrsIdle,armed:()=>armed,holding:lrsHolding,ensure:()=>lrsEnsure(),sync:lrsSync,stage:lrsStage,busy:lrsBusy,caughtUp:lrsCaughtUp,leagueOut:lrsLeagueOut,failed:()=>failed,on:lrsOn,dispose:lrsTeardown});
 });
