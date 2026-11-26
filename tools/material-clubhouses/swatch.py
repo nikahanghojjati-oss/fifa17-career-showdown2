@@ -51,14 +51,17 @@ COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40),
            # Box: the desktop strip is two thirds stadium window, which Astra would copy up to the top; lower left leather panel over calm stone
            "BOX": ((25, 1084, 225, 1290), (1880, 1530, 2080, 1680), 58),
            # Coaches: the centre cut was four tall windows and a thick bright vein; a leather wall patch (left wall, under the shelf) over calm stone
-           "COACHES": ((420, 470, 620, 609), (1180, 1310, 1380, 1527), 39)}
+           "COACHES": ((420, 470, 620, 609), (1180, 1310, 1380, 1527), 39),
+           # Tunnel: the centre cut was the whole tunnel and floor mat, which Astra would copy; its counter strip is too short, so the stone comes from the Coaches painting
+           "TUNNEL": ((145, 322, 345, 500), (1180, 1310, 1380, 1488), 50)}
+STONE_FROM = {"TUNNEL": "COACHES"}  # room whose accepted desktop painting gives the stone patch
 
 
-def compose(p, name):
+def compose(p, name, q=None):
     (wa, wb, wc, wd), (da, db, dc, dd), pc = COMPOSE[name]
     w = wc - wa; h = round(w * 16 / 9); t = round(h * pc / 100)
     im = Image.new("RGB", (w, h))
-    im.paste(p.crop((wa, wd - t, wc, wd)), (0, 0)); im.paste(p.crop((da, db, dc, db + h - t)), (0, t))
+    im.paste(p.crop((wa, wd - t, wc, wd)), (0, 0)); im.paste((q or p).crop((da, db, dc, db + h - t)), (0, t))
     return im
 
 
@@ -90,7 +93,7 @@ def main():
             a, b = run(room); cuts[room] = p.crop((a, 0, b, 1728))
     for name, im in cuts.items():
         im.save(f"{out}REF_{name}_{LOOK}_SWATCH.webp", quality=90)
-        im2 = compose(Image.open(f"{out}ENV_{name}_PLATE_{LOOK}_P1_2X.webp").convert("RGB"), name) if name in COMPOSE else fit916(im, name); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
+        im2 = compose(Image.open(f"{out}ENV_{name}_PLATE_{LOOK}_P1_2X.webp").convert("RGB"), name, Image.open(f"{out}ENV_{STONE_FROM[name]}_PLATE_{LOOK}_P1_2X.webp").convert("RGB") if name in STONE_FROM else None) if name in COMPOSE else fit916(im, name); im2.save(f"{src}IMG2_REF_{name}_{LOOK}_SWATCH.png")
         print("swatch", name, im.size, "image 2", im2.size)
     for room in ROOMS:
         f = PHONE[room]; n = "IMG1_" + os.path.basename(f).replace(".webp", ".png")
