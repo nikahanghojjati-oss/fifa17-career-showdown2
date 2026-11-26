@@ -475,4 +475,5 @@ Same 16:9 framing as the original, largest size available.
 
 Tries:
 - Try 1 (15:57 UTC): **7/10.** 1672x941, plain resize to 3072x1728 (no align for a slab). Colour and bands right in shape: a few broad calm diagonal jade bands on deep bottle green, no rings, no brown, no glint. Misses: it reads as soft smoke or an aurora, not cut stone (detail 0.63, needs 1.17), and the green is too vivid (sat 0.98, range 0.35-0.90). Fix 1 (same chat), texture only: crisp fine malachite growth lines inside each band, sharp like a polished stone table top. Fix 2 will be the colour (more muted and aged). Raw kept as ENV_SLAB_EMERALD_P1_2X_T1_RAW.png.
+- Fix 1 (15:58 UTC): **8.5/10.** Texture took: crisp fine growth lines follow each broad band, bands and light unchanged; detail now passes. One miss: sat 0.97 (range 0.35-0.90), the green is still too vivid. Fix 2 (last in this chat), colour only: a touch more muted and aged, like a dark green glass bottle, everything else exactly as it is. Raw kept as ENV_SLAB_EMERALD_P1_2X_F1_RAW.png.
 
