@@ -41,6 +41,17 @@ X = {  # Ruby words that grew past batch 1's dictionary (R-6 to R-11 lessons)
   slabname="polished malachite", floorstone="dark polished green stone", on="on the green stone", trim="satin brass",
   fall="the green falls off to green near-black only in the far corners and toward the ceiling", hall="with the bands running straight up and down them",
   depth="Everything else keeps a deep, muted, aged green, and the walls behind the men read as a clearly readable rich bottle green, never near-black. Where the light is brightest the green turns a lighter, clearer jade, never yellow, olive or khaki. Every green in the room is a touch muted and aged, a slightly greyed deep bottle green like an old glass bottle, never a vivid, neon or saturated green."),
+ # Lapis (26 Nov): batch 1 words as approved (L-1 to L-11). No veins: the stone is drifts and tiny flakes. The counter is the
+ # book-matched slab wording that held through L-3 to L-10; the slab lesson (L-11): any grain or texture wording paints felt.
+ "LAPIS": dict(
+  light_rule=M["LAPIS"]["light_rule"],
+  stone=M["LAPIS"]["stone"].replace("exactly like the stone in image 2", "exactly like the stone in image 2, with its drifts running straight up and down each pillar"),
+  counter=M["LAPIS"]["counter"].replace("exactly like the counter in image 2", "exactly like the stone in image 2"),
+  sample="hand-tooled Persian lapis-blue leather panels with flowered carpet borders, blue-black ebony frames, honed lapis lazuli, satin gold",
+  veins=("", ""),
+  slabname="honed lapis lazuli", floorstone="honed deep lapis lazuli stone", on="on the blue stone", trim="satin gold",
+  fall="the blue falls off to ultramarine near-black only in the far corners and toward the ceiling", hall="with the drifts running straight up and down them",
+  depth="Everything else keeps a vivid, saturated ultramarine, and the walls behind the men read as a clearly readable vivid ultramarine, never near-black. Where the light is brightest the blue turns a brighter, clearer ultramarine, never grey, green or purple. Every blue in the room is rich and jewel-like, never navy-grey, purple or teal, and the hand-tooled Persian vines and palmettes and the flowered borders on the leather stay rich and clearly readable."),
 }
 
 FLOOR = {"HOME"}  # rooms whose image 1 shows a floor strip under the counter
@@ -125,6 +136,9 @@ def prompt(key, rm):
         room += f" Handrails: {L['handrail']}. Floor: {L['mat']}. The pillars keep their exact square shape, with flat faces and straight corners, never round columns."
     if rm == "HALL":
         room += f" The pillars keep their exact shape and stay smooth and polished, {Y['hall']}."
+    if rm == "CLUB" and key == "LAPIS":  # L-9 (26 Nov): the panels behind the wall lamps kept wood grain stained blue
+        room += (" The wall panels behind and between the two wall lamps are the same hand-tooled lapis-blue leather as every other panel, "
+                 "with the same Persian pattern and flowered border, never wood, wood grain or blue-stained wood.")
     if rm in SEATS:  # Nik's seating rule; none of the 10 Wooden phone bands shows an armchair or sofa
         room += f" Any armchair or sofa keeps its exact shape, size, cushions and place and is reupholstered in {L['seat']}."
     room += f"\n\nEvery wall, door, frame, shelf, panel and pillar takes one of these materials ({L['materials']}); no light wood is left anywhere in the room."
@@ -191,6 +205,12 @@ def prompt(key, rm):
            f"no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, {people}.")
     if key == "EMERALD":  # E-14: one lighter-band jade in the whole prompt, the muted one the counter line names
         lock = lock.replace("a soft mid jade (#5E9E74)", "a soft muted jade (#4F8A66)")
+    if key == "LAPIS":  # the lapis is honed, never polished or mirror-like (L-3 to L-11)
+        for o, n in (("warm reflections on the polished front of the counter", "warm glows on the honed front of the counter"),
+                     ("warm reflections on the polished counter", "warm glows on the honed counter"),
+                     ("warm reflection on the polished front of the counter", "warm glow on the honed front of the counter")):
+            light = light.replace(o, n)
+        room = room.replace("stay smooth and polished", "stay smooth and honed")
     if not men:  # E-20 (26 Nov): an empty room's light line must not name "the men"
         light = light.replace("the walls behind the men read", "the walls read")
     return "\n\n".join([head, frame, menl.strip(), keepl, room, light, lock, objs, fin,
