@@ -38,7 +38,7 @@ R = {
  "BOX": ("IMG1_ENV_BOX_PHONE_HC_V3.png", "the window with the night stadium and pitch, the counter rail", 58, True, True, "BOX", "box"),
  "COACHES": ("IMG1_ENV_COACHES_PHONE_HC_V3.png", "the shelf at the top left with the two old leather balls on it (keep both balls and the shelf), the small wall lamp on the wall pillar left of the men, the row along the wall exactly as in image 1, from left to right: a narrow window at the far left, the wall pillar with the lamp, the wide window behind the men, a plain door on the right, and a narrow window at the far right, each with its own frame and wall pillars between them; do not merge them into one window and do not move the door. The training pitch with its small goals and lights stays inside the windows. The counter rail", 39, True, True, "COACHES", ""),
  "TUNNEL": ("IMG1_ENV_TUNNEL_PHONE_HC_V3.png", "the tunnel receding to the pitch, the square pillars and handrails, the counter edge", 50, False, True, "TUNNEL", "tunnel"),
- "CLUB": ("IMG1_ENV_CLUB_PHONE_HC_V4.png", "the two wall lamps with their pleated shades and the hanging pennant banners below them, the wide window across the top with the floodlit stadium, the panelled wall below it, and the trophies and old leather balls along the bottom", None, True, False, "CLUB_MAT", "club"),
+ "CLUB": ("IMG1_ENV_CLUB_PHONE_HC_V4.png", "the two wall lamps with their pleated shades and the small pennants between them, the wide window below them with the floodlit stadium, the panelled wall below it, and the trophies and old leather balls along the bottom", None, True, False, "CLUB_MAT", "club"),
  "LOADING": ("IMG1_ENV_LOADING_PHONE_HC.png", None, None, True, False, "LOADING_MAT", "loading"),
 }
 SEATS = ()
