@@ -283,6 +283,23 @@ Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or ex
 Tries:
 - (waiting for the first picture)
 
+### L-1G · Lapis Board: Persian architecture arch with girih lattice (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
+
+Nik, 19:33 UTC: "Persian rug / Persian ancient architecture / Any ither neat design". Run beside L-1F (rug) and judge both under the real screen. The arch frames the title; the girih sits mostly behind the score box. Saves as `ENV_BOARD_PLATE_LAPIS_P1G_2X_T1_RAW.png`.
+
+```
+Image 1 is the picture to edit. Use only image 1.
+
+Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same lamp, door, stone, leather colour, mouldings, gold rail and light.
+
+Change only one thing: the tooled pattern on the leather wall panels. In the big middle panel between the two men, the fan of rays is replaced by a design inspired by ancient Persian architecture: a tall, slender pointed Persian arch, like the entrance of a Safavid mosque, outlined by a hairline satin gold line and filling most of the panel, its top reaching close to the panel's top edge. Inside the arch, a fine, regular Persian girih lattice of interlocking ten-point stars and small polygons, hand-tooled and gently embossed into the lapis-blue leather. In the two upper corners outside the arch, a few delicate tooled arabesque scrolls. The design is sophisticated, neat and soft: calm, orderly, perfectly symmetrical, with even spacing and fine, light lines. Everything except the arch's hairline gold outline is tone-on-tone, only a shade or two lighter and deeper than the leather, like the blind tooling on a fine leather-bound book. From a distance the panel reads as a soft, rich texture behind the men; up close it shows real handwork with small natural irregularities, never a printed or computer-perfect pattern. It is never bold, busy or high contrast, with no centre medallion, emblem, text or new colours. Every other wall panel and the door get only a narrow tooled Persian border of tiny repeating flowers just inside their frame, in the same soft tone-on-tone, with their middles left plain and calm so the men stand out.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
+Tries:
+- (waiting for the first picture)
+
 ### L-1D · Lapis pilot Board: B design, honed stone, faded sunburst (fresh chat)
 
 Nik, 19:00 UTC: "I like B design ... we can still add an element or two to the background". From every Board try so far:
