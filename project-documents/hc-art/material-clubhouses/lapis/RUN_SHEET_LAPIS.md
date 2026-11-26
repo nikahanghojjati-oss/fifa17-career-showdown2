@@ -990,6 +990,8 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 
+- T1 (22:05 UTC): **9/10, accepted.** Aligned scale 1.005, peak 0.129, no people. Window 18 to 52% with its one bar and the stadium untouched; tooled Persian panels with flowered borders above, beside and below the window; rail at 58%; one calm honed lapis slab below with a warm wash at the left; the middle stays clear for the 3D roulette board. PASS: sat 0.966, glint 3.1, spread 69. Master `lapis/ENV_BOX_PHONE_V4_LAPIS_P1.webp`.
+
 ### L-23 · Lapis Clubhouse: League Roulette room without the men, desktop
 - Image 1: [IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_EMPTY_HC_V4_2X.png)), 3072x1728
 - Image 2 (the approved pilot materials, as L-6): [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
