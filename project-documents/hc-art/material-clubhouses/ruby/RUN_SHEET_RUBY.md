@@ -667,6 +667,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 
 Tries:
 - Try 1, 26 Nov 01:02 UTC: **8.5/10.** 941x1672, aligned at scale 1.002, men 6.2 levels, both faces held. Pillars, door with fanlight, side table and lamp, wall lamp and stairs all in place; the composed Image 2 worked (no rug, nothing copied). Counter calm with two long veins; spread 51.5 passes. One miss: sat 0.903 (max 0.90), the reds are a hair too vivid. Fix 1 (same chat): "Keep this image exactly the same. Change only: the strength of the red. Every red in the room, on the leather walls, the door, the pillars, the floor and the counter, becomes a touch more muted and aged, slightly softened like old oxblood leather and old dark wine, never vivid. The brightness, the lamp light, the shadows, every shape and the two men stay exactly as they are."
+- Try 1 fix 1, 26 Nov 01:05 UTC: **9/10, ACCEPTED.** Men 5.6 levels, every check passes: sat 0.784, spread 50.2, vs Black 16.3, detail 2.35, brown 0.03. Reds now aged oxblood, layout and light unchanged from try 1.
 
 ### R-16 · Ruby Clubhouse: Archive, phone
 - Image 1: [IMG1_ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)), 1179x2096
