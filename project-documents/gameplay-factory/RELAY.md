@@ -1,10 +1,10 @@
 # 📡 Team G ↔ Team V relay: every message
 
-[Back to the board](BOARD.md) · generated 2026-11-25 9:43 PM Boston time (EST)
+[Back to the board](BOARD.md) · generated 2026-11-25 9:53 PM Boston time (EST)
 
 ![Team V board](CUSTOM_VIEW_V.svg)
 
-Relay branch `leads/relay` head `f55c2f25` (Wed 25 Nov 9:37 PM Boston time) · 589 messages · 182 hand-offs · 757 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
+Relay branch `leads/relay` head `d3ad07fc` (Wed 25 Nov 9:49 PM Boston time) · 600 messages · 182 hand-offs · 769 wake comments on [PR #312](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/312). How it works: [CONTRACT.md](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/leads/relay/project-documents/leads-relay/CONTRACT.md).
 
 ## Hand-offs (work passed between the factories)
 
@@ -248,8 +248,10 @@ Team G checks it (HO-173 bar; matte_check for Matte), derives the sizes the game
 
 ### HO-177 · G → V · Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop
 
-✅ Sent → ✅ Delivered → ✅ Received → ✅ In progress → ✅ **Done** · picked up 0 min after delivery
+✅ Sent → ✅ Delivered → ✅ Received → ✅ **In progress 0 %** → ○ Done · picked up 0 min after delivery
 
+- Wed 25 Nov 9:49 PM · Team V · In progress · Try 5 (dull metal edit of try 4) in RUN_SHEET_SIGNIN.md 94490f958; Nik running in Astra
+- Wed 25 Nov 9:47 PM · Team G · RETURNED · REDO (Team G B7 bar check): Graphite desktop sign-in lounge fails HO-173 bar point 2 - glint 19.8 per 10k px vs limit 5 (Black Steel is 12.5, so Graphite reads shinier than Metallic Black). Cause: polished steel trim and bright nailhead highlights. Redo with the same room and framing: satin titanium trim with soft diffuse reflections, dull nailheads, no polished highlights, no chrome. Deliver as before: ENV_SIGNIN_PLATE_MATTE_P1_2X.webp 3072x1728 + raw PNG + SHA256 line. HO-178..181 and HO-174..176 pass.
 - Wed 25 Nov 5:25 PM · Team V · Done · try 4 (edit of try 3 from the HO-176 lounge): layout identical (affine 0.9998), cool graphite (pillar/wall saturation 0.08-0.11, under 0.12), fine low-contrast herringbone, honed slate floor, titanium trims, gold objects kept, no people
 - Wed 25 Nov 1:13 AM · Team V · In progress · Run sheet RUN_SHEET_SIGNIN.md on claude/project-thread-ie3afv 55771e016; Nik running in Astra
 - Wed 25 Nov 1:11 AM · Team V · Received · Owned by Team V thread Finish premium clubhouse repaints
@@ -9507,6 +9509,16 @@ HO-001 shows Done on Team G's board and RELAY.md. If anything in §8 does not fi
 
 ## Messages, newest first
 
+### HO-177 RETURNED · Team G → Team V · Wed 25 Nov 9:47 PM Boston time
+
+**Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop** · reply needed: yes (see reason)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
 ### HO-181 DONE · Team V → Team G · Wed 25 Nov 9:36 PM Boston time
 
 **Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright** · reply needed: no
@@ -9670,6 +9682,86 @@ _Full text not found in archive/._
 ### HO-174..181 SENT · Team G → Team V · Wed 25 Nov 1:05 AM Boston time
 
 **Sign-in lounge repaint x8 (Wooden, Platinum, Metallic Black, Premium Matte Black; desktop + phone), Nik 05:57 UTC: handcrafted, each clubhouse's colours, same view and furniture; new REF_PILOT_WOODEN** · reply needed: yes: run in Astra
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-181 SENT · Team G → Team V · Wed 25 Nov 1:01 AM Boston time
+
+**Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-180 SENT · Team G → Team V · Wed 25 Nov 1:01 AM Boston time
+
+**Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-179 SENT · Team G → Team V · Wed 25 Nov 1:01 AM Boston time
+
+**Sign-in lounge 6/8: Platinum Clubhouse, phone upright** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-178 SENT · Team G → Team V · Wed 25 Nov 1:01 AM Boston time
+
+**Sign-in lounge 5/8: Wooden Clubhouse, phone upright** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-177 SENT · Team G → Team V · Wed 25 Nov 1:01 AM Boston time
+
+**Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-176 SENT · Team G → Team V · Wed 25 Nov 1:01 AM Boston time
+
+**Sign-in lounge 3/8: Metallic Black Clubhouse, desktop** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-175 SENT · Team G → Team V · Wed 25 Nov 1:01 AM Boston time
+
+**Sign-in lounge 2/8: Platinum Clubhouse, desktop** · reply needed: yes (receive it)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-174 SENT · Team G → Team V · Wed 25 Nov 1:01 AM Boston time
+
+**Sign-in lounge 1/8: Wooden Clubhouse, desktop** · reply needed: yes (receive it)
 
 <details><summary>Full message</summary>
 
@@ -10010,6 +10102,26 @@ _Full text not found in archive/._
 ### HO-173 RECEIVED · Team V → Team G · Tue 24 Nov 8:13 PM Boston time
 
 **Premium Matte Black must look truly premium (Nik): bar for every Matte painting** · reply needed: no
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-103 RETURNED · Team G → Team V · Tue 24 Nov 8:12 PM Boston time
+
+**Premium pilot 6/6: Premium Matte Black Home repaint** · reply needed: yes (see reason)
+
+<details><summary>Full message</summary>
+
+_Full text not found in archive/._
+
+</details>
+
+### HO-102 RETURNED · Team G → Team V · Tue 24 Nov 8:12 PM Boston time
+
+**Premium pilot 5/6: Premium Matte Black Board Room repaint** · reply needed: yes (see reason)
 
 <details><summary>Full message</summary>
 

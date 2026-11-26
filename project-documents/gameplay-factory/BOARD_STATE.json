@@ -1,8 +1,8 @@
 {
- "generated": "2026-11-25 9:43 PM Boston time (EST)",
+ "generated": "2026-11-25 9:53 PM Boston time (EST)",
  "relay": {
   "live": true,
-  "count": 589,
+  "count": 600,
   "rows": [
    {
     "time": "2026-10-02 00:29",
@@ -4847,6 +4847,24 @@
     "boston": "Tue 24 Nov 8:12 PM"
    },
    {
+    "time": "2026-11-25 01:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-102 RETURNED",
+    "subject": "Premium pilot 5/6: Premium Matte Black Board Room repaint",
+    "reply": "yes (see reason)",
+    "boston": "Tue 24 Nov 8:12 PM"
+   },
+   {
+    "time": "2026-11-25 01:12",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-103 RETURNED",
+    "subject": "Premium pilot 6/6: Premium Matte Black Home repaint",
+    "reply": "yes (see reason)",
+    "boston": "Tue 24 Nov 8:12 PM"
+   },
+   {
     "time": "2026-11-25 01:13",
     "from": "Team V",
     "to": "Team G",
@@ -5153,6 +5171,78 @@
     "boston": "Tue 24 Nov 11:40 PM"
    },
    {
+    "time": "2026-11-25 06:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-174 SENT",
+    "subject": "Sign-in lounge 1/8: Wooden Clubhouse, desktop",
+    "reply": "yes (receive it)",
+    "boston": "Wed 25 Nov 1:01 AM"
+   },
+   {
+    "time": "2026-11-25 06:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-175 SENT",
+    "subject": "Sign-in lounge 2/8: Platinum Clubhouse, desktop",
+    "reply": "yes (receive it)",
+    "boston": "Wed 25 Nov 1:01 AM"
+   },
+   {
+    "time": "2026-11-25 06:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-176 SENT",
+    "subject": "Sign-in lounge 3/8: Metallic Black Clubhouse, desktop",
+    "reply": "yes (receive it)",
+    "boston": "Wed 25 Nov 1:01 AM"
+   },
+   {
+    "time": "2026-11-25 06:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-177 SENT",
+    "subject": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
+    "reply": "yes (receive it)",
+    "boston": "Wed 25 Nov 1:01 AM"
+   },
+   {
+    "time": "2026-11-25 06:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-178 SENT",
+    "subject": "Sign-in lounge 5/8: Wooden Clubhouse, phone upright",
+    "reply": "yes (receive it)",
+    "boston": "Wed 25 Nov 1:01 AM"
+   },
+   {
+    "time": "2026-11-25 06:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-179 SENT",
+    "subject": "Sign-in lounge 6/8: Platinum Clubhouse, phone upright",
+    "reply": "yes (receive it)",
+    "boston": "Wed 25 Nov 1:01 AM"
+   },
+   {
+    "time": "2026-11-25 06:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-180 SENT",
+    "subject": "Sign-in lounge 7/8: Metallic Black Clubhouse, phone upright",
+    "reply": "yes (receive it)",
+    "boston": "Wed 25 Nov 1:01 AM"
+   },
+   {
+    "time": "2026-11-25 06:01",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-181 SENT",
+    "subject": "Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright",
+    "reply": "yes (receive it)",
+    "boston": "Wed 25 Nov 1:01 AM"
+   },
+   {
     "time": "2026-11-25 06:05",
     "from": "Team G",
     "to": "Team V",
@@ -5304,6 +5394,15 @@
     "subject": "Sign-in lounge 8/8: Premium Matte Black Clubhouse, phone upright",
     "reply": "no",
     "boston": "Wed 25 Nov 9:36 PM"
+   },
+   {
+    "time": "2026-11-26 02:47",
+    "from": "Team G",
+    "to": "Team V",
+    "id": "HO-177 RETURNED",
+    "subject": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
+    "reply": "yes (see reason)",
+    "boston": "Wed 25 Nov 9:47 PM"
    }
   ],
   "g2v": {
@@ -5324,8 +5423,8 @@
    "reply": "no",
    "boston": "Mon 5 Oct 8:46 AM"
   },
-  "head": "f55c2f25",
-  "head_boston": "Wed 25 Nov 9:37 PM",
+  "head": "d3ad07f",
+  "head_boston": "Wed 25 Nov 9:49 PM",
   "latest_id": "G2V-016",
   "feed_matches_latest": false,
   "open_for_g": [],
@@ -5353,7 +5452,7 @@
  },
  "two": {
   "live": {
-   "sha": "7dc0d48e",
+   "sha": "7dc0d48",
    "revision": "2.12.0-r99",
    "when": "2026-11-24T08:12:01-05:00",
    "subject": "Merge pull request #1580 from nikahanghojjati-oss/gameplay/r99",
@@ -5361,10 +5460,10 @@
    "today": []
   },
   "physio": {
-   "state": "barking",
-   "line": "Barking: Showdown Gate on #1629 has waited 8 min for a machine.",
-   "gate": "POS20 #304 6/16",
-   "source": "physio"
+   "state": "clear",
+   "line": "All clear (from GitHub).",
+   "gate": "POS20 #304 7/7",
+   "source": "github"
   },
   "v_headline": "Queued next",
   "v_jobs": [
@@ -6149,7 +6248,7 @@
     "path": "project-documents/leads-relay/handoffs/HO-058_r90-visualidentity-js-changed-flat-crest.md",
     "worker": "",
     "pickup_min": null,
-    "waiting_min": 25898
+    "waiting_min": 25909
    },
    {
     "id": "HO-059",
@@ -7690,8 +7789,8 @@
     "from": "G",
     "to": "V",
     "title": "Sign-in lounge 4/8: Premium Matte Black Clubhouse, desktop",
-    "stage": "DONE",
-    "pct": 100.0,
+    "stage": "WORKING",
+    "pct": 0.0,
     "overdue": false,
     "path": "project-documents/leads-relay/handoffs/HO-177_sign-in-lounge-4-8-premium-matte-black-c.md",
     "worker": "images",
@@ -7820,7 +7919,7 @@
   "**Nothing for you to do right now.**"
  ],
  "now": {
-  "moving": 43,
+  "moving": 44,
   "next": 42,
   "nik": 2,
   "later": 21,
