@@ -1064,6 +1064,8 @@ Tries:
 
 - T1 (Nov 26 22:12 UTC): 8.5/10. Layout locked (align scale 1.001, peak 0.199 OK); tooled Persian leather walls and band, ebony window frames, lapis-leather armchairs, honed lapis floor and strip, trophy, ball and pennant all right; CLUBSIDE hue 0.832, sat 0.900, brown 0.107, spread 85 all pass. MISS glint 10.3 (needs 8.0): about 340 of 765 points are one bright line along the gold rail of the counter strip at 91%, about 270 are glossy highlights on the two armchairs, the rest lamp glow on the top band and the trophy. Raw kept as ENV_CLUB_SIDEWAYS_LAPIS_P1_T1_RAW.png.
 - T1 fix 1 (same chat): dim the rail to a satin line; armchairs to a soft broad satin sheen.
+- T1 fix 1 result (Nov 26 22:14 UTC): 8.5/10. Rail and armchairs fixed (rail glints 339 to 44, armchair gloss gone); align scale 1.000, peak 0.227 OK; hue 0.827, sat 0.903, brown 0.116 pass. But glint rose to 15.0 (needs 8.0): 622 of 1113 points are now one bright gold line along the bottom of the window frame at 51.6%, about 200 the gold line under the top band at 14%, and 67 the shelf edge. Raw kept as ENV_CLUB_SIDEWAYS_LAPIS_P1_T1_F1_RAW.png.
+- T1 fix 2 (same chat, last edit there): dim those three gold lines.
 
 T1 fix 1 prompt:
 
@@ -1075,6 +1077,14 @@ Keep this image exactly the same: the same camera, framing, size and shape, ever
 2. The two lapis-blue leather armchairs keep exactly their shape, size, colour and place, but their shine becomes a soft broad satin sheen, never bright white highlights or glossy hot spots, so they read as soft hand-stitched leather.
 
 Everything else stays exactly as it is: the tooled Persian lapis-blue leather walls and top band, the two wall lamps, the window with the night stadium, the low table, the pennant, the gold trophy and the ball, the blue stone floor and the blue stone strip.
+```
+
+T1 fix 2 prompt:
+
+```
+Keep this image exactly the same: the same camera, framing, size and shape, every object in the same place, every colour and the same light. Change only one thing: the thin gold lines become a dim soft satin gold, about half their present brightness, with no bright shine and no white highlight anywhere along them. This means three lines: the long horizontal gold line along the bottom of the window frame, the gold line along the bottom edge of the top leather band, and the gold front edge of the low shelf under the trophy.
+
+Everything else stays exactly as it is: the tooled Persian lapis-blue leather walls and top band, the two wall lamps, the window with the night stadium, the armchairs, the low table, the pennant, the gold trophy and the ball, the blue stone floor and the blue stone strip with its dim rail.
 ```
 
 ## Batch 4: Sign-in lounge (Lapis 25-26)
