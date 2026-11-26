@@ -188,6 +188,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (14:08 UTC): **8/10**. Scale 1.000, men 5.3. Numbers pass except detail 3.89 (needs 3.95); vs Black 16.1. Eye: green door, walnut rail, malachite floor and counter, lamps right; the two pillars carry diagonal barber-pole stripes instead of calm lengthwise bands. Fix 1 sent: pillars only, bands running up and down.
 
 ### E-5 · Emerald Clubhouse: Archive
 - Image 1: [IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png)), 3072x1728
