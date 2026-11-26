@@ -989,6 +989,7 @@ Tries:
 - Try 1 fix 1 (same chat): walls one step lighter; wide bright lamp pools.
 - Try 1 fix 1 (26 Nov): 8.5/10. Brightness and lamp pools now right (luma 36.4, vs black 20.5), layout held (peak 0.390). The walls drifted warm: wall hue 114 (try 1: 130), hue share 0.36 < 0.50. Raw kept as ENV_CLUB_SIDEWAYS_EMERALD_P1_F1_RAW.png.
 - Try 1 fix 2 (same chat): walls back to cool bottle green at the same brightness.
+- Try 1 fix 2 (26 Nov): 9/10, ACCEPTED. Align scale 1.000, peak 0.399 OK; emerald_check CLUBSIDE PASS (hue 0.65, vs black 18.2, luma 31.8, glint 1.1). Cool bottle-green walls with clear lamp pools, green armchairs, malachite floor and counter.
 
 Try 1 fix 2 prompt:
 
