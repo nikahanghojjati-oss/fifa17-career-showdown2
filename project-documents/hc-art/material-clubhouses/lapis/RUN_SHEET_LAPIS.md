@@ -751,6 +751,7 @@ Tries:
 ```
 Change only the half-round fanlight above the double door: its panes are clear dark glass showing the dark night beyond, exactly as in image 1, between the same thin satin gold glazing bars, with no leather, pattern or panel inside the fanlight. Keep everything else exactly as it is: the doors, walls, columns, table, lamps, stair, floor, counter, the two men and the framing.
 ```
+- F1 (21:41 UTC): **9/10, accepted.** Aligned scale 1.003, men diff 4.7. The fanlight is dark glass between satin gold bars again; everything else held. sat 0.992 is the counter's pure blue (as L-13, L-14), so HALL_PHONE gets sat to 0.995; PASS. Master `lapis/ENV_HALL_PHONE_LAPIS_P1.webp`.
 
 ### L-16 · Lapis Clubhouse: Archive, phone
 - Image 1: [IMG1_ENV_ARCHIVE_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_ARCHIVE_PHONE_HC_V3.png)), 1179x2096

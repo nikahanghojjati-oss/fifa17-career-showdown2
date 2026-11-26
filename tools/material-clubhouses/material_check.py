@@ -100,6 +100,8 @@ LOOKS = {
            BOARD_PHONE=dict(sat=(0.45, 0.995), glint_max=3.5),
            # Office phone: master F1 (L-14) sat 0.993; the counter's pure blue lapis fills the lower 60% of the band.
            OFFICE_PHONE=dict(sat=(0.45, 0.995)),
+           # Hall phone: master F1 (L-15) sat 0.992, the same pure blue counter filling the lower third.
+           HALL_PHONE=dict(sat=(0.45, 0.995)),
            # Slab: the locked rooms' own lapis (Club counter and floor) is pure blue with no red, sat 1.00, so the slab
            # may sit just as high; it is matched to the stone already approved.
            # may sit just as high; it is matched to the stone already approved. Its detail floor is the approved
