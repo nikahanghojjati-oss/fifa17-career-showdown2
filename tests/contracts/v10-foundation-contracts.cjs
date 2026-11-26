@@ -641,9 +641,8 @@ const V10_IMAGES={
     "visual-assets/v10_1/start-join/assets/ENV_SJ_PLATE_V1_2X.webp":"d71bf0f4da18fd92b45727e1c1ae955d8bb83fc35c9c16bf9988c938425db003",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp":"f5fdb5eedc90b83acd5225cc6b18078ddfcf9031c9b40128f91db3314c34a3cd",
     "visual-assets/v10_1/start-join/assets/OVL_SJ_NIK_PHONE_V1.webp":"7564a129eccae2bbaf1a6b5280f0073dbba5770190c2547ae245b1bb07dc5b75",
-    // r78 phone marble: Team V's marble phone plates for Rule Book and Settings (factory/v1-wtt5ye, byte-identical)
+    // r78 phone marble: Team V's marble phone plate for the Rule Book (factory/v1-wtt5ye, byte-identical; the Settings one is gone, r100 B7)
     "visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PHONE_V2.webp":"f96fe2a45130a645ff23a8df9e442cd6b9f6109adc1ea95211ae0c6cc8c28ee1",
-    "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PHONE_V2.webp":"231ce815b711bfaef2828d67364da9e96981c9fa5ef0dcdc7bb5324b0ea1c30b",
     "visual-assets/v10_1/plates-v2/ENV_CLUB_PHONE_V2.webp":"f1c490adad469e3f05dde6252b2f0455a11c468b3240f8d6dfebd34146b0c587",
     "visual-assets/v10_1/plates-v2/ENV_CONNECT_PLAYERS_PHONE_V2.webp":"732622aff75137caa540a00067df4350ddf656524bcfb0fbfefe92301ff1c3c5",
     "visual-assets/v10_1/plates-v2/ENV_FINAL_WINNER_PHONE_V2.webp":"88fbfc43316dc1e0fbff0f33b19492c7d08a513570c7c4c2252c982cb40894ee",
@@ -762,6 +761,13 @@ const V10_IMAGES={
     // 1920 cut (LANCZOS, WebP q90, art ledger R4).
     "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_2X.webp":"e79e977a48019e5a98771463fdda6b224c279b4945960ee8afd6f57abcc9093d",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_HC_V1_1920.webp":"f954c7b869d54ef46f83ee2fd1088d41e9fcb6f0f00d7f8983eb8bc7362d862c",
+    // r100 B7 (HO-174/178, Team V on claude/project-thread-ie3afv 8cc7a704a): the Wooden sign-in lounge behind the sign-in and
+    // error screens (WebP q90 from Team V's 2X and phone files; 1X, 1920 and 590W are LANCZOS cuts). It replaces plates-v2 ENV_SETTINGS_*.
+    "visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_1X.webp":"8a0baad8e79bd3963536074a85010364de1c9759e8a0b8a738c1fd5e5ee670e0",
+    "visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_2X.webp":"4e2732deb347690313793c1ab75bdd043975b1b97fb12ed201dd9b7922d2430f",
+    "visual-assets/v10_1/plates-hc/ENV_SIGNIN_PLATE_HC_V1_1920.webp":"6baa9e99a4a78dde14c34d5a1ad3671553cc7cb72b3426fd8f98760ebe5f0ad5",
+    "visual-assets/v10_1/plates-hc/ENV_SIGNIN_PHONE_HC_V1.webp":"03730d258d6f53270ca4588b26a042c65d6f21bd4e82c3c7429a9b999bb7ac1c",
+    "visual-assets/v10_1/plates-hc/ENV_SIGNIN_PHONE_HC_V1_590W.webp":"8986bb4d0f2e8eb7f4e175aeeac2240052db987438164218c7845705f82924c4",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1.webp":"897f5639fe3ac3790594070d0fd55b121094bae70265c9bcc96e7038c152c78c",
     "visual-assets/v10_1/plates-hc/ENV_SLAB_PHONE_HC_V1_590W.webp":"774945d8dee301e6f147f943df9abea1ea3263444853256e6cdf7a8ef2b5ab11",
     "visual-assets/v10_1/plates-hc/TILE_SLAB_HC_V1_512.webp":"76cf5166df341e532ae707615c2daddd49ad8fa83b0db2ca018640658f083e71",
@@ -817,6 +823,11 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/silver/ENV_OFFICE_PLATE_HC_V3_1920.webp":"dc4028676e5aa20d7aea36c92a2c0ef95fab3f7cb4bbc65b0eb122d22f65ee92",
     "visual-assets/v10_1/plates-hc/silver/ENV_OFFICE_PLATE_HC_V3_1X.webp":"6eddcda9bb4b3660b969fb1241f57e4024d89cc38efc35817f991084694b5b54",
     "visual-assets/v10_1/plates-hc/silver/ENV_OFFICE_PLATE_HC_V3_2X.webp":"723ca50ecc369468817c911cd18d5bf622999425b213c1ccd6d4516425d2f2c1",
+    "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PHONE_HC_V1.webp":"6f1e8be8c6d3140e4c3119e74fdc6327b0a5481ceed7d81cbcd178c6d7264ad6",
+    "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PHONE_HC_V1_590W.webp":"6a22cbc927e83970b463cc4b69c6c1fe8dbe0a9ad8e3afd3ef99e1f769e52c68",
+    "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PLATE_HC_V1_1920.webp":"263dcf5852290756e7da160bcf6e291eeb78edd84ae75b607bcfaf389d918117",
+    "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PLATE_HC_V1_1X.webp":"c81c1ed11d38cae99d77f6246728abfd23af036d39d4ddccc51c5ca0a6785a69",
+    "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PLATE_HC_V1_2X.webp":"65fbe790fda13ef8e0e7361696be3e3e6271df878447a2790aac28fbdb6c9cb9",
     "visual-assets/v10_1/plates-hc/silver/ENV_SLAB_HC_V1_1920.webp":"be496074f21d484c445a605e7e35a7ee5064f029934cb3c7caaef4f92a380ced",
     "visual-assets/v10_1/plates-hc/silver/ENV_SLAB_HC_V1_1X.webp":"7bd5ee7430aedd114d2a5752d9c11948172a6f330da88d401e44a57530b42cd8",
     "visual-assets/v10_1/plates-hc/silver/ENV_SLAB_HC_V1_2X.webp":"886fc609dd7b8e5facb7cf06cf2e6b950fb63690f0557fa8a0455899a97db6d3",
@@ -879,6 +890,11 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/black/ENV_OFFICE_PLATE_HC_V3_1920.webp":"184ebcc4515f43d59244b795d7c3fe2bd82319d0a85a2b8dbe496ebf29032bb1",
     "visual-assets/v10_1/plates-hc/black/ENV_OFFICE_PLATE_HC_V3_1X.webp":"cce5f86bd45264e500747bfe7b320ed4a97cf3ebadd14cf1f49fe671ddb9404b",
     "visual-assets/v10_1/plates-hc/black/ENV_OFFICE_PLATE_HC_V3_2X.webp":"b5b2d94024f64fdeee13c8aed7c2ad0663a2d45eb1545fdbaae79de3261898b8",
+    "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PHONE_HC_V1.webp":"08a6cfc385a2dfd38c77a6e8cc0b2892cd4ec579a7507de8cd4ef4bcab700579",
+    "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PHONE_HC_V1_590W.webp":"5f996b909fb86fdabd88121da9569f6af9649959dc23a5dd2d7d91e3631c59d7",
+    "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PLATE_HC_V1_1920.webp":"e14c9f57bf4c7a9915ee0dc34c7aa223136af2ed3c9727999881f3955db9477a",
+    "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PLATE_HC_V1_1X.webp":"734324dfe7e7473689ebbf83879777a55d7934f7dcc7d02fb028deddfbba7458",
+    "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PLATE_HC_V1_2X.webp":"351ddb27485b646951a6bdf833c61e05d30073edb9e55e5c60de34b4dbae5c0d",
     "visual-assets/v10_1/plates-hc/black/ENV_SLAB_HC_V1_1920.webp":"594ca1f35af95f0b978c4bf447db1ff8037d4e645c318df18c9c715d5779b47e",
     "visual-assets/v10_1/plates-hc/black/ENV_SLAB_HC_V1_1X.webp":"ce03d9286453b8712aa10f2a5d4d3dae797712b79ac6332a0a43ad504256dab5",
     "visual-assets/v10_1/plates-hc/black/ENV_SLAB_HC_V1_2X.webp":"d70c8180286e1f8887c6c2f59d47edb80c5a0aba655b0d56b9c035962bfb2bcf",
@@ -941,6 +957,11 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/matte/ENV_OFFICE_PLATE_HC_V3_1920.webp":"38510fd64a256c40d9e07a8508d9975cf1f10718f4cbc502b36b434ce86384a5",
     "visual-assets/v10_1/plates-hc/matte/ENV_OFFICE_PLATE_HC_V3_1X.webp":"e3c6fcad74df64cd7b88c4ddc664a4ea6f9659deae2dda0e989ba987c49ef5b7",
     "visual-assets/v10_1/plates-hc/matte/ENV_OFFICE_PLATE_HC_V3_2X.webp":"5bbbbc7bbde8ed0789b5259d6390ddf158503faedd0ee7c360274392f858d868",
+    "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PHONE_HC_V1.webp":"9a7e34a2c3780ada0fbd51d409723b7bea0882041c257b7c9f733981bc8f031a",
+    "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PHONE_HC_V1_590W.webp":"0f2dcf6e3e1e7a25891b098af59757e135555cde143e9fb090ceb469d02d7dc9",
+    "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PLATE_HC_V1_1920.webp":"f6fa5263e2873c9e5a62f8a34d25c11b9ff8a9a6641c9c88ca8f652a0912b25f",
+    "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PLATE_HC_V1_1X.webp":"fc2309b5f3822aca7636c98e7efbd22624c01deb641298cdc6798eab951ee4b3",
+    "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PLATE_HC_V1_2X.webp":"866cf86320aa622b42d35533eb9c603165377857728813f2dbaf2f7773063869",
     "visual-assets/v10_1/plates-hc/matte/ENV_SLAB_HC_V1_1920.webp":"55b82df7e46e99dfdf6066dee3bd11c2a5d0b8ba2a68c51e33822b091443c189",
     "visual-assets/v10_1/plates-hc/matte/ENV_SLAB_HC_V1_1X.webp":"a1df8acd4d614ca08834d88b237c0869ab1c501022e41dbd1aa17d6eeed5c46b",
     "visual-assets/v10_1/plates-hc/matte/ENV_SLAB_HC_V1_2X.webp":"59935707ac598c6f419d49d483be37ae2d77c5ca050911e90b0d2f6f8bb5b1d2",
@@ -1133,8 +1154,6 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-v2/ENV_RULE_BOOK_PLATE_V2_2X.webp":"e290e31b61419f12289aaf3e9e1732509e0967de4e01f1379fbfd28dd62bc8c9",
     "visual-assets/v10_1/plates-v2/ENV_SEASON_RESULTS_PLATE_V2_1X.webp":"e09694f2727a0cebee427a8c4bfd4e80a0cd8ef82433994f81b9333a4a24ac7e",
     "visual-assets/v10_1/plates-v2/ENV_SEASON_RESULTS_PLATE_V2_2X.webp":"6421669af483fc747dcf9ee76b194dcf9e928a48d42dd1d59a4b813c5433d6ff",
-    "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_1X.webp":"651807205b505730fc7a20fefe3d69393db0a63fc3f631b91c5c91945bb48908",
-    "visual-assets/v10_1/plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp":"31cc72452e11f5ea2bfce066a59dc34a1c2993af3f2ca3d993de600646b3fd44",
     "visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_1X.webp":"0185af62ee977ba6d5dc941cef48a9ca0ff8f843d0263f2609b0821a6e7526f8",
     "visual-assets/v10_1/plates-v2/ENV_STANDINGS_PLATE_V2_2X.webp":"eadb2d001cd0d1098d23c9ea3dc9187a0dd5083545c3850cffea235975e058f0",
     "visual-assets/v10_1/plates-v2/ENV_STATISTICS_PLATE_V2_1X.webp":"01f1da695e3f8a0568033bc3181d64abd76f321dfecfb14581f579ed59e3160f",
@@ -1794,7 +1813,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Then (lead 2026-11-25): the loading room's preloads and pictures are written by script through the theme's fix(), so a
   // premium clubhouse never downloads the Wooden tunnel; the markup itself is unchanged.
   // And Nik's naming card (2026-11-25): the head comments name Black Steel and Graphite; no code changed.
-  assert.equal(sha256("index.html"),"4d0e27451d814f6494abfd3b89f34cd1a3b28e12a07a5d9c1c2650e9c8b9039a","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard, one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room (its 2x rooms found by picture~picture), 2.12.0-r99 pins)");
+  assert.equal(sha256("index.html"),"8a78a5375e1577419aa61052608efda8829d74b3c483ba7701a5910fe4178e3d","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard (r100 B7: its sheets wait for the clubhouse rewrite, r87 E10), one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room (its 2x rooms found by picture~picture), P3 Ruby clubhouse, 2.12.0-r99 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
