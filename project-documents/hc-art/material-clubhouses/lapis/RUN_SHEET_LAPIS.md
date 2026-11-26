@@ -469,6 +469,9 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 Tries:
 
+**Log (26 Nov):**
+- T1 (`ENV_CLUB_PLATE_LAPIS_P1_2X_T1_RAW.png`): **8.5.** Layout locked (scale 1.000, 0.6 px, no hero mask). Tooled Persian panels under the window, lapis leather armchairs, honed lapis floor and a book-matched counter with its joint: all right. Miss: the two tall panels behind the wall lamps kept image 1's wood grain, only stained blue, and turn violet round the lamps. Glint 11.4 sits on gold window and shelf lines, lamp metal, armchair highlights and the books, no stone hot spots. Fix F1 in the same chat: those two panels become smooth tooled-border lapis leather.
+
 ### L-10 · Lapis Clubhouse: Loading tunnel (behind Reus)
 - Image 1: [IMG1_ENV_LOADING_PLATE_HC_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PLATE_HC_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PLATE_HC_2X.png)), 3840x2160
 - Image 2: [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/39adb07c765a12472bd3e0f373413409b8373963/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
