@@ -251,6 +251,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (14:30 UTC): **8.5/10**. Scale 1.002, men 8.7. All numbers pass (vs Black 18.1, hue 0.84, brown 0.08, sat 0.87, detail 2.80, spread 65). Eye: shelves and cabinets near-black walnut, niches keep the ball and the books with warm lights, the counter is calm malachite with its brass rail, the leather is smooth satin (the lesson held). The corridor arches read as see-through glassy jade with smoky swirls and bright rims that look lit from inside, not as solid stone. Fix 1 sent in the same chat: the arches only, opaque malachite with bands along the curve, lit only by the lamps.
 
 ### E-6 · Emerald Clubhouse: Directors' box
 - Image 1: [IMG1_ENV_BOX_PLATE_HC_V3_2X.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/5580e630ce01b66d0362fcbb9cc4a9edf0ed44a2/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOX_PLATE_HC_V3_2X.png)), 3072x1728
