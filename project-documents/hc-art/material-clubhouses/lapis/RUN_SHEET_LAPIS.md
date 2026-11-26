@@ -1126,6 +1126,8 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 
 Tries:
 
+- T1 (Nov 26 22:22 UTC): 9/10, ACCEPTED. Align scale 0.999, peak 0.255 OK; SIGNIN PASS: hue 0.752, sat 0.857, brown 0.118, glint 4.7, spread 101, luma 31.1. Tooled Persian lapis leather walls and shelf backs, honed lapis pillar, floor tiles and table tops, tufted lapis-leather sofa and armchair, a hand-knotted Persian rug with a flowered border, the crown panel in lapis leather with a satin gold crown, ebony coffered ceiling, gold trophies, balls and crowns kept, city skyline kept; the middle stays calm for the sign-in card. (The check's Wooden reference, plates-v2/ENV_SETTINGS_PLATE_V2_2X.webp, is not in this branch; it was made locally from the Image 1 PNG for the check and not committed.)
+
 ### L-26 · Lapis Clubhouse: Sign-in lounge, phone upright
 - Image 1: [IMG1_ENV_SETTINGS_PHONE_V2.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SETTINGS_PHONE_V2.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_SETTINGS_PHONE_V2.png)) (1179x2096)
 - Image 2: none: Image 1 alone (Ruby lesson 14, as E-26)
