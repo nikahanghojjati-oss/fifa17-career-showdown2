@@ -40,3 +40,4 @@ Written by the Team V lead after 57 premium repaints plus the extras (HO-098..18
 - **Swatches gate phones:** phone tickets wait for Team G's swatch cut from the finished desktop room; always download Image 2 fresh, since swatches get re-cut under the same name.
 - **Nik approves the pilot first** (one Board Room + one Home per new look) before the rest are run; lock the look there, then copy its winning wording into every prompt.
 - **Nik never fades hair or skin and never wants dim filters;** check face and hair outlines at 2x before showing him anything.
+- **Phone and sign-in repaints (lesson 26 Nov, HO-174..181):** start a phone or a hard Matte room from an already approved sibling picture of the same room as Image 1 (it carries the right framing and furniture), then send a short colour-and-weave-only follow-up edit if the look is off.
