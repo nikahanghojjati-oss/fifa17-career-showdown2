@@ -1026,6 +1026,8 @@ Same 16:9 framing as image 1, nothing cropped or extended at any edge, largest s
 
 Tries:
 
+- T1 (Nov 26 22:07 UTC): accepted at 9. Aligned at scale 1.000, peak 0.150. The three-pane window and stadium are kept, the coat and striped scarf hang on gold hooks on a tooled panel at the left, the glass cabinet with decanter and glasses is kept at the right, a tooled Persian band runs below the window, the dim gold rail sits at about 76%, and the book-matched lapis counter has one joint and a warm wash at the left. The middle stays clear for the board. LR check PASS: sat 0.770, glint 3.9, spread 90, luma 25.6, hue 0.764, brown 0.110.
+
 ### L-24 · Lapis Clubhouse: Club room, phone sideways
 - Image 1: [IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_SIDEWAYS_HC_V4.png)), 2532x1170
 - Image 2 (the approved pilot materials, as L-9): [IMG2_REF_PILOT_LAPIS.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/9fbba22f0ba93bb73c2b6c81a4050ad00d163158/project-documents/hc-art/material-clubhouses/src/IMG2_REF_PILOT_LAPIS.png))
