@@ -784,7 +784,7 @@ Tries:
 
 ### R-19 · Ruby Clubhouse: Players' tunnel, phone
 - Image 1: [IMG1_ENV_TUNNEL_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_TUNNEL_PHONE_HC_V3.png)), 1179x2096
-- Image 2: [IMG2_REF_TUNNEL_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_RUBY_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_RUBY_SWATCH.png))
+- Image 2: [IMG2_REF_TUNNEL_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/233ad42c745230dd4aaeef90704bc8f0c7f769ec/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_RUBY_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/233ad42c745230dd4aaeef90704bc8f0c7f769ec/project-documents/hc-art/material-clubhouses/src/IMG2_REF_TUNNEL_RUBY_SWATCH.png))
 - Saves as `ENV_TUNNEL_PHONE_RUBY_P1`
 
 ```
@@ -813,6 +813,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Image 2 (26 Nov 01:42 UTC): the centre-cut swatch was the whole tunnel down to the floor mat, which Astra would copy below the counter, so it is now a composed swatch, the left leather wall panel over calm Rosso Levanto stone (from the accepted Coaches painting, since the Tunnel counter strip is too short), edge at 50%, pinned to 233ad42c745230dd4aaeef90704bc8f0c7f769ec[:9].
 
 ### R-20 · Ruby Clubhouse: Club room, phone
 - Image 1: [IMG1_ENV_CLUB_PHONE_HC_V4.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PHONE_HC_V4.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_CLUB_PHONE_HC_V4.png)), 1179x2096
