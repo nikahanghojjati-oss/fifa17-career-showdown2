@@ -47,7 +47,9 @@ ANCHOR = {"BOARD": (1286, 52)}
 # leather wall over the calmest counter stone, wherever the desktop strip holds objects (Hall: door and rug; Archive: shelves and plinth)
 COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40),
            "HALL": ((1840, 314, 2080, 600), (480, 1585, 720, 1726), 67),
-           "ARCHIVE": ((0, 0, 220, 760), (440, 1400, 660, 1600), 50)}
+           "ARCHIVE": ((0, 0, 220, 760), (440, 1400, 660, 1600), 50),
+           # Box: the desktop strip is two thirds stadium window, which Astra would copy up to the top; lower left leather panel over calm stone
+           "BOX": ((25, 1084, 225, 1290), (1880, 1530, 2080, 1680), 58)}
 
 
 def compose(p, name):
