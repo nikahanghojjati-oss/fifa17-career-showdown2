@@ -28,6 +28,15 @@ Image 1 links are pinned to commit `0aa05806`, so they never move.
 
 - Nik, 26 Nov 19:04 UTC: a faded watermark of something ours (the ball, the scarf, the logo) only on pages where it doesn't compete. Plan: the old laced leather ball, blind-tooled tone-on-tone into the leather, only in rooms whose middle wall is open on screen (checked per page in batch 1); no logo (no lettering in the art); Board keeps the sunburst.
 
+## The Lapis plan (Nik, 26 Nov 19:11 UTC: "we actually want a plan that we achieve something in Lapis that we have not achieved before in terms of premiumness and like high quality")
+1. Recipe locked: vivid lapis; B's craftsmanship (reeded ebony, double hand stitching, book-matched stone, stepped cornice); a faded background piece planned per room. Only the stone finish is open.
+2. One master Board at 9+: L-1D. If its stone misses, the next try adds Image 2 = `LAPIS_STONE_SAMPLE_C1.png` (the C T1 counter, our best stone) so Astra copies a real result instead of guessing from words.
+   9/10 checklist: stone reads as honed natural lapis (not felt, glass or crumpled cloud); leather is smooth satin with visible stitching; the background piece is faint and never bold; men untouched; night depth (bright lamp pool, deeper corners); nothing AI-looking in 2x crops; check numbers pass.
+3. Screen check (new for Lapis): every candidate is laid under its real screen's UI before Nik sees it, so the background never fights the boxes.
+4. Nik's OK on the master makes it Image 2 for every other room, so the stone, leather and gold are copied, not re-guessed.
+5. Background pieces per room, from each screen's layout: Board = sunburst; the faded ball only where the middle wall is open; nothing on busy screens. The list is written here before each batch.
+6. Board of every screen for Nik before the draft PR.
+
 ## Pilot (2 pictures). Nik OKs both before any other Lapis prompt is written.
 The pilot has no Image 2: no Lapis room is approved yet, so the materials are described in words only.
 
