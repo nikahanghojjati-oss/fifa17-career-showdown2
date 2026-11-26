@@ -69,6 +69,17 @@ Change only one thing: the lapis lazuli. The counter below the rail and the two 
 
 Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
 ```
+- T2 (F1 in the same chat, 18:52 UTC, `ENV_BOARD_PLATE_LAPIS_P1_2X_T2_RAW.png`): scale 1.0000, men diff 4.7. Check: sat 0.981 (limit 0.97) and glint 10.2 miss, rest pass. Eye **7.5/10**: the stone now shines, but the counter is a dark mirror holding a ghost image of both men, and the pillars read as blue glass or lacquer with no stone mottling; leather by the lamp shows faint crinkles.
+  Lesson: "mirror sheen" overshoots into glass; ask for "satin stone polish" with dense natural mottling, the suits only a faint soft shadow.
+  Fix F2, same chat (last edit in this chat; one change: the stone surface):
+
+```
+Keep this picture exactly as it is: the same framing, exactly 3072 by 1728 pixels, the two men untouched, the wall lamp, the door and its handle, the panel layout, the lapis pillars at the far left and far right edges, the thin gold rail at the same height and the counter below it. Keep exactly the present brightness and the same lapis blue.
+
+Change only one thing: the surface of the lapis on the counter and the two edge pillars, so it reads as real natural stone, not blue glass, lacquer or plastic. Give it the dense, irregular natural mottling of a real polished lapis lazuli slab: soft clouds of deeper ultramarine and brighter ultramarine running through the whole surface, different from slab to slab, with the same few tiny crystal flakes. Soften the polish to a satin stone polish: the warm lamp reflection on the counter stays soft and warm, and the two suits show only as a faint, soft dark shadow in the stone, never a mirror image of the men. No veins, cracks, glitter or new objects.
+
+Same 16:9 framing, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
 
 ### L-2 · Lapis pilot 2/2: Home
 
