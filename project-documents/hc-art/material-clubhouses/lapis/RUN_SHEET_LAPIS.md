@@ -308,6 +308,23 @@ Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or ex
 ```
 
 Tries:
+- T1 and T2 (19:36 UTC, `ENV_BOARD_PLATE_LAPIS_P1G_2X_T1_RAW.png`, `_T2_RAW.png`): both well made (clean pointed arch, tone-on-tone girih, rosette borders), T2 the softer. Dropped: Nik, 19:36 UTC: "Keep in mind Persian architecture, not Islamic architecture, like a Persepolis one, like ancient Persian." The arch and girih are Islamic. Next: L-1H.
+
+### L-1H · Lapis Board: ancient Persia, Persepolis reliefs (fresh chat, Image 1 = `ENV_BOARD_PLATE_LAPIS_P1D_2X_T4_RAW.png`)
+
+Nik, 19:36 UTC: Persepolis, ancient Persian, not Islamic. Motifs from the Achaemenid reliefs: twelve-petal rosette bands, stepped crenellations, cypress trees and lotus flowers. No people, animals or winged symbols (the men stay the only figures; the winged symbol is an emblem). The cypress and lotus row sits low, so the title area stays plain leather. Saves as `ENV_BOARD_PLATE_LAPIS_P1H_2X_T1_RAW.png`.
+
+```
+Image 1 is the picture to edit. Use only image 1.
+
+Keep image 1 exactly the same: the same camera, zoom, framing and layout, exactly 3072 by 1728 pixels, the same two men untouched, and the same lamp, door, stone, leather colour, mouldings, gold rail and light.
+
+Change only one thing: the tooled pattern on the leather wall panels, now inspired by the carved stone reliefs of ancient Persepolis, the Achaemenid palace of ancient Persia (never Islamic patterns, arches, stars or calligraphy). The big middle panel between the two men is framed inside its border by a band of small twelve-petal Persepolis rosettes, evenly spaced. Along the top of the panel runs a row of stepped Persepolis crenellations. The field inside is a calm, symmetrical low relief of tall slender cypress trees alternating with tall lotus flowers on long stems, standing in a neat row along the bottom of the panel and rising about two thirds of its height, with plain leather above them. Everything is hand-tooled and gently embossed into the lapis-blue leather, tone-on-tone, only a shade lighter and deeper than the leather, like blind tooling on a fine leather-bound book; never pale silver, never grey-white, and no gold except the existing frame lines. The design is sophisticated, neat and soft: orderly, mirror-symmetrical and evenly spaced, with fine, light lines and small natural irregularities of real handwork, never a printed or computer-perfect pattern. No people, no animals, no winged symbols, no emblems, no text and no new colours. Every other wall panel and the door get only the same narrow band of small rosettes just inside their frame, with their middles left plain and calm so the men stand out.
+
+Same 16:9 framing as image 1, exactly 3072 by 1728 pixels, nothing cropped or extended at any edge.
+```
+
+Tries:
 - (waiting for the first picture)
 
 ### L-1D · Lapis pilot Board: B design, honed stone, faded sunburst (fresh chat)
