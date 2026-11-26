@@ -534,6 +534,7 @@ Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, larg
 ```
 
 Tries:
+- Try 1 (16:11 UTC, two pictures back): **8.5/10, fix the first picture.** Both align (first: scale 1.002, 1.5 px, men 6.9; second: 1.003, men 8.1); windows clear glass, lamp, rail at 50% and floor strip held, no furniture copied from the swatch. Second picture passes the numbers but its pillars read as glossy green satin curtains, not stone (out). First picture: malachite pillars, sat 0.74, spread 66, all pass but detail 1.89 (needs 1.92): the counter slab reads as soft smoke with a yellow-green wash under the lamp, the same miss as slab try 1. Fix 1 (same chat, first picture), the counter only: crisp cut malachite with fine growth lines in each band, the lamp reflection a cream-gold sheen on green. Raws kept as ENV_HOME_PHONE_EMERALD_P1_T1A_RAW.png and _T1B_RAW.png. Lesson for E-13 on: the counter line asks for crisp growth lines (added to mk_phones after this result).
 
 ### E-13 · Emerald Clubhouse: Board Room, phone
 - Image 1: [IMG1_ENV_BOARD_PHONE_HC_V3.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/e37c245f0d83de1be69736a4f8690138fb083152/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_BOARD_PHONE_HC_V3.png)), 1179x2096
