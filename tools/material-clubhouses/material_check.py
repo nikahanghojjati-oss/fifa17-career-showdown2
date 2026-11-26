@@ -73,11 +73,15 @@ LOOKS = {
     # vivid ... like a lively touch." So Lapis drops the "muted and aged" ceiling: sat may run to 0.97 (Ruby/Emerald 0.90)
     # and luma to 70. Plastic flatness is still caught by spread and detail.
     # Reasons in lapis/COLOUR_STUDY.md.
-    "LAPIS": dict(name="Lapis Clubhouse", hue=(200, 255), hue_min=0.50, brown_max=0.20, sat=(0.45, 0.97),
+    # Calibrated on the approved pilot (Nik, 26 Nov 2026 19:58 UTC): Board ENV_BOARD_PLATE_LAPIS_P1F_2X_T4 (Persian
+    # rug, sat 0.988, glint 40.1) and Home ENV_HOME_PLATE_LAPIS_P1D_2X_T2 (sat 0.977, glint 6.5). Both read vivid, not
+    # plastic, so sat runs to 0.99. The Board's glint is the approved gold fan of rays and the raised edges of the
+    # hand-tooled Persian pattern, not hot spots on stone, so the Board alone gets its own glint ceiling.
+    "LAPIS": dict(name="Lapis Clubhouse", hue=(200, 255), hue_min=0.50, brown_max=0.20, sat=(0.45, 0.99),
                   luma=(14, 70), gold_max=0.04,
-                  rooms=dict(SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
-                             SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
-                  provisional=True),
+                  rooms=dict(BOARD=dict(glint_max=45.0),
+                             SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
+                             SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
@@ -235,6 +239,7 @@ def check(key, room, d, sib):
         ("luma", sm["luma"], cfg["luma"][0] <= sm["luma"] <= cfg["luma"][1], f"{cfg['luma'][0]}-{cfg['luma'][1]} (night)"),
     ]
     gl = max(3.0, min(8.0, .6 * sb["glint"])) if sb else 3.0
+    gl = cfg.get("glint_max", gl)
     sp = max(sw["spread"], .75 * sb["spread"]) if sb else sw["spread"]
     # Sign-in lounge: its Wooden is B7's raw Settings V2 plate (blazing gold strips, AI over-sharpening; B7 repaints it
     # too), so its spread and detail are no floor for a handcrafted room. Rooms may set their own floors in LOOKS.

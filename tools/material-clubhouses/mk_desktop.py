@@ -68,6 +68,38 @@ M = {
   lock="Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep emerald green, exactly the greens of image 2: bottle green (#145A3C) on the walls, malachite green (#2E8B57) where the stone is lit, green near-black (#0B2E22) only in the deepest corners, and walnut so dark it reads near-black (#241A12). Every green is a touch muted and aged, a deep bottle green, never a vivid, neon or saturated green. Where the light is brightest the green turns a lighter, clearer jade, never yellow, olive or khaki. The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or light brown there, even near the lamps; the only brown is the near-black walnut of the thin mouldings, frames and furniture. Brass is only the lamp metal, the rails, the handles and the hairline trims: no brass panels and no gold walls. The malachite bands are a few broad, smooth, softly curving bands of lighter and darker green that flow gently across the stone at different angles, each one continuous and unbroken with soft edges; the lighter bands are a soft mid jade (#5E9E74), never pale mint or white; never tight busy rings, zebra stripes, contour-map lines or a fine web of thin hairline lines. On any pillar or column the bands run straight up and down the full height of the pillar, parallel to its corners, like the grain of a tall stone column, never diagonal, slanted or spiral, and its reflections are a soft, broad, dim satin sheen, never a small hot white spot. The stone is smooth, glassy polished malachite with no fine scratches, crinkles or crumpled texture anywhere, even inside the lamp reflections.",
   slab="polished malachite: a deep green stone, bottle green (#145A3C) to lit malachite green (#2E8B57) with green near-black (#0B2E22) in its deepest tones, with a few broad, calm, softly curving bands of lighter mid jade (#5E9E74) and darker green flowing in gentle diagonals at different angles, each band smooth, continuous and unbroken with soft edges",
   slab_lock="The stone stays a rich deep emerald green, exactly the green of the malachite in image 2: the light only brightens it, it never tints it mint, lime, teal, olive or brown; the bands stay few, broad and calm, never tight busy rings, zebra stripes or contour-map lines, and the surface is smooth, glassy polished stone with no scratches or crinkles."),
+ "LAPIS": dict(grain="soft cloud drifts",
+  name="Lapis Clubhouse",
+  subs=[("on the polished stone desk top around its base, with a dim soft reflection of the lit shade in the stone", "on the honed stone desk top around its base, with one soft, blurred warm glow in the stone"),
+        (", polished and even all the way round", ", honed and even all the way round")],
+  base="deep lapis blue",
+  fall="blue falls off to ultramarine near-black",
+  img2=("Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two "
+        "finished rooms: the lapis-blue leather with its hand-tooled Persian pattern and flowered carpet borders, the honed lapis "
+        "lazuli stone, the blue-black ebony and the satin gold. Match its materials, colours, finish and light exactly, and copy "
+        "nothing else from it: none of its furniture, lamps, blankets, ball, carpet, fan of gold rays or layout."),
+  feel="A private members' club at night in vivid lapis blue, handcrafted by master craftsmen in the spirit of a fine antique Persian carpet: honed lapis lazuli, hand-tooled lapis-blue leather, blue-black ebony and satin gold.",
+  wall="the same rich lapis-blue leather as image 2, smooth satin-finish leather with neat hand-stitched seams, each panel framed in thin blue-black ebony with a hairline satin gold line, with the same narrow flowered Persian carpet border just inside its frame and its field filled with the same hand-tooled, embossed Persian vines, palmette flowers and leaves as image 2, in a brighter lapis blue pressed into the leather, rich and clearly readable, never pale silver, grey-white or gold, keeping the same panel layout",
+  stone="honed lapis lazuli exactly like the stone in image 2: a deep vivid ultramarine with a few soft, broad, cloud-like drifts of brighter ultramarine and a sparse scattering of tiny crystal flakes, smooth with a soft satin finish, never grainy, sponged, crackled, starry or glassy",
+  frame="blue-black ebony with a thin satin gold inner line",
+  door="the same tooled lapis-blue leather panel in a blue-black ebony frame, with a small satin gold handle",
+  metal="satin gold with soft broad highlights",
+  rail="a soft, dim satin gold line with no bright shine, never a bright yellow or white line",
+  counter="two calm, hand-cut book-matched slabs of honed lapis lazuli meeting at one fine straight joint, exactly like the counter in image 2; lamps show in it only as soft, blurred warm glows and nothing is mirrored in it",
+  floor="honed deep lapis lazuli with soft blurred warm glows under the lamps and real soft contact shadows",
+  mat="a ribbed rubber floor mat in ultramarine near-black with thin satin gold edge strips that stay a dim soft satin line",
+  handrail="blue-black ebony with small satin gold brackets",
+  case="blue-black ebony frames with a thin satin gold edge and honed lapis lazuli shelves; any light strip under a shelf and the trim around the recess is a dim, soft satin glow, never a bright line",
+  shelf="blue-black ebony with a honed lapis lazuli top and a thin satin gold edge",
+  seat="the same rich lapis-blue leather as image 2, smooth satin-finish with neat hand-stitched seams, a touch brighter where the lamp light falls so they read clearly against the walls",
+  materials="tooled lapis-blue leather, lapis lazuli, blue-black ebony or satin gold",
+  light_rule="Lapis is vivid, lively ultramarine lapis lazuli and lapis-blue leather at night, like a film still: rich, saturated and jewel-bright, like a cut lapis gem held to candlelight, never a flat plastic blue, navy-grey, purple or teal.",
+  pools="Each lamp throws a wide, clearly bright warm wash of lamplight onto the leather or stone around it, where the blue turns a brighter, clearer ultramarine, never grey, green or purple. Everything else keeps a vivid, saturated ultramarine, deepening to ultramarine near-black only in the far corners and toward the ceiling, so the room has depth and never looks flat; the walls and the wall above any furniture read as a clearly readable vivid ultramarine, never near-black.",
+  men=" Behind each man the wall is a clearly readable vivid mid ultramarine, clearly lighter than the black suits, so both men read crisply against it.",
+  sheen="The leather has a soft satin sheen; the lapis is honed with a soft satin finish, never glass or a mirror; gold appears only as small satin accents with soft broad highlights, never hot white sparkle points or glitter. Up close you see the tooled Persian pattern and stitched seams of the leather, the ebony mouldings and the drifts and tiny crystal flakes of the lapis, all sharp.",
+  lock="Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is vivid lapis blue, exactly the blues of image 2: rich deep lapis blue (#1450AE) on the leather, vivid lapis blue (#165CC4) on the stone, brighter lapis blue (#1268E8) only where the lamps fall, deep lapis blue (#0D2A66) in the shadows and corners, and ebony so dark it reads blue-black (#12131A). Every blue is vivid and jewel-like, never navy-grey, purple or teal. The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or light brown there, even near the lamps. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels, no gold walls and no gold flecks in the stone. The lapis is a calm field of vivid blue with a few soft, broad drifts and a sparse scattering of tiny crystal flakes spaced well apart, each a tiny soft point of light, never a starry sky, a glitter field, white patches or a web of hairline veins or cracks. On any pillar or column the drifts run straight up and down, and the stone shows a fine straight joint where two book-matched slabs meet.",
+  slab="honed lapis lazuli: a deep vivid ultramarine stone, rich deep lapis blue (#1450AE) to lit lapis blue (#1268E8) with deep lapis blue (#0D2A66) in its deepest tones, with a few soft, broad, cloud-like drifts of brighter ultramarine and a sparse scattering of tiny crystal flakes spaced well apart",
+  slab_lock="The stone stays a rich, vivid lapis blue, exactly the blue of the lapis in image 2: the light only brightens it, it never tints it navy-grey, purple, teal or green; the drifts stay few, broad and calm, the flakes tiny and sparse, never a starry sky or glitter, and the surface is smooth honed stone with a soft satin finish, never grainy, scratched or glassy."),
 }
 
 STADIUM = " and the floodlit stadium glow through the window"
@@ -131,7 +163,7 @@ def desktop(L, rm, R):
     light = (f"Light: It is night. {L['light_rule']} {src}{L['men'] if R['men'] else ''} {L['sheen']}"
              + (" The two men stay lit exactly as they are now." if R["men"] else ""))
     people = "no people other than the two men" if R["men"] else "no people"
-    return f"""{IMG2}
+    return f"""{L.get('img2', IMG2)}
 
 Keep image 1 exactly the same in camera, framing and layout. Change only the materials and finish of the room itself.
 
@@ -154,7 +186,7 @@ Same 16:9 framing as the original, nothing cropped or extended at any edge, larg
 
 
 def slab(L):
-    return f"""{IMG2}
+    return f"""{L.get('img2', IMG2)}
 
 Keep image 1 exactly the same size and framing. Repaint the whole surface as one new stone, seen straight on.
 
@@ -176,6 +208,8 @@ def main():
            "Image 2 for every ticket here: the people-free cut of the two approved pilot rooms.", ""]
     tickets = [(rm, R["name"], R["img1"], R.get("size", "3072x1728"), f"ENV_{rm}_PLATE_{key}_P1_2X", desktop(L, rm, R)) for rm, R in D]
     tickets.append(("SLAB", "Material slab", "IMG1_ENV_SLAB_HC_V1_2X.png", "3072x1728", f"ENV_SLAB_{key}_P1_2X", slab(L)))
+    for a, b in L.get("subs", []):
+        tickets = [(rm, nm, i1, sz, asset, p.replace(a, b)) for rm, nm, i1, sz, asset, p in tickets]
     for n, (rm, nm, img1, size, asset, p) in enumerate(tickets):
         code = f"{key[0]}-{first + n}"
         out += [f"### {code} · {L['name']}: {nm}",
