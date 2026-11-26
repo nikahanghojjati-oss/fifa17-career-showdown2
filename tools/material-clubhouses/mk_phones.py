@@ -94,7 +94,7 @@ def prompt(key, rm):
             keepl += " The room is empty of people."
     room = (f"The room: {L['feel']}\n"
             f"Walls and panels: {L['wall']}. Pillars: {Y['stone']}. Frames: {L['frame']}."
-            + ("" if rm in ("ARCHIVE", "LOADING") else f" Lamp metal: {L['metal']}; shades stay warm cream and lit.")
+            + ("" if rm in ("ARCHIVE", "LOADING", "BOX") else f" Lamp metal: {L['metal']}; shades stay warm cream and lit.")
             + ("" if rm in ("CLUB", "LOADING") else f" Counter: {Y['counter']}."))
     if rm in ("TUNNEL", "LOADING"):
         room += f" Handrails: {L['handrail']}. Floor: {L['mat']}. The pillars keep their exact square shape, with flat faces and straight corners, never round columns."
@@ -106,6 +106,10 @@ def prompt(key, rm):
     if extra == "nolamps":
         src = ("No wall lamps are visible in this room: light comes only from the lights inside the two display niches and a soft glow along the vault. Add no lamps, sconces or wall lights anywhere. "
                "Each niche throws a soft warm pool onto the leather and stone around it, with a soft warm reflection on the polished front of the counter")
+    elif extra == "box":
+        # R-17 (26 Nov): image 1 has no lamps in the box; naming lamps invites Astra to add them
+        src = ("Image 1 has no lamps in this room, so add none: light comes only from the floodlit stadium glow through the window and the same soft warm light from above as image 1. "
+               "The glow through the window lights a soft warm edge on the leather around the window frame, with soft warm reflections on the polished front of the counter")
     elif rm == "LOADING":
         src = ("Light comes only from the same soft overhead glow as image 1 and the floodlit pitch at the end of the tunnel. The pitch light throws a soft warm glow onto the marble, "
                "the leather and the floor near the tunnel end; where it meets the steps and the gold edge strips it fades smoothly, with no hot bright line and no white highlight")
@@ -122,6 +126,9 @@ def prompt(key, rm):
     elif extra == "nolamps":
         bright = ("the two display niches glow clearly bright and throw a wide warm pool onto the leather around them, the soft glow along the edges of the vault arches is bright, "
                   "and the two warm reflections on the polished counter just below the rail are large and clearly bright, a soft cream-gold candlelight sheen on the red stone")
+    elif extra == "box":
+        bright = ("the floodlight glow lights a clear warm edge on the leather around the window frame and along the gold rail, and the warm reflections on the polished counter just below the rail "
+                  "are large and clearly bright, a soft cream-gold sheen on the red stone")
     elif rm == "CLUB":
         bright = "each lamp throws a wide, clearly bright warm pool onto the leather wall around it, a soft cream-gold candlelight sheen"
     else:
@@ -132,6 +139,9 @@ def prompt(key, rm):
     light = (f"Light: It is night. {Y['light_rule']} {src}, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat.{depth}"
              f"{L['men'] if men else ''} {L['sheen']}" + (" The two men stay lit exactly as they are now." if men else ""))
     lock = L["lock"].replace(*Y["veins"])
+    # 26 Nov: "a small soft pool" fought the first-try bright-spots line; the lock now only bans the brown tint
+    lock = lock.replace("Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red.",
+                        "Where the light is warm it makes the red lighter, never brown or orange, and everywhere else stays deep red.")
     if rm == "LOADING":
         lock = lock.replace("Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red.",
                             "The pitch light only brightens the surfaces near the tunnel end, it never tints them brown or orange, and everywhere else stays deep red.")
