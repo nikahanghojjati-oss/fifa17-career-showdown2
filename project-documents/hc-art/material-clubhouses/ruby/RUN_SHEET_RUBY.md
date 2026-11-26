@@ -850,7 +850,7 @@ Tries:
 
 ### R-21 · Ruby Clubhouse: Loading tunnel, phone
 - Image 1: [IMG1_ENV_LOADING_PHONE_HC.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG1_ENV_LOADING_PHONE_HC.png)), 1179x2096
-- Image 2 (materials-only strip): [IMG2_REF_LOADING_MAT_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_RUBY_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/claude-duet/p3-ruby/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_RUBY_SWATCH.png))
+- Image 2 (materials-only patch, pinned to 0f504d32c): [IMG2_REF_LOADING_MAT_RUBY_SWATCH.png](https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/0f504d32c29584fe97203071107547a19a59b5aa/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_RUBY_SWATCH.png) ([raw](https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/0f504d32c29584fe97203071107547a19a59b5aa/project-documents/hc-art/material-clubhouses/src/IMG2_REF_LOADING_MAT_RUBY_SWATCH.png))
 - Saves as `ENV_LOADING_PHONE_RUBY_P1`
 
 ```
