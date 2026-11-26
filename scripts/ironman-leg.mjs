@@ -28,7 +28,8 @@ export function legPlan({leg,seed,seasons=3,epilogue=true}){
   if(leg==='ce2pg'){
     const run=1+(seed%3);
     const env={CE2PG_PLAN:'single',CE2PG_SEASONS:String(seasons),CE2PG_RUN:String(run)};
-    return {leg,seed,seasons,script:'tests/browser/ce2pg-journey.cjs',env,replay:`CE2PG_PLAN=single CE2PG_SEASONS=${seasons} CE2PG_RUN=${run} node tests/browser/ce2pg-journey.cjs`};
+    // report: the CE2PG report the run writes (POS1M Ring 3 reads its meter after the leg).
+    return {leg,seed,seasons,script:'tests/browser/ce2pg-journey.cjs',env,report:`test-results/ce2pg-single-${seasons}-${run}.json`,replay:`CE2PG_PLAN=single CE2PG_SEASONS=${seasons} CE2PG_RUN=${run} node tests/browser/ce2pg-journey.cjs`};
   }
   if(typeof epilogue!=='boolean')throw new Error(`epilogue must be true or false (got ${epilogue})`);
   const env={FIJ_FAULT:leg,FIJ_SEED:String(seed),FIJ_SEASONS:String(seasons),...(epilogue?{}:{FIJ_EPILOGUE:'0'})};
@@ -85,7 +86,7 @@ export function runLeg({leg,seed,seasons=3,epilogue=true,out=null,command=null,e
   // A FLAKY leg's points are the failed first attempt's (its reports moved to attempt-1/; Codex on #1579), so the finding
   // names the point, its owner and its own replay; a FAIL leg's are the last attempt's.
   const failures=leg==='ce2pg'?[]:verdict==='FLAKY'?failuresOf({leg,seed,seasons,outDir:path.join(outDir,'attempt-1'),epilogue}).map(f=>({...f,attempt:1})):failuresOf({leg,seed,seasons,outDir,epilogue});
-  const record={schema:'ironman-leg/v1',leg,seed,seasons,epilogue:leg==='ce2pg'?null:epilogue,verdict,attempts,replay:plan.replay,failures,finishedAt:new Date().toISOString()};
+  const record={schema:'ironman-leg/v1',leg,seed,seasons,epilogue:leg==='ce2pg'?null:epilogue,verdict,attempts,replay:plan.replay,...(plan.report?{report:plan.report}:{}),failures,finishedAt:new Date().toISOString()};
   if(out){fs.mkdirSync(path.dirname(path.resolve(out)),{recursive:true});fs.writeFileSync(out,`${JSON.stringify(record,null,2)}\n`);}
   const failureLines=failures.map(f=>`- ${f.point} (${f.phone}): ${f.checks.join(', ')}. Replay: \`${f.replay}\``);
   if(env.GITHUB_STEP_SUMMARY)fs.appendFileSync(env.GITHUB_STEP_SUMMARY,`### Ironman ${leg}: ${verdict}\n\nSeed ${seed}, ${seasons} seasons${leg==='ce2pg'?'':epilogue?', with the epilogue':', epilogue off (no pairing, Home, Settings or sync file changed)'}, ${attempts.length} attempt(s).\n\nReplay: \`${plan.replay}\`\n\n${failureLines.length?`Failed points (${verdict==='FLAKY'?'first attempt, passed on the rerun':'last attempt'}):\n\n${failureLines.join('\n')}\n\n`:''}`);
