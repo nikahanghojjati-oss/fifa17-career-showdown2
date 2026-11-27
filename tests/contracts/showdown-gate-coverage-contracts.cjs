@@ -185,7 +185,9 @@ let checks=0;const ok=()=>{checks++;};
     const laneArg=gateLib.laneArgOf(laneId);
     assert.equal(job.name,l7?`${def.name} \${{ matrix.leg }}`:l8||l9?`${def.name} \${{ matrix.shard }}`:def.name);
     assert.equal(job['runs-on'],'ubuntu-24.04',`${def.job} runs-on must be pinned`);
-    assert.equal(job.if,"${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}",`${def.job} must skip draft PRs`);
+    // r100 step 4 (Nik 2026-11-24): main push runs only L5 (Rules regression + T9/M12 pin check); every other lane runs on ready PRs only.
+    if(laneId==='L5')assert.equal(job.if,"${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}",`${def.job} must skip draft PRs and run on main push`);
+    else assert.equal(job.if,"${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}",`${def.job} must skip draft PRs and main push`);
     assert.ok(!('needs' in job),`${def.job} must not depend on another job (no shared selector)`);
     const ids=new Set(job.steps.map(s=>s.id).filter(Boolean));
     for(const stepId of Object.keys(def.steps)){assert.ok(ids.has(stepId),`${def.job} lacks step id ${stepId}`);assert.match(job.steps.find(s=>s.id===stepId).label,/^TEST: /);}
@@ -213,7 +215,7 @@ let checks=0;const ok=()=>{checks++;};
     ok();
   }
   const seal=gateJob('seal');
-  assert.equal(seal.name,'seal');assert.equal(seal.if,'${{ !cancelled() }}');assert.equal(seal['runs-on'],'ubuntu-24.04');
+  assert.equal(seal.name,'seal');assert.equal(seal.if,"${{ github.event_name == 'pull_request' && !cancelled() }}");assert.equal(seal['runs-on'],'ubuntu-24.04');
   assert.deepEqual(seal.needs,laneJobs,'seal needs every lane');
   for(const job of Object.values(gate.jobs))assert.doesNotMatch(String(job.name),/^POS20\b/,'Showdown Gate checks must never look like POS20 evidence');
   // Triggers, concurrency, permissions.
