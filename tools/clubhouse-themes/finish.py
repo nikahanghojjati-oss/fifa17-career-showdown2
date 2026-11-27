@@ -185,6 +185,35 @@ LOOK = {
   tilelight="border-color: rgba(220, 236, 200, .2) !important; border-bottom-color: rgba(0, 0, 0, .3) !important; "
             "background: linear-gradient(180deg, rgba(226, 240, 228, .07) 0, transparent 18%) !important;",
   title="", gold=False),
+ "lapis": dict(    # P3 Lapis (2026-11-26; colour study #1450AE leather / #12131A ebony / satin gold): deep ultramarine panels like the
+                   # honed lapis slab, a thin satin-gold edge, warm ivory words; gold keeps its meaning but is softened, never bright
+  tokens="""
+  --sd-edge: rgba(200, 166, 92, .66); --sd-edge-inner: rgba(240, 222, 170, .14);
+  --sd-glass: rgba(8, 18, 44, .86); --sd-glass-strong: rgba(6, 13, 34, .96); --sd-black: #040a1c;
+  --sd-shadow-glow: 0 0 0 transparent;
+  --sd-text-primary: #f0efe8; --sd-text-secondary: #b4bed6; --sd-text-warm: #e8e0cc;
+  --r95-ink: #f0efe8; --r95-ink-2: #b4bed6; --r95-gold-ink: #dfc074; --r95-kicker-ink: #ebd18c;
+  --r78-ivory: #f0efe8; --r78-ivory-2: #b4bed6; --r78-gold: #dfc074; --r78-gold-strong: #ebd18c; --r78-panel: #10265a;
+  --h95-smoke: linear-gradient(180deg, #10265a, #08163a);""",
+  panel="background: linear-gradient(104deg, transparent 0 56%, rgba(214, 226, 255, .035) 66%, transparent 76%), linear-gradient(180deg, #173474 0%, #10265a 44%, #0a1a42 100%) !important; "
+        "border-color: #050d24 !important; border-image: none !important; box-shadow: 0 0 0 1px rgba(200, 166, 92, .78), 0 14px 32px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(214, 224, 255, .18), inset 0 0 0 1px rgba(200, 166, 92, .18) !important;",
+  card="border-color: rgba(200, 166, 92, .5) !important; box-shadow: inset 0 1px 0 rgba(214, 224, 255, .1) !important;",
+  label="",
+  bevel="filter: saturate(.78) brightness(.9);",
+  second="filter: saturate(.85) brightness(.94);",
+  chrome="filter: saturate(.85) brightness(.94);",
+  tile="background: linear-gradient(104deg, transparent 0 56%, rgba(214, 226, 255, .04) 66%, transparent 76%), linear-gradient(180deg, rgba(23, 52, 116, .94) 0%, rgba(16, 38, 90, .96) 46%, rgba(10, 26, 66, .98) 100%) !important; "
+       "box-shadow: 0 12px 26px rgba(0, 0, 0, .62), 0 0 0 1px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(214, 224, 255, .18) !important;",
+  tilebevel="",
+  tilelight="border-color: rgba(220, 228, 255, .2) !important; border-bottom-color: rgba(0, 0, 0, .3) !important; "
+            "background: linear-gradient(180deg, rgba(226, 232, 255, .07) 0, transparent 18%) !important;",
+  title="", gold=False,
+  # Nik's yes 2026-11-26 19:48 UTC (Lapis pilot): a soft dark shadow behind the Board title and the Home title, Lapis only, so the
+  # gold lettering stays crisp over the tooled Persian panel and the lit stone; the art itself stays whole.
+  titleshadow=[([".season-title-wordmark > span", ".season-phone-title > span"],
+                 "text-shadow: 0 0 10px rgba(3, 8, 26, .8), 0 0 24px rgba(3, 8, 26, .62), 0 2px 4px rgba(0, 0, 0, .5) !important;"),
+               (["#mainMenu.v10Home img.lockupWordmark"],
+                 "filter: drop-shadow(0 0 10px rgba(3, 8, 26, .78)) drop-shadow(0 0 22px rgba(3, 8, 26, .5)) !important;")]),
 }
 GOLD_TOKENS = """--sd-gold-100: #fff3b0; --sd-gold-200: #fff1b8; --sd-gold-300: #ffd34d; --sd-gold-400: #f2c45b; --sd-gold-500: #f5c518;
   --sd-gold-600: #e0ae3a; --sd-gold-700: #d4a017; --sd-gold-800: #8a6a12; --sd-gold-900: #493708;
@@ -199,6 +228,7 @@ def block():
            "   steel panels, thin sharp gold. Graphite: neutral graphite velvet, satin titanium hairlines, satin graphite main button,\n"
            "   cool ivory titles, nothing glints. Ruby: deep oxblood marble panels, thin antique gold, warm ivory words.\n"
            "   Emerald: deep bottle-green malachite panels, thin satin brass, warm ivory words.\n"
+           "   Lapis: deep ultramarine lapis panels, thin satin gold, warm ivory words.\n"
            "   Colour and finish only; Wooden matches none of this. */\n"]
     for t, L in LOOK.items():
         out.append(f"\n/* ---- {t} ---- */\n")
@@ -221,6 +251,7 @@ def block():
             out.append(rule(t, hov, f"filter: {f.group(1)} brightness(1.08);"))
             out.append(rule(t, act, f"filter: {f.group(1)} brightness(.88);"))
         if L["title"]: out.append(rule(t, TITLES, L["title"]))
+        for sels, body in L.get("titleshadow", []): out.append(rule(t, sels, body))
         if L["label"]: out.append(rule(t, LABELS, L["label"]))
         if L.get("wall"): out.append(rule(t, WALLTEXT, L["wall"]))
         if L.get("navon"): out.append(rule(t, [".sd-nav-tab.isActive", ".sd-nav-tab.isActive > span", ".sd-nav-tab[aria-current=\"page\"]"], L["navon"]))
