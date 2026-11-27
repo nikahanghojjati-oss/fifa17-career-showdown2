@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r100-standings-reopen-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/sharedActiveShowdownAdapter\\.js$",
+    "^js/sparkSharedMultiSeasonProgression\\.js$",
+    "^tests/support/active-showdown-fixtures\\.cjs$",
+    "^tests/contracts/r100\\-standings\\-reopen\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-standings\\-reopen\\-contracts\\.json$"
+  ]
+}

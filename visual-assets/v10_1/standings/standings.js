@@ -178,15 +178,26 @@
     // Availability copy for states without numbers, and the new-career / first-season messages.
     let msg = "";
     if (m.status === "loading") msg = S.loading;
-    else if (m.status === "unavailable") msg = m.notice === "continue" ? (S.continueToLoad || S.unavailable) : S.unavailable;
+    else if (m.status === "unavailable") msg = m.notice === "continue" ? (S.continueToLoad || S.unavailable) : m.notice === "retry" ? (S.careerRetry || S.unavailable) : S.unavailable;
     else if (m.status === "empty") {
       if (m.score) msg = S.emptySeason;
       else msg = view === "career" ? S.emptyCareer : S.emptyShowdown;
     }
+    // r100 H1 F5: a career read still out after its wait shows the last numbers loaded with this line (no spinner).
+    if (m.updating === true) msg = msg ? `${msg} ${S.careerUpdating || ""}`.trim() : (S.careerUpdating || "");
     const state = $("sdgState");
     state.hidden = !msg;
     state.textContent = msg;
     state.dataset.status = m.status || "";
+    // r100 H1 F5: CAREER could not load in time and nothing is kept: TRY AGAIN asks once more (only on this tap).
+    if (m.status === "unavailable" && m.notice === "retry") {
+      const again = document.createElement("button");
+      again.type = "button";
+      again.className = "sdg-stateAction sd-btn";
+      again.textContent = S.careerRetryAction || "TRY AGAIN";
+      again.addEventListener("click", () => { try { window.dispatchEvent(new CustomEvent("career-mode-standings-retry")); } catch (_) {} });
+      state.appendChild(again);
+    }
     // r87 polish (P-14): with no Showdown in progress the This Showdown view offers the Career view, which still has numbers.
     if (m.status === "empty" && !m.score && view !== "career") {
       const go = document.createElement("button");
