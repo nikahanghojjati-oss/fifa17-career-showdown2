@@ -225,3 +225,10 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - Keep a guard on the max level of moved pixels outside the mask, so a real repaint of the room still fails.
   - Before you rely on it, show that the old check and the new one agree on the 4 merged clubhouses (wooden, silver, black, matte), and put that comparison in the REPORT.
   - Status: #1637 Ruby at 0946d5df is going to Verify for the archive-only recheck. The lead merges on green plus a clean review.
+- N-31 (2026-11-27 05:50 UTC, from the lead): **#1637 RUBY IS MERGED** into gameplay/r100 at dd70fc7a (Verify CLEAN, Codex clean on 0946d5df, Gate 32/32 green). **Emerald, step 1 of the stack, now:**
+  1. Retarget #1638 to gameplay/r100 and merge dd70fc7a into claude-duet/p3-emerald.
+  2. Add the Emerald startup lines (index.html + service-worker.js, no version line or RUNTIME_REVISION change).
+  3. Re-pin F10.
+  4. Emerald's heroes come from the CURRENT Wooden plates (E2 Legacy, N-29), and its never-slimmer rows use the A-35 rule. If #1634 (F-3 hair) lands first, also paint Emerald's V4 Box plates with hair_over_empty and add Emerald to the hero-faces contract.
+  5. Push ONCE, mark #1638 ready, post `@codex review`, and post a REPORT with the head.
+  Whichever of #1634 and #1638 merges second carries the other's change. Lapis follows after #1638 merges.
