@@ -1,5 +1,5 @@
 {
- "note": "P4 F-1 Legacy Nik (E2): written by tools/hero-faces/never_slimmer.py; do not edit by hand; lapis (Duet P3, N-29) measured against claude-duet/p3-lapis before the re-paint (before_lapis)",
+ "note": "P4 F-1 Legacy Nik (E2): written by tools/hero-faces/never_slimmer.py; do not edit by hand; ruby (Duet P3, N-29) measured against claude-duet/p3-ruby before the re-paint (before_ruby); lapis (Duet P3, N-29) measured against claude-duet/p3-lapis before the re-paint (before_lapis)",
  "before": "5485f7f4132420542c1809a61501687335489d67",
  "side": "right",
  "files": {
@@ -243,6 +243,66 @@
    "short_pts": 0,
    "room_moved_px": 182
   },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_ARCHIVE_PLATE_HC_V3_2X.webp": {
+   "sha256": "66cf7e7bbc66040ef873e7c0f032ed5071f9eb022a044815328d47877cef2aea",
+   "before_sha256": "b19b41c3730b3fb8593f9faaccb28d78b7aa5d20c75917d2de63925d35972e6e",
+   "size": [
+    3072,
+    1728
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 3195,
+   "short_pts": 0,
+   "room_moved_px": 476
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_ARCHIVE_PLATE_HC_V3_1X.webp": {
+   "sha256": "2f364bcd602de353807251520751c6f01d09c077875c81c4d10c2ad7de015039",
+   "before_sha256": "b71c489bff820b72c0d08516d0e82fd747bf0fc131bc0f1effa852873811f76f",
+   "size": [
+    1536,
+    864
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 1596,
+   "short_pts": 0,
+   "room_moved_px": 992
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_ARCHIVE_PLATE_HC_V3_1920.webp": {
+   "sha256": "2370f7cbe0ebecdfe8a34fdbc0e2fecf9df099d433ba9a2f2121371b42102fa4",
+   "before_sha256": "212a1a9893645216564ce7b74c56307a1ec0b4626a29d998495c9f0061130845",
+   "size": [
+    1920,
+    1080
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 1997,
+   "short_pts": 0,
+   "room_moved_px": 949
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_ARCHIVE_PHONE_HC_V3.webp": {
+   "sha256": "c8d5f60861be848bc36bc21a0be3ea980978f6d92287c06b9916142e4ba6577a",
+   "before_sha256": "2b3ca72cba3d2cb28ede51aa1b677b9ca0062e9bf529698a216ae86b6d772028",
+   "size": [
+    1179,
+    2096
+   ],
+   "mask": "ENV_ARCHIVE_PHONE_HC_V3",
+   "outline_pts": 1732,
+   "short_pts": 0,
+   "room_moved_px": 1662
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_ARCHIVE_PHONE_HC_V3_590W.webp": {
+   "sha256": "6d5c006776a90af76138b87842233efbe06c6970942f7f0b4b88e75051142f75",
+   "before_sha256": "9709b6c83510c4b837d40e434397daabac0620e9d6d7fbcc48d93f1375a23b22",
+   "size": [
+    590,
+    1049
+   ],
+   "mask": "ENV_ARCHIVE_PHONE_HC_V3",
+   "outline_pts": 865,
+   "short_pts": 0,
+   "room_moved_px": 532
+  },
   "visual-assets/v10_1/plates-hc/lapis/ENV_ARCHIVE_PLATE_HC_V3_2X.webp": {
    "sha256": "191a46c18590613a8b31bc8bb24f45943db74239395596736783fb97d0848e02",
    "before_sha256": "321f9040c4ced7835de43a044eb8caf98db0793c2d463b1c13277508a048afa3",
@@ -304,5 +364,6 @@
    "room_moved_px": 4793
   }
  },
+ "before_ruby": "5e673ec171bd7faf9bb20a9a78d53cd127b1b2c8",
  "before_lapis": "fe74c91d3dd3b3875735027c583c34099829f940"
 }
