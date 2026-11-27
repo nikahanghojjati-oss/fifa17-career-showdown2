@@ -4,8 +4,12 @@
 //      never-slimmer result below is about the picture that ships (tools/hero-faces/never_slimmer.py writes the fixture).
 //   N2 never slimmer: walking the hero outline, the fixed hero never starts further in than today's (short_pts 0), so no
 //      room shows where the man used to be. Today's pictures measured against themselves give 0 too.
-//   N3 the room around the man is today's room: pixels outside the outline that moved by more than 12 stay WebP noise
-//      (at most 0.1% of the picture; themed copies are re-encoded by paint.py).
+//   N3 the room around the man is today's room. Wooden: pixels outside the outline that moved by more than 12 stay WebP
+//      noise (at most 0.1% of the picture). Every themed copy (lead A-41, 2026-11-27): its room is exactly what paint.py
+//      builds from the approved painting and the current Wooden men, 0 pixels different; the Showdown Gate's L1 step
+//      archive_rebuild proves that with the pinned encoder (tools/clubhouse-themes/reproduce_archive.py), and this file
+//      checks that the step is there, runs that tool, installs exactly paint.py's ENCODER_PIP, and that the tool covers
+//      every themed Archive file below.
 //   O1 the game never loads the old picture: each fixed file differs from the one it replaces, and the old file's sha256 is
 //      pinned nowhere (PREMIUM_FILES.json, the plate pins, the face fixtures), while the new one is pinned for every
 //      premium (themed) copy. Fixed files keep their names; the image cache is keyed by RUNTIME_REVISION, which the release
@@ -27,6 +31,26 @@ const premium = JSON.parse(read("tools/clubhouse-themes/PREMIUM_FILES.json")).fi
 const PIN_FILES = ["tools/clubhouse-themes/PREMIUM_FILES.json", "tests/contracts/v10-foundation-contracts.cjs",
   ...fs.readdirSync(path.join(ROOT, FIX_DIR)).filter(n => n.endsWith(".json") && !/NEVER_SLIMMER/.test(n)).map(n => `${FIX_DIR}/${n}`)];
 const pins = PIN_FILES.map(f => read(f).toString("utf8")).join("\n");
+
+// N3 for themed copies: the Gate rebuilds them (A-41). Check the wiring here, so a removed step or a drifted pin fails.
+const THEMED = /plates-hc\/[a-z]+\//;
+const gate = read(".github/workflows/showdown-gate.yml").toString("utf8");
+const paintPy = read("tools/clubhouse-themes/paint.py").toString("utf8");
+const reproPy = read("tools/clubhouse-themes/reproduce_archive.py").toString("utf8");
+const encoderPip = (paintPy.match(/^ENCODER_PIP = "([^"]+)"/m) || [])[1];
+const rebuildStep = (() => {
+  const l1 = gate.split(/\n  l1-core:\n/)[1]?.split(/\n  [a-z0-9-]+:\n/)[0] || "";
+  return /\n        id: archive_rebuild\n        run: '"\$RUNNER_TEMP\/paint-env\/bin\/python" tools\/clubhouse-themes\/reproduce_archive\.py'\n/.test(l1)
+    && !/id: archive_rebuild\n        if:/.test(l1) && l1.includes(`/bin/pip" install --disable-pip-version-check ${encoderPip}\n`);
+})();
+check("N3 themed copies: Gate L1 rebuilds every themed Archive plate with exactly paint.py's encoder (A-41)", () => {
+  assert.ok(encoderPip && /^Pillow==\S+ numpy==\S+$/.test(encoderPip), "paint.py records ENCODER_PIP");
+  assert.ok(reproPy.includes(`PIP = "${encoderPip}"`), "reproduce_archive.py's PIP is paint.py's ENCODER_PIP");
+  assert.ok(/have != paint\.ENCODER:\n    setup_error/.test(reproPy), "a different encoder is a setup error, never a skip");
+  assert.ok(/t\[3\] == "ARCHIVE" and t\[0\] != "wooden"/.test(reproPy), "the rebuild covers every themed Archive target");
+  assert.ok(/room_diff == 0/.test(reproPy), "the room must match exactly");
+  assert.ok(rebuildStep, "L1 installs ENCODER_PIP and runs reproduce_archive.py as step archive_rebuild, with no condition");
+});
 
 check("at least one P4 fix is recorded, and F-1 Legacy Nik covers all 25 archive files (Ruby too, N-29)", () => {
   assert.ok(fixtures.includes("P4_F1_LEGACY_NIK_NEVER_SLIMMER.json"));
@@ -50,7 +74,12 @@ for (const name of fixtures) {
       assert.equal(r.short_pts, 0, "the hero starts further in than today's outline");
     });
     check(`${name} ${short}: N3 the room around him is unchanged`, () => {
-      assert.ok(r.room_moved_px <= 0.001 * r.size[0] * r.size[1], `${r.room_moved_px} room pixels moved`);
+      if (THEMED.test(rel)) {
+        assert.ok(/ENV_ARCHIVE_/.test(rel), "a themed fix outside the Archive needs its own rebuild proof");
+        assert.ok(rebuildStep, "Showdown Gate L1 has no archive_rebuild step (tools/clubhouse-themes/reproduce_archive.py)");
+      } else {
+        assert.ok(r.room_moved_px <= 0.001 * r.size[0] * r.size[1], `${r.room_moved_px} room pixels moved`);
+      }
     });
     check(`${name} ${short}: O1 the game never loads the old picture`, () => {
       assert.notEqual(r.sha256, r.before_sha256);

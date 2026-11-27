@@ -41,10 +41,18 @@ quality steps down from 90 until it is within PHONE_SIZE_SLACK of Wooden).
   python3 tools/clubhouse-themes/paint.py [--crops DIR]    # then: python3 tools/clubhouse-themes/pin.py (DIR: 4x face crops)
   python3 tools/clubhouse-themes/paint.py --stand-in DIR   # prove the phone path on today's recoloured plates, into DIR
   python3 tools/clubhouse-themes/paint.py --check-tall     # how well the TALL row map fits the Wooden TALL plates
+
+The encoder is part of the picture: the same painting gives the same bytes only with the same Pillow/libwebp (and numpy for
+the blend). ENCODER records the versions every committed plate was built with; tools/clubhouse-themes/reproduce_archive.py
+rebuilds the themed Archive plates with exactly these and requires them to match what ships (lead A-41, 2026-11-27).
 """
 import io, json, os, re, sys
 import numpy as np
 from PIL import Image, ImageFilter
+
+ENCODER = {"Pillow": "13.0.0", "libwebp": "1.6.0", "numpy": "2.5.3"}
+ENCODER_PIP = "Pillow==13.0.0 numpy==2.5.3"  # what installs ENCODER (the Pillow wheel carries libwebp 1.6.0)
+before_encode = None  # (theme, name, out) -> out; set only by reproduce_archive.py --prove-plants, never by a build
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SRC = os.path.join(ROOT, "visual-assets", "v10_1", "plates-hc")
@@ -285,6 +293,7 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, 
     core = m[..., 0] >= 1.0
     changed = int(np.any(out[core] != w8[core], axis=-1).sum()) if core.any() else 0
     assert changed == 0, f"{theme}/{name}: {changed} face pixels changed before encoding"
+    if before_encode: out = before_encode(theme, name, out)  # proof seam only (reproduce_archive.py --prove-plants)
     wood_bytes = os.path.getsize(os.path.join(folder, name + ".webp"))
     fixed_q = (PHONE_SIZE_EXCEPTIONS.get((theme, room)) or FIXED_Q_ROOMS.get(room)) if kind == "phone" else None
     if fixed_q:
@@ -315,7 +324,7 @@ def tile_from(master):
     w = (w1[:, None] * w1[None, :])[..., None]
     return Image.fromarray(np.clip(a * w + r * (1 - w) + .5, 0, 255).astype(np.uint8))
 
-def paint_desk(theme, name, path, room, folder, mask, framing, crops_root=None):
+def paint_desk(theme, name, path, room, folder, mask, framing, crops_root=None, dest_root=None):
     """One desktop file: the painting aligned to the Wooden plate at this size, the Wooden men laid back through the hero
     mask (if the room has them), the same checks as paint_phone, written to <folder>/<theme>/<name>.webp."""
     wood = Image.open(os.path.join(folder, name + ".webp")).convert("RGB")
@@ -335,6 +344,7 @@ def paint_desk(theme, name, path, room, folder, mask, framing, crops_root=None):
     core = m[..., 0] >= 1.0
     changed = int(np.any(out[core] != w8[core], axis=-1).sum()) if core.any() else 0
     assert changed == 0, f"{theme}/{name}: {changed} face pixels changed before encoding"
+    if before_encode: out = before_encode(theme, name, out)  # proof seam only (reproduce_archive.py --prove-plants)
     wood_bytes = os.path.getsize(os.path.join(folder, name + ".webp"))
     if room in FIXED_Q_ROOMS:
         q = FIXED_Q_ROOMS[room]; buf = io.BytesIO(); Image.fromarray(out).save(buf, "WEBP", quality=q, method=6); data = buf.getvalue()
@@ -344,10 +354,10 @@ def paint_desk(theme, name, path, room, folder, mask, framing, crops_root=None):
     drift = round(float(np.abs(dec[core] - w[core]).mean()), 3) if core.any() else None
     assert drift is None or drift <= FACE_DRIFT_MAX, f"{theme}/{name}: faces drift {drift} levels after WebP (max {FACE_DRIFT_MAX})"
     crop = face_crops(wood, Image.fromarray(dec.astype(np.uint8)), m, os.path.join(crops_root, theme, name + ".jpg")) if crops_root else None
-    os.makedirs(os.path.join(folder, theme), exist_ok=True)
-    dest = os.path.join(folder, theme, name + ".webp")
+    os.makedirs(os.path.join(dest_root or folder, theme), exist_ok=True)
+    dest = os.path.join(dest_root or folder, theme, name + ".webp")
     with open(dest, "wb") as fh: fh.write(data)
-    return {"file": os.path.relpath(dest, ROOT), "shift": [dx, dy], "quality": q, "bytes": len(data),
+    return {"file": dest if dest_root else os.path.relpath(dest, ROOT), "shift": [dx, dy], "quality": q, "bytes": len(data),
             "wooden_bytes": wood_bytes, "size_vs_wooden": round(len(data) / wood_bytes - 1, 3), "core_px": int(core.sum()),
             "core_changed_pre_encode": changed, "core_decoded_mean_diff": drift, "face_crops": crop}
 

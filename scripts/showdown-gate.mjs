@@ -144,8 +144,9 @@ export function registeredContracts(){
 // Lane definitions: workflow step id -> ids that step proves when its outcome is success.
 // '@contracts' expands to every registered contract; '@group:G' to the routed proofs of group G.
 const LANE_DEFS={
-  L1:{job:'l1-core',name:'L1 core',groups:['STATIC','INLINE'],fixed:['BENCHMARK','OPERATIONS_AUDIT','CONTRACTS_ALL','RULES_BUILD_ZERO_BILLING'],
-    steps:{benchmark:['BENCHMARK'],operations:['OPERATIONS_AUDIT','OPERATIONS'],contracts:['CONTRACTS_ALL','@contracts'],rules:['RULES_BUILD_ZERO_BILLING'],proof_inline:['@group:INLINE'],proof_static:['@group:STATIC']}},
+  // ARCHIVE_PLATES_REBUILD (lead A-41, 2026-11-27): every themed Archive plate is exactly what paint.py builds, with the pinned encoder.
+  L1:{job:'l1-core',name:'L1 core',groups:['STATIC','INLINE'],fixed:['BENCHMARK','OPERATIONS_AUDIT','CONTRACTS_ALL','RULES_BUILD_ZERO_BILLING','ARCHIVE_PLATES_REBUILD'],
+    steps:{benchmark:['BENCHMARK'],operations:['OPERATIONS_AUDIT','OPERATIONS'],contracts:['CONTRACTS_ALL','@contracts'],rules:['RULES_BUILD_ZERO_BILLING'],archive_rebuild:['ARCHIVE_PLATES_REBUILD'],proof_inline:['@group:INLINE'],proof_static:['@group:STATIC']}},
   L2:{job:'l2-browser-full',name:'L2 browser full',groups:['FULL'],fixed:[],steps:{proof_full:['@group:FULL']}},
   L3A:{job:'l3a',name:'L3A storage gameplay',groups:['STORAGE'],
     fixed:['GF_RULES_BUILD_ZERO_BILLING','GF_SHARED_SETUP_PROVIDER','GF_TRANSFER_FRESH_SESSION','GF_LIFECYCLE_1_3','GF_TERMINAL_CLOSE','GF_PERSISTENT_PAIR','GF_TWO_MANAGER_JOURNEY_3_10','GF_CAREER_INDEX','GF_COMPLETED_READ','GF_CLOSED_ADAPTER','GF_COMPLETED_TRANSFER','GF_SEASON_ACK'],
