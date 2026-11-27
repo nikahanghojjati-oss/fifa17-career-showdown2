@@ -18,6 +18,7 @@
 //   W5 Daniel's waiting screen before Nik connects (the entry's draw lock): WAITING FOR the other manager, the first-ball note,
 //      and no CONTINUE CAREER beside WAITING while it is open
 //   W6 the board armed before the presentation has taken the step: the roulette's words from the first frame
+//   W8 CONTINUE CAREER in the button group under the board (note, CONTINUE CAREER, WAITING FOR NIK, BACK), never above it
 //   W7 no player screen reaches a one-device League Roulette (START is the shared entry; no Showdown without a manager)
 // No Firestore, no storage: the pair's role is read from its state already on the page.
 const assert=require("node:assert/strict");
@@ -133,7 +134,7 @@ function entryWorld({role="playerOne",failed=false,layerOpen=true,active=false,i
     if(id)els[id]=e;return e;};
   el("button","spinLeague").textContent="WAITING…";el("button","openClubPack");
   const layer=el("section","connectPlayersScreen");if(!layerOpen)layer.classList.add("hidden");
-  const wheel={firstChild:null,querySelector:()=>null,insertBefore(node){kids.push(node);if(node.id)els[node.id]=node;}};
+  const placed={};const wheel={firstChild:null,querySelector:()=>null,insertBefore(node,ref){kids.push(node);if(node.id){els[node.id]=node;placed[node.id]=ref?ref.id||ref.className||"?":null;}}};
   const doc={getElementById:id=>els[id]||null,querySelector:q=>q==="#leagueWheelScreen .wheelContainer"?wheel:null,createElement:tag=>el(tag,"")};
   const ctx={root:{document:doc,CareerModeLeagueRouletteStep:{failed:()=>failed},CareerModePersistentNikDanielPair:{getState:()=>({managerRole:role})}},
     currentShowdown:{managers:{playerOne:"Daniel",playerTwo:"Nik"}},pending:()=>isPending,presentationActive:()=>active,continueFromLockedWheel(){},
@@ -141,7 +142,7 @@ function entryWorld({role="playerOne",failed=false,layerOpen=true,active=false,i
   ctx.create=(tag,className,text)=>{const e=doc.createElement(tag);e.className=className;e.textContent=String(text);return e;};
   vm.createContext(ctx);vm.runInContext(lock+";globalThis.go=applyLocalDrawLock;globalThis.open=waitingOpen;",ctx);ctx.go();
   return {button:els.spinLeague.textContent,disabled:els.spinLeague.disabled,note:els.sharedJourneyLeagueLockNote?.textContent||null,
-    resume:Boolean(els.continueSharedSetupGate),layer,again(){ctx.go();return {resume:Boolean(els.continueSharedSetupGate)};}};
+    resume:Boolean(els.continueSharedSetupGate),placed,layer,again(){ctx.go();return {resume:Boolean(els.continueSharedSetupGate)};}};
 }
 function w5(){
   {const v=entryWorld({});assert.equal(v.button,"WAITING FOR NIK","Daniel waits for Nik");assert.equal(v.disabled,true);
@@ -202,5 +203,21 @@ function w7(){
     ok("W7","no player screen reaches a one-device League Roulette: START is always the shared entry (signed out: the sign-in gate), createShowdown makes nothing without a manager, so SPIN WHEEL is left only to the fallbacks");
   });
 }
-w1();w2();w3();w4();w5();w6();
+// ---- W8: CONTINUE CAREER sits in the button group under the board (Nik's card, 2026-11-27) ----
+// Order under the board: the note, CONTINUE CAREER, WAITING FOR NIK, BACK. It must never sit above the board.
+function w8(){
+  const v=entryWorld({layerOpen:false});assert.equal(v.resume,true);
+  assert.equal(v.placed.continueSharedSetupGate,"spinLeague","CONTINUE CAREER is placed just before WAITING FOR NIK in the page");
+  const css=read("css/v10Setup.css");
+  const orderOf=sel=>{const m=css.match(new RegExp(sel.replace(/[.#>*+?^${}()|[\]\\]/g,"\\$&").replace(/ /g,"\\s+")+"\\s*\\{[^}]*?order:\\s*(-?\\d+)"));return m?Number(m[1]):null;};
+  const board=orderOf("#leagueWheelScreen.v26Skin #leagueWheel"),note=orderOf("#leagueWheelScreen.v26Skin .wheelContainer > .stateNote"),
+    cont=orderOf("#leagueWheelScreen.v26Skin .wheelContainer > #continueSharedSetupGate"),spin=orderOf("#leagueWheelScreen.v26Skin #spinLeague"),back=orderOf("#leagueWheelScreen.v26Skin .wheelContainer > .backButton");
+  assert.ok(Number.isInteger(cont),"CONTINUE CAREER has its own place in the grid (without one it takes order 0 and sits above the board)");
+  assert.ok(cont>board,"CONTINUE CAREER sits under the board, never above it");
+  assert.ok(note<=cont&&cont<=spin&&spin<back,`the button group reads note, CONTINUE CAREER, WAITING FOR NIK, BACK (orders ${note}/${cont}/${spin}/${back})`);
+  assert.ok(read("js/leagueRouletteStep.js").includes('screen.querySelectorAll("button,#leagueStateNote,.wheelContainer > .stateNote,#sharedShowdownPresentationStatus")'),
+    "the board's desktop box keeps clear of Daniel's waiting note too (with CONTINUE CAREER no longer above, the board would grow over it)");
+  ok("W8","CONTINUE CAREER sits in the button group under the board: note, CONTINUE CAREER, WAITING FOR NIK, BACK; the board keeps clear of the note");
+}
+w1();w2();w3();w4();w5();w6();w8();
 w7().then(()=>console.log(`PASS r100 League Roulette words contracts (${n} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

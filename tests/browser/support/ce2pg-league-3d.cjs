@@ -29,7 +29,8 @@ if(isCe2pg&&process.env.CE2PG_LR3D==="1")install();
 const THEME=process.env.LR_THEME||"wooden";
 const SWAP=process.env.LR_SWAP==="1";
 const SHOTS=process.env.LR_SHOTS==="1";
-const DESKTOP={viewport:{width:1920,height:866},...(SHOTS?{deviceScaleFactor:2}:{})};
+const DESKTOP_H=Number(process.env.LR_DESKTOP_H)||866,WAIT_ONLY=process.env.LR_WAIT_ONLY==="1";
+const DESKTOP={viewport:{width:1920,height:DESKTOP_H},...(SHOTS?{deviceScaleFactor:2}:{})};
 const PHONE={viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:3};
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
@@ -252,7 +253,7 @@ async function loseContext(m,label,{restore}){
 // ---- LR_SHOTS=1: the pictures for Nik (r100 "Show updated buttons"): each state of the League Roulette's words and button ----
 const SHOT_DIR=process.env.LR_SHOT_DIR||path.join(process.cwd(),"test-results",`${TAG}-shots`);
 const shotsTaken=[];
-function sizeOf(who){return (who==="daniel")!==SWAP?"1920x866":"390x844";}
+function sizeOf(who){return (who==="daniel")!==SWAP?`1920x${DESKTOP_H}`:"390x844";}
 async function namedShot(page,who,n,state){
   try{fs.mkdirSync(SHOT_DIR,{recursive:true});const words=await page.evaluate(()=>({result:(document.getElementById("selectedLeague")?.innerText||"").trim(),button:(document.getElementById("spinLeague")?.innerText||"").trim(),
       disabled:Boolean(document.getElementById("spinLeague")?.disabled),note:(document.getElementById("leagueStateNote")?.innerText||"").trim(),status:(document.getElementById("sharedShowdownPresentationStatus")?.innerText||"").trim(),
@@ -276,6 +277,13 @@ const HOLD_INIT=`(()=>{let started=false;window.__lrHeld=null;
     if(join&&!tile.disabled){tile.disabled=true;tile.dataset.lrHeld="1";}};
   new MutationObserver(look).observe(document,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:["disabled","readonly","class"]});})();`;
 const releaseNik=()=>Promise.all(nikPages.map(p=>p.evaluate(()=>window.__lrRelease&&window.__lrRelease()).catch(()=>{})));
+function checkWaitingBoard(){
+  const board=shotsTaken.filter(x=>x.state==="waiting-board-under-waiting");
+  const placed=x=>{const L=x.layout||{};if(!L.board||!L.cont||!L.spin||!L.back||!L.note)return false;
+    return L.cont.top>=L.board.bottom-2&&L.note.top<=L.cont.top&&L.cont.top<=L.spin.top&&L.spin.top<=L.back.top&&L.free&&L.free.cont&&L.free.spin&&L.free.back&&L.free.board&&L.free.note;};
+  const boardBad=board.filter(x=>!/^WAITING FOR (NIK|DANIEL)$/.test(String(x.button||"").trim().toUpperCase())||x.disabled!==true||!(x.shown||[]).some(t=>/Note: Both players must be connected before the first ball drops\.$/.test(t))||!(x.shown||[]).some(t=>/^continueSharedSetupGate: CONTINUE CAREER/.test(t))||!placed(x));
+  check("L10.waitingBoard","WAITING closed over the board: WAITING FOR the other manager, the first-ball note, and under the board note, CONTINUE CAREER, WAITING FOR, BACK (each reachable and uncovered, nothing over the board)",board.length>0&&boardBad.length===0,{board:board.map(x=>x.file),boardBad});
+}
 function watchWaiting(page,who){
   let done=false;const until=Date.now()+180000;
   const look=async()=>{if(done||Date.now()>until||page.isClosed())return;
@@ -289,9 +297,25 @@ function watchWaiting(page,who){
         return window.CareerModeConnectPlayersScreenV10?.close?.({restoreFocus:false})===true||"close refused";}).catch(e=>e.message);
       if(closed!==true)console.log(`LR3D SHOT skipped waiting-board: ${closed}`);
       if(closed===true){await sleep(1500);await namedShot(page,who,1,"waiting-board-under-waiting");
+        // Nik 2026-11-27 (card): CONTINUE CAREER in the button group under the board (note, CONTINUE CAREER, WAITING FOR NIK, BACK);
+        // every one of them reachable (main scrolls) and uncovered; nothing over the board.
+        const layout=await page.evaluate(()=>{const r=id=>{const e=typeof id==="string"?document.getElementById(id):id;if(!e||!e.getClientRects().length)return null;const b=e.getBoundingClientRect();return {top:b.top+scrollY,bottom:b.bottom+scrollY,left:b.left,right:b.right};};
+          const free=e=>{if(!e)return false;e.scrollIntoView({block:"center"});const b=e.getBoundingClientRect(),hit=document.elementFromPoint(b.left+b.width/2,b.top+b.height/2);return Boolean(hit&&(hit===e||e.contains(hit)));};
+          const back=document.querySelector("#leagueWheelScreen .wheelContainer > .backButton"),board=document.getElementById("leagueWheel"),cont=document.getElementById("continueSharedSetupGate"),spin=document.getElementById("spinLeague"),note=document.getElementById("sharedJourneyLeagueLockNote");
+          const out={board:r(board),note:r(note),cont:r(cont),spin:r(spin),back:r(back),title:r(document.querySelector("#leagueWheelScreen h2")),free:{cont:free(cont),spin:free(spin),back:free(back)}};
+          board?.scrollIntoView({block:"center"});const b=board?.getBoundingClientRect(),hit=b&&document.elementFromPoint(b.left+b.width/2,b.top+b.height/2);out.free.board=Boolean(hit&&board.contains(hit));
+          // the note's words are not under the board's drawing
+          // (the board's drawing takes no pointer, so this is by its box: on desktop the host is sized to the drawn board
+          // (js/leagueRouletteStep.js lrsDesktopBox); on phones the host keeps a margin round the board, whose box is #leagueWheel)
+          out.host=r(document.querySelector("#leagueWheel .lr3dHost"));const drawn=innerWidth>=901?out.host:out.board;
+          out.free.note=Boolean(drawn&&out.note&&out.note.top>=drawn.bottom-1);
+          document.querySelector("main")?.scrollTo?.(0,0);scrollTo(0,0);return out;}).catch(e=>({error:e.message}));
+        shotsTaken[shotsTaken.length-1].layout=layout;console.log(`LR3D LAYOUT ${JSON.stringify(layout)}`);
         await page.locator("#continueSharedSetupGate").click({timeout:5000}).catch(()=>{});
         await page.waitForFunction(()=>{const l=document.getElementById("connectPlayersScreen");return Boolean(l&&!l.classList.contains("hidden"))||!document.getElementById("continueSharedSetupGate");},null,{timeout:15000}).catch(()=>{});}
-      await releaseNik();return;}
+      await releaseNik();
+      if(WAIT_ONLY){checkWaitingBoard();fs.mkdirSync(SHOT_DIR,{recursive:true});fs.writeFileSync(path.join(SHOT_DIR,`${THEME}${SWAP?"-swap":""}-1920x${DESKTOP_H}-waiting.json`),JSON.stringify(shotsTaken,null,1));finish();process.exit(report.ok?0:1);}
+      return;}
     setTimeout(look,300);};
   setTimeout(look,300);
 }
@@ -311,8 +335,7 @@ async function shotsRun(daniel,nik){
   const wait=shotsTaken.filter(x=>x.state==="waiting-for-the-other-to-connect"),board=shotsTaken.filter(x=>x.state==="waiting-board-under-waiting");
   check("L10.waiting","the waiting-for-the-other-manager screen was pictured",wait.length>0,shotsTaken.map(x=>x.file));
   const waitBad=wait.filter(x=>!/^WAITING FOR (NIK|DANIEL)$/.test(String(x.button||"").trim().toUpperCase())||x.disabled!==true||!(x.shown||[]).some(t=>/Note: Both players must be connected before the first ball drops\.$/.test(t))||(x.shown||[]).some(t=>/Note: /.test(t)&&!/first ball drops\.$/.test(t))||(x.shown||[]).some(t=>/^continueSharedSetupGate:/.test(t)));
-  const boardBad=board.filter(x=>!/^WAITING FOR (NIK|DANIEL)$/.test(String(x.button||"").trim().toUpperCase())||x.disabled!==true||!(x.shown||[]).some(t=>/Note: Both players must be connected before the first ball drops\.$/.test(t))||!(x.shown||[]).some(t=>/^continueSharedSetupGate: CONTINUE CAREER/.test(t)));
-  check("L10.waitingBoard","WAITING closed over the board: WAITING FOR the other manager, the first-ball note and CONTINUE CAREER to reopen it",board.length>0&&boardBad.length===0,{board:board.map(x=>x.file),boardBad});
+  checkWaitingBoard();
   check("L10.waitingWords","waiting screen: disabled WAITING FOR the other manager, the first-ball note, one button",waitBad.length===0,waitBad);
   fs.writeFileSync(path.join(SHOT_DIR,`${THEME}${SWAP?"-swap":""}-shots.json`),JSON.stringify(shotsTaken,null,1));
   return true;
