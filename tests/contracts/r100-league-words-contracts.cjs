@@ -18,6 +18,7 @@
 //   W5 Daniel's waiting screen before Nik connects (the entry's draw lock): WAITING FOR the other manager, the first-ball note,
 //      and no CONTINUE CAREER beside WAITING while it is open
 //   W6 the board armed before the presentation has taken the step: the roulette's words from the first frame
+//   W7 no player screen reaches a one-device League Roulette (START is the shared entry; no Showdown without a manager)
 // No Firestore, no storage: the pair's role is read from its state already on the page.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -169,5 +170,37 @@ function w6(){
   {const {ctx}=world({armed:()=>false,on(){return()=>{};}});assert.equal(ctx.go(),false,"a step not armed (the 2D fallback): the plain wheel");}
   ok("W6","the board armed before the presentation has loaded its step already gets the roulette's words (no 'Spin the wheel.' flash)");
 }
+// ---- W7: no one-device League Roulette from a player screen (lead 2026-11-27, Duet's "signed out, 2D wheel") ----
+// The plain wheel's words (SPIN WHEEL, "Spin to pick the league") are reached only where the shared roulette is not armed:
+// the no-WebGL fallback, or START's fallback should js/productionSharedJourneyEntry.js fail to load (signed in only).
+// No player route makes a one-device Showdown: START is always the shared entry, and a device with no identity creates none.
+function w7(){
+  // (a) START on the Seasons screen is caught before the local handler (screens.js startShowdownFromSetup) and runs the shared entry
+  const install=pick(E,/  function installStartButton\(\)\{[\s\S]*?\n  \}\n/);
+  const started=[],listeners=[];let stopped=false,prevented=false;
+  const start={dataset:{},addEventListener:(type,fn,capture)=>listeners.push({type,fn,capture})};
+  const ctx={root:{document:{getElementById:id=>id==="startShowdown"?start:null}},SHARED_START_ID:"sharedShowdownStart",syncStartButtonIdentity(){},seasonsStartGate(){},
+    startShared:o=>{started.push(o);return Promise.resolve(false);}};
+  vm.createContext(ctx);vm.runInContext(install+";globalThis.go=installStartButton;",ctx);
+  assert.equal(ctx.go(),true);assert.equal(listeners.length,1);assert.equal(listeners[0].type,"click");assert.equal(listeners[0].capture,true,"START is caught in the capture phase");
+  listeners[0].fn({preventDefault(){prevented=true;},stopImmediatePropagation(){stopped=true;}});
+  assert.ok(prevented&&stopped,"the local START handler never runs");assert.equal(started.length,1,"the shared entry starts the Showdown");
+  const shared=pick(E,/  async function startShared\(options=\{\}\)\{[\s\S]*?\n    busy=true;/);
+  assert.match(shared,/if\(!entryIdentityReady\(\)\)\{[\s\S]*identity\.openGate\(\);return false;[\s\S]*return false;\s*\}/,"signed out: START opens the sign-in gate and stops");
+  // (b) createShowdown makes nothing without a signed-in manager (so no signed-out device holds a one-device Showdown)
+  const S=read("js/showdown.js"),create=pick(S,/async function createShowdown\(\)\{[^\n]*\n/);
+  const notices=[];let made=0;
+  const c={document:{getElementById:id=>id==="roundAmount"?{value:"3"}:null},navigator:{onLine:true},showdownCreationPromise:null,ALLOWED_SHOWDOWN_ROUNDS:[1,3,5,10],
+    showScreen:()=>{made+=1;return true;},normalizeShowdown:x=>x,saveCurrentShowdown:()=>true,currentShowdown:null};
+  c.window={showAppNotice:t=>notices.push(t),CareerModeOnlinePlayerIdentity:{getState:()=>({status:"signed-out",managerId:null})},CareerModeSaveLibraryRuntime:{isReady:()=>true,createShowdown:async x=>{made+=1;return x;}}};
+  vm.createContext(c);vm.runInContext(`let showdownCreationPromise=null;const CURRENT_SHOWDOWN_SCHEMA_VERSION=2;${create};globalThis.go=createShowdown;`,c);
+  return c.go().then(result=>{
+    assert.equal(result,false);assert.equal(made,0,"no Showdown and no League Roulette");assert.deepEqual(notices,["Choose Daniel or Nik first."]);
+    // (c) the plain wheel writes its words only where the shared roulette is not armed (W3 runs it; here the rule itself)
+    const W=read("js/leagueWheel.js");
+    assert.match(W,/function leagueRouletteWordsOwner\(\)/);
+    ok("W7","no player screen reaches a one-device League Roulette: START is always the shared entry (signed out: the sign-in gate), createShowdown makes nothing without a manager, so SPIN WHEEL is left only to the fallbacks");
+  });
+}
 w1();w2();w3();w4();w5();w6();
-console.log(`PASS r100 League Roulette words contracts (${n} checks)`);
+w7().then(()=>console.log(`PASS r100 League Roulette words contracts (${n} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});
