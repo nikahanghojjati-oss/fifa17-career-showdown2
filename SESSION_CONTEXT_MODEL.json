@@ -23,7 +23,7 @@
     "RJR-1 is complete/frozen 100/100; SSJR-1.1 remains evidence-backed 0/100; MDP-1 remains 39.00/100 until a defined engineering lifecycle stage closes.",
     "Exact Connected Rivalry pairing and exact ACTIVE must precede league or club selection.",
     "SSJR-DUAL-FULL-SCREEN-1 requires both legitimate managers individually to experience every canonical Shared Journey screen; missed screens replay in order.",
-    "Billing must never be activated; Firebase stays Spark; App Check enforcement remains OFF; Firestore persistence is memory-only; Google Auth is popup-only browserSessionPersistence.",
+    "Billing must never be activated; Firebase stays Spark; App Check enforcement remains OFF; Firestore persistence is memory-only; Google Auth is popup-only and remembered on the device (indexedDBLocalPersistence, or browserLocalPersistence without IndexedDB; SIGN OUT ends it).",
     "Canonical storage is exactly three approved localStorage keys and Candidate C remains the sole destructive remote-to-local Apply authority with exact rollback.",
     "Exactly two private managers; no public discovery/listing/lobby/matchmaking/community/rankings/global leaderboards.",
     "At Session handoff proximity 100, mirrored SLE package, current bootstrap/context/prompt contracts and final WEC seal must already be complete; emit SNS and stop."

@@ -453,7 +453,7 @@
       host.className="tw-host";host.innerHTML=tfHostMarkup();
       section.appendChild(host);section.classList.add("tw-on");
       stage=host.querySelector(".stage");mountedFrame=frame;
-      const drawn=root.TWPlate.render(stage,toPlateFixtures(frame),platemap,"LIVE",{webpOnly:true,freeze:true});
+      const drawn=root.TWPlate.render(stage,toPlateFixtures(frame),platemap,"LIVE",{webpOnly:true,freeze:true,noPlateArt:true});
       // Team V's desktop camera is computed at render, but the screen's own styles switch on only after mount (js/v10Screens.js),
       // so the stage is still the tall unstyled section then and the panels and actions land below the screen. The plate
       // re-frames on window resize only, so tell it whenever the observer reports a stage size, the first report included:

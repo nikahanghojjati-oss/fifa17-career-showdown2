@@ -68,12 +68,29 @@ const homeCss=read("css/homeV10.css");
   // r90: one landscape-desktop rule replaced four size bands; their gaps (1920x906, 1280x900, 1366x900) left the review
   // board absolute with an extra margin, over Nik's face and off the right edge.
   // r90 W9 (window sweep): no height cap either; taller windows (1920x1200, 2560x1440, 3840x2160) scrolled inside the board.
-  const band="(min-width:901px) and (min-height:501px) and (orientation:landscape) {";
-  const count=src.split(band).length-1;
-  assert.ok(count>=2,`Season Results page-scroll rule is in the flow layout and its :active list (${count})`);
+  // r100 B7 (Verify F1 on #1625): no height floor either. Below 501px tall (a Chromebook window dragged short) the board was
+  // squeezed into the fixed box: inputs overlapped, labels overprinted, the cards covered the scoring panel and League Position
+  // could not be clicked (1100x340). tests/browser/season-results-reach-audit.cjs clicks every input at 900-1366 x 340-520.
+  assert.ok(src.includes("Every short window now uses this layout too, and main scrolls. */ @media (min-width:901px) and (orientation:landscape) { html[data-v10-screen=\"seasonEntry\"] #app main:has("),"Season Results page-scroll rule covers every landscape desktop height");
+  assert.ok(src.includes("(min-width:700px) and (max-width:900px) and (min-height:960px) and (orientation:portrait), (min-width:901px) and (orientation:landscape) { #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage :is(button,"),"its :active list covers the same windows");
+  assert.doesNotMatch(src,/\(min-width:901px\) and \(min-height:501px\) and \(orientation:landscape\)/,"no 501px height floor on the page-scroll layout or its :active list");
+  assert.match(src,/\.seasonEntryGrid:not\(\.hidden\) \{\s*display:grid;grid-template-columns:repeat\(2,minmax\(0,1fr\)\);gap:1\.3%;width:max\(72\.66%,640px\);min-width:0;margin:0;align-self:center;/,"short windows keep the entry cards wide enough for their rows, centred");
+  assert.ok(JSON.parse(read("package.json")).scripts["test:browser"].includes("node tests/browser/season-results-reach-audit.cjs"),"test:browser clicks every Season Results input in short windows");
+  // r100 B7 4th pass: every landscape window under 901 wide and up to 500 tall takes the sideways room layout (no roomless
+  // single column), and the Trophy Room's 761-900 desktop layout starts at 481 tall as it does from 901 (no old stadium picture).
+  assert.doesNotMatch(seasonJs,/\(min-width:560px\) and \(max-width:(?:880|639)px\) and \(min-height:340px\) and \(max-height:410px\)/,"no narrower Season Results room band is left");
+  assert.ok(seasonJs.split("(max-width:900px) and (max-height:500px) and (orientation:landscape)").length-1>=7,"the Season Results room band covers every short landscape window under 901 wide");
+  assert.ok(seasonJs.includes("@media (max-width:639px) and (max-height:500px) and (orientation:landscape) {"),"under 640 wide the panels keep their 340px");
+  const careerJs=read("js/careerScreensV10.js");
+  assert.doesNotMatch(careerJs,/\(min-width:761px\) and \(max-width:900px\) and \(min-height:501px\)/,"no 481-500 gap in the Trophy Room");
+  assert.ok(careerJs.split("(min-width:761px) and (max-width:900px) and (min-height:481px)").length-1>=10,"the Trophy Room's 761-900 desktop layout starts at 481 tall");
+  // Verify F1 on #1631: in that band the bottom tab bar shows too; the records end in a strip its height so BACK scrolls clear.
+  assert.ok(careerJs.includes("@media (min-width:761px) and (max-width:900px) and (min-height:481px) and (orientation:landscape) {\n  html[data-nav=\"hub\"] #app #trophyRoom .trophyRoomContent::after {content:\"\";display:block;flex:none;order:99;height:var(--sd-nav-bottom-space,56px);pointer-events:none}"),"the Trophy Room leaves the tab bar's height under BACK in the 761-900 band");
+  const reach=read("tests/browser/season-results-reach-audit.cjs");
+  assert.ok(reach.includes("async function trophyBackFindings()")&&reach.includes("R8 BACK cannot be clicked")&&/TROPHY_SIZES[\s\S]{0,200}"761x481", "800x490", "800x520", "880x640", "900x481", "900x700"/.test(reach),"the reach audit clicks the Trophy Room's BACK in the 761-900 band");
   assert.doesNotMatch(src,/\(min-width:1880px\) and \(max-width:2620px\) and \(min-height:1040px\) and \(max-height:1120px\) \{/,"no size-band gaps on wide windows");
   assert.match(src,/\(min-aspect-ratio:16\/9\) and \(orientation:landscape\) \{ #app #seasonEntry\.seasonScreenV10:not\(\.v10FinalMode\) \.v10SeasonStage \.sd-stage__registered \{ top:0!important;width:100vw!important;height:56\.25vw!important; \}/,"wide windows fill the width with the plate");
-  const body=mediaBlock(seasonJs,"(min-width:901px) and (max-width:1239px) and (min-height:501px) and (max-height:800px) and (orientation:landscape)");
+  const body=mediaBlock(seasonJs,"(min-width:901px) and (max-width:1239px) and (max-height:800px) and (orientation:landscape)");
   assert.match(body,/\.v10SeasonStage \.sd-stage__layer--ui \{ z-index:5; \}/,"cards stay in front of the cut-out and light layers");
   assert.match(body,/\.sd-stage__registered \{ top:0!important;width:max\(100vw,177\.77778svh\)!important;height:max\(56\.25vw,100svh\)!important; \}/,"the plate fills the window");
   ok("S4 Season Results: every landscape desktop window, at any height, uses the page-scroll layout");

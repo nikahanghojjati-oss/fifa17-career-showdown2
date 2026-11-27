@@ -210,7 +210,7 @@ async function section(id,fn){
         h.stored=null;assert.equal(await freshStep().pointsFor(h.io,ctx("playerOne")),0,"no round record: no point");
       }finally{restore();}
     }
-    const pstc=read("js/productionSharedTransferChallenge.js"),first=pstc.slice(pstc.indexOf("async function pstcPrimePackFirst"),pstc.indexOf("async function pstcPrimePackFirst")+2600);
+    const pstc=read("js/productionSharedTransferChallenge.js"),first=pstc.slice(pstc.indexOf("async function pstcPrimePackFirstNow"),pstc.indexOf("async function pstcPrimePackFirstNow")+2600);/* Phoenix B2: the body moved into pstcPrimePackFirstNow (pstcPrimePackFirst remembers a stop for the online retry) */
     assert.doesNotMatch(first,/!Number\.isFinite\(confirmedAtMs\)\|\|[^\n]*return true/,"the window never opens past an unknown confirm time");
     assert.match(first,/if\(!Number\.isFinite\(confirmedAtMs\)\)\{primePackLoadError=true;return false;\}/,"an unknown confirm time keeps the window shut with TRY AGAIN");
     assert.match(first,/resync:\(\)=>\{clockRefreshPerformanceMs=Number\.NaN;return pstcEnsureServerClock\(options\.user,request\);\}/,"the step can take a fresh server clock (F13-03)");

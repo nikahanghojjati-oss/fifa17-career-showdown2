@@ -1,0 +1,142 @@
+[
+ {
+  "file": "visual-assets/v10_1/plates-hc/black/ENV_BOX_SIDEWAYS_HC_V4.webp",
+  "shift": [
+   0,
+   1
+  ],
+  "quality": 86,
+  "bytes": 129198,
+  "wooden_bytes": 120746,
+  "size_vs_wooden": 0.07,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/black/ENV_BOX_PHONE_HC_V4.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 86,
+  "bytes": 85216,
+  "wooden_bytes": 88294,
+  "size_vs_wooden": -0.035,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/black/ENV_BOX_PHONE_HC_V4_590W.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 86,
+  "bytes": 29362,
+  "wooden_bytes": 29078,
+  "size_vs_wooden": 0.01,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/black/ENV_BOX_PHONE_HC_V4_TALL.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 88,
+  "bytes": 108532,
+  "wooden_bytes": 98804,
+  "size_vs_wooden": 0.098,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/black/ENV_BOX_PHONE_HC_V4_TALL_590W.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 86,
+  "bytes": 32128,
+  "wooden_bytes": 31604,
+  "size_vs_wooden": 0.017,
+  "core_px": 0,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": null
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/black/ENV_COACHES_PHONE_HC_V3.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 86,
+  "bytes": 80034,
+  "wooden_bytes": 74770,
+  "size_vs_wooden": 0.07,
+  "core_px": 90075,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": 0.952
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/black/ENV_COACHES_PHONE_HC_V3_590W.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 86,
+  "bytes": 28284,
+  "wooden_bytes": 26350,
+  "size_vs_wooden": 0.073,
+  "core_px": 20763,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": 1.267
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/black/ENV_COACHES_PHONE_HC_V3_TALL.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 86,
+  "bytes": 85610,
+  "wooden_bytes": 84796,
+  "size_vs_wooden": 0.01,
+  "core_px": 104959,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": 1.072
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/silver/ENV_TUNNEL_PHONE_HC_V3.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 90,
+  "bytes": 106910,
+  "wooden_bytes": 108214,
+  "size_vs_wooden": -0.012,
+  "core_px": 251463,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": 0.314
+ },
+ {
+  "file": "visual-assets/v10_1/plates-hc/silver/ENV_TUNNEL_PHONE_HC_V3_590W.webp",
+  "shift": [
+   0,
+   0
+  ],
+  "quality": 88,
+  "bytes": 36348,
+  "wooden_bytes": 35588,
+  "size_vs_wooden": 0.021,
+  "core_px": 58598,
+  "core_changed_pre_encode": 0,
+  "core_decoded_mean_diff": 0.917
+ }
+]

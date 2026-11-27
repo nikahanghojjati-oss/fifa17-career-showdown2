@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/showdown-gate-l10-league-3d-contracts.cjs",
+  "patterns": [
+    "^\\.github/workflows/showdown\\-gate\\.yml$",
+    "^scripts/showdown\\-gate\\.mjs$",
+    "^tests/browser/r100\\-league\\-roulette\\-webgl\\-audit\\.cjs$",
+    "^tests/support/chromium\\-runtime\\.cjs$",
+    "^tests/contracts/showdown\\-gate\\-l10\\-league\\-3d\\-contracts\\.cjs$",
+    "^tests/pos20-registry/showdown\\-gate\\-l10\\-league\\-3d\\-contracts\\.json$"
+  ]
+}

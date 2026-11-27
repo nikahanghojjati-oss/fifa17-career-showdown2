@@ -865,7 +865,7 @@ async function r5r6EntryContracts(){
     assert.equal(entryHarness({pairState:{status:"paired",initialized:true,rivalryId:RIVALRY,connectionState:"active",managerRole:"playerOne"}}).api.startupResume(),null,"no recovery is pending before install");
     await startupHoldContracts();
     {const ssjr=read("js/ssjr.js");
-     assert.ok(ssjr.includes('.then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});'),"the loading screen is released only after Home is ready AND the reload recovery settled AND (r79 gallery) a live-game reload resume has left Home");
+     assert.ok(ssjr.includes('.then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(leagueGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});'),"the loading screen is released only after Home is ready AND the reload recovery settled AND (r79 gallery) a live-game reload resume has left Home AND (r100 F2) a resume onto League Roulette has drawn it");
      // r79 gallery (fix 4): the live-game resume (Studio Z3) is held too, until it leaves Home or lets go, under the same cap.
      assert.ok(ssjr.includes('if(!liveGameHeld()||startupCapLeft()<=0||root.careerModeTabResumeLetGo===true)return false;'),"the live-game hold is bounded by the startup cap and released when the resume lets go");
      assert.ok(ssjr.includes('if(typeof root.getActiveScreenName==="function"&&root.getActiveScreenName()!=="mainMenu")return false;'),"the live-game hold ends as soon as the resume has left Home");
@@ -1038,7 +1038,7 @@ function safetyContracts(){
   const career=read("js/productionSharedCareerStart.js");
   assert.doesNotMatch(career.match(/async function pcstAutoContinue\(\)\{[\s\S]*?\n  \}/)[0],/acknowledge/,"Career Start auto-continue never acknowledges");
   for(const file of ["js/persistentNikDanielPair.js"]){
-    const src=read(file),tick=src.match(/async function (pairWaitingPollTick)\(\)\{[\s\S]*?\n  \}/)[0];
+    const src=read(file),tick=src.match(/async function (pairWaitingPollTick)\(woken=false\)\{[\s\S]*?\n  \}/)[0];
     assert.doesNotMatch(tick,/createPairing|redeemPairing|openSession|joinSession|closeSession|revokeSession|pairStartPairing|pairJoinPairing|srjHostSession|srjJoinSession/,`${file} waiting poll is read-only`);
   }
   const html=read("index.html");

@@ -33,7 +33,7 @@ const tallBlock = season.slice(tall, season.indexOf("\n}", tall));
 ok(/--sr-hero-min:max\(160px,calc\(\(26px \+ var\(--sr-hc-w\) \* \.2134\) \/ \.73\)\);/.test(tallBlock), "L1 the hero is chin line + 26px over the title's 73%");
 ok(/grid-template-rows:minmax\(var\(--sr-hero-min\),1fr\) 56px auto 64px;/.test(tallBlock), "L1 the entry grid reads it too");
 // L3
-const t3 = season.indexOf("@media (min-width:901px) and (max-width:1499px) and (min-height:501px) and (orientation:landscape) {\n #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #screen-title { left:29.8%; width:36.4%; }");
+const t3 = season.indexOf("@media (min-width:901px) and (max-width:1499px) and (orientation:landscape) {\n #app #seasonEntry.seasonScreenV10:not(.v10FinalMode) .v10SeasonStage #screen-title { left:29.8%; width:36.4%; }");
 ok(t3 >= 0, "L3 the title is centred at 48% of the room and 36.4% wide below 1500px");
 ok(season.indexOf("#screen-title { top:14%;left:27.99%;width:43.49%; }") >= 0, "L3 1500px and wider keep the approved 43.49% title");
 // L2

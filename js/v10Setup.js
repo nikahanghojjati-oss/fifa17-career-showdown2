@@ -18,11 +18,8 @@
   const HTML_ATTR="v10Setup";
   // r61: Showdown Home (dashboard) has no Team V screen yet, so it wears the Start skin's stadium and kit meanwhile.
   const SCREENS=Object.freeze({createShowdown:"start",leagueWheelScreen:"league",dashboard:"start"});
-  // Phone heroes per screen (Team V phone art). Desktop uses the plates through css/v10Setup.css.
-  const HEROES=Object.freeze({
-    start:Object.freeze({daniel:"start-join/assets/OVL_SJ_DANIEL_PHONE_V1.webp",nik:"start-join/assets/OVL_SJ_NIK_PHONE_V1.webp"}),
-    league:Object.freeze({daniel:"league/assets/OVL_LEAGUE_DANIEL_PHONE_V1.webp",nik:"league/assets/OVL_LEAGUE_NIK_PHONE_V1.webp"})
-  });
+  // r100 B7: the old phone heroes (OVL_SJ/OVL_LEAGUE_*_PHONE_V1) are gone. Their art layer was hidden at every phone size
+  // (the clubhouse rooms paint both men) and its source never matched on desktop, so it only cost four downloads.
   // Every id start-join/TRUTH.md (5e05a1f) says must survive, plus the wheel and pack ids product code and the
   // two-manager browser journey read. The contract checks they still exist after a mount.
   const TRUTH_IDS=Object.freeze(["newShowdown","createShowdown","createShowdownScreenTitle","showdownName","managerOne","managerTwo","roundAmount","onlineShowdownSetupNote","onlinePlayerIdentityOverlay","onlinePlayerIdentityBadge","onlinePlayerIdentitySettingsPanel","startShowdown","productionSharedJourneyEntryOverlay","startSharedShowdown","continueSharedSetupGate","sharedJourneyLeagueLockNote","spinLeague","openClubPack","persistentNikDanielPairPanel","persistentNikDanielPairCode","sparkRemoteJoiningOverlay","settingsContent","settingsOverlay","sparkConnectedAccountPanel","sparkPrivatePairingPanel","sparkPrivatePairingCodeInput"]);
@@ -73,17 +70,6 @@
     }catch(_error){return false;}
   }
   function v26Make(tag,className){const node=v26Doc().createElement(tag);if(className)node.className=className;node.setAttribute("aria-hidden","true");node.dataset.v26Decor="true";return node;}
-  // Decorative phone art: <picture> with a phone-only source, so desktop downloads nothing (the plate is the desktop art).
-  function v26Art(skin){
-    const art=v26Make("div","v26Art v26Art--"+skin);
-    for(const who of ["daniel","nik"]){
-      const picture=v26Make("picture","v26Hero v26Hero--"+who),source=v26Doc().createElement("source"),img=v26Doc().createElement("img");
-      source.setAttribute("media","(max-width: 900px)");source.setAttribute("srcset",BASE+HEROES[skin][who]);source.setAttribute("type","image/webp");
-      img.setAttribute("alt","");img.setAttribute("decoding","async");
-      picture.appendChild(source);picture.appendChild(img);art.appendChild(picture);
-    }
-    return art;
-  }
   function v26Observe(state,target,options,fn){
     if(!target||typeof root.MutationObserver!=="function")return;
     const observer=new root.MutationObserver(()=>{try{fn();}catch(error){v26Report("The setup screen's look could not update.",error);}});
@@ -212,7 +198,6 @@
     live.set(host,state);
     host.classList.add(SKIN_CLASS);
     doc.documentElement.dataset[HTML_ATTR]=frame.skin;
-    if(!host.querySelector(":scope > .v26Art"))host.appendChild(v26Art(frame.skin));
     if(frame.skin==="league"){v26BindLeague(state);v26BoxLip(state);}
     if(host.id==="createShowdown"){try{v26Seasons(state);}catch(error){v26Report("The season chips could not load.",error);}}
   }
@@ -257,6 +242,32 @@
     Array.from(doc.querySelectorAll("main > .screen")).forEach(section=>screenObserver.observe(section,{attributes:true,attributeFilter:["class"]}));
   }
 
+  // R98-01 Reus Gate: Select League stays behind the loading screen while the League Roulette board is still being built.
+  // Nik 2026-11-26 ("League Roulette always the 3D board, never the old wheel, in every clubhouse"): in a shared Showdown the
+  // board is armed (idle, js/leagueRouletteStep.js) as the screen opens, connected or not, so Daniel's WAITING FOR NIK, a
+  // reload while waiting and Nik waiting for Daniel open on the 3D board in the clubhouse's V4 room too, never on the plain
+  // wheel in the V3 room. Its module is fetched first if this page has not loaded it yet (the screen stays held meanwhile; it
+  // is the one the shared presentation loads, so it loads once). The plain wheel stays only where 3D cannot run (no WebGL2,
+  // the scene's files fail, a crash), or where the module itself cannot load.
+  let leagueStepLoad=null,leagueStepMissing=false;
+  // A shared Showdown before its setup is done: the entry's marker, or Daniel's START under way (the new shell opens Select
+  // League before the entry marks it).
+  function v26SharedLeague(){
+    try{const entry=root.CareerModeProductionSharedJourneyEntry;return Boolean(entry&&(entry.isPending?.()===true||entry.isStarting?.()===true));}catch(_error){return false;}
+  }
+  function v26LeagueHeld(){
+    let step=root.CareerModeLeagueRouletteStep;
+    if(!step&&!leagueStepMissing&&v26SharedLeague()){
+      if(!leagueStepLoad&&typeof root.loadRuntimeScript==="function"){
+        leagueStepLoad=Promise.resolve(root.loadRuntimeScript("league-roulette-step","js/leagueRouletteStep.js",()=>root.CareerModeLeagueRouletteStep))
+          .catch(()=>null).then(()=>{if(!root.CareerModeLeagueRouletteStep)leagueStepMissing=true;const screens=v26Screens();if(screens)void screens.show("leagueWheelScreen").catch(()=>{});});
+      }
+      if(leagueStepLoad)return true;
+    }
+    if(step&&v26SharedLeague())step.idle();
+    if(step&&step.holding()){void step.ensure();return true;}
+    return false;
+  }
   function v26Install(){
     const screens=v26Screens(),doc=v26Doc();
     if(installed||!screens||!doc)return api;
@@ -266,7 +277,7 @@
     for(const id of Object.keys(SCREENS)){
       // R98-01: Select League stays behind the loading screen while the League Roulette board is still being built (Reus Gate);
       // js/leagueRouletteStep.js shows it again once the board has drawn, or at once where 3D cannot run.
-      screens.register(id,{css:[],js:[],frame:()=>{if(id==="leagueWheelScreen"&&screens.HOLD){const step=root.CareerModeLeagueRouletteStep;if(step&&step.holding()){void step.ensure();return screens.HOLD;}}return FRAMES[id];},mount:(frame,host)=>v26Mount(frame,host),unmount:host=>v26Unmount(host)});
+      screens.register(id,{css:[],js:[],slowHold:id==="leagueWheelScreen",frame:()=>id==="leagueWheelScreen"&&screens.HOLD&&v26LeagueHeld()?screens.HOLD:FRAMES[id],mount:(frame,host)=>v26Mount(frame,host),unmount:host=>v26Unmount(host)});
     }
     v26WatchScreens();
     const current=v26ActiveScreen();
@@ -275,7 +286,7 @@
   }
 
   const api=Object.freeze({
-    contractVersion:1,BASE,EVENT,STYLE,SCREENS,HEROES,TRUTH_IDS,SETUP_IDS,SKIN_CLASS,
+    contractVersion:1,BASE,EVENT,STYLE,SCREENS,TRUTH_IDS,SETUP_IDS,SKIN_CLASS,
     leagueFromText:v26LeagueFromText,topIndex:v26TopIndex,
     install:v26Install,mount:v26Mount,unmount:v26Unmount,syncLeague:host=>{const state=live.get(host);if(state)v26SyncLeague(state);},
     announceScreen:v26AnnounceScreen

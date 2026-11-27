@@ -58,6 +58,7 @@ assert.deepEqual(shrank, [], `C2 retired references went down (good): lower the 
 
 // C3
 const pkg = JSON.parse(read("package.json"));
+assert.ok(pkg.scripts["test:browser"].includes("CMS_OLD_ART_GROUP=short node tests/browser/r91-old-art-audit.cjs SEASON_ENTRY SEASON_REVIEW FINAL_WINNER TROPHY_ROOM"), "C3 r100 B7: test:browser runs the short-window group on Season Results, Final Winner and Trophy Room");
 for(const group of ["desk", "touch-up", "touch-side"]) assert.ok(pkg.scripts["test:browser"].includes(`CMS_OLD_ART_GROUP=${group} node tests/browser/r91-old-art-audit.cjs`), `C3 test:browser runs the ${group} old-art group`);
 assert.match(pkg.scripts["test:old-art"] || "", /CMS_OLD_ART_GROUP=full node tests\/browser\/r91-old-art-audit\.cjs/, "C3 npm run test:old-art runs the full grid");
 const audit = read("tests/browser/r91-old-art-audit.cjs");

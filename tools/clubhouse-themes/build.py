@@ -31,6 +31,13 @@ def plates():
             names.append(f[:-5])
     return names
 
+# r100 B7: plates Team V repainted for a clubhouse are built by paint.py from paintings/, never recoloured here.
+def painted_names():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("paint", os.path.join(os.path.dirname(__file__), "paint.py"))
+    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+    return {(theme, name) for theme, name, _p, _r in mod.painted()}
+
 # Rooms with no manager in them: no mask.
 NO_HEROES = ("ENV_LOADING_", "ENV_CLUB_", "ENV_SLAB_", "TILE_", "ENV_BOX_PHONE_HC_V4", "ENV_BOX_SIDEWAYS_HC_V4")
 
@@ -151,8 +158,6 @@ LIGHT = {
     # black (never blue or grey) and the lamps' light as soft candle-warm pools.
     "matte": {"floor": 0.05, "span": 0.17, "gamma": 1.0, "detail": 0.3, "clip": 0.03, "contrast": 1.0, "mid": 0.1,
               "sheen": 0.04, "tint": np.array([1.0, 0.98, 0.955], np.float32), "pool": 0.2, "denoise": True},
-    # the panel marble tile (css/r78-marble-tile-metal.webp) keeps the first Metallic Black grade: plain neutral black stone
-    "tile": {"floor": 0.018, "span": 0.93, "gamma": 1.06, "detail": 0.35, "tint": np.array([0.96, 0.99, 1.05], np.float32), "pool": 0.28},
 }
 WARM = np.array([1.0, 0.8, 0.52], np.float32)
 
@@ -288,22 +293,14 @@ def build(name, folder=SRC):
     objects = object_mask(name, src.size) * (1 - hero)  # Daniel and Nik and the stadium are never touched
     keep_out = np.maximum(hero, objects)
     rgb = np.asarray(src)
+    skip = painted_names()
     for theme in THEMES:
+        if (theme, name) in skip:
+            continue  # repainted by Team V: built by paint.py
         out_dir = os.path.join(folder, theme)
         os.makedirs(out_dir, exist_ok=True)
         Image.fromarray(recolor(rgb, keep_out, theme, objects)).save(os.path.join(out_dir, name + ".webp"), quality=90, method=6)
     print("built", name, src.size)
-
-def build_tile():
-    """The panel marble (css/r78-marble-tile.webp, black with gold veins): the warm black turns neutral metal black, the gold
-    veins stay. One tile serves both themes (the panels stay dark in Silver too)."""
-    src = Image.open(os.path.join(ROOT, "css", "r78-marble-tile.webp")).convert("RGB")
-    a = np.asarray(src).astype(np.float32) / 255
-    L = 0.2126 * a[..., 0] + 0.7152 * a[..., 1] + 0.0722 * a[..., 2]
-    keep = smooth(L, 0.07, 0.14)  # the veins
-    out = recolor(np.asarray(src), keep, "tile")
-    Image.fromarray(out).save(os.path.join(ROOT, "css", "r78-marble-tile-metal.webp"), quality=88, method=6)
-    print("built css/r78-marble-tile-metal.webp")
 
 # The loading screen's tunnel (Nik 2026-11-23 21:32 UTC: "any screen that has clubhouse art or clubhouse background should
 # match"). Reus is his own picture in front of it, so the room has no one in it. Copies go to assets/loading/<theme>/.
@@ -315,9 +312,7 @@ def build_loading():
 
 if __name__ == "__main__":
     names = sys.argv[1:]
-    if not names or "tile" in names:
-        build_tile()
     if not names or "loading" in names:
         build_loading()
-    for n in [x for x in names if x not in ("tile", "loading")] or (plates() if not names else []):
+    for n in [x for x in names if x != "loading"] or (plates() if not names else []):
         build(n)

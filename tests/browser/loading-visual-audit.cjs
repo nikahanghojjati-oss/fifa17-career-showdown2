@@ -186,6 +186,39 @@ async function runCase(browser, config){
     }finally{await context.close();}
 }
 
+// r100 B7 (Codex P2 on #1623): on a 2x or 3x screen the tunnel's top room must be the sharp one in every clubhouse. The
+// clubhouse's own rooms come from an inline `content:` swap, and a script tag between the two room pictures once broke the
+// `picture+picture` rule, so a themed clubhouse kept the 1X / 590W room on top. This fails if that ever comes back.
+const SHARP_CASES = [
+    { name: "hidpi-desktop", viewport: { width: 1920, height: 1080 }, dpr: 2, mobile: false, sharp: true },
+    { name: "hidpi-phone", viewport: { width: 430, height: 932 }, dpr: 3, mobile: true, sharp: true },
+    { name: "1x-desktop", viewport: { width: 1366, height: 768 }, dpr: 1, mobile: false, sharp: false }
+];
+async function assertSharpRooms(browser){
+    for(const theme of ["current", "silver", "black", "matte"]) for(const config of SHARP_CASES){
+        const context = await browser.newContext({ viewport: config.viewport, deviceScaleFactor: config.dpr, isMobile: config.mobile, hasTouch: config.mobile, userAgent: config.mobile ? IOS_UA : undefined, locale: "en-US" });
+        try{
+            await context.addInitScript(t => { try{ if(t !== "current") localStorage.setItem("cmsClubhouseTheme", t); }catch(error){ /* the audit then reads Wooden and says so below */ } }, theme);
+            const page = await context.newPage();
+            await page.goto(baseUrl.href, { waitUntil: "domcontentloaded" });
+            await page.waitForFunction(() => { const rooms = [...document.querySelectorAll("#loadingScreen img.startupRoom")]; return rooms.length === 2 && rooms.every(room => room.complete && room.naturalWidth > 0); }, null, { timeout: 12000 });
+            const shown = await page.evaluate(() => {
+                const rooms = [...document.querySelectorAll("#loadingScreen img.startupRoom")];
+                const top = rooms[rooms.length - 1], content = getComputedStyle(top).content;
+                const url = /url\("?([^")]+)"?\)/.exec(content);
+                return { theme: document.documentElement.dataset.clubhouse || "current", file: (url ? url[1] : top.currentSrc || "").replace(/^.*?assets\/loading\//, "").split("?")[0] };
+            });
+            const label = `${theme} ${config.name} ${config.viewport.width}x${config.viewport.height}@${config.dpr}x`;
+            assert.equal(shown.theme, theme, `${label}: the page runs in the ${theme} clubhouse`);
+            if(theme === "current") assert.ok(!/^(?:silver|black|matte)\//.test(shown.file), `${label}: Wooden draws its own tunnel (${shown.file})`);
+            else assert.ok(shown.file.startsWith(`${theme}/`), `${label}: the tunnel is the ${theme} clubhouse's own (${shown.file})`);
+            if(config.sharp) assert.ok(!/_1X\.webp$|_590W\.webp$/.test(shown.file), `${label}: a ${config.dpr}x screen shows the low-resolution tunnel room ${shown.file}`);
+            else assert.ok(/_1X\.webp$/.test(shown.file), `${label}: a 1x screen keeps the 1X room (${shown.file})`);
+            process.stdout.write(`PASS sharp room ${label} :: ${shown.file}\n`);
+        }finally{ await context.close(); }
+    }
+}
+
 (async()=>{
     const runtime=await resolveChromiumRuntime(),browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
     try{
@@ -194,5 +227,7 @@ async function runCase(browser, config){
         assert.ok(Math.abs(standalone.title.top-mobile.title.top)<=62,`startup title moved ${Math.abs(standalone.title.top-mobile.title.top).toFixed(1)}px between browser-height and standalone-height mobile layouts.`);
         assert.equal(standalone.image.source,mobile.image.source,"same-width browser and installed-app phones draw the same Reus layer.");
         process.stdout.write("Standalone/mobile startup composition regression audit passed.\n");
+        await assertSharpRooms(browser);
+        process.stdout.write("Every clubhouse shows its sharp tunnel room on 2x and 3x screens.\n");
     }finally{await browser.close();}
 })().catch(error=>{console.error("LOADING VISUAL AUDIT FAILED");console.error(error.stack||error);process.exit(1);});

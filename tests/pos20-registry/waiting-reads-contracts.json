@@ -1,0 +1,14 @@
+{
+  "path": "tests/contracts/waiting-reads-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedCanonicalScoring\\.js$",
+    "^js/productionSharedFinalReconciliation\\.js$",
+    "^js/productionSharedJourneyReconnect\\.js$",
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/productionSharedSeasonResults\\.js$",
+    "^js/productionSharedTerminalClose\\.js$",
+    "^tests/contracts/waiting-reads-contracts\\.cjs$",
+    "^tests/pos20-registry/waiting\\-reads\\-contracts\\.json$"
+  ]
+}

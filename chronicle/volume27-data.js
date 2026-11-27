@@ -1,6 +1,6 @@
 /* THE CHRONICLE · Volume 27 (Team G, r99 / 2.12.0): "From a fan, for the fans.", Nik's headline (2026-11-24 02:44 and 02:46 UTC:
    he is a big fan of Career Mode and built this for all the fans, all football fans; no words beyond his); the four clubhouses
-   (Wooden, Platinum, Metallic Black, Premium Matte Black; heroes masked, per device, never Firebase, loading room too); the
+   (Wooden, Platinum, Black Steel, Graphite; heroes masked, per device, never Firebase, loading room too); the
    Gazette paper off the faces, Career Start buttons off the jackets, sideways crest names inside their packs; no Rules change,
    mixed versions safe, the rollback line for a themed phone; 2.12.0 going live (dateless until it ships). Written 24 November
    2026 from gameplay/r99. Loaded by volume27.js. Builder: gameplay/r99/threads/bump/v27.py (project files), or edit this JSON
@@ -61,7 +61,7 @@ window.CHRONICLE_VOLUME27={
      "branch": "gameplay/r99",
      "ref": "cbd4ddead4f8889bcac8403d714f463ac538b0f2",
      "path": "Pull request #1571",
-     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Metallic Black and Premium Matte Black",
+     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Black Steel and Graphite",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1571",
      "kind": "pull-request"
     },
@@ -108,11 +108,11 @@ window.CHRONICLE_VOLUME27={
     },
     {
      "type": "p",
-     "text": "The silver, now Platinum, came in two versions, and he picked the second. The black took longer. He asked for it more premium and more metallic, not just darker; then for black metal, with no silver, grey or white in it. It became Metallic Black, brushed gunmetal and black marble caught by gold lamplight. And because a black that shines is not the only black, a fourth clubhouse arrived beside it: Premium Matte Black, soft-touch, quiet and deep, lit by warm gold."
+     "text": "The silver, now Platinum, came in two versions, and he picked the second. The black took longer. He asked for it more premium and more metallic, not just darker; then for black metal, with no silver, grey or white in it. It became Black Steel, brushed gunmetal and black marble caught by gold lamplight. And because a black that shines is not the only black, a fourth clubhouse arrived beside it: Graphite, soft-touch, quiet and deep, lit by warm gold."
     },
     {
      "type": "p",
-     "text": "Four clubhouses, then: Wooden, the rooms as they were painted; Platinum; Metallic Black; Premium Matte Black. Each phone or laptop keeps its own pick. It is never written to Firebase and never sent to the other phone, so Daniel can sit in platinum while Nik stays in wood. The choice is applied before anything paints, so no room ever shows in the wrong colours first. The Wooden clubhouse runs none of the recolouring at all."
+     "text": "Four clubhouses, then: Wooden, the rooms as they were painted; Platinum; Black Steel; Graphite. Each phone or laptop keeps its own pick. It is never written to Firebase and never sent to the other phone, so Daniel can sit in platinum while Nik stays in wood. The choice is applied before anything paints, so no room ever shows in the wrong colours first. The Wooden clubhouse runs none of the recolouring at all."
     },
     {
      "type": "p",
@@ -124,7 +124,7 @@ window.CHRONICLE_VOLUME27={
      "branch": "gameplay/r99",
      "ref": "cbd4ddead4f8889bcac8403d714f463ac538b0f2",
      "path": "Pull request #1571",
-     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Metallic Black and Premium Matte Black",
+     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Black Steel and Graphite",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1571",
      "kind": "pull-request"
     }
@@ -234,7 +234,7 @@ window.CHRONICLE_VOLUME27={
      "branch": "gameplay/r99",
      "ref": "cbd4ddead4f8889bcac8403d714f463ac538b0f2",
      "path": "Pull request #1571",
-     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Metallic Black and Premium Matte Black",
+     "label": "PR #1571: four clubhouses in Settings: Wooden, Platinum, Black Steel and Graphite",
      "url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/1571",
      "kind": "pull-request"
     },

@@ -25,6 +25,7 @@ let checks=0;const ok=label=>{checks++;void label;};
   await require('./showdown-gate-l5-inputs-contracts.cjs')();
   await require('./showdown-gate-l7-ironman-contracts.cjs')();
   await require('./showdown-gate-l8-pos1m-contracts.cjs')();
+  await require('./showdown-gate-l9-pos1m-ring2-contracts.cjs')();
 
   const head='c'.repeat(40);
   const base='b'.repeat(40);const runId=100;
@@ -32,7 +33,8 @@ let checks=0;const ok=label=>{checks++;void label;};
   const route=(await import(path.join(root,'scripts/pos20-impact-router.mjs'))).routeFiles([],{forceFull:true});
   const needs=result=>Object.fromEntries(Object.values(S.LANES).map(l=>[l.job,{result}]));
   const fullSteps=lane=>Object.fromEntries(Object.keys(S.LANES[lane].steps).map(id=>[id,{outcome:'success'}]));
-  const lanes=()=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,steps:fullSteps(lane),jobStatus:'success'})]));
+  const ring2Of=shard=>({stories:S.L9_STORIES,asked:S.L9_STORIES,firstSeed:S.l9Seed(shard),lastSeed:S.l9Seed(shard)+S.L9_STORIES-1,seedsOk:true,survived:S.L9_STORIES});const l9Extra=lane=>S.isL9(lane)?{ring2:ring2Of(S.LANES[lane].shard)}:lane===S.L10_LANE?{league3d:{verdict:'PASS',runs:S.L10_RUNS.map(name=>({name})),failures:[],chromium:{args:['--use-angle=swiftshader']}}}:{};// a ran L9 shard carries its own 50-story report
+  const lanes=()=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,steps:fullSteps(lane),jobStatus:'success',...l9Extra(lane)})]));
   const sealOf=extra=>S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:base,prLiveHead:head,route,needs:needs('success'),lanes:lanes(),runId,runAttempt:1,...extra});
   assert.equal(sealOf({}).verdict,'PASS');
   for(const id of S.routedIds(route))assert.ok(sealOf({}).ran_ids.includes(id),`full route id ran: ${id}`);
@@ -104,7 +106,10 @@ let checks=0;const ok=label=>{checks++;void label;};
     delete env.GITHUB_TOKEN;delete env.GH_TOKEN;delete env.GATE_BASE_SHA;delete env.GATE_BEFORE_SHA;delete env.GATE_PR_NUMBER;
     for(const lane of S.LANE_IDS){
       const out=path.join(lanesDir,`showdown-gate-lane-${lane}`,'lane.json');
-      const result=spawnSync(process.execPath,['scripts/showdown-gate.mjs','finalize','--lane',lane,'--route',routeFile,'--out',out],{cwd:root,env:{...env,GATE_STEPS_JSON:JSON.stringify(fullSteps(lane))},encoding:'utf8'});
+      // A ran L9 shard hands finalize its own 50-story Ring 2 report (tests/pos1m/ring2.cjs --out).
+      const ring2=[];if(S.isL9(lane)){const file=path.join(temp,`${lane}-ring2.json`);fs.writeFileSync(file,JSON.stringify(ring2Of(S.LANES[lane].shard)));ring2.push('--ring2',file);}
+      if(lane===S.L10_LANE){const file=path.join(temp,'L10-league3d.json');fs.writeFileSync(file,JSON.stringify(l9Extra(lane).league3d));ring2.push('--league3d',file);}
+      const result=spawnSync(process.execPath,['scripts/showdown-gate.mjs','finalize','--lane',lane,'--route',routeFile,...ring2,'--out',out],{cwd:root,env:{...env,GATE_STEPS_JSON:JSON.stringify(fullSteps(lane))},encoding:'utf8'});
       assert.equal(result.status,0,result.stderr);
       const record=JSON.parse(fs.readFileSync(out,'utf8'));
       assert.equal(record.run_id,runId);assert.equal(record.base_sha,base);assert.equal(record.route_digest,S.routeDigest(route));
@@ -129,7 +134,7 @@ let checks=0;const ok=label=>{checks++;void label;};
       const sealBase=S.baseFromEnv({GITHUB_EVENT_NAME:'pull_request',GATE_EVENT:'pull_request',GITHUB_EVENT_PATH:eventFile});
       assert.equal(finalizeBase,base,`${payload.action}: finalize binds the PR base, not payload.before`);
       assert.equal(finalizeBase,sealBase,`${payload.action}: lane and seal bases agree`);
-      const runLanes=Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:finalizeBase,runId,runAttempt:1,route,steps:fullSteps(lane),jobStatus:'success'})]));
+      const runLanes=Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:finalizeBase,runId,runAttempt:1,route,steps:fullSteps(lane),jobStatus:'success',...l9Extra(lane)})]));
       assert.equal(S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:sealBase,prLiveHead:head,route,needs:needs('success'),lanes:runLanes,runId,runAttempt:1}).verdict,'PASS',`${payload.action}: a clean PR run seals`);
     }
     const pushFile=path.join(realTemp,'push.json');fs.writeFileSync(pushFile,JSON.stringify({before:previousHead,after:head}));
@@ -157,10 +162,10 @@ let checks=0;const ok=label=>{checks++;void label;};
   const PS=await import(path.join(root,'scripts/physio-status.mjs'));
   const gate=readWorkflow(root,'.github/workflows/showdown-gate.yml');
   assert.equal(gate.name,W.GATE_WORKFLOW_NAME);assert.ok(gate.jobs.seal&&gate.jobs.seal.name===W.SEAL_JOB_NAME);
-  PS.GATE_LANES.forEach((name,i)=>assert.ok(name.startsWith(`${['L1','L2','L3A','L3B','L4','L5','L6'][i]} `),name));
-  // The Physio bar shows the seven single-job lanes; the L7 Ironman and L8 POS1M matrices (one job per leg or shard) are read
+  PS.GATE_LANES.forEach((name,i)=>assert.ok(name.startsWith(`${['L1','L2','L3A','L3B','L4','L5','L6','L10'][i]} `),name));
+  // The Physio bar shows the eight single-job lanes (L1-L6 and L10); the L7 Ironman and L8 POS1M matrices (one job per leg or shard) are read
   // through the seal.
-  assert.deepEqual(Object.values(gate.jobs).filter(j=>j.name!=='seal'&&!/^L7 Ironman |^L8 POS1M /.test(j.name)).map(j=>j.name),PS.GATE_LANES,'lane names are the gate job names');
+  assert.deepEqual(Object.values(gate.jobs).filter(j=>j.name!=='seal'&&!/^L7 Ironman |^L8 POS1M |^L9 POS1M Ring 2 /.test(j.name)).map(j=>j.name),PS.GATE_LANES,'lane names are the gate job names');
   const coverageGates=JSON.parse(fs.readFileSync(path.join(root,'GATE_COVERAGE.json'),'utf8')).gates.map(g=>g.name);
   assert.deepEqual(PS.POS20_GATE_NAMES,coverageGates,'the Physio counts exactly the 16 gates of GATE_COVERAGE.json');
   assert.equal(W.MAX_ATTEMPTS,3);

@@ -51,7 +51,7 @@ const minutes=ms=>Math.round(ms/6000)/10;
 export const prOf=run=>(run?.pull_requests||[]).find(pr=>pr?.head?.sha===run?.head_sha)?.number??null;
 
 // The newest open non-draft PR into main, shown next to the Physio on the bottom bar.
-export const GATE_LANES=Object.freeze(['L1 core','L2 browser full','L3A storage gameplay','L3B visual','L4 remote','L5 rules regression','L6 browser journey']);
+export const GATE_LANES=Object.freeze(['L1 core','L2 browser full','L3A storage gameplay','L3B visual','L4 remote','L5 rules regression','L6 browser journey','L10 League Roulette 3D']);
 export const GATE_SEALS=Object.freeze(['PASS','FAIL_TEST','INFRA_RETRYING','INFRA_EXHAUSTED','PENDING','DRAFT','SUPERSEDED']);
 export const LANE_STATES=Object.freeze(['pass','fail','running','queued','skipped']);
 // The 16 current gates: every Validate POS20 job (proof matrix expanded per group) and the four Validate

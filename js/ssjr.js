@@ -104,8 +104,18 @@
     return true;
   };
   const liveGameGate=async()=>{while(liveGameResumeOpen())await new Promise(resolve=>root.setTimeout(resolve,50));};
+  // r100 audit F2 (Nik 2026-11-26): a reload, a resume or a late join that lands on League Roulette kept the loading screen only
+  // until it had left Home; it then faded over an empty screen while the 3D board was still being built (its engine, pictures
+  // and shaders: seconds on a phone), and a frozen fade showed the empty screen for up to 4 s. It now stays until Select League
+  // is really drawn: js/v10Screens.js clears data-v10-pending once the board has drawn its first frame and its V4 room is
+  // decoded (or where 3D cannot run, once the plain wheel is). Bounded by the same 15 s startup cap.
+  const leagueHeld=()=>{
+    if(startupCapLeft()<=0||typeof root.getActiveScreenName!=="function"||root.getActiveScreenName()!=="leagueWheelScreen")return false;
+    const el=root.document&&root.document.getElementById("leagueWheelScreen");return Boolean(el&&el.hasAttribute("data-v10-pending"));
+  };
+  const leagueGate=async()=>{while(leagueHeld())await new Promise(resolve=>root.setTimeout(resolve,50));};
   root.careerModeHomeHold=1;
-  const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
+  const home=v10().then(reusGate).catch(error=>root.console?.warn?.("[Career Mode Showdown] Reus Gate could not check Home.",error)).then(resumeGate).catch(()=>null).then(liveGameGate).catch(()=>null).then(leagueGate).catch(()=>null).then(()=>{root.careerModeHomeHold=0;});
   // r90 (Nik 2026-11-08, "every screen adapts to the device"): js/gfxTier.js once Home is up and the page is idle, so
   // html[data-gfx] and html[data-assets] are set for the 2D screens too (a picked or measured level costs no GPU probe).
   const gfxTier=()=>load("gfx-tier","js/gfxTier.js",()=>root.CareerModeGfxTier).catch(()=>null);

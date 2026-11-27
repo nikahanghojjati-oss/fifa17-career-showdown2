@@ -1,0 +1,18 @@
+{
+  "path": "tests/contracts/shared-multi-season-progression-production-contracts.cjs",
+  "patterns": [
+    "^js/sharedMultiSeasonProgression\\.js$",
+    "^js/sparkSharedMultiSeasonProgression\\.js$",
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/productionSharedSeasonResults\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^js/productionSharedCanonicalScoring\\.js$",
+    "^js/productionSharedHistoryConvergence\\.js$",
+    "^js/ssjr\\.js$",
+    "^tests/contracts/shared-multi-season-progression-production-contracts\\.cjs$",
+    "^tests/browser/shared-multi-season-progression-audit\\.cjs$",
+    "^package\\.json$",
+    "^tests/pos20-registry/shared\\-multi\\-season\\-progression\\-production\\-contracts\\.json$"
+  ]
+}

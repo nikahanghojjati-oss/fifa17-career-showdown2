@@ -154,7 +154,7 @@ let checks=0;const ok=()=>{checks++;};
   const pos20Route=old[POS20].jobs.route.steps.find(s=>s.id==='route').run;
   assert.match(pos20Route,/--force-full/);assert.match(pos20Route,/--files-file \/tmp\/pos20-changed-files\.txt/);
   // Registered contracts the lane records are exactly what --all runs.
-  const manifest=json('CURRENT_PRODUCT_TEST_MANIFEST.json');const supplemental=json('POS20_SUPPLEMENTAL_PRODUCT_TESTS.json');
+  const manifest=json('CURRENT_PRODUCT_TEST_MANIFEST.json');const supplemental=require('../support/pos20-registry.cjs').loadPos20Registry(root);
   assert.deepEqual(gateLib.registeredContracts(),[...new Set([...manifest.tests,...supplemental.tests.map(e=>e.path)])]);
   assert.ok(gateLib.registeredContracts().length>=131,'the census keeps the 129 floor plus the Showdown Gate contracts');
   ok();
@@ -162,7 +162,7 @@ let checks=0;const ok=()=>{checks++;};
   // 5. Lane structure, TEST: naming, step ids that record ran ids, runner pin, no POS20-named checks.
   // L7 Ironman is one matrix job (l7-ironman) whose legs are lane records L7-<leg>; every other lane is one job.
   const laneJobs=[...new Set(Object.values(gateLib.LANES).map(l=>l.job))];
-  assert.deepEqual(Object.keys(gate.jobs),[...laneJobs,'seal'],'Showdown Gate has exactly nine lane jobs and the seal');
+  assert.deepEqual(Object.keys(gate.jobs),[...laneJobs,'seal'],'Showdown Gate has exactly eleven lane jobs and the seal');
   const l7Job=gateJob('l7-ironman');
   assert.deepEqual(l7Job.strategy?.matrix?.leg,[...gateLib.L7_LEGS],'L7 runs one job per Ironman leg, exactly the legs scripts/showdown-gate.mjs records');
   assert.equal(l7Job.strategy?.['fail-fast'],false,'one red leg never cancels the other legs');
@@ -172,13 +172,18 @@ let checks=0;const ok=()=>{checks++;};
   assert.deepEqual(l8Job.strategy?.matrix?.shard,[...gateLib.L8_SHARDS],'L8 runs one job per POS1M shard, exactly the shards scripts/showdown-gate.mjs records');
   assert.equal(l8Job.strategy?.['fail-fast'],false,'one red shard never cancels the others');
   assert.deepEqual(gateLib.LANE_IDS.filter(gateLib.isL8),gateLib.L8_SHARDS.map(gateLib.l8Lane));
+  // L9 POS1M Ring 2 is one matrix job (l9-pos1m-ring2) whose shards are lane records L9-<shard>.
+  const l9Job=gateJob('l9-pos1m-ring2');
+  assert.deepEqual(l9Job.strategy?.matrix?.shard,[...gateLib.L9_SHARDS],'L9 runs one job per Ring 2 shard, exactly the shards scripts/showdown-gate.mjs records');
+  assert.equal(l9Job.strategy?.['fail-fast'],false,'one red shard never cancels the others');
+  assert.deepEqual(gateLib.LANE_IDS.filter(gateLib.isL9),gateLib.L9_SHARDS.map(gateLib.l9Lane));
   const TEST_COMMAND=/npm run (?:test:|work:benchmark)|node tests\/|emulators:exec|pos10-proof-runner|assert-firestore-zero-billing|build-production-firestore-rules|pos20-impact-router|showdown-gate\.mjs route/;
   for(const [laneId,def] of Object.entries(gateLib.LANES)){
     const job=gateJob(def.job);
-    const l7=gateLib.isL7(laneId),l8=gateLib.isL8(laneId);
+    const l7=gateLib.isL7(laneId),l8=gateLib.isL8(laneId),l9=gateLib.isL9(laneId);
     // A matrix leg names its lane through the matrix value: --lane L7-${{ matrix.leg }}, --lane L8-${{ matrix.shard }}.
     const laneArg=gateLib.laneArgOf(laneId);
-    assert.equal(job.name,l7?`${def.name} \${{ matrix.leg }}`:l8?`${def.name} \${{ matrix.shard }}`:def.name);
+    assert.equal(job.name,l7?`${def.name} \${{ matrix.leg }}`:l8||l9?`${def.name} \${{ matrix.shard }}`:def.name);
     assert.equal(job['runs-on'],'ubuntu-24.04',`${def.job} runs-on must be pinned`);
     // r100 step 4 (Nik 2026-11-24): main push runs only L5 (Rules regression + T9/M12 pin check); every other lane runs on ready PRs only.
     if(laneId==='L5')assert.equal(job.if,"${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}",`${def.job} must skip draft PRs and run on main push`);
@@ -191,6 +196,9 @@ let checks=0;const ok=()=>{checks++;};
       if(/^TEST: /.test(step.label)&&step.id!=='route')assert.ok(def.steps[step.id],`${def.job} TEST step "${step.label}" must record its ids in scripts/showdown-gate.mjs LANES`);
       if(laneId==='L5'&&(step.id==='regression'||step.id==='budget_sweep'))assert.equal(step.if,"steps.route.outputs.l5_run == 'true'",'L5 regression and Rules budget sweep must use the independently verified input route');
       else if(l7&&step.id==='ironman')assert.equal(step.if,"steps.route.outputs.l7_run == 'true'",'the Ironman leg must use the independently verified input route');
+      else if(l7&&step.id==='ring3')assert.equal(step.if,"steps.route.outputs.l7_run == 'true' && matrix.leg == 'ce2pg'",'POS1M Ring 3 follows the ce2pg leg on the verified input route');
+      else if(l9&&(step.id==='rules'||step.id==='pos1m_ring2'))assert.equal(step.if,"steps.route.outputs.l9_run == 'true'",'POS1M Ring 2 must use the independently verified input route');
+      else if(laneId===gateLib.L10_LANE&&step.id==='league3d')assert.equal(step.if,"steps.route.outputs.l10_run == 'true'",'League Roulette 3D must use the independently verified input route');
       else if(/^TEST: /.test(step.label)&&step.if)assert.match(step.if,/^(?:steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')(?: \|\| steps\.route\.outputs\.(?:has_[a-z]+|lifecycle_routed) == 'true')*$/,`${def.job} TEST step "${step.label}" may only be conditioned on the route`);
       if(screenshotContract.LABELS.includes(step.label)){
         screenshotContract.assertScreenshotEvidence(step,laneId);
@@ -231,7 +239,7 @@ let checks=0;const ok=()=>{checks++;};
   const oldL3Fixed=['GF_RULES_BUILD_ZERO_BILLING','GF_SHARED_SETUP_PROVIDER','GF_TRANSFER_FRESH_SESSION','GF_LIFECYCLE_1_3','GF_TERMINAL_CLOSE','GF_PERSISTENT_PAIR','GF_TWO_MANAGER_JOURNEY_3_10','GF_CAREER_INDEX','GF_COMPLETED_READ','GF_CLOSED_ADAPTER','GF_COMPLETED_TRANSFER','GF_SEASON_ACK'];
   const splitRoutes=[['full',gateLib.computeRoute({files:[],forceFull:true})],['visual-only',gateLib.computeRoute({files:['css/homeV10.css'],forceFull:false})]];
   assert.deepEqual(splitRoutes[1][1].proofGroups,['VISUAL'],'the visual-only example must actually select only VISUAL proofs');
-  assert.deepEqual(gateLib.LANE_IDS,['L1','L2','L3A','L3B','L4','L5','L6',...gateLib.L7_LEGS.map(gateLib.l7Lane),...gateLib.L8_SHARDS.map(gateLib.l8Lane)]);
+  assert.deepEqual(gateLib.LANE_IDS,['L1','L2','L3A','L3B','L4','L5','L6',...gateLib.L7_LEGS.map(gateLib.l7Lane),...gateLib.L8_SHARDS.map(gateLib.l8Lane),...gateLib.L9_SHARDS.map(gateLib.l9Lane),gateLib.L10_LANE]);
   assert.deepEqual(gateLib.LANES.L3A.groups,['STORAGE']);
   assert.deepEqual(gateLib.LANES.L3B.groups,['VISUAL']);
   assert.deepEqual(gateLib.LANES.L3A.fixed,oldL3Fixed);
@@ -297,7 +305,12 @@ let checks=0;const ok=()=>{checks++;};
     const finalize=(lane,failedStep=null,jobStatus='success')=>{
       env.GATE_JOB_STATUS=jobStatus;
       env.GATE_STEPS_JSON=JSON.stringify(Object.fromEntries(Object.keys(gateLib.LANES[lane].steps).map(id=>[id,{outcome:id===failedStep?'failure':'success'}])));
-      const result=cli(['finalize','--lane',lane,'--route',routeFile,'--out',path.join(lanesDir,`showdown-gate-lane-${lane}`,'lane.json')]);
+      // A ran L9 shard hands finalize its own 50-story Ring 2 report (tests/pos1m/ring2.cjs --out).
+      const ring2=[];if(gateLib.isL9(lane)){const shard=gateLib.LANES[lane].shard,file=path.join(sandbox,`${lane}-ring2.json`);
+        fs.writeFileSync(file,JSON.stringify({stories:gateLib.L9_STORIES,asked:gateLib.L9_STORIES,firstSeed:gateLib.l9Seed(shard),lastSeed:gateLib.l9Seed(shard)+gateLib.L9_STORIES-1,seedsOk:true,survived:gateLib.L9_STORIES}));ring2.push('--ring2',file);}
+      // The ran L10 lane hands finalize its League Roulette WebGL report (tests/browser/r100-league-roulette-webgl-audit.cjs).
+      if(lane===gateLib.L10_LANE){const file=path.join(sandbox,'L10-league3d.json');fs.writeFileSync(file,JSON.stringify({verdict:'PASS',runs:gateLib.L10_RUNS.map(name=>({name})),failures:[],chromium:{args:['--use-angle=swiftshader']}}));ring2.push('--league3d',file);}
+      const result=cli(['finalize','--lane',lane,'--route',routeFile,...ring2,'--out',path.join(lanesDir,`showdown-gate-lane-${lane}`,'lane.json')]);
       assert.equal(result.status,0,result.stderr);
     };
     const seal=()=>{env.GATE_NEEDS_JSON=JSON.stringify(needs);return cli(['seal','--route',routeFile,'--lanes-dir',lanesDir,'--out',summaryFile]);};

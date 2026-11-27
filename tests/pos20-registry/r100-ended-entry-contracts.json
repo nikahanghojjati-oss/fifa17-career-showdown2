@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r100-ended-entry-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedJourneyEntry\\.js$",
+    "^js/productionSharedTerminalClose\\.js$",
+    "^tests/contracts/r100\\-ended\\-entry\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-ended\\-entry\\-contracts\\.json$"
+  ]
+}

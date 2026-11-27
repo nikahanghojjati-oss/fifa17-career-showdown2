@@ -1225,7 +1225,7 @@
   :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxGuide { display: inline-flex; align-items: center; min-height: 44px; }
 }
 :root body #settingsOverlay.v10Settings #settingsContent .settingsGfxRow .settingsGfxSelect option { background: #15120c; color: #f5f1e8; }
-/* R99-01: the longest clubhouse name ("Premium Matte Black Clubhouse") stays whole on the narrowest phones: a touch smaller and
+/* R99-01: the longest clubhouse name ("Black Steel Clubhouse") stays whole on the narrowest phones: a touch smaller and
    tighter there, never under the 12px floor. */
 @media (max-width: 379px) {
   :root body #settingsOverlay.v10Settings #settingsContent .settingsClubhouseRow .settingsGfxSelect { font-size: max(12px, .88em); letter-spacing: .01em; padding: 0 26px 0 10px; background-position: right 9px center; }

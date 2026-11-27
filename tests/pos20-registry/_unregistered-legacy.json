@@ -1,0 +1,30 @@
+{
+  "purpose": "Contracts in tests/contracts that neither the frozen POS10 manifest nor the POS20 registry runs: stale pre-r80 process contracts that read deleted files (B1 audit 2026-11-24; they fail the same way on main fec8af69). This list may only shrink; a new contract must be registered (one file in tests/pos20-registry/).",
+  "contracts": [
+    "tests/contracts/cloud-foundation-contracts.cjs",
+    "tests/contracts/cloud-sync-phase1f-contracts.cjs",
+    "tests/contracts/cloud-sync-phase1f-runtime-contracts.cjs",
+    "tests/contracts/github-cli-bootstrap-contracts.cjs",
+    "tests/contracts/handoff-immediate-next-task-contracts.cjs",
+    "tests/contracts/handoff-proximity-stage-contracts.cjs",
+    "tests/contracts/multi-save-portability-contracts.cjs",
+    "tests/contracts/next-developer-prompt-contracts.cjs",
+    "tests/contracts/owner-downloadable-sns-golden-rule-contracts.cjs",
+    "tests/contracts/owner-progress-reporting-contracts.cjs",
+    "tests/contracts/private-account-auth-stage2a-boundary-contracts.cjs",
+    "tests/contracts/private-account-auth-stage2a-contracts.cjs",
+    "tests/contracts/private-account-auth-stage2b-contracts.cjs",
+    "tests/contracts/private-account-auth-stage2c-policy-contracts.cjs",
+    "tests/contracts/r2-production-proof-publication-contracts.cjs",
+    "tests/contracts/release-authority-coherence.cjs",
+    "tests/contracts/remote-data-privacy-retention-contracts.cjs",
+    "tests/contracts/rjr-reporting-authority-contracts.cjs",
+    "tests/contracts/session-handoff-proximity-contracts.cjs",
+    "tests/contracts/sle-handoff-packaging-contracts.cjs",
+    "tests/contracts/stage5-activation-authority-contracts.cjs",
+    "tests/contracts/work-environment-continuity-contracts.cjs",
+    "tests/contracts/work-environment-continuity-runtime-contracts.cjs",
+    "tests/contracts/work-environment-forward-progress-contracts.cjs",
+    "tests/contracts/work-environment-interruption-resilience-contracts.cjs"
+  ]
+}

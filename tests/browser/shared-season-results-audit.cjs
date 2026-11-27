@@ -213,7 +213,7 @@ async function reviewTamperAndPublish(page,role,result,{lostAcknowledgement=fals
     await assertPrivateEntry(host,'playerOne');
     await reviewTamperAndPublish(host,'playerOne',resultOne);
     assert.equal(server.revision,1);assert.equal(server.publishes.length,1);assert.deepEqual(server.publishes[0].result,resultOne);
-    assert.match(await host.locator('#seasonReviewStatusMeta').textContent(),/^CONFIRMED · WAITING FOR [A-Z]+( · LIVE| · CHECKED\s\d{1,2}:\d{2}\s[AP]M)?$/);
+    assert.match(await host.locator('#seasonReviewStatusMeta').textContent(),/^CONFIRMED · WAITING FOR [A-Z]+$/);
     assert.equal(await host.locator('#seasonReviewTwo').isVisible(),false,'first publisher must not see opponent result');
     const back=host.locator('#seasonEntry .seasonEntryActions .backButton');assert.equal(await back.isVisible(),true,'waiting manager must retain a visible Showdown Home escape');await back.click();await host.locator('#dashboard').waitFor({state:'visible'});
 

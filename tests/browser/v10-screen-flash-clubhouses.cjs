@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 "use strict";
-// r100 B7: the flash audit in the three new clubhouses (Silver, Metallic Black, Premium Matte Black). Wooden runs on every
+// r100 B7: the flash audit in the three new clubhouses (Platinum, Black Steel, Graphite). Wooden runs on every
 // Gate route as V10_FLASH_BROWSER; this is V10_FLASH_CLUBHOUSES, routed by the POS20 router when a clubhouse-look file
 // changes (or on any full seal). All three always run, so one red run still shows every clubhouse's problems; the exit
 // code is red if any clubhouse failed.

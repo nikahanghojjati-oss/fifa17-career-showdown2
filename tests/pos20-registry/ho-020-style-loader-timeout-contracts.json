@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/ho-020-style-loader-timeout-contracts.cjs",
+  "patterns": [
+    "^js/v10Screens\\.js$",
+    "^tests/contracts/ho-020-style-loader-timeout-contracts\\.cjs$",
+    "^tests/pos20-registry/ho\\-020\\-style\\-loader\\-timeout\\-contracts\\.json$"
+  ]
+}
