@@ -308,3 +308,9 @@ Light: the same low, warm office light as image 1, from the same side; his face 
 Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
 One picture, square, the same framing as image 1, the largest size available.
 ```
+
+## 27 Nov 20:50 UTC: route rule and F-2 H2/I2
+- Nik's rule (20:48 UTC): run every face picture in ChatGPT **chat mode**. If chat fails after a couple of tries (new chat each time), move to the next route. Other Work-mode models are dropped.
+- H in chat mode (20:14 UTC): 8.5/10, best likeness so far (jaw, cheeks, forehead, temples, nose). Misses: hair came back wavy and loose (the H hair line said "the outer edge of the curls", which invites curls), lips pout a little. never_slimmer: 25/3462 short points, which cover() fills.
+- H2 and I2 (r100-duet/p4/prompts/F-2/): same as H and I, with the hair set to "image 2's hair, same length and cut ... straight, never wavy, never curly" (no word "curls") and the lips "resting together ... lower lip not pushed forward". Same inputs as H (I adds Image 3, Legacy E2 head).
+- Flow per face from here: 2 options per change, each run once or twice in a fresh chat; Duet fits, runs never_slimmer, scores against Home; Nik picks at 9/10; then desktop plates for every clubhouse (N-3), then the phone picture from the winning prompt in its own chat, then the PR.
