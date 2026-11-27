@@ -119,6 +119,13 @@ LOOKS = {
            SLAB=dict(sat=(0.45, 1.0), detail_min=0.65),
                              SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                              SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
+    # Rose Quartz: dusty rose quartz (#C77D9B, shade #A85F80, lit #E3B4C4), deep plum velvet (#4E1F48, wine lean, never
+    # Amethyst's violet), plum-black wood (#1E0C1C), small satin rose gold (#B76E79). Nik, 27 Nov 2026 04:55 UTC: "cute and
+    # handcrafted and premium". Hue band 295-355: plum (308) to rose (336-340); violet (under 295) belongs to Amethyst.
+    # The stone is the palest in the set by design, so pale (hue band, sat < 0.40, luma > 110) is allowed up to 0.12 and the
+    # night bar is kept by luma and sat instead. All limits provisional until the pilot (reasons: rosequartz/COLOUR_STUDY.md).
+    "ROSEQUARTZ": dict(name="Rose Quartz Clubhouse", hue=(295, 355), hue_min=0.50, brown_max=0.20, sat=(0.25, 0.80),
+                       luma=(14, 80), gold_max=0.04, pale_max=0.12, provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
@@ -271,7 +278,7 @@ def check(key, room, d, sib):
         ("hue", hue_share, hue_share >= cfg["hue_min"], f">= {cfg['hue_min']:.2f} in {cfg['hue'][0]}-{cfg['hue'][1]} deg"),
         ("brown", brown, brown <= cfg["brown_max"], f"<= {cfg['brown_max']:.2f} (Wooden brown gone)"),
         ("sat", sat, cfg["sat"][0] <= sat <= cfg["sat"][1], f"{cfg['sat'][0]:.2f}-{cfg['sat'][1]:.2f}"),
-        ("pale", pale, pale <= 0.03, "<= 0.03 (rich, never pastel)"),
+        ("pale", pale, pale <= cfg.get("pale_max", 0.03), f"<= {cfg.get('pale_max', 0.03):.2f} (rich, never pastel)"),
         ("gold", gold, gold <= cfg["gold_max"], f"<= {cfg['gold_max']:.2f} (accents small)"),
         ("luma", sm["luma"], cfg["luma"][0] <= sm["luma"] <= cfg["luma"][1], f"{cfg['luma'][0]}-{cfg['luma'][1]} (night)"),
     ]
