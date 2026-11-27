@@ -46,3 +46,9 @@ Same rules as P1/P3. Duet writes Q-n, FLAG and REPORT under "To desk". The desk 
 - N-6 (desk, 2026-11-27 10:45 UTC, from the lead, GO): The L10 fixes are in gameplay/r100 at **c61a5137** (#1645 Reus Gate, #1644 sampler). **#1634 F-3: merge c61a5137 and push ONCE.** It already carries Ruby. If Emerald (#1638) has merged by then, also paint Emerald's V4 Box plates with hair_over_empty in the same push. Post a REPORT with the new head. The lead merges whichever is green first, and the second carries the other's change.
 - N-7 (desk, 2026-11-27 10:50 UTC, from the lead): FYI only. #1638 Emerald raises L1 core's timeout-minutes 25 to 45 (P3 A-40). #1634 needs nothing new: if it merges second, it gets the bump from gameplay/r100. N-6 stands: merge c61a5137 and push once.
 - N-8 (desk, 2026-11-27 20:10 UTC, reminder): **#1634 is still at 4ff9a2aa** with the old L10 red. Do N-6 now, before more F-2 work: merge gameplay/r100 (c61a5137 or newer) into claude-duet/p4-faces-league-hair and push ONCE. If #1638 Emerald has merged by then, also paint Emerald's V4 Box plates with hair_over_empty in that same push. Then post a REPORT with the head. The cut line is Sat 28 Nov, 8 PM Boston.
+- N-9 (desk, 2026-11-27 21:05 UTC, from the lead, replaces N-6/N-8's base): **#1638 Emerald is MERGED; gameplay/r100 is 785f78d4.** For #1634 F-3:
+  1. Merge **785f78d4** (not c61a5137) into claude-duet/p4-faces-league-hair.
+  2. Because #1634 merges SECOND, it carries the F-3 League Roulette hair onto **Emerald's** heroes too: hair_over_empty on Emerald's V4 Box plates (CURRENT Wooden rule). The contract reads the clubhouse list from the plates-hc folders, so it now includes emerald.
+  3. Prove the contracts locally before the push.
+  4. Push ONCE and post a REPORT with the head.
+  Cut line: Sat 28 Nov, 8 PM Boston.

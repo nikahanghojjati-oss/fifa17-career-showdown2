@@ -296,3 +296,4 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   (d) If the Lapis 590W file doesn't reproduce, rebuild it and ship it from paint.py. Don't leave it out of N3.
   (e) **Place the check so L1 stays under about 35 min.** If it's heavy, put it in L10 beside the League 3D checks; that lane edit is approved for this.
   Lapis still goes after Emerald (#1638 f1f89c57, Gate running).
+- N-34 (2026-11-27 21:05 UTC, from the lead): **#1638 EMERALD IS MERGED.** gameplay/r100 is now **785f78d4**. **Lapis goes next, under A-41, based on 785f78d4:** retarget #1640 to gameplay/r100 and merge 785f78d4. Add the Lapis startup lines, the E2 face (N-29) and the A-41 reproducibility N3 (stop if determinism fails). If #1634 has landed by then, add the F-3 hair too. Push ONCE, mark it ready, add `@codex review`, and post a REPORT with the head. Cut line: Sat 28 Nov, 8 PM Boston.
