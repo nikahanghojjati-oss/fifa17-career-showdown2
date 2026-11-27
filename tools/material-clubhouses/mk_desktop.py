@@ -100,6 +100,45 @@ M = {
   lock="Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is vivid lapis blue, exactly the blues of image 2: rich deep lapis blue (#1450AE) on the leather, vivid lapis blue (#165CC4) on the stone, brighter lapis blue (#1268E8) only where the lamps fall, deep lapis blue (#0D2A66) in the shadows and corners, and ebony so dark it reads blue-black (#12131A). Every blue is vivid and jewel-like, never navy-grey, purple or teal. The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or light brown there, even near the lamps. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels, no gold walls and no gold flecks in the stone. The lapis is a calm field of vivid blue with a few soft, broad drifts and a sparse scattering of tiny crystal flakes spaced well apart, each a tiny soft point of light, never a starry sky, a glitter field, white patches or a web of hairline veins or cracks. On any pillar or column the drifts run straight up and down, and the stone shows a fine straight joint where two book-matched slabs meet.",
   slab="honed lapis lazuli: a deep vivid ultramarine stone, rich deep lapis blue (#1450AE) to lit lapis blue (#1268E8) with deep lapis blue (#0D2A66) in its deepest tones, with a few soft, broad, cloud-like drifts of brighter ultramarine and a sparse scattering of tiny crystal flakes spaced well apart",
   slab_lock="The stone stays a rich, vivid lapis blue, exactly the blue of the lapis in image 2: the light only brightens it, it never tints it navy-grey, purple, teal or green; the drifts stay few, broad and calm, the flakes tiny and sparse, never a starry sky or glitter, and the surface is smooth honed stone with a soft satin finish, never grainy, scratched or glassy: hard natural stone like a fine stone tabletop, never velvet, suede or fabric, with no diagonal streaks, brush marks, nap, scribbled texture, gold specks or star-shaped sparkles."),
+ "ROSEQUARTZ": dict(grain="soft milky clouds",
+  name="Rose Quartz Clubhouse", code="RQ",
+  sizelock=True,
+  subs=[("on the polished stone desk top around its base, with a dim soft reflection of the lit shade in the stone", "on the honed rose quartz desk top around its base, where the stone turns a paler, milkier rose, with one soft, blurred warm patch of light in it"),
+        (", polished and even all the way round, with the soft milky clouds running calmly down them", ", built of stacked hand-cut rose quartz drums with fine straight joints and softly eased edges, honed and even all the way round"),
+        ("with the soft milky clouds running along the curve of each arch like the grain of a carved stone ring", "built of large hand-cut rose quartz blocks fitted along the curve of each arch with fine straight joints"),
+        ("The walls become real rose quartz", "The walls become large hand-cut blocks of rose quartz with fine straight joints, real rose quartz"),
+        ("and the pillars become real rose quartz", "and the pillars become tall columns of stacked hand-cut rose quartz blocks with fine straight joints and softly eased edges, real rose quartz"),
+        ("on the leather or stone around it", "on the velvet or stone around it"),
+        (" and the floodlit stadium glow through the window", " and the floodlit stadium light through the window"),
+        ("Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail;", "Finish: real materials as an upholsterer, a stonemason and a cabinet maker would make them, like a photograph of a real private club, never a render or an AI image, with clean sharp detail and small natural variation;")],
+  base="soft mauve-rose",
+  fall="mauve-rose deepens to deep plum",
+  img2=("Image 1 is the picture to edit. Image 2 shows only the approved materials and light of this clubhouse, cut from two "
+        "finished rooms: the mauve-rose velvet in plump square puffs, the hand-cut rose quartz blocks, the plum-black wood and the "
+        "brushed rose gold. Match its materials, colours, finish and light exactly, and copy nothing else from it: none of its "
+        "furniture, lamps, blankets, ball, rug, quilted fan or layout."),
+  feel="A private members' club at night in rose quartz and soft mauve-rose velvet, sweet, soft and handcrafted by master craftsmen: hand-cut rose quartz, hand-stitched velvet puffs, plum-black wood and brushed rose gold.",
+  wall="the same mauve-rose velvet as image 2 (#7A4474), the muted colour of dried rose petals, divided into big, plump, overstuffed square puffs: every puff swells round and soft like a fat cushion, deeply sunk at its hand-stitched seams, with fully rounded edges and corners, its smooth, even, fine short pile one plain solid colour with no pattern of any kind on it; every panel is filled with these puffs, each panel framed in thin plum-black wood with a hairline brushed rose gold line, keeping the same panel layout",
+  stone="real rose quartz exactly like the stone in image 2: translucent and milky, like a hand-carved rose quartz bowl seen by candlelight, a cool dusty rose with a few soft, broad milky clouds and only two or three faint milky fracture planes deep inside, honed with a satin finish: hard natural crystal, never glass, plastic, painted plaster, marble or fabric, with no glitter, specks or streaks",
+  frame="plum-black wood with a thin brushed rose gold inner line",
+  door="the same mauve-rose velvet in plump square puffs, in a plum-black wood frame, with a small brushed rose gold handle",
+  metal="brushed rose gold with soft broad highlights",
+  rail="a soft, dim brushed rose gold line with no bright shine, never a bright yellow, copper-orange or white line",
+  counter="a row of large hand-cut rose quartz blocks, each about a fifth of its width, with fine straight joints and softly eased edges, exactly like the counter in image 2: real rose quartz, translucent and milky like a hand-carved rose quartz bowl seen by candlelight, with a few soft, broad milky clouds and only two or three faint milky fracture planes deep inside each block, never a network of thin lines like marble veining, never glass, plastic, painted plaster or fabric; a soft warm wash of light falls along its top edge and the stone deepens gradually toward the bottom, so it has light and shade; lamps show in it only as soft, blurred warm patches of light and nothing is reflected in it",
+  floor="honed deep plum stone (never velvet, suede or carpet) with soft blurred warm patches of light under the lamps and real soft contact shadows",
+  mat="a ribbed rubber floor mat in plum near-black with thin brushed rose gold edge strips that stay a dim soft satin line",
+  handrail="plum-black wood with small brushed rose gold brackets",
+  case="plum-black wood frames with a thin brushed rose gold edge and honed rose quartz shelves; any light strip under a shelf and the trim around the recess is a dim, soft line of light, never a bright line",
+  shelf="plum-black wood with a honed rose quartz top and a thin brushed rose gold edge",
+  seat="the same plump mauve-rose velvet as image 2, its smooth, even, fine short pile one plain colour with no pattern, with neat hand-stitched seams, a touch lighter where the lamp light falls so they read clearly against the walls",
+  materials="mauve-rose velvet, rose quartz, plum-black wood or brushed rose gold",
+  light_rule="Rose Quartz is soft mauve-rose velvet and milky rose quartz at night, like a film still: sweet, soft and handcrafted, the muted colour of dried rose petals and a hand-carved rose quartz bowl seen by candlelight, never candy pink, wine red, violet or grape.",
+  pools="Each lamp throws a wide, clearly bright warm wash of lamplight onto the velvet and stone around it, reaching across the nearest panels, where the puffs turn a warmer, lighter rose on their round tops with soft deep shadows in their stitched seams, and the rose quartz turns a paler, milkier rose. Everything else keeps a soft, clearly readable mauve-rose, deepening to deep plum (#4A2246) and plum near-black (#2A1230) only in the far corners and toward the ceiling, so the room has depth and never looks flat; the walls and the wall above any furniture read as a clearly readable soft mauve-rose, never near-black.",
+  men=" Behind each man the wall is a clearly readable soft mid mauve-rose, clearly lighter than the black suits, so both men read crisply against it.",
+  sheen="The velvet has a fine short pile that catches the light on the round tops of the puffs; the rose quartz is honed with a satin finish, the lamplight sinking a little way into it and coming back soft from within, never glassy; rose gold appears only as small brushed accents with soft broad highlights, never hot white sparkle points or glitter. Up close you see the plump puffs and stitched seams of the velvet, the plum-black wood mouldings and the milky clouds of the rose quartz, all sharp.",
+  lock="Colour lock: soft dusty mauve-rose (#7A4474) on the velvet walls, panels, doors and seating, deepening to deep plum (#4A2246) away from the lamps; deep plum lacquered plaster (#4A2246) on any ceiling; plum-black wood (#1E0C1C) on frames, mouldings and shelves; a cool dusty rose with a soft mauve lean (#BD7CA6) in the rose quartz, paler milky rose (#E0B5D0) only where lamp light falls on it and one step deeper (#A55E8C) away from it; brushed rose gold (#B76E79) on the small metal accents. The velvet is soft, muted and natural, the colour of dried rose petals, never wine red, burgundy, crimson, raspberry or magenta, and never violet, grape or blue-purple; the stone is never salmon, coral, peach, orange or lilac, and never candy or pastel pink; the rose gold is never orange copper or yellow gold. The warm brown wood and leather of image 1 must be gone completely from the room's walls, panels, pillars, frames, seating and floor: no tan, honey, orange-brown, khaki or light brown there, even near the lamps. Rose gold is only the lamp metal, the rails, the handles and the hairline trims: no metal panels or walls. On any pillar or column the rose quartz is stacked hand-cut blocks with fine straight joints.",
+  slab="real rose quartz crystal, like a hand-carved rose quartz bowl seen by candlelight: translucent and milky, a cool dusty rose with a soft mauve lean (#BD7CA6), paler milky rose (#E0B5D0) where the light is brightest and one step deeper (#A55E8C) in its deepest tones, with a few soft, broad milky clouds and only two or three faint milky fracture planes deep inside the stone",
+  slab_lock="The stone stays a cool dusty rose with a soft mauve lean, exactly the rose quartz of image 2: the light only brightens it, it never tints it salmon, coral, peach, orange, lilac or candy pink; the clouds stay few, broad and soft, never a network of thin lines like marble veining, and the surface is honed crystal with a satin finish, never glassy, plastic, painted plaster or fabric, with no glitter, specks, streaks or scratches."),
 }
 
 STADIUM = " and the floodlit stadium glow through the window"
@@ -208,10 +247,22 @@ def main():
            "Image 2 for every ticket here: the people-free cut of the two approved pilot rooms.", ""]
     tickets = [(rm, R["name"], R["img1"], R.get("size", "3072x1728"), f"ENV_{rm}_PLATE_{key}_P1_2X", desktop(L, rm, R)) for rm, R in D]
     tickets.append(("SLAB", "Material slab", "IMG1_ENV_SLAB_HC_V1_2X.png", "3072x1728", f"ENV_SLAB_{key}_P1_2X", slab(L)))
+    if L.get("sizelock"):  # Rose Quartz on: pixel-size framing lock in every room (playbook law 7)
+        sz = lambda size: size.replace("x", " by ")
+        tickets = [(rm, nm, i1, size, asset, p.replace(
+            "Keep image 1 exactly the same in camera, framing and layout.",
+            f"Keep image 1 exactly the same in camera, zoom, framing and layout, exactly {sz(size)} pixels, never narrower, wider or taller.").replace(
+            "Keep image 1 exactly the same size and framing.",
+            f"Keep image 1 exactly the same size and framing, exactly {sz(size)} pixels.").replace(
+            "Same 16:9 framing as the original, nothing cropped or extended at any edge, largest size available.",
+            f"Same 16:9 framing as the original, exactly {sz(size)} pixels, nothing cropped or extended at any edge.").replace(
+            "Same 16:9 framing as the original, largest size available.",
+            f"Same 16:9 framing as the original, exactly {sz(size)} pixels."))
+            for rm, nm, i1, size, asset, p in tickets]
     for a, b in L.get("subs", []):
         tickets = [(rm, nm, i1, sz, asset, p.replace(a, b)) for rm, nm, i1, sz, asset, p in tickets]
     for n, (rm, nm, img1, size, asset, p) in enumerate(tickets):
-        code = f"{key[0]}-{first + n}"
+        code = f"{L.get('code', key[0])}-{first + n}"
         out += [f"### {code} · {L['name']}: {nm}",
                 f"- Image 1: [{img1}]({BLOB}{img1}) ([raw]({RAW}{img1})), {size}",
                 f"- Image 2: [IMG2_REF_PILOT_{key}.png]({BLOB}IMG2_REF_PILOT_{key}.png) ([raw]({RAW}IMG2_REF_PILOT_{key}.png))",

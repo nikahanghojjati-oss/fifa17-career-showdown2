@@ -125,7 +125,7 @@ LOOKS = {
     # The stone is the palest in the set by design, so pale (hue band, sat < 0.40, luma > 110) is allowed up to 0.12 and the
     # night bar is kept by luma and sat instead. All limits provisional until the pilot (reasons: rosequartz/COLOUR_STUDY.md).
     "ROSEQUARTZ": dict(name="Rose Quartz Clubhouse", hue=(295, 355), hue_min=0.50, brown_max=0.20, sat=(0.25, 0.80),
-                       luma=(14, 80), gold_max=0.04, pale_max=0.12, provisional=True),
+                       luma=(14, 80), gold_max=0.04, pale_max=0.12),  # calibrated on the approved pilot (Nik, 27 Nov 06:20 and 07:53 UTC): Board hue 0.83 luma 72.6, Home hue 0.62 luma 60.0, glint 1.1 / 5.9
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
