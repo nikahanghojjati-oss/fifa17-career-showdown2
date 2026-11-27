@@ -340,7 +340,9 @@ check("the League Roulette rooms keep the men's whole hair in every clubhouse (p
   assert.match(P, /HAIR_MASK = "ENV_BOX_PLATE_HC_V4_1920"/);
   assert.match(P, /assert kept == 0, f"\{theme\}\/\{name\}: \{kept\} room pixels outside the men changed"/, "the room outside the men stays the painting");
   const man = JSON.parse(read("tools/clubhouse-themes/PREMIUM_FILES.json")).files;
-  for(const theme of ["silver", "black", "matte"]) for(const size of ["1920", "1X", "2X"])
+  const themes = fs.readdirSync(path.join(ROOT, "visual-assets/v10_1/plates-hc"), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
+  assert.ok(themes.length >= 3);
+  for(const theme of themes) for(const size of ["1920", "1X", "2X"])
     assert.ok(`visual-assets/v10_1/plates-hc/${theme}/ENV_BOX_PLATE_HC_V4_${size}.webp` in man, `${theme} ${size} League Roulette room is a listed premium file`);
 });
 
