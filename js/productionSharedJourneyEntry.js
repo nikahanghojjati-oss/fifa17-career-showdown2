@@ -84,8 +84,10 @@
       let resume=root.document.getElementById(SHARED_CONTINUE_ID);
       // CONTINUE CAREER reopens WAITING (PR #901): while WAITING is open over the board it is the same step twice, so the board's
       // screen shows one button, WAITING FOR the other manager; it comes back as soon as WAITING is closed (BACK, Escape, X).
+      // Nik 2026-11-27 (card): it sits in the button group under the board (note, CONTINUE CAREER, WAITING FOR NIK, BACK), never
+      // above the board: placed just before the roulette's button here, and given the button group's place in the Setup skin's stylesheet.
       const reopen=locked&&!presentationOwns&&!(roulette&&waitingOpen());
-      if(reopen&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
+      if(reopen&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());wheel.insertBefore(resume,root.document.getElementById(LOCAL_SPIN_ID)||wheel.querySelector(".backButton")||null);}
       if(!reopen&&resume)resume.remove();
       let note=root.document.getElementById("sharedJourneyLeagueLockNote");
       const words=roulette?"Both players must be connected before the first ball drops.":"Connect Daniel and Nik to pick the league.";

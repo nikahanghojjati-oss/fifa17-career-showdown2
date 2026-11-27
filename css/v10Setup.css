@@ -361,6 +361,9 @@ html[data-v10-setup] main { scrollbar-color: var(--v26-gold-deep) rgba(255, 255,
 #leagueWheelScreen.v26Skin #leagueWheel { order: 2; }
 #leagueWheelScreen.v26Skin .wheelContainer > .stateNote { order: 3; }
 #leagueWheelScreen.v26Skin #spinLeague { order: 4; }
+/* Nik 2026-11-27 (card): Daniel's CONTINUE CAREER (reopens WAITING, js/productionSharedJourneyEntry.js) joins the button group
+   under the board, before WAITING FOR NIK (the same order, earlier in the page), full width; the board sits under the title. */
+#leagueWheelScreen.v26Skin .wheelContainer > #continueSharedSetupGate { order: 4; width: 100%; margin: 6px 0 0; }
 #leagueWheelScreen.v26Skin .wheelContainer > .backButton { order: 5; }
 /* JOB-1130: long league/result/status text must stay in the available grid cell. */
 #leagueWheelScreen.v26Skin .wheelContainer > .stateNote {

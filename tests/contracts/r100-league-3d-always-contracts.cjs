@@ -14,6 +14,7 @@
 //   G3 a lost context given back in time is left to three.js; one never given back is rebuilt on a new canvas on the same ball,
 //      the 3D room staying on meanwhile; a rebuild that cannot run falls back to the plain wheel and its text steps
 //   G4 the startup loading screen stays while a resume lands on Select League that is not drawn yet (bounded by the 15 s cap)
+//   G9 Select League opened before js/v10Setup.js has registered: covered from its first frame, also under the startup splash
 //   G5 js/v10Screens.js: a slow hold (Select League's board) brings the loading screen up at once and whole (from the screen's
 //      first frame, and never faded in), takes it over from the startup splash with no frame between (its fade called off, the
 //      gate up in the same task it is hidden), and never covers a screen already drawn; other screens keep the grace
@@ -196,10 +197,10 @@ function gateWorld(){
   L.classList={add:(...t)=>{t.forEach(x=>L.cls.add(x));L.log.push(["add",...t]);},remove:(...t)=>{t.forEach(x=>L.cls.delete(x));L.log.push(["remove",...t]);},contains:t=>L.cls.has(t)};
   L.getAttribute=k=>k in L.attrs?L.attrs[k]:null;L.setAttribute=(k,v)=>{L.attrs[k]=String(v);};L.removeAttribute=k=>{delete L.attrs[k];};
   Object.defineProperty(L,"offsetWidth",{get(){L.log.push(["reflow",L.style.transition]);return 1;}});
-  const ctx={registry:new Map(),pending:new Map(),mounted:new Map(),shown:new Set(),timers:[],GATE_GRACE_MS:250,L,
+  const ctx={registry:new Map(),pending:new Map(),mounted:new Map(),deferred:new Map(),shown:new Set(),timers:[],GATE_GRACE_MS:250,L,
     vsIsShown:id=>ctx.shown.has(id),vsHost:id=>id==="loadingScreen"?L:id==="loadingText"?null:{dataset:{}},vsSetNavMode(){},vsSyncStyles(){},vsPendingTimer:()=>0,
     root:{setTimeout:(f,ms)=>{ctx.timers.push({f,ms});return ctx.timers.length;},clearTimeout:id=>{if(ctx.timers[id-1])ctx.timers[id-1].f=null;}},Date};
-  vm.createContext(ctx);vm.runInContext(src+";globalThis.holdNow=vsHoldNow;globalThis.hold=vsGateHold;globalThis.gate=gate;",ctx);
+  vm.createContext(ctx);vm.runInContext(src+";globalThis.holdNow=vsHoldNow;globalThis.hold=vsGateHold;globalThis.gate=gate;globalThis.slowDeferred=typeof vsSlowDeferred===\"function\"?vsSlowDeferred:()=>false;",ctx);
   ctx.run=()=>{const list=ctx.timers.splice(0);for(const t of list)if(t.f)t.f();return list;};
   return ctx;
 }
@@ -240,7 +241,7 @@ async function g5(){
     g.hold();g.run();assert.ok(g.L.log.some(([k,...t])=>k==="add"&&t.includes("is-exiting")),"other screens still fade in after the grace");}
   const Vs=read("js/v10Screens.js");
   assert.ok(Vs.includes("vsGateHold(def.slowHold);vsSyncStyles();}\n        else if(def.slowHold)vsGateHold(true);"),"a HOLD from a slow screen raises it at once");
-  assert.ok(Vs.includes("vsGateHold(registry.get(id)?.slowHold===true&&vsHeld(id));"),"a slow screen whose frame will hold is covered from its first frame (expect), others keep the grace");
+  assert.ok(Vs.includes("vsGateHold((registry.get(id)?.slowHold===true&&vsHeld(id))||vsSlowDeferred(id));"),"a slow screen whose frame will hold (or Select League before its file has registered) is covered from its first frame (expect), others keep the grace");
   assert.ok(Vs.includes("holdNow:vsHoldNow,"));
   ok("G5","a slow hold brings the loading screen up at once and whole, takes it over from the startup splash once that has gone, never covers a drawn screen; other screens unchanged");
 }
@@ -291,4 +292,29 @@ function g8(){
   ok("G8","the board keeps real time (up to 0.25 s a frame, the ball on its one path), one render loop and one context per board");
 }
 
-(async()=>{await g1();await g2();await g3();await g4();await g5();await g6();g7();g8();console.log(`PASS r100 League Roulette 3D-always contracts (${n} checks)`);})().catch(error=>{console.error(error);process.exit(1);});
+// ---- G9: Select League opened before Team V's file has registered (L10 on #1644, 2 cores) ----
+// A reload into Daniel's waiting screen, or Nik joining on a slow phone, opens Select League while js/v10Setup.js is still
+// deferred (js/ssjr.js loads it after Home). It was held only after the grace, and not at all under the startup splash, so the
+// splash left over a bare pending screen (no room picture, the plain wheel) and the cover rose again once the board showed.
+async function g9(){
+  {const g=gateWorld();g.deferred.set("leagueWheelScreen",()=>{});g.shown.add("leagueWheelScreen");g.pending.set("leagueWheelScreen",{});
+    g.L.hidden=false;g.L.cls.delete("hidden");// the startup splash, still up
+    assert.equal(g.slowDeferred("leagueWheelScreen"),true,"Select League before its file has registered is a slow hold");
+    g.hold(g.slowDeferred("leagueWheelScreen"));
+    assert.equal(g.L.dataset.v10Gate,undefined,"the splash is left alone");assert.equal(g.timers.length,1);assert.equal(g.timers[0].ms,50,"and watched");
+    g.L.hidden=true;g.L.cls.add("hidden");g.run();// the splash has gone (its 15 s cap, a resume handing over)
+    assert.equal(g.L.hidden,false,"the gate takes over at once: the screen is never bare");assert.equal(g.L.dataset.v10Gate,"1");assert.ok(!g.L.cls.has("is-exiting"),"whole");}
+  {const g=gateWorld();g.deferred.set("leagueWheelScreen",()=>{});g.shown.add("leagueWheelScreen");g.pending.set("leagueWheelScreen",{});
+    g.hold(g.slowDeferred("leagueWheelScreen"));// Nik joining from Home: no splash
+    assert.equal(g.L.hidden,false,"up at once (no grace with the plain wheel and no room under it)");assert.ok(!g.L.cls.has("is-exiting"),"whole, not fading in");}
+  {const g=gateWorld();g.deferred.set("dashboard",()=>{});g.shown.add("dashboard");g.pending.set("dashboard",{});
+    assert.equal(g.slowDeferred("dashboard"),false,"other deferred screens keep the grace");}
+  {const g=gateWorld();g.registry.set("leagueWheelScreen",{slowHold:true});g.deferred.set("leagueWheelScreen",()=>{});
+    assert.equal(g.slowDeferred("leagueWheelScreen"),false,"once registered, its own frame decides (HOLD while the board builds)");}
+  const Vs=read("js/v10Screens.js");
+  assert.ok(/const SLOW_DEFERRED=Object\.freeze\(\["leagueWheelScreen"\]\);/.test(Vs));
+  assert.ok(Vs.includes("registry.get(id)?.slowHold===true||slowNow.has(id)||vsSlowDeferred(id))&&vsIsShown(id)"),"the gate keeps it slow while it waits under another owner's loading screen");
+  ok("G9","Select League opened before its Team V file has registered is covered from its first frame and stays covered when the startup splash leaves");
+}
+
+(async()=>{await g1();await g2();await g3();await g4();await g5();await g6();g7();g8();await g9();console.log(`PASS r100 League Roulette 3D-always contracts (${n} checks)`);})().catch(error=>{console.error(error);process.exit(1);});
