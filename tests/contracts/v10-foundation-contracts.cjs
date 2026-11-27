@@ -1040,11 +1040,11 @@ const V10_IMAGES={
     "visual-assets/v10_1/plates-hc/ruby/ENV_TUNNEL_PLATE_HC_V3_1X.webp":"db58208fb00935c255f2671cf790d386691f4c3278c444ea2791a0e6d4897dd0",
     "visual-assets/v10_1/plates-hc/ruby/ENV_TUNNEL_PLATE_HC_V3_2X.webp":"fb69e451bfca07b93f4aeb847138a26f9dd444e424e42af463846f7340f26876",
     "visual-assets/v10_1/plates-hc/ruby/TILE_SLAB_HC_V1_512.webp":"7d9d15886cdebefcdafc4a74af275ac63410a6d12b05285f3e0833c79c189662",
-    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PHONE_HC_V3.webp":"f8982234dc51acbd291a40fb2686f98191430e02d4afdd0df122a8943ee1a37b",
-    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PHONE_HC_V3_590W.webp":"eed46688fb3eee8549e0634cfe7844efe9ff0d4ef736e05e09b3da639cfe9e4a",
-    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_1920.webp":"3dfe7cffbfceb89e59f6088c3cc8dddcb0967e2606526de14c9d06ece43072f7",
-    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_1X.webp":"e29a59903a2e61a11102c6e3ab72f848ced17fe67d7f05c55535d596cead707b",
-    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_2X.webp":"a351b8860d163b889a74f8a0c4a786d4ead7d064d61d3a5f59169cb691f47118",
+    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PHONE_HC_V3.webp":"0ee94e4cd91787578d8974217beefbce8b8ec2eced5ec7daa918581e877029d1",
+    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PHONE_HC_V3_590W.webp":"5427f6c48c0bece52069fc61ae17f25a5a0c7d2f91d973e85ae5c62cff14db87",
+    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_1920.webp":"00be27647a16940fdfeb246fbf8c8c057b1a8d5771b5605c5eb0f4002a6d6d31",
+    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_1X.webp":"119a3a2eaaf9a7da627ddfd71dd5b0cb30d58847b1987f45dbe7df86a9b8953c",
+    "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_2X.webp":"db21a957ceca5da9fd925e1192c60dc57541523be91c791b145a6599d32b781e",
     "visual-assets/v10_1/plates-hc/emerald/ENV_BOARD_PHONE_HC_V3.webp":"fc1587fd82c538b1582fe690de79bf457fa41c9fce15db8e5075cadabd596861",
     "visual-assets/v10_1/plates-hc/emerald/ENV_BOARD_PHONE_HC_V3_590W.webp":"12c4b2df5c30a0ce0c4f12b6d8650f947b719302389081c73e47da9c30f5eafb",
     "visual-assets/v10_1/plates-hc/emerald/ENV_BOARD_PLATE_HC_V3_1920.webp":"206ae28b6cb41183590f05d9e3030f7d5cf087ec44b5fd12d81ad59c430c80db",
@@ -1952,8 +1952,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Then (lead 2026-11-25): the loading room's preloads and pictures are written by script through the theme's fix(), so a
   // premium clubhouse never downloads the Wooden tunnel; the markup itself is unchanged.
   // And Nik's naming card (2026-11-25): the head comments name Black Steel and Graphite; no code changed.
-  assert.equal(sha256("index.html"),"1f19e7028cbb5796e5d646071f04e4cb96066430f4ed6652e04cdb2df048d55a","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard (r100 B7: its sheets wait for the clubhouse rewrite, r87 E10), one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room (its 2x rooms found by picture~picture), P3 Ruby clubhouse, 2.12.0-r99 pins)");
-
+  assert.equal(sha256("index.html"),"1f19e7028cbb5796e5d646071f04e4cb96066430f4ed6652e04cdb2df048d55a","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard (r100 B7: its sheets wait for the clubhouse rewrite, r87 E10), one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes (Emerald startup lines, A-29; Lapis startup lines, N-34), r100 per-clubhouse panel marble and loading room (its 2x rooms found by picture~picture), r100 League Roulette words: the roulette line and a resting WAITING… button by default, 2.12.0-r99 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);

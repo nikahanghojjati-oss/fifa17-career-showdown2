@@ -28,7 +28,9 @@
 //   - blank:         the loading screen is gone and no screen shows (a dead frame).
 //   - empty-board:   the league screen shows no 3D board for more than 50 ms after the loading screen left.
 //   - page-error:    any uncaught page error (exception or unhandled rejection) not named in KNOWN_PAGE_ERRORS.
-// Sampling stops on each page once the Ball Game shows.
+// Sampling stops on each page once the Ball Game shows. It starts on each page load at the first frame whose document holds
+// the loading screen (the page's first element), or once the HTML is parsed: a frame can come while the parser has made
+// <body> but none of its elements yet (seen after a reload on a busy CPU, run 45952036900), when no screen exists to show.
 // Any of these, a WebGL2 that does not work, or a board that does not rebuild after the context loss fails the run. Each
 // failure names the run, the beat, the phone, the size and the clubhouse.
 // Run: node tests/browser/r100-league-roulette-webgl-audit.cjs (starts its own emulators; report test-results/r100-league-roulette-webgl.json)
@@ -122,6 +124,8 @@ const SAMPLER=()=>{
   const tick=()=>{
     requestAnimationFrame(tick);
     if(!L.active||L.done||!document.body)return;
+    // Before the parser reaches the loading screen nothing of the page exists yet: no rule can be broken.
+    if(document.readyState==="loading"&&!document.getElementById("loadingScreen"))return;
     // The audit ends at the Ball Game: once it shows, this page load stops sampling.
     if(shown(document.getElementById("clubWheelScreen"))){L.done=true;return;}
     L.frames+=1;
@@ -131,7 +135,7 @@ const SAMPLER=()=>{
     const three=Boolean(wheel&&wheel.classList.contains("lr3d-on")&&wheel.querySelector("canvas"));
     if(!loading&&league&&three)L.board=true;
     if(loading&&L.board)emit("loading-back","the loading screen came back after this page showed the 3D board");
-    if(!loading&&![...document.querySelectorAll(".screen")].some(shown))emit("blank",`the loading screen is gone and no screen shows (shown: ${[...document.body.children].filter(shown).map(el=>el.id||el.tagName.toLowerCase()).slice(0,8).join(",")||"nothing"})`);
+    if(!loading&&![...document.querySelectorAll(".screen")].some(shown))emit("blank",`the loading screen is gone and no screen shows (shown: ${[...document.body.children].filter(shown).map(el=>el.id||el.tagName.toLowerCase()).slice(0,8).join(",")||"nothing"}; ${document.readyState}, ${document.body.children.length} body elements)`);
     // The league screen shows neither the 3D board nor anything else in its place for more than 50 ms (an empty screen).
     // After a forced context loss the room may show without a board until the board is drawn again: the audit sets
     // forcedLoss, and this rule is paused until a live board (lr3d-on, every canvas with a WebGL2 context not lost) is back.

@@ -52,11 +52,11 @@ check("N3 themed copies: Gate L1 rebuilds every themed Archive plate with exactl
   assert.ok(rebuildStep, "L1 installs ENCODER_PIP and runs reproduce_archive.py as step archive_rebuild, with no condition");
 });
 
-check("at least one P4 fix is recorded, and F-1 Legacy Nik covers all 25 archive files (Ruby too, N-29)", () => {
+check("at least one P4 fix is recorded, and F-1 Legacy Nik covers all 35 archive files (Ruby, Emerald and Lapis too, N-29)", () => {
   assert.ok(fixtures.includes("P4_F1_LEGACY_NIK_NEVER_SLIMMER.json"));
   const f1 = JSON.parse(read(`${FIX_DIR}/P4_F1_LEGACY_NIK_NEVER_SLIMMER.json`));
   const names = Object.keys(f1.files);
-  for (const theme of ["", "black/", "matte/", "silver/", "ruby/", "lapis/"])
+  for (const theme of ["", "black/", "matte/", "silver/", "ruby/", "emerald/", "lapis/"])
     for (const n of ["PLATE_HC_V3_2X", "PLATE_HC_V3_1X", "PLATE_HC_V3_1920", "PHONE_HC_V3", "PHONE_HC_V3_590W"])
       assert.ok(names.includes(`visual-assets/v10_1/plates-hc/${theme}ENV_ARCHIVE_${n}.webp`), `${theme}${n}`);
   assert.equal(f1.side, "right", "Nik stays image-right");

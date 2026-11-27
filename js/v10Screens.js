@@ -332,7 +332,13 @@
   // compile could freeze half-way. A slow screen held while another owner's loading screen is up or leaving (the startup
   // splash) takes it over as soon as that one has gone.
   const slowNow=new Set();
-  const vsGateSlow=()=>[...pending.keys()].some(id=>(registry.get(id)?.slowHold===true||slowNow.has(id))&&vsIsShown(id));
+  // r100 L10 (#1644, 2 cores): Select League opened before its Team V file has registered (a reload into the waiting screen, Nik
+  // joining on a slow phone: js/ssjr.js defers js/v10Setup.js until Home) was held only after the grace, and not at all while
+  // the startup splash was up, so the splash left over a bare pending screen (no room picture, the plain wheel) and the cover
+  // rose again once the board had shown. A deferred screen known to hold that long is slow from its first frame, as if registered.
+  const SLOW_DEFERRED=Object.freeze(["leagueWheelScreen"]);
+  const vsSlowDeferred=id=>!registry.has(id)&&deferred.has(id)&&SLOW_DEFERRED.includes(id);
+  const vsGateSlow=()=>[...pending.keys()].some(id=>(registry.get(id)?.slowHold===true||slowNow.has(id)||vsSlowDeferred(id))&&vsIsShown(id));
   // holdNow(id): a module about to start a long build for a shown screen that is not drawn yet (js/leagueRouletteStep.js, the
   // board, which the shared presentation may start before Team V's file for the screen has even registered) holds the screen
   // and brings the loading screen up whole at once. A drawn screen is never covered again.
@@ -478,7 +484,7 @@
     pending.set(id,{host,since:Date.now(),timer:vsPendingTimer(id)});
     // (Verify on #1633) a slow screen whose frame will hold (Select League while its board is built) is covered from its first
     // frame: drawing it waits for Team V's file, and the grace before the cover was the gap a busy page stretched to a second.
-    vsGateHold(registry.get(id)?.slowHold===true&&vsHeld(id));
+    vsGateHold((registry.get(id)?.slowHold===true&&vsHeld(id))||vsSlowDeferred(id));
     vsSyncStyles();
     return true;
   }
