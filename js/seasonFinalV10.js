@@ -531,8 +531,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   }
   // TRY AGAIN on CAREER: a fresh read for this page (the one still hanging can no longer publish over it).
   function sfRetryStandingsCareer(){if(!standingsCareerSlow)return;standingsCareerLoad=null;standingsCareerSlow=false;refreshStandingsCareer();signature="";wake();}
-  function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;if(supplied!=null)return supplied;
-    const kept=root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;
+  function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null,kept=root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;if(supplied!=null)return supplied;
     if(!standingsCareerLoad)return kept;
     if(!standingsCareerSlow)return {status:"loading"};
     return kept&&["ready","partial","empty"].includes(kept.status)?{...kept,updating:true}:{status:"unavailable",notice:"retry"};
