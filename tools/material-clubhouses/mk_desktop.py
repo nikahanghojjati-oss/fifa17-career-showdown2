@@ -11,7 +11,9 @@ the two approved pilot paintings.
 """
 import sys
 
-BR = "claude-duet/p3-intake"
+import os
+# Links point at a commit (env P3_REF, default the branch the Ruby set was made on), so they never move (Ruby lesson 3).
+BR = os.environ.get("P3_REF", "claude-duet/p3-intake")
 BLOB = f"https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/{BR}/project-documents/hc-art/material-clubhouses/src/"
 RAW = f"https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/{BR}/project-documents/hc-art/material-clubhouses/src/"
 
@@ -40,6 +42,32 @@ M = {
   lock="Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep ruby red, exactly the reds of image 2: oxblood (#6E1423) on the walls, Rosso Levanto red (#9B2335) where the stone is lit, wine near-black (#2A0A10) in the shadows, corners and ceiling, and rosewood so dark it reads red-black (#3A1416). The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or brown there, even near the lamps. Lamp light warms only a small soft pool right around each lamp, and everywhere else stays deep red. Gold is only the lamp metal, the rails, the handles and the hairline trims: no gold panels and no gold walls. The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice. Between those few veins the stone is clean, even deep red, with no fine web of thin hairline lines anywhere.",
   slab="polished Rosso Levanto marble: a deep wine-red stone, oxblood (#6E1423) to lit red (#9B2335) with wine near-black (#2A0A10) in its deepest tones, with a few long, calm, softly curving pale cream veins (#D8C8B4) flowing in gentle diagonals like brush strokes",
   slab_lock="The stone stays a rich deep ruby red, exactly the red of the marble in image 2: the light only brightens it, it never tints it pink, cherry, orange or brown, and the veins stay few, long and calm, never jagged or cracked like ice."),
+ "EMERALD": dict(grain="bands",
+  name="Emerald Clubhouse",
+  base="deep bottle green",
+  fall="green falls off to near-black",
+  feel="A private members' club at night in green stone and leather: polished malachite, bottle-green leather, dark walnut and satin brass, handcrafted.",
+  wall="upholstered deep bottle-green leather with a slight cool blue lean that stays bottle green even where the lamp light falls on it (never olive, khaki or yellow-green), smooth satin-finish leather like the seat of a new club chair, an even, softly padded surface with no grain pattern visible at this distance (never crinkled, cracked, wrinkled or vein-like lines, even where the lamp light grazes it), with neat stitched seams, framed in thin polished walnut mouldings so dark they read near-black, each with a hairline satin brass inlay, keeping the same panel layout",
+  stone="polished malachite: deep green stone with a few broad, calm, softly curving bands of lighter and darker green",
+  frame="near-black walnut with a thin satin brass inner line",
+  door="the same bottle-green leather panel in a near-black walnut frame, with a small satin brass handle",
+  metal="satin brass with soft broad highlights",
+  rail="a soft, dim satin brass line with no bright shine, never a bright yellow or white line",
+  counter="one plain, calm solid slab of polished malachite in the same deep green with the same few broad calm bands, smooth and glassy, holding a soft dim reflection of the lamps",
+  floor="polished dark malachite with soft dim reflections of the lamps and real contact shadows",
+  mat="a ribbed rubber floor mat in green near-black with thin satin brass edge strips that stay a dim soft satin line",
+  handrail="near-black walnut with small satin brass brackets",
+  case="near-black walnut frames with a thin satin brass edge and polished malachite shelves; any light strip under a shelf and the trim around the recess is a dim, soft satin glow, never a bright line",
+  shelf="near-black walnut with a polished malachite top and a thin satin brass edge",
+  seat="the same deep bottle-green leather as the walls, with a fine natural grain and neat stitched seams, a touch lighter where the lamp light falls so they read clearly against the walls",
+  materials="bottle-green leather, malachite, near-black walnut or satin brass",
+  light_rule="Emerald is deep bottle-green leather and polished malachite at night: rich like a dark green glass bottle held to candlelight, never mint, never lime, never teal.",
+  pools="The brightest spots are clearly bright: each lamp throws a wide, clearly bright warm pool onto the leather or stone around it, and the warm reflections on the polished stone are clearly bright, a soft, smooth cream-gold candlelight sheen on the green. Everything else keeps a deep, muted, aged green, falling off to green near-black only in the far corners and toward the ceiling, so the room has depth and never looks flat; the walls, the ceiling and the wall above any furniture read as a clearly readable rich bottle green, never near-black.",
+  men=" Behind each man the wall is a clearly readable rich mid bottle green, clearly lighter than the black suits, so both men read crisply against it.",
+  sheen="The malachite carries a soft polished sheen with dim reflections only; brass appears only as small accents in satin brass with soft broad highlights, never hot white sparkle points or glitter. Up close you see the smooth satin of the leather, the stitched seams, the walnut grain and the bands of the malachite, all sharp.",
+  lock="Colour lock: every wall, panel, pillar, frame, the ceiling, the floor stone and the counter is deep emerald green, exactly the greens of image 2: bottle green (#145A3C) on the walls, malachite green (#2E8B57) where the stone is lit, green near-black (#0B2E22) only in the deepest corners, and walnut so dark it reads near-black (#241A12). Every green is a touch muted and aged, a deep bottle green, never a vivid, neon or saturated green. Where the light is brightest the green turns a lighter, clearer jade, never yellow, olive or khaki. The warm brown wood of image 1 must be gone completely from the room's walls, panels, pillars, frames and floor: no tan, honey, orange-brown, khaki or light brown there, even near the lamps; the only brown is the near-black walnut of the thin mouldings, frames and furniture. Brass is only the lamp metal, the rails, the handles and the hairline trims: no brass panels and no gold walls. The malachite bands are a few broad, smooth, softly curving bands of lighter and darker green that flow gently across the stone at different angles, each one continuous and unbroken with soft edges; the lighter bands are a soft mid jade (#5E9E74), never pale mint or white; never tight busy rings, zebra stripes, contour-map lines or a fine web of thin hairline lines. On any pillar or column the bands run straight up and down the full height of the pillar, parallel to its corners, like the grain of a tall stone column, never diagonal, slanted or spiral, and its reflections are a soft, broad, dim satin sheen, never a small hot white spot. The stone is smooth, glassy polished malachite with no fine scratches, crinkles or crumpled texture anywhere, even inside the lamp reflections.",
+  slab="polished malachite: a deep green stone, bottle green (#145A3C) to lit malachite green (#2E8B57) with green near-black (#0B2E22) in its deepest tones, with a few broad, calm, softly curving bands of lighter mid jade (#5E9E74) and darker green flowing in gentle diagonals at different angles, each band smooth, continuous and unbroken with soft edges",
+  slab_lock="The stone stays a rich deep emerald green, exactly the green of the malachite in image 2: the light only brightens it, it never tints it mint, lime, teal, olive or brown; the bands stay few, broad and calm, never tight busy rings, zebra stripes or contour-map lines, and the surface is smooth, glassy polished stone with no scratches or crinkles."),
 }
 
 STADIUM = " and the floodlit stadium glow through the window"
@@ -49,15 +77,15 @@ D = [
  ("OFFICE", dict(name="Office", img1="IMG1_ENV_OFFICE_PLATE_HC_V3_2X.png", men=True, win=True,
   keep="Keep in the same places and at the same sizes: the wide desk filling the lower half with its front edge at exactly the same height, the two leather desk blotters, the old leather ball, the coffee cup and saucer and the bundle of papers tied with string on the left, the table lamp with its pleated shade on the right, the olive tree in its pot behind, the wall panel at the far left, and the tall dark window behind with the night stadium and its floodlight.",
   room="The wall panel becomes {wall}. The window frames become {frame}. The lamp base and stem become {metal}; the shade stays warm cream and lit. The desk top becomes {counter}. The plant pot becomes {stone}.",
-  lightx=" The table lamp casts a soft warm pool of light on the polished marble desk top around its base, with a dim soft reflection of the lit shade in the stone, fading back to deep wine red within a short distance (Ruby R-3 try 1: the desk stayed dark).",
+  lightx=" The table lamp casts a soft warm pool of light on the polished stone desk top around its base, with a dim soft reflection of the lit shade in the stone, fading back to {base} within a short distance (Ruby R-3 try 1: the desk stayed dark).",
   objs="All other objects keep their identity and their own colours (the old leather ball, the white cup, the paper bundle and string, the leather blotters, the olive tree) and are relit by the new room, each with a real soft contact shadow on the desk.")),
  ("HALL", dict(name="Hall", img1="IMG1_ENV_HALL_PLATE_HC_V3_2X.png", men=True, win=False,
   keep="Keep in the same places and at the same sizes: the staircase on the left with its railing and the leather bag on the steps, the stone pillars, the tall double door in the middle with its arched fanlight, the small side table beside the door with its table lamp and book, the patterned runner rug, the wall lamp with its pleated shade at the top right, and the counter strip along the bottom at exactly the same height.",
-  room="The pillars keep their exact round shape and become smooth {stone}, polished and even all the way round, with the veins running calmly down them (V). The walls become {stone}, with wall panels in {wall}. The double door becomes {door}, and the fanlight frame becomes {frame}. The stair railing becomes {handrail}. The side table becomes {shelf}. The floor becomes {floor}. The lamp arms and bases become {metal}; the shades stay warm cream and lit. The counter strip becomes {counter}.",
+  room="The pillars keep their exact round shape and become smooth {stone}, polished and even all the way round, with the {grain} running calmly down them (V). The walls become {stone}, with wall panels in {wall}. The double door becomes {door}, and the fanlight frame becomes {frame}. The stair railing becomes {handrail}. The side table becomes {shelf}. The floor becomes {floor}. The lamp arms and bases become {metal}; the shades stay warm cream and lit. The counter strip becomes {counter}.",
   objs="All other objects keep their identity and their own colours (the leather bag, the book, the runner rug with its pattern) and are relit by the new room, each with a real soft contact shadow.")),
  ("ARCHIVE", dict(name="Archive", img1="IMG1_ENV_ARCHIVE_PLATE_HC_V3_2X.png", men=True, win=False, nolamps=True,
   keep="Keep in the same places and at the same sizes: the vaulted corridor of arches receding to the middle, the shelves along both sides, the two lit display niches on the left and right walls (an old ball in the left one, books in the right one), and the counter with its thin rail along the top edge, at exactly the same height, filling the lower part.",
-  room="The arches and vault become {stone}, and the wall panels become {wall}. The shelves become {shelf}. The display niches become {case}, lit warm from inside. The corridor floor becomes {floor}. The rail along the counter becomes {rail}. The counter becomes {counter}.",
+  room="The arches and vault become solid, opaque {stone}, with the {grain} running along the curve of each arch like the grain of a carved stone ring, lit only by the warm light with one soft dim reflection, so each arch edge is no brighter than the lit walls beside it (never see-through, glassy, smoky or glowing from inside, and no bright rim lines) (V), and the wall panels become {wall}. The shelves become {shelf}. The display niches become {case}, lit warm from inside. The corridor floor becomes {floor}. The rail along the counter becomes {rail}. The counter becomes {counter}.",
   objs="The old ball and the books in the niches keep their identity and their own colours and are relit by the niche light.")),
  ("BOX", dict(name="Directors' box", img1="IMG1_ENV_BOX_PLATE_HC_V3_2X.png", men=True, win=True,
   keep="Keep in the same places and at the same sizes: the big three-pane window across the middle with the night stadium, the crowd, the small ceiling spots and the green pitch exactly as they are, the coat hooks on the left with the grey coat and the yellow and black striped scarf, the glass wall cabinet on the right with the decanter and glasses, and the thin rail along the top of the counter at exactly the same height.",
@@ -94,12 +122,12 @@ def desktop(L, rm, R):
     men = ("Keep the two men exactly as they are: the same faces, hair, beards, suits, shirts, hands, pose, size and position. "
            "Do not touch them.\n\n") if R["men"] else ""
     if R.get("nolamps"):
-        src = ("No wall lamps are visible in this room: light comes only from the lights inside the two display niches and a soft "
-               "glow along the vault. Add no lamps, sconces or wall lights anywhere; the far end of the corridor stays plain. "
-               "Each niche casts a soft warm pool on the leather or stone around it, and the red falls off to wine near-black in "
+        src = ("No wall lamps are visible in this room: light comes only from the lights inside the two display niches and soft warm "
+               "light falling along the vault. Add no lamps, sconces or wall lights anywhere; the far end of the corridor stays plain. "
+               f"Each niche casts a soft warm pool on the leather or stone around it, and the {L.get('fall', 'red falls off to wine near-black')} in "
                "the corners and toward the vault, so the room has depth and never looks flat.")
     else:
-        src = f"Light comes only from the same warm lamps in the same places{STADIUM if R['win'] else ''}. {L['pools']}" + R.get("lightx", "").split(" (Ruby")[0] + ("." if R.get("lightx") else "")
+        src = f"Light comes only from the same warm lamps in the same places{STADIUM if R['win'] else ''}. {L['pools']}" + R.get("lightx", "").split(" (Ruby")[0].format(base=L.get("base", "deep wine red")) + ("." if R.get("lightx") else "")
     light = (f"Light: It is night. {L['light_rule']} {src}{L['men'] if R['men'] else ''} {L['sheen']}"
              + (" The two men stay lit exactly as they are now." if R["men"] else ""))
     people = "no people other than the two men" if R["men"] else "no people"
@@ -110,7 +138,7 @@ Keep image 1 exactly the same in camera, framing and layout. Change only the mat
 {men}{R['keep']}
 
 The room: {L['feel']}
-{strip_marks(R['room'].format(**L))}
+{strip_marks(R['room'].format(**{'grain': 'veins', **L}))}
 
 Every wall, door, frame, shelf, panel and pillar takes one of these materials ({L['materials']}); no light wood is left anywhere in the room.
 

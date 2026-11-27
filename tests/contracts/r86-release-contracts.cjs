@@ -42,7 +42,7 @@ let checks=0;const ok=(id,label)=>{checks+=1;console.log(`ok ${checks} ${id} ${l
 {
   // 2.12.0 (r99) adds the themed clubhouses' metal panel marble (R99-01) and removes no shell path; themed room plates and
   // themed loading rooms are runtime-cached images.
-  const R99_ADDED=['js/sharedTapMemory.js','js/turningPoints.js','js/flightRecorder.js','css/r78-marble-tile-silver.webp','css/r78-marble-tile-black.webp','css/r78-marble-tile-matte.webp','css/r78-marble-tile-ruby.webp'];// r100 W3: the shared tap memory; B5: the Turning Points engine
+  const R99_ADDED=['js/sharedTapMemory.js','js/turningPoints.js','js/flightRecorder.js','css/r78-marble-tile-silver.webp','css/r78-marble-tile-black.webp','css/r78-marble-tile-matte.webp','css/r78-marble-tile-ruby.webp','css/r78-marble-tile-emerald.webp'];// r100 W3: the shared tap memory; B5: the Turning Points engine
   const R99_REMOVED=[];
   const sw=read('service-worker.js');
   assert.match(sw,/const RUNTIME_REVISION = "2\.12\.0-r99";\nconst PREVIOUS_RUNTIME_REVISION = "2\.11\.0-r98";/);
