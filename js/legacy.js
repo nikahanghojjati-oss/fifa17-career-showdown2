@@ -5,6 +5,17 @@
 ===================================================== */
 
 let legacyModel = null;
+// H1 F1 (2026-11-27, Nik: History never looks broken or stale): no model here means Team V's History
+// (js/rivalryLegacyV10.js) has not drawn yet, not a failure, so this box says loading until it is replaced. Only a
+// History that cannot be loaded says unavailable, so the box never stays on loading for good.
+const LEGACY_LOADING = Object.freeze({ status: "loading" });
+let legacyHandOverFailed = false;
+
+function failLegacyHandOver(){
+    legacyHandOverFailed = true;
+    const box = document.querySelector("#legacy .legacyBox"), seam = window.CareerModeCareerScreenSeam;
+    if(box && seam && legacyModel === null){ box.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("legacy", null))); }
+}
 
 function readLegacyScreenSeam(rerender){
     const seam = window.CareerModeCareerScreenSeam;
@@ -27,14 +38,18 @@ function renderLegacy(request = false){
     const identity = window.CareerModeOnlinePlayerIdentity;
     const identityState = identity && typeof identity.getState === "function" ? identity.getState() : null;
     const source = seam.selectCareerScreenSource({ identityState, model: legacyModel });
+    let handOver = null;
     if(typeof window.openRivalryLegacyV10 === "function"){
-        window.openRivalryLegacyV10("legacy", () => legacyModel);
+        handOver = window.openRivalryLegacyV10("legacy", () => legacyModel);
     }else if(typeof window.loadRuntimeScript === "function"){
-        window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
+        handOver = window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
             .then(() => window.CareerModeRivalryLegacyV10.mount("legacy", () => legacyModel))
-            .catch(error => window.reportApplicationError?.("History screen could not load", error));
+            .then(() => true, error => { window.reportApplicationError?.("History screen could not load", error); return false; });
     }
-    seamContainer.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("legacy", source === "model" ? legacyModel : null)));
+    legacyHandOverFailed = !handOver || typeof handOver.then !== "function";
+    if(!legacyHandOverFailed){ handOver.then(ok => { if(ok === false){ failLegacyHandOver(); } }, failLegacyHandOver); }
+    const view = source === "model" ? legacyModel : legacyHandOverFailed ? null : LEGACY_LOADING;
+    seamContainer.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("legacy", view)));
 }
 
 window.renderLegacy = renderLegacy;

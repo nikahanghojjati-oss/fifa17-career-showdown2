@@ -365,6 +365,16 @@
   const held=new Set();
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   const rlOwner=key=>{try{return JSON.stringify(JSON.parse(key).slice(0,2));}catch(_){return null;}};
+  // H1 F2 (2026-11-27, Nik: Career and History include a finished Showdown right away): a Showdown closed since this History
+  // frame was drawn (the pair now names it closed) and the frame does not list it as finished. That frame is older than the
+  // close, so it is never shown again: the screen loads (covered on entry) until the read this key change starts anyway lands.
+  // No extra read. A frame that already lists it (the career read after the close) is kept, so nothing flashes.
+  const rlClosedOf=key=>{try{const id=JSON.parse(key)[3];return typeof id==="string"&&id?id:null;}catch(_){return null;}};
+  function rlOlderThanClose(model,oldKey,key){
+    const closed=rlClosedOf(key);if(!closed||closed===rlClosedOf(oldKey)||!model||model===LOADING||model===UNAVAILABLE)return false;
+    const rows=model.history?.showdowns;
+    return !(Array.isArray(rows)&&rows.some(row=>row?.rivalryId===closed&&["completed","abandoned"].includes(row.status)));
+  }
   function refresh(screen,event=false,retry=false){
     let key=context();const reload=reloads[screen]??(reloads[screen]={flight:null,timer:null,dirty:false,lastStarted:-Infinity});
     const supplied=getters[screen]?.();
@@ -373,8 +383,9 @@
     // load again): the same account and manager keep their frame while the pair or marker settles; the reload replaces it.
     if(sourceKeys[screen]!==key){
       const sameOwner=sourceKeys[screen]!=null&&rlOwner(sourceKeys[screen])===rlOwner(key);
+      const olderThanClose=sameOwner&&screen==="legacy"&&rlOlderThanClose(sources[screen],sourceKeys[screen],key);
       sourceKeys[screen]=key;
-      if(!sameOwner){
+      if(!sameOwner||olderThanClose){
         sources[screen]=LOADING;
         if(reload.flight||event&&Date.now()-reload.lastStarted<RELOAD_INTERVAL)void screens().show(APP[screen]).catch(report);
       }
