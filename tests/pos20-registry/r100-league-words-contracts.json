@@ -6,6 +6,8 @@
     "^js/showdownUI\\.js$",
     "^js/productionSharedJourneyEntry\\.js$",
     "^js/showdown\\.js$",
+    "^css/v10Setup\\.css$",
+    "^js/leagueRouletteStep\\.js$",
     "^index\\.html$",
     "^tests/contracts/r100\\-league\\-words\\-contracts\\.cjs$",
     "^tests/pos20-registry/r100\\-league\\-words\\-contracts\\.json$"

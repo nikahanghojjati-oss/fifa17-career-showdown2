@@ -162,7 +162,9 @@
     // the lock note shows above the buttons once the league is set: the board keeps clear of it too (Codex, PR #1564)
     // r98 gallery: so is the shared flow's status line (js/productionSharedShowdownPresentation.js, "BOTH PLAYERS CONNECTED ·
     // Drop the first ball." and the rest), which every shared Showdown shows above the buttons.
-    for(const el of screen.querySelectorAll("button,#leagueStateNote,#sharedShowdownPresentationStatus")){const r=lrsVisibleRect(el);if(r)buttonsTop=Math.min(buttonsTop,r.top);}
+    // r100 (Nik 2026-11-27): so is Daniel's waiting note (#sharedJourneyLeagueLockNote, a .stateNote of the shared entry), now that
+    // CONTINUE CAREER sits under the board with the other buttons and no longer holds the board's box down from above.
+    for(const el of screen.querySelectorAll("button,#leagueStateNote,.wheelContainer > .stateNote,#sharedShowdownPresentationStatus")){const r=lrsVisibleRect(el);if(r)buttonsTop=Math.min(buttonsTop,r.top);}
     if(!Number.isFinite(textBottom)||!Number.isFinite(buttonsTop))return null;
     // (Claude review on #1564) the search runs again only when what it depends on has changed
     const memo=[P.s,P.x0,P.y0,textBottom,buttonsTop].map(v=>Math.round(v*100)).join(",");
