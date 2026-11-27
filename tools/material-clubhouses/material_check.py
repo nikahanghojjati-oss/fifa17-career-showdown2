@@ -119,13 +119,19 @@ LOOKS = {
            SLAB=dict(sat=(0.45, 1.0), detail_min=0.65),
                              SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                              SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
-    # Rose Quartz: dusty rose quartz (#C77D9B, shade #A85F80, lit #E3B4C4), deep plum velvet (#4E1F48, wine lean, never
-    # Amethyst's violet), plum-black wood (#1E0C1C), small satin rose gold (#B76E79). Nik, 27 Nov 2026 04:55 UTC: "cute and
-    # handcrafted and premium". Hue band 295-355: plum (308) to rose (336-340); violet (under 295) belongs to Amethyst.
+    # Rose Quartz, modern palace (Nik's pick 27 Nov 2026 20:54 UTC; Aman/Bulgari lobby): book-matched rose quartz slabs
+    # (#BD7CA6, lit #E0B5D0, shade #A55E8C), plum-black fluted wood (#1E0C1C), slim brushed rose gold lines (#B76E79), deep
+    # plum ceiling (#4A2246), dusty mauve-rose velvet seats (#7A4474), never Amethyst's violet. Hue band 295-355: plum (308) to rose (336-340); violet (under 295) belongs to Amethyst.
     # The stone is the palest in the set by design, so pale (hue band, sat < 0.40, luma > 110) is allowed up to 0.12 and the
     # night bar is kept by luma and sat instead. All limits provisional until the pilot (reasons: rosequartz/COLOUR_STUDY.md).
     "ROSEQUARTZ": dict(name="Rose Quartz Clubhouse", hue=(295, 355), hue_min=0.50, brown_max=0.20, sat=(0.25, 0.80),
-                       luma=(14, 80), gold_max=0.04, pale_max=0.12),  # calibrated on the approved pilot (Nik, 27 Nov 06:20 and 07:53 UTC): Board hue 0.83 luma 72.6, Home hue 0.62 luma 60.0, glint 1.1 / 5.9
+                       luma=(14, 84), gold_max=0.04, pale_max=0.12,
+                       # Recalibrated on the modern palace pilot (Nik's new style, 27 Nov 2026 20:54 UTC; masters locked
+                       # 21:11 and 21:21 UTC): Board PALACE_T1E1 hue 0.70 pale 0.019 luma 81.0 glint 4.1, Home PALACE_T1E1
+                       # hue 0.66 pale 0.003 luma 54.4 glint 10.9. The Board's lamp-lit rose quartz slabs fill most of the
+                       # wall, so night luma runs to 84. The Home's glints sit on the stadium floodlights, the pitch lines
+                       # and the men's hair edges (Astra sharpened them on the stone edit), none on the stone.
+                       rooms=dict(HOME=dict(glint_max=11.5))),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
