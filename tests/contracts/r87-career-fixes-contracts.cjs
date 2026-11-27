@@ -307,10 +307,14 @@ check('C-01 out of the game, Rivalry Statistics and Standings THIS SHOWDOWN say 
     CareerModeProductionSharedHistoryConvergence:{getState:()=>null,isActive:()=>entered},
     CareerModeProductionSharedShowdownSetup:{getState:()=>({sessionId:entered?'session_live':null})},
     loadRuntimeScript:()=>new Promise(()=>{}),
+    // r100 H2-1 PR B: a phone with no kept copy first tries the verified read; with no account services it fails at once
+    CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:false})},
     document:{getElementById:()=>null,querySelector:()=>null,querySelectorAll:()=>[],addEventListener(){},createElement:()=>({style:{},classList:{add(){},remove(){},toggle(){}},setAttribute(){},appendChild(){},addEventListener(){}})},
     addEventListener(){},dispatchEvent(){},CustomEvent:class{}};
   c.window=c;c.globalThis=c;vm.createContext(c);vm.runInContext(read('js/seasonFinalV10.js'),c,{filename:'js/seasonFinalV10.js'});
   await c.CareerModeSeasonFinalV10.install();
+  assert.deepEqual(JSON.parse(JSON.stringify(defs.get('standings').frame().SHOWDOWN.model)),{status:'loading'},'r100 H2-1 PR B: the verified read is tried first (6 s at most)');
+  for(let i=0;i<10;i++)await new Promise(r=>setImmediate(r));
   assert.deepEqual(JSON.parse(JSON.stringify(defs.get('standings').frame().SHOWDOWN.model)),{status:'unavailable',notice:'continue'});
   entered=true;assert.deepEqual(JSON.parse(JSON.stringify(defs.get('standings').frame().SHOWDOWN.model)),{status:'loading'});
   // the renderers print the plain line (strings in both apps)

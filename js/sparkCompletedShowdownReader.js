@@ -223,11 +223,69 @@
     }
   }
 
+  // r100 H2-1 (PR B, lead 2026-11-27; Nik: "Standings opened in the middle of a Showdown must always show the scores"): the
+  // same session-free, read-only, exact-get path for a Showdown still in play, for a phone that holds no verified copy of its
+  // numbers (a new phone, or site data cleared). The rivalry root (live, ACTIVE, no Terminal Close, both managers bound), the
+  // setup ledger replayed through the setup protocol, then season_1, season_2, ... in order: the commit first, and only an
+  // ACKNOWLEDGED commit has its public results and both role results read, each verified exactly as for a completed
+  // Showdown. It stops at the first season whose commit is not ACKNOWLEDGED (that read proves no later season counts yet)
+  // and builds and verifies the History projection of the accepted seasons. Any failure is "unavailable": never a partial
+  // or unverified score. Reads: 3 + 4n documents for n accepted seasons (2 + 4n when every season is accepted).
+  async function csrReadActive(options={}){
+    let rivalryId=null,managerRole=null;
+    try{
+      const sdk=options.firebaseSdk,db=options.firestore,cryptoImpl=options.cryptoImpl||root.crypto;
+      if(!db||!sdk||typeof sdk.doc!=="function"||typeof sdk.getDoc!=="function")csrFail("COMPLETED_PROVIDER_UNAVAILABLE");
+      const uid=options.user&&typeof options.user.uid==="string"?options.user.uid.trim():"";if(!uid)csrFail("COMPLETED_AUTH_REQUIRED");
+      rivalryId=String(options.rivalryId||"").trim().toLowerCase();if(!RIVALRY_ID.test(rivalryId)){rivalryId=null;csrFail("COMPLETED_RIVALRY_INVALID");}
+      const value=await csrGet(sdk,db,["rivalries",rivalryId]);if(!value)csrFail("COMPLETED_RIVALRY_MISSING");
+      await csrVerifyRivalry(value,rivalryId,cryptoImpl);
+      if(value.data.connectionState!=="active"||Object.hasOwn(value.data,"terminalClose")||value.data.mode==="test")return csrFreeze({status:"not-active",code:null,rivalryId,managerRole:null,projection:null,setup:null});
+      const rivalry=csrVerifyManagers(value.data,uid);managerRole=rivalry.managerRole;
+      const stored=await csrGet(sdk,db,["rivalries",rivalryId,"sharedSetup","authoritative"]);
+      if(!stored||![1,3,5,10].includes(stored.totalSeasons))csrFail("COMPLETED_SETUP_INVALID");
+      const ledger=csrAssertLedger(stored,rivalryId,stored.totalSeasons),total=ledger.totalSeasons;
+      const setup=await csrRebuildSetup(ledger,rivalry,rivalryId,cryptoImpl),teamCount=csrTeamCount(setup);
+      if(setup.totalSeasons!==total)csrFail("COMPLETED_SETUP_INVALID");
+      const scoringProtocol=await csrModules.scoring.createProtocol({teamCount,cryptoImpl,seasonCommitModule:csrModules.commit});
+      const seasons=[];
+      for(let seasonNumber=1;seasonNumber<=total;seasonNumber+=1){
+        const seasonId=`season_${seasonNumber}`;
+        const commitDoc=await csrGet(sdk,db,["rivalries",rivalryId,"seasonCommits",seasonId]);
+        if(!commitDoc||commitDoc.phase!=="ACKNOWLEDGED")break;
+        const documents=await Promise.allSettled([
+          csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId]),
+          csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId,"roles","playerOne"]),
+          csrGet(sdk,db,["rivalries",rivalryId,"seasonResults",seasonId,"roles","playerTwo"])
+        ]);
+        const failed=documents.find(item=>item.status==="rejected");if(failed)throw failed.reason;
+        const [publicValue,p1,p2]=documents.map(item=>item.value);
+        if(!publicValue||!p1||!p2)csrFail("COMPLETED_SEASON_MISSING");
+        const ready=await csrReadyState(csrAssertPublicResults(publicValue,rivalryId,seasonNumber),{playerOne:csrAssertRoleResult(p1,rivalryId,seasonNumber,"playerOne",teamCount),playerTwo:csrAssertRoleResult(p2,rivalryId,seasonNumber,"playerTwo",teamCount)},teamCount,cryptoImpl);
+        const commit=await csrAcknowledgedCommit(commitDoc,ready,teamCount,cryptoImpl);
+        const scored=scoringProtocol.scoreAuthoritativeResults(commit.results);
+        seasons.push({
+          commit:{ok:true,committed:true,phase:"ACKNOWLEDGED",revision:3,resultsRevision:2,resultsContentHash:commit.resultsContentHash,seasonNumber,results:csrClone(commit.results),rivalryId},
+          scoring:{ok:true,authoritative:true,phase:"SCORING_RECONCILED",revision:1,seasonCommitRevision:3,resultsRevision:2,resultsContentHash:commit.resultsContentHash,seasonNumber,scoring:csrClone(scored.scoring),winner:scored.winner,rivalryId}
+        });
+      }
+      let projection=null;
+      if(seasons.length){
+        projection=csrModules.history.buildProjection({rivalryId,setup:{...setup,rivalryId},managerSlots:rivalry.slots,seasons});
+        csrModules.history.verifyProjection(projection);
+        if(projection.acceptedSeasons!==seasons.length||projection.totalSeasons!==total)csrFail("COMPLETED_TOTALS_MISMATCH");
+      }
+      return csrFreeze({status:"active",code:null,rivalryId,managerRole,acceptedSeasons:seasons.length,projection,setup:{leagueId:setup.leagueId,totalSeasons:total,clubs:{playerOne:setup.clubs.playerOne,playerTwo:setup.clubs.playerTwo}}});
+    }catch(error){
+      return csrFreeze({status:"unavailable",code:error&&typeof error.code==="string"&&error.code?error.code:"COMPLETED_READ_FAILED",rivalryId,managerRole,projection:null,setup:null});
+    }
+  }
+
   // r86 (red team #7): these failures come from the stored documents themselves (an invalid season, a totals mismatch), so a
   // re-read on the same page can only fail the same way. A missing document, network, auth and loading failures stay retryable
   // (a late write can still arrive: r83 cold career reads). COMPLETED_SETUP_INVALID is not listed: a missing Setup document
   // reports it too (Codex P2 on #1047).
   const PERMANENT_CODES=Object.freeze(["COMPLETED_BINDING_INVALID","COMPLETED_NOT_A_MANAGER","COMPLETED_RIVALRY_INTEGRITY_FAILED","COMPLETED_RIVALRY_INVALID","COMPLETED_SEASON_INVALID","COMPLETED_TERMINAL_WITNESS_INVALID","COMPLETED_TOTALS_MISMATCH"]);
   const csrPermanentFailure=read=>Boolean(read)&&read.status==="unavailable"&&PERMANENT_CODES.includes(read.code);
-  return Object.freeze({contractVersion:1,feature:"cms-completed-showdown-reader",statuses:STATUSES,readCompletedShowdown:csrRead,permanentFailure:csrPermanentFailure,sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false,sourceAuthorityPaths:Object.freeze(["rivalries/{rivalryId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonResults/season_{N}","rivalries/{rivalryId}/seasonResults/season_{N}/roles/{playerOne|playerTwo}","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
+  return Object.freeze({contractVersion:1,feature:"cms-completed-showdown-reader",statuses:STATUSES,readCompletedShowdown:csrRead,readActiveShowdown:csrReadActive,permanentFailure:csrPermanentFailure,sessionRequired:false,deviceRequired:false,providerWriteRequired:false,listPermissionRequired:false,canonicalStorageMutation:false,billingRequired:false,sourceAuthorityPaths:Object.freeze(["rivalries/{rivalryId}","rivalries/{rivalryId}/sharedSetup/authoritative","rivalries/{rivalryId}/seasonResults/season_{N}","rivalries/{rivalryId}/seasonResults/season_{N}/roles/{playerOne|playerTwo}","rivalries/{rivalryId}/seasonCommits/season_{N}"])});
 });

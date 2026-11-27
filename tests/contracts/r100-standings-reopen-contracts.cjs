@@ -133,7 +133,7 @@ const home=p=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:null,
     await pg.advance(WAIT-1);assert.equal(pg.api.currentRivalry().status,"loading");
     await pg.advance(51);assert.ok(pg.wakes()>=1,"the screen is woken when the wait ends");pg.api.currentRivalry();await pg.flush();
     const v=pg.api.currentRivalry();assert.equal(v.status,"ready","after 8 s: the checked copy");assert.deepEqual(v.score,score1);assert.equal(pg.reads.length,1);}
-  {const pg=page({snapshot:home(p1),liveCanArrive:true});await pg.api.sfPrepareKeptStandings();assert.equal(pg.api.currentRivalry().status,"loading");await pg.advance(WAIT+100);assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"},"no copy, in the game: 'on their way' after 8 s (Verify F2: never 'continue from Home'), not loading forever");assert.equal(pg.reads.length,0);}
+  {const pg=page({snapshot:home(p1),liveCanArrive:true});await pg.api.sfPrepareKeptStandings();assert.equal(pg.api.currentRivalry().status,"loading");await pg.advance(WAIT+100);pg.api.currentRivalry();await pg.flush();assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"},"no copy, in the game (and here no verified read can be made): 'on their way' after 8 s (Verify F2: never 'continue from Home'), not loading forever");assert.equal(pg.reads.length,0);}
   ok("S7","half-up providers: loading for at most 8 s, then the checked copy or the notice");
 
   // S8
@@ -146,6 +146,7 @@ const home=p=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:null,
   {const pg=page({snapshot:home(p1),copy:copy1,commit:pending});for(let open=1;open<=3;open++){await pg.api.sfPrepareKeptStandings();await pg.flush();assert.equal(pg.api.currentRivalry().status,"ready");assert.equal(pg.reads.length,open,`open ${open}: its own single read`);pg.api.sfStandingsShown("standings");await pg.flush();assert.equal(pg.reads.length,open,"the same entry's shown signal adds no read");pg.api.sfStandingsShown("mainMenu");}}
   assert.ok(!/sfKept|sfCopy/.test(SRC.slice(SRC.indexOf("function currentCareer"),SRC.indexOf("function currentCareer")+600)),"CAREER's model is not touched");
   assert.equal((SRC.match(/sfKeptView\(/g)||[]).length,3,"the copy is used by THIS SHOWDOWN only (currentRivalry and the Standings prepare)");
+  assert.equal((SRC.match(/sfFreshView\(/g)||[]).length,2,"the verified read for a phone with no copy starts only from sfKeptView (tests/contracts/r100-standings-fresh-contracts.cjs)");
   assert.ok(SRC.includes('prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip(),sfPrepareKeptStandings()])'),"Standings' loader waits for the one read behind the loading screen");
   ok("S9","each Standings open makes its own single read; CAREER is not touched");
 

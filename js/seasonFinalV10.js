@@ -455,44 +455,111 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   const SF_LIVE_COPY_KEY="cms.liveStandings.v1",SF_LIVE_WAIT_MS=8000,SF_COPY_READ_MS=6000;
   let sfLoadingSince=0,sfLoadingRid="",sfCopyCheck=null,sfCopyOpen=0;
   function sfWakeAfter(ms){try{root.setTimeout(()=>{signature="";wake();},ms);}catch(_){}}
+  // A kept copy is either a Multi Season view (kept by the progression on every authoritative read) or, on a phone that had
+  // none, the verified read below (PR B): a History projection of the accepted seasons, or, before any season was accepted,
+  // the verified setup as a zero Multi Season view. Normalised to {multi,history,accepted,total,terminal,revisionKey}.
   function sfKeptCopy(rid){
     if(!/^pair_[0-9a-f]{64}$/.test(rid))return null;
     let copy=null;try{copy=JSON.parse(String(root.readStorageValue?.(SF_LIVE_COPY_KEY,true)||"null"));}catch(_){return null;}
-    const v=copy&&copy.schemaVersion===1&&copy.rivalryId===rid?copy.view:null,st=v&&v.state;
-    if(!v||v.ok!==true||v.authoritative!==true||v.rivalryId!==rid||!st||st.rivalryId!==rid||!Number.isInteger(st.acceptedSeasons)||st.acceptedSeasons<0||![1,3,5,10].includes(st.totalSeasons)||st.acceptedSeasons>st.totalSeasons)return null;
-    return v;
+    if(!copy||copy.schemaVersion!==1||copy.rivalryId!==rid)return null;
+    const total=n=>[1,3,5,10].includes(n);
+    const v=copy.view,st=v&&v.state;
+    if(v){
+      if(v.ok!==true||v.authoritative!==true||v.rivalryId!==rid||!st||st.rivalryId!==rid||!Number.isInteger(st.acceptedSeasons)||st.acceptedSeasons<0||!total(st.totalSeasons)||st.acceptedSeasons>st.totalSeasons)return null;
+      return {rivalryId:rid,multi:v,history:null,accepted:st.acceptedSeasons,total:st.totalSeasons,terminal:st.terminal===true,revisionKey:st.acceptedRevisionKey||""};
+    }
+    const h=copy.history,pr=h&&h.projection;
+    if(!h||h.ok!==true||h.authoritative!==true||h.phase!=="HISTORY_CONVERGED"||h.rivalryId!==rid||!pr||pr.rivalryId!==rid||!Number.isInteger(pr.acceptedSeasons)||pr.acceptedSeasons<1||!total(pr.totalSeasons)||pr.acceptedSeasons>pr.totalSeasons)return null;
+    return {rivalryId:rid,multi:null,history:h,accepted:pr.acceptedSeasons,total:pr.totalSeasons,terminal:false,revisionKey:pr.acceptedRevisionKey||""};
   }
-  function sfCopyKey(v){return `${v.rivalryId}|${v.state.acceptedSeasons}|${v.state.acceptedRevisionKey||""}|${v.state.terminal===true}`;}
+  function sfCopyKey(c){return `${c.rivalryId}|${c.accepted}|${c.revisionKey}|${c.terminal===true}`;}
   function sfKeptView(snapshot,rid){
     const pair=snapshot.pair;
     if(!pair||pair.initialized!==true||pair.connectionState!=="active"||pair.rivalryId!==rid)return null;
-    const copy=sfKeptCopy(rid);if(!copy)return null;
+    const copy=sfKeptCopy(rid);if(!copy)return sfFreshView(snapshot,rid);
     // this open's check; one still in flight from a moment ago is taken over rather than read twice
     const key=sfCopyKey(copy);let check=sfCopyCheck&&sfCopyCheck.key===key?sfCopyCheck:null;
     if(check&&check.open!==sfCopyOpen){if(check.status==="checking")check.open=sfCopyOpen;else check=null;}
     if(!check)check=sfStartCopyCheck(copy,key);
     if(check.status==="checking")return {status:"loading"};
     if(check.status!=="current")return null;
-    const view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView({...snapshot,multiSeason:copy,history:null})||null;
+    return sfVerifiedView(snapshot,copy);
+  }
+  // The adapter verifies the copy exactly as it verifies live numbers (the History projection again, byte for byte).
+  function sfVerifiedView(snapshot,copy){
+    const view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView({...snapshot,multiSeason:copy.multi,history:copy.history})||null;
     // "empty" is a Showdown with no season accepted yet (0 - 0, its league, clubs and season 1); a pending code never gets here
     return view&&["ready","empty"].includes(view.status)?view:null;
   }
   // One read per Standings open: the next season's commit. Resolves "current" (not accepted: the copy is up to date),
   // "behind" (accepted since: a newer season exists) or "unread" (no service, an error, or no answer in SF_COPY_READ_MS).
+  async function sfServices(){
+    const runtime=root.CareerModeProductionFirebaseRuntime||(typeof root.loadRuntimeScript==="function"?(await root.loadRuntimeScript("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),root.CareerModeProductionFirebaseRuntime):null);
+    const services=(root.CareerModeFirestoreBudget?.services||(x=>x))(await runtime.ensureAccountServices());
+    if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||typeof services.firestoreSdk?.doc!=="function")throw new Error("STANDINGS_COPY_SERVICE");
+    return {services,runtime};
+  }
   function sfStartCopyCheck(copy,key){
     const check={key,open:sfCopyOpen,status:"checking"};sfCopyCheck=check;
     const done=status=>{if(check.status!=="checking")return;check.status=status;if(sfCopyCheck===check){signature="";wake();}};
-    if(copy.state.terminal===true||copy.state.acceptedSeasons>=copy.state.totalSeasons){done("current");return check;}
-    const next=copy.state.acceptedSeasons+1;
+    if(copy.terminal===true||copy.accepted>=copy.total){done("current");return check;}
+    const next=copy.accepted+1;
     root.setTimeout?.(()=>done("unread"),SF_COPY_READ_MS);
     check.promise=Promise.resolve().then(async()=>{
-      const runtime=root.CareerModeProductionFirebaseRuntime||(typeof root.loadRuntimeScript==="function"?(await root.loadRuntimeScript("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),root.CareerModeProductionFirebaseRuntime):null);
-      const services=(root.CareerModeFirestoreBudget?.services||(x=>x))(await runtime.ensureAccountServices());
-      const sdk=services?.firestoreSdk;if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||typeof sdk?.doc!=="function"||typeof sdk?.runTransaction!=="function")throw new Error("STANDINGS_COPY_SERVICE");
+      const {services}=await sfServices(),sdk=services.firestoreSdk;if(typeof sdk.runTransaction!=="function")throw new Error("STANDINGS_COPY_SERVICE");
       const commit=await sdk.runTransaction(services.firestore,async tx=>{const snap=await tx.get(sdk.doc(services.firestore,"rivalries",copy.rivalryId,"seasonCommits",`season_${next}`));return snap&&typeof snap.exists==="function"&&snap.exists()?snap.data():null;});
       done(commit&&commit.phase==="ACKNOWLEDGED"?"behind":"current");
     }).catch(()=>done("unread"));
     return check;
+  }
+  // ---- r100 H2-1 PR B: a phone with no kept copy (a new phone, or site data cleared) ----
+  // Once per Standings open, the session-free verified read History and Final Winner use for finished Showdowns
+  // (js/sparkCompletedShowdownReader.js readActiveShowdown: the rivalry, the setup ledger, then each accepted season's
+  // commit, public results and both role results, stopping at the first commit not ACKNOWLEDGED; 3 + 4n documents for n
+  // accepted seasons). Its result is verified there and again by the adapter, then kept (cms.liveStandings.v1), so the next
+  // open is the one-read check above. No listener, no retry; THIS SHOWDOWN waits for it at most SF_COPY_READ_MS, then says
+  // how to load it ("continue it from Home"); an answer that lands later still shows (and is kept). Any failure: the notice.
+  let sfFresh=null;
+  const SF_FRESH_MODULES=[["ssjr-shared-setup-catalog","js/sharedShowdownCatalog.js","CareerModeSharedShowdownCatalog"],["ssjr-shared-setup-protocol","js/sharedShowdownSetup.js","CareerModeSharedShowdownSetup"],["ssjr-season-results-protocol","js/sharedSeasonResults.js","CareerModeSharedSeasonResults"],["ssjr-season-commit-protocol","js/sharedSeasonCommit.js","CareerModeSharedSeasonCommit"],["ssjr-canonical-scoring-protocol","js/sharedCanonicalScoring.js","CareerModeSharedCanonicalScoring"],["ssjr-history-convergence-protocol","js/sharedHistoryConvergence.js","CareerModeSharedHistoryConvergence"],["career-completed-reader","js/sparkCompletedShowdownReader.js","CareerModeSparkCompletedShowdownReader"]];
+  function sfFreshView(snapshot,rid){
+    let fresh=sfFresh&&sfFresh.rid===rid?sfFresh:null;
+    if(fresh&&fresh.open!==sfCopyOpen){if(fresh.status==="reading")fresh.open=sfCopyOpen;else fresh=null;}
+    if(!fresh)fresh=sfStartFresh(snapshot,rid);
+    if(fresh.status==="reading")return fresh.late?null:{status:"loading"};
+    return fresh.status==="done"?sfVerifiedView(snapshot,fresh.copy):null;
+  }
+  function sfStartFresh(snapshot,rid){
+    const fresh={rid,open:sfCopyOpen,status:"reading",late:false};sfFresh=fresh;
+    const wakeIfMine=()=>{if(sfFresh===fresh){signature="";wake();}};
+    root.setTimeout?.(()=>{if(fresh.status==="reading"){fresh.late=true;wakeIfMine();}},SF_COPY_READ_MS);
+    fresh.promise=Promise.resolve().then(async()=>{
+      const {services,runtime}=await sfServices();
+      // the reader's protocols (the same files the live season providers load), then the reader
+      if(typeof root.loadRuntimeScript==="function")for(const [key,file,name] of SF_FRESH_MODULES)await root.loadRuntimeScript(key,file,()=>Boolean(root[name]));
+      const reader=root.CareerModeSparkCompletedShowdownReader;if(typeof reader?.readActiveShowdown!=="function")throw new Error("STANDINGS_FRESH_READER");
+      const sdk=(root.CareerModeFirestoreBudget?.meterSdk||(x=>x))(services.firestoreSdk?.getDoc?services.firestoreSdk:await import(runtime.firebaseFirestoreModule));
+      const read=await reader.readActiveShowdown({firestore:services.firestore,firebaseSdk:{...services.firestoreSdk,getDoc:sdk.getDoc},user:services.auth.currentUser,rivalryId:rid});
+      if(!read||read.status!=="active"||read.rivalryId!==rid)throw new Error(read?.code||"STANDINGS_FRESH_UNAVAILABLE");
+      const copy=read.projection?sfFreshHistory(read,rid):sfFreshZero(read,rid);
+      // kept only when the adapter takes it exactly as it would take live numbers
+      if(!copy||!sfVerifiedView(sfSnapshot(),copy))throw new Error("STANDINGS_FRESH_UNVERIFIED");
+      fresh.copy=copy;fresh.status="done";
+      // this open's freshness is the read itself: the kept copy is current for this open with no second read
+      sfCopyCheck={key:sfCopyKey(copy),open:fresh.open,status:"current"};
+      try{root.writeStorageValue?.(SF_LIVE_COPY_KEY,JSON.stringify(copy.history?{schemaVersion:1,rivalryId:rid,history:copy.history}:{schemaVersion:1,rivalryId:rid,view:copy.multi}),true);}catch(_){}
+    }).catch(()=>{fresh.status="failed";}).then(wakeIfMine);
+    return fresh;
+  }
+  function sfFreshHistory(read,rid){
+    const p=read.projection;
+    const history={ok:true,authoritative:true,runtimeRevision:"1.9.1-r12",phase:"HISTORY_CONVERGED",revision:1,rivalryId:rid,managerRole:read.managerRole,throughSeason:p.acceptedSeasons,acceptedRevisionKey:p.acceptedRevisionKey,projection:p};
+    return {rivalryId:rid,multi:null,history:JSON.parse(JSON.stringify(history)),accepted:p.acceptedSeasons,total:p.totalSeasons,terminal:false,revisionKey:p.acceptedRevisionKey||""};
+  }
+  // No season accepted yet: 0 - 0, season 1 of the verified setup (the adapter's zero view; no projection exists yet).
+  function sfFreshZero(read,rid){
+    const st=read.setup;if(!st||![1,3,5,10].includes(st.totalSeasons)||typeof st.leagueId!=="string"||typeof st.clubs?.playerOne!=="string"||typeof st.clubs?.playerTwo!=="string")return null;
+    const multi={ok:true,authoritative:true,rivalryId:rid,managerRole:read.managerRole,state:{rivalryId:rid,acceptedSeasons:0,totalSeasons:st.totalSeasons,activeSeason:1,leagueId:st.leagueId,fixedClubs:{playerOne:st.clubs.playerOne,playerTwo:st.clubs.playerTwo},terminal:false,acceptedRevisionKey:""}};
+    return {rivalryId:rid,multi,history:null,accepted:0,total:st.totalSeasons,terminal:false,revisionKey:""};
   }
   // Standings opening (its loader's prepare): a fresh check for this open, waited for at most SF_COPY_READ_MS behind the
   // loading screen, and only when the live numbers cannot come (in the game nothing changes and nothing is read).
@@ -510,8 +577,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
       const snapshot=sfSnapshot(),view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot);
       if(!view||view.status!=="loading"||sfLiveCanArrive())return Promise.resolve();
       sfKeptView(snapshot,typeof snapshot.pair?.rivalryId==="string"?snapshot.pair.rivalryId:"");// starts this open's one read when a copy is kept
-      const check=sfCopyCheck;
-      return check&&check.open===sfCopyOpen&&check.status==="checking"&&check.promise?Promise.race([check.promise,new Promise(r=>root.setTimeout(r,SF_COPY_READ_MS))]).catch(()=>{}):Promise.resolve();
+      const check=sfCopyCheck,fresh=sfFresh;
+      const pending=check&&check.open===sfCopyOpen&&check.status==="checking"&&check.promise?check.promise:fresh&&fresh.open===sfCopyOpen&&fresh.status==="reading"&&fresh.promise?fresh.promise:null;
+      return pending?Promise.race([pending,new Promise(r=>root.setTimeout(r,SF_COPY_READ_MS))]).catch(()=>{}):Promise.resolve();
     }catch(_){return Promise.resolve();}
   }
   function sfLiveCanArrive(){
