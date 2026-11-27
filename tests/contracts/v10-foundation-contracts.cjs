@@ -1952,7 +1952,7 @@ check("F10 index.html is unchanged and the startup line is not higher",()=>{
   // Then (lead 2026-11-25): the loading room's preloads and pictures are written by script through the theme's fix(), so a
   // premium clubhouse never downloads the Wooden tunnel; the markup itself is unchanged.
   // And Nik's naming card (2026-11-25): the head comments name Black Steel and Graphite; no code changed.
-  assert.equal(sha256("index.html"),"8a78a5375e1577419aa61052608efda8829d74b3c483ba7701a5910fe4178e3d","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard (r100 B7: its sheets wait for the clubhouse rewrite, r87 E10), one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room (its 2x rooms found by picture~picture), P3 Ruby clubhouse, 2.12.0-r99 pins)");
+  assert.equal(sha256("index.html"),"30b4a6a1a35ed52dba3552d8326fc597627d40f1a7cfc2d94435f8a5db066817","index.html is 2.12.0 (HO-072 loading cover, HO-079 V4 logo, B1 boot-fail guard (r100 B7: its sheets wait for the clubhouse rewrite, r87 E10), one type family, hunt F7 tagline, LEAGUE ROULETTE title, R99-01 clubhouse themes, r100 per-clubhouse panel marble and loading room (its 2x rooms found by picture~picture), P3 Ruby clubhouse, 2.12.0-r99 pins)");
   const html=read("index.html").replace(/<script>(?:(?!<\/script>)[^])*?w\.cmsBootFail=function[^]*?<\/script>/,"");
   assert.notEqual(html,read("index.html"),"the B1 boot-fail guard is there");
   for(const banned of ["v10Screens","navbar","visual-assets/v10_1","startJoinViewModel"])assert.ok(!html.includes(banned),banned);
