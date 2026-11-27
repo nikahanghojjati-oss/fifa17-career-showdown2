@@ -126,6 +126,24 @@ function setWheelRotationWithoutAnimation(track, rotation){
     }
 }
 
+// r100 (Nik 2026-11-26: "drop the ball or spin the wheel? ... the right button"): a shared Showdown's League Roulette is the 3D
+// board, and its words are balls, never a spin. js/productionSharedShowdownPresentation.js writes them once it is up; until then
+// (Daniel's START, before the shared marker is set) this screen says the roulette line and waits. The plain wheel's words stay
+// for a Showdown on one device and where the board could not run (no WebGL2, a crash: the 2D fallback).
+// "presentation": its words are the presentation's; "start": the roulette line and a waiting button; false: the wheel's own.
+function leagueRouletteWordsOwner(){
+    try{
+        const entry = window.CareerModeProductionSharedJourneyEntry;
+        const pending = Boolean(entry && typeof entry.isPending === "function" && entry.isPending() === true);
+        const starting = Boolean(entry && typeof entry.isStarting === "function" && entry.isStarting() === true);
+        if(!pending && !starting){ return false; }
+        const step = window.CareerModeLeagueRouletteStep;
+        if(step && typeof step.failed === "function" && step.failed()){ return false; }
+        return pending ? "presentation" : "start";
+    }catch(_error){ return false; }
+}
+window.leagueRouletteWordsOwner = leagueRouletteWordsOwner;
+
 function renderLeagueWheelState(){
     const wheel = document.getElementById("leagueWheel");
     const track = wheel ? wheel.querySelector(".wheelTrack") : null;
@@ -138,6 +156,20 @@ function renderLeagueWheelState(){
     }
 
     if(!currentShowdown || !currentShowdown.selectedLeague){
+        const owner = leagueRouletteWordsOwner();
+        if(owner === "presentation"){ return; }
+        if(owner === "start"){
+            const line = "Five leagues. Four balls. One league stays.";
+            if(result.textContent !== line){ result.textContent = line; }
+            if(spinButton.textContent !== "WAITING…"){ spinButton.textContent = "WAITING…"; }
+            spinButton.disabled = true;
+            if(note){
+                if(note.textContent){ note.textContent = ""; }
+                note.classList.add("hidden");
+                note.classList.remove("locked");
+            }
+            return;
+        }
         if(!leagueWheelSpinInProgress){
             setWheelRotationWithoutAnimation(track, 0);
             if(result.textContent !== "Spin to pick the league"){ result.textContent = "Spin to pick the league"; }
