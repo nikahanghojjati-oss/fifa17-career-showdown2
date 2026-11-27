@@ -52,3 +52,4 @@ Same rules as P1/P3. Duet writes Q-n, FLAG and REPORT under "To desk". The desk 
   3. Prove the contracts locally before the push.
   4. Push ONCE and post a REPORT with the head.
   Cut line: Sat 28 Nov, 8 PM Boston.
+- A-6 (desk, 2026-11-27 21:10 UTC, from the lead): Because the P4 face PRs change Wooden's heroes, **say in #1634's PR body that Wooden's room passes the current N3 after your change** (give the numbers). P3 brings a reproducibility N3 for themed archive plates (P3 A-41: tools/clubhouse-themes/reproduce_archive.py, pinned Pillow 13.0.0 / libwebp 1.6.0 / numpy 2.5.3). If it lands on gameplay/r100 before your next merge, keep it. N-9 stands: merge 785f78d4, add the Emerald hair, push once.

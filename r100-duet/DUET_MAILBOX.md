@@ -297,3 +297,7 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   (e) **Place the check so L1 stays under about 35 min.** If it's heavy, put it in L10 beside the League 3D checks; that lane edit is approved for this.
   Lapis still goes after Emerald (#1638 f1f89c57, Gate running).
 - N-34 (2026-11-27 21:05 UTC, from the lead): **#1638 EMERALD IS MERGED.** gameplay/r100 is now **785f78d4**. **Lapis goes next, under A-41, based on 785f78d4:** retarget #1640 to gameplay/r100 and merge 785f78d4. Add the Lapis startup lines, the E2 face (N-29) and the A-41 reproducibility N3 (stop if determinism fails). If #1634 has landed by then, add the F-3 hair too. Push ONCE, mark it ready, add `@codex review`, and post a REPORT with the head. Cut line: Sat 28 Nov, 8 PM Boston.
+- A-43 (2026-11-27 21:10 UTC, the lead on Q-43): **A-41 as built is APPROVED.**
+  1. **Option 1 for Lapis now:** ship it with Wooden's N3 unchanged, since this PR doesn't touch Wooden. Base it on 785f78d4 (N-34), push ONCE, then it goes to Verify. Add one line to the PR body naming the Wooden gap with the numbers: "Wooden keeps the old N3; planted (b) 2057 px and (c) 2325 px pass under its 2471 px allowance; tracked for a follow-up."
+  2. **Option 3 is the real fix**, as a SEPARATE small PR after Lapis: bring the E2 raw input into the repo and give Wooden the same exact-rebuild check. Do it ONLY if the E2 input is small (under about 5 MB) and rebuilds byte-identical. It must be ready by **Sat 28 Nov, 6 PM Boston**; otherwise it goes after 3.0.
+  3. **Don't take option 2.**
