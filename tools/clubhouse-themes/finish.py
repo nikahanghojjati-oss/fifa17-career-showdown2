@@ -139,6 +139,29 @@ LOOK = {
   gold=True,
   primary="background: linear-gradient(180deg, #4b4e53 0%, #35373b 58%, #2b2d31 100%) !important; color: #f1efe9 !important; -webkit-text-fill-color: #f1efe9 !important; "
           "border-color: #aab0b6 !important; border-image: none !important; box-shadow: 0 8px 20px rgba(0, 0, 0, .4), inset 0 1px 0 rgba(255, 255, 255, .12) !important; text-shadow: none !important; filter: none !important;"),
+ "ruby": dict(    # P3 Ruby (Nik's name 2026-11-25; job palette #2A0A10 / #6E1423 / #9B2335): deep oxblood panels like the red
+                  # Rosso Levanto slab, a thin antique-gold edge, warm ivory words; gold keeps its meaning but is softened, never bright
+  tokens="""
+  --sd-edge: rgba(201, 160, 84, .66); --sd-edge-inner: rgba(255, 226, 170, .14);
+  --sd-glass: rgba(30, 8, 13, .86); --sd-glass-strong: rgba(22, 6, 10, .96); --sd-black: #120406;
+  --sd-shadow-glow: 0 0 0 transparent;
+  --sd-text-primary: #f3ece4; --sd-text-secondary: #ccb3aa; --sd-text-warm: #ecdccb;
+  --r95-ink: #f3ece4; --r95-ink-2: #ccb3aa; --r95-gold-ink: #e2bd6a; --r95-kicker-ink: #efcf7a;
+  --r78-ivory: #f3ece4; --r78-ivory-2: #ccb3aa; --r78-gold: #e2bd6a; --r78-gold-strong: #efcf7a; --r78-panel: #2a0a10;
+  --h95-smoke: linear-gradient(180deg, #2a0a10, #170508);""",
+  panel="background: linear-gradient(104deg, transparent 0 56%, rgba(255, 220, 210, .035) 66%, transparent 76%), linear-gradient(180deg, #3a0f17 0%, #2a0a10 44%, #1c060b 100%) !important; "
+        "border-color: #1a0509 !important; border-image: none !important; box-shadow: 0 0 0 1px rgba(201, 160, 84, .78), 0 14px 32px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 214, 190, .2), inset 0 0 0 1px rgba(201, 160, 84, .18) !important;",
+  card="border-color: rgba(201, 160, 84, .5) !important; box-shadow: inset 0 1px 0 rgba(255, 214, 190, .1) !important;",
+  label="",
+  bevel="filter: saturate(.78) brightness(.9);",
+  second="filter: saturate(.85) brightness(.94);",
+  chrome="filter: saturate(.85) brightness(.94);",
+  tile="background: linear-gradient(104deg, transparent 0 56%, rgba(255, 220, 210, .04) 66%, transparent 76%), linear-gradient(180deg, rgba(58, 15, 23, .94) 0%, rgba(40, 10, 16, .96) 46%, rgba(26, 6, 10, .98) 100%) !important; "
+       "box-shadow: 0 12px 26px rgba(0, 0, 0, .62), 0 0 0 1px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 214, 190, .2) !important;",
+  tilebevel="",
+  tilelight="border-color: rgba(255, 220, 190, .2) !important; border-bottom-color: rgba(0, 0, 0, .3) !important; "
+            "background: linear-gradient(180deg, rgba(255, 230, 220, .07) 0, transparent 18%) !important;",
+  title="", gold=False),
 }
 GOLD_TOKENS = """--sd-gold-100: #fff3b0; --sd-gold-200: #fff1b8; --sd-gold-300: #ffd34d; --sd-gold-400: #f2c45b; --sd-gold-500: #f5c518;
   --sd-gold-600: #e0ae3a; --sd-gold-700: #d4a017; --sd-gold-800: #8a6a12; --sd-gold-900: #493708;
@@ -149,9 +172,10 @@ GOLD_TOKENS = """--sd-gold-100: #fff3b0; --sd-gold-200: #fff1b8; --sd-gold-300: 
 
 def block():
     out = [START, "\n/* r100 B7 (Nik 2026-11-24, picks 13:13 UTC): each clubhouse has its own UI finish. Silver: smoked graphite panels,\n"
-           "   platinum frames, gold only where it means something (main button, winner, totals). Metallic Black: polished black\n"
-           "   steel panels, thin sharp gold. Premium Matte Black: neutral graphite velvet, satin titanium hairlines, satin graphite main button,\n"
-           "   cool ivory titles, nothing glints. Colour and finish only; Wooden matches none of this. */\n"]
+           "   platinum frames, gold only where it means something (main button, winner, totals). Black Steel: polished black\n"
+           "   steel panels, thin sharp gold. Graphite: neutral graphite velvet, satin titanium hairlines, satin graphite main button,\n"
+           "   cool ivory titles, nothing glints. Ruby: deep oxblood marble panels, thin antique gold, warm ivory words.\n"
+           "   Colour and finish only; Wooden matches none of this. */\n"]
     for t, L in LOOK.items():
         out.append(f"\n/* ---- {t} ---- */\n")
         out.append(f"{H(t)} {{{L['tokens']}\n}}\n")
