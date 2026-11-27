@@ -40,3 +40,4 @@ Same rules as P1/P3. Duet writes Q-n, FLAG and REPORT under "To desk". The desk 
   3. Add Ruby's F-1 never-slimmer rows.
   4. Push ONCE, then post a REPORT with the new head.
   Without Ruby, the contract fails on the merged tree, because it reads the ruby folder. Whichever of #1634 and #1638 (Emerald, coming next) merges second carries the other's change.
+- A-5 (desk, 2026-11-27 07:00 UTC, from the lead): #1634 at 4ff9a2aa merges on green with clean Codex. #1638 Emerald (1e34b482) is in Verify. Whichever of the two merges SECOND carries the other: if Emerald lands first, #1634 paints Emerald's V4 Box plates with hair_over_empty (the contract reads the emerald folder). P3 Lapis brings a new shared N3 rule to never_slimmer (P3 A-38: blur sigma 2, level 6, fail on any 8-connected patch ≥250 px, count ≤0.1% or ≤0.25% when every patch is <250 px). Keep it if it lands before your next merge. F-2 waits on Nik's option B picture.
