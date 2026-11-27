@@ -8,6 +8,9 @@
 # (gate-watchdog.yml).
 name: Showdown Gate
 
+# r100 (Nik 2026-11-24, step 4 of the main-suites plan): a push to main runs only L5 (the composed Rules
+# regression and its T9/M12 check that main's Rules match the reviewed pin). Every other lane and the seal
+# run on pull requests only: the release PR's Gate already proved the same tree.
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -26,7 +29,7 @@ concurrency:
 jobs:
   l1-core:
     name: L1 core
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -121,7 +124,7 @@ jobs:
 
   l2-browser-full:
     name: L2 browser full
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     # r100 B7: the full browser bundle already ran 38-40 min (sign-in lounge PR 38m17s and 39m42s); the Trophy Room BACK check
     # (reach audit R8) took it past 40, cancelling a run whose every audit had passed. 55, as the other long lanes.
@@ -199,7 +202,7 @@ jobs:
 
   l3a:
     name: L3A storage gameplay
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
@@ -327,7 +330,7 @@ jobs:
 
   l3b:
     name: L3B visual
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
@@ -419,7 +422,7 @@ jobs:
 
   l4-remote:
     name: L4 remote
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
@@ -602,7 +605,7 @@ jobs:
 
   l6-browser-journey:
     name: L6 browser journey
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -712,7 +715,7 @@ jobs:
   # (scripts/ironman-leg.mjs): a second failure is red, a pass on the rerun is FLAKY (listed by the seal, filed and fixed).
   l7-ironman:
     name: L7 Ironman ${{ matrix.leg }}
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 75
     strategy:
@@ -821,7 +824,7 @@ jobs:
 
   l8-pos1m:
     name: L8 POS1M ${{ matrix.shard }}
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
@@ -899,7 +902,7 @@ jobs:
   # scripts/showdown-gate.mjs l9Decision) and whenever tests/pos1m changes; a skip is verified by the seal. Emulator only.
   l9-pos1m-ring2:
     name: L9 POS1M Ring 2 ${{ matrix.shard }}
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
@@ -1004,7 +1007,7 @@ jobs:
   # carry the audit's own report (both runs, WebGL on, no failure).
   l10-league-3d:
     name: L10 League Roulette 3D
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
@@ -1102,7 +1105,7 @@ jobs:
   seal:
     name: seal
     needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey, l7-ironman, l8-pos1m, l9-pos1m-ring2, l10-league-3d]
-    if: ${{ !cancelled() }}
+    if: ${{ github.event_name == 'pull_request' && !cancelled() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:

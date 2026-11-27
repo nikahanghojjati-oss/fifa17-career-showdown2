@@ -2,8 +2,8 @@
 """r100 B7 premium clubhouses: build a clubhouse's room plates from Team V's repainted masters (paintings/).
 
 Each painting is Team V's same-composition repaint of a Wooden plate for one clubhouse:
-  desktop  ENV_<ROOM>_PLATE_<SILVER|BLACK|MATTE>_P1_2X.webp   (HO-098 onwards; replaces ENV_<ROOM>_PLATE_HC_V3_{1920,1X,2X})
-  phone    ENV_<ROOM>_PHONE_<SILVER|BLACK|MATTE>_P1.webp      (r100 Duet P1; aligned to the Wooden 9:16 phone plate, 1179x2096)
+  desktop  ENV_<ROOM>_PLATE_<SILVER|BLACK|MATTE|RUBY>_P1_2X.webp   (HO-098 onwards; replaces ENV_<ROOM>_PLATE_HC_V3_{1920,1X,2X})
+  phone    ENV_<ROOM>_PHONE_<SILVER|BLACK|MATTE|RUBY>_P1.webp      (r100 Duet P1; aligned to the Wooden 9:16 phone plate, 1179x2096)
 For every size the game uses, this lays the ORIGINAL Daniel and Nik pixels of the Wooden plate at that size back on top of
 the painting, through the existing hero mask pulled in a few px (so the faces stay pixel-identical to Wooden and the edge is
 the painting's own relit edge), and writes plates-hc/<theme>/<name>.webp. Painted plates replace the recoloured copies from
@@ -52,9 +52,9 @@ SRC = os.path.join(ROOT, "visual-assets", "v10_1", "plates-hc")
 LOADING = os.path.join(ROOT, "assets", "loading")
 MASKS = os.path.join(os.path.dirname(__file__), "masks")
 PAINTINGS = os.path.join(os.path.dirname(__file__), "paintings")
-THEME = {"SILVER": "silver", "BLACK": "black", "MATTE": "matte"}
-NAME = re.compile(r"^ENV_([A-Z]+)_PLATE_(SILVER|BLACK|MATTE)_P1_2X\.webp$")
-PHONE = re.compile(r"^ENV_([A-Z]+)_PHONE_(SILVER|BLACK|MATTE)_P1\.webp$")
+THEME = {"SILVER": "silver", "BLACK": "black", "MATTE": "matte", "RUBY": "ruby"}
+NAME = re.compile(r"^ENV_([A-Z]+)_PLATE_(SILVER|BLACK|MATTE|RUBY)_P1_2X\.webp$")
+PHONE = re.compile(r"^ENV_([A-Z]+)_PHONE_(SILVER|BLACK|MATTE|RUBY)_P1\.webp$")
 PULL_IN = 3      # px at 1920 wide: the hero mask is pulled in this much, so no old wooden edge survives around the men
 FEATHER = 0.8    # px at 1920 wide
 PHONE_W = 1179   # the phone masters' width: phone pull-in and feather are the same px at this width
@@ -73,7 +73,7 @@ PHONE_ROOMS = ("HOME", "BOARD", "OFFICE", "HALL", "ARCHIVE", "BOX", "COACHES", "
 # The first TALL row that is not the 9:16 band's own row: the top of the counter's front face (Duet P1, 2026-11-24: measured
 # on the Wooden V3/TALL pairs by a monotone row match; above it the two Wooden plates differ by 0-1.4 levels, i.e. only WebP).
 TALL_KNEE = {"BOX": 1227, "COACHES": 827, "HALL": 1421}
-LOOKS = "(SILVER|BLACK|MATTE)"
+LOOKS = "(SILVER|BLACK|MATTE|RUBY)"
 # kind: (room, Team V's file name, master size). Men-free phone pictures (Duet P1 lead answers 2026-11-24 19:15/19:35 UTC).
 OTHER_MASTERS = {
     "lr_phone": ("BOX", re.compile(rf"^ENV_BOX_PHONE_V4_{LOOKS}_P1\.webp$"), (1179, 2096)),

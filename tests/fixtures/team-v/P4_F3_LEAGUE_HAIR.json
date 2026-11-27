@@ -1,0 +1,84 @@
+{
+ "note": "F-3 League Roulette hair proof (Duet P4, Nik 2026-11-26; lead N-3 2026-11-27: every clubhouse).",
+ "max_mean": 20.0,
+ "clubhouses": [
+  "black",
+  "matte",
+  "ruby",
+  "silver"
+ ],
+ "files": {
+  "visual-assets/v10_1/plates-hc/black/ENV_BOX_PLATE_HC_V4_1920.webp": {
+   "sha256": "b82e9fff2f76bffa2c37aef0c8d49fc7ac01b8ba56405dd2a4b2315275dbac99",
+   "band_px": 10283,
+   "band_mean": 6.15,
+   "band_p90": 13.0
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_BOX_PLATE_HC_V4_1X.webp": {
+   "sha256": "e1da5a469a0e0a497b3e46cd57d5b614ed1fe107aca051838db574439b789fca",
+   "band_px": 5852,
+   "band_mean": 7.74,
+   "band_p90": 16.0
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_BOX_PLATE_HC_V4_2X.webp": {
+   "sha256": "c337fe628b9f85dfec9986dc69ef422193df49d7b3fda33949c2455175e470f0",
+   "band_px": 26624,
+   "band_mean": 6.67,
+   "band_p90": 16.0
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_1920.webp": {
+   "sha256": "0ad7c9604bd8347f72cc8bc2569205f92460a0f4218c48c308f6b43773648652",
+   "band_px": 10283,
+   "band_mean": 8.18,
+   "band_p90": 16.0
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_1X.webp": {
+   "sha256": "86ce103a5208acd067c64220c0b9bca30b563723f63f2c6bb20ce4ecb30debf2",
+   "band_px": 5852,
+   "band_mean": 8.81,
+   "band_p90": 17.0
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_2X.webp": {
+   "sha256": "36e3b64270e13290d8866b6de7016a8aee8e1b4f7f7af7b7d0c81c6f7b69d2db",
+   "band_px": 26624,
+   "band_mean": 6.92,
+   "band_p90": 15.0
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_BOX_PLATE_HC_V4_1920.webp": {
+   "sha256": "87659cab3780ad5b756c6479601b92d7164abdf90cea1427812bfc3354ed8d2c",
+   "band_px": 10283,
+   "band_mean": 5.26,
+   "band_p90": 12.0
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_BOX_PLATE_HC_V4_1X.webp": {
+   "sha256": "dadc94255a4d4159637e775d32fa2abedc034ed319be16d57d7c3374b55ec0aa",
+   "band_px": 5852,
+   "band_mean": 6.33,
+   "band_p90": 15.0
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_BOX_PLATE_HC_V4_2X.webp": {
+   "sha256": "5f74da5a71cb32991600ee94c76df21e4d8a632dd2965ae5c1399c0d0feb3df6",
+   "band_px": 26624,
+   "band_mean": 5.82,
+   "band_p90": 14.0
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_1920.webp": {
+   "sha256": "2d7c80d4d2a34a93ff8819cba5a50162373a2b8e347f40f7b52dab166011c463",
+   "band_px": 10283,
+   "band_mean": 6.89,
+   "band_p90": 15.8
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_1X.webp": {
+   "sha256": "c8db635b36d8bbce90ad5917940b5fc44ac100e8a0110adef41c2d48e46665a5",
+   "band_px": 5852,
+   "band_mean": 7.23,
+   "band_p90": 15.0
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_2X.webp": {
+   "sha256": "2224ceea7b6c6578baa9a64317a6b37bf99d9026a3cadb94d3cfa3bbd8813404",
+   "band_px": 26624,
+   "band_mean": 6.68,
+   "band_p90": 16.0
+  }
+ }
+}

@@ -1,10 +1,8 @@
 name: Validate Release Integration Burn-In
 
+# r100 (Nik 2026-11-24, all four steps): manual only. The Showdown Gate on the release PR runs the same
+# proofs; this suite never gave a main-push signal it did not (see gameplay/r100 B1 main-suites audit).
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - "**/*.md"
   workflow_dispatch:
 
 permissions:

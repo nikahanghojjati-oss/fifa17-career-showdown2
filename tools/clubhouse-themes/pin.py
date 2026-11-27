@@ -5,13 +5,13 @@ import hashlib, os, re
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 T = os.path.join(ROOT, "tests", "contracts", "v10-foundation-contracts.cjs")
 lines = []
-for theme in ("silver", "black", "matte"):
+for theme in ("silver", "black", "matte", "ruby"):
     d = os.path.join(ROOT, "visual-assets", "v10_1", "plates-hc", theme)
     for f in sorted(os.listdir(d)):
         rel = f"visual-assets/v10_1/plates-hc/{theme}/{f}"
         h = hashlib.sha256(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()
         lines.append(f'    "{rel}":"{h}",')
-START = "    // R99-01 clubhouse themes (Nik 2026-11-23): the Silver, Metallic Black and Premium Matte Black copies of the rooms (tools/clubhouse-themes/build.py).\n"
+START = "    // R99-01 clubhouse themes (Nik 2026-11-23): the Silver, Metallic Black, Premium Matte Black and Ruby copies of the rooms (tools/clubhouse-themes/build.py).\n"
 END = "    // R99-01 end\n"
 s = open(T).read()
 block = START + "\n".join(lines) + "\n" + END

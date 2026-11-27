@@ -195,7 +195,7 @@ const SHARP_CASES = [
     { name: "1x-desktop", viewport: { width: 1366, height: 768 }, dpr: 1, mobile: false, sharp: false }
 ];
 async function assertSharpRooms(browser){
-    for(const theme of ["current", "silver", "black", "matte"]) for(const config of SHARP_CASES){
+    for(const theme of ["current", "silver", "black", "matte", "ruby"]) for(const config of SHARP_CASES){
         const context = await browser.newContext({ viewport: config.viewport, deviceScaleFactor: config.dpr, isMobile: config.mobile, hasTouch: config.mobile, userAgent: config.mobile ? IOS_UA : undefined, locale: "en-US" });
         try{
             await context.addInitScript(t => { try{ if(t !== "current") localStorage.setItem("cmsClubhouseTheme", t); }catch(error){ /* the audit then reads Wooden and says so below */ } }, theme);
@@ -210,7 +210,7 @@ async function assertSharpRooms(browser){
             });
             const label = `${theme} ${config.name} ${config.viewport.width}x${config.viewport.height}@${config.dpr}x`;
             assert.equal(shown.theme, theme, `${label}: the page runs in the ${theme} clubhouse`);
-            if(theme === "current") assert.ok(!/^(?:silver|black|matte)\//.test(shown.file), `${label}: Wooden draws its own tunnel (${shown.file})`);
+            if(theme === "current") assert.ok(!/^(?:silver|black|matte|ruby)\//.test(shown.file), `${label}: Wooden draws its own tunnel (${shown.file})`);
             else assert.ok(shown.file.startsWith(`${theme}/`), `${label}: the tunnel is the ${theme} clubhouse's own (${shown.file})`);
             if(config.sharp) assert.ok(!/_1X\.webp$|_590W\.webp$/.test(shown.file), `${label}: a ${config.dpr}x screen shows the low-resolution tunnel room ${shown.file}`);
             else assert.ok(/_1X\.webp$/.test(shown.file), `${label}: a 1x screen keeps the 1X room (${shown.file})`);

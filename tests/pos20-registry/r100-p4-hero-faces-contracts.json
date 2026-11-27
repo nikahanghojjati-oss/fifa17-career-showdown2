@@ -4,7 +4,7 @@
     "^visual-assets/v10_1/plates-hc/([a-z_]+/)?ENV_ARCHIVE_",
     "^visual-assets/v10_1/plates-hc/[a-z_]+/ENV_BOX_PLATE_HC_V4_",
     "^tools/clubhouse-themes/paint\\.py$",
-    "^tests/fixtures/team-v/P4_.*_NEVER_SLIMMER\\.json$",
+    "^tests/fixtures/team-v/P4_.*\\.json$",
     "^tools/hero-faces/",
     "^tools/clubhouse-themes/PREMIUM_FILES\\.json$",
     "^tests/contracts/r100\\-p4\\-hero\\-faces\\-contracts\\.cjs$",
