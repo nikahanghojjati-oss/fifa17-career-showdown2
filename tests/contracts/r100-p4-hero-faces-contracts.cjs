@@ -41,17 +41,17 @@ check("at least one P4 fix is recorded, and F-1 Legacy Nik covers all 30 archive
   assert.equal(f1.side, "right", "Nik stays image-right");
 });
 
-check("F-2 Transfer Nik covers all 25 office files, image-right, measured near the change", () => {
+check("F-2 Transfer Nik covers all 30 office files (Ruby and Emerald too), image-right, measured near the change", () => {
   assert.ok(fixtures.includes("P4_F2_TRANSFER_NIK_NEVER_SLIMMER.json"));
   const f2 = JSON.parse(read(`${FIX_DIR}/P4_F2_TRANSFER_NIK_NEVER_SLIMMER.json`));
   const names = Object.keys(f2.files);
-  for (const theme of ["", "black/", "matte/", "silver/", "ruby/"])
+  for (const theme of ["", "black/", "matte/", "silver/", "ruby/", "emerald/"])
     for (const n of ["PLATE_HC_V3_2X", "PLATE_HC_V3_1X", "PLATE_HC_V3_1920", "PHONE_HC_V3", "PHONE_HC_V3_590W"])
       assert.ok(names.includes(`visual-assets/v10_1/plates-hc/${theme}ENV_OFFICE_${n}.webp`), `${theme}${n}`);
   assert.equal(f2.side, "right", "Nik stays image-right");
   assert.match(f2.scope || "", /within 24 px .* more than 14 levels/);
   for (const [rel, r] of Object.entries(f2.files))  // the Wooden files pass on the whole outline as well
-    if (!/plates-hc\/(black|matte|silver|ruby)\//.test(rel)) assert.equal(r.short_pts_anywhere, 0, `${rel} short anywhere`);
+    if (!/plates-hc\/(black|matte|silver|ruby|emerald)\//.test(rel)) assert.equal(r.short_pts_anywhere, 0, `${rel} short anywhere`);
 });
 
 for (const name of fixtures) {

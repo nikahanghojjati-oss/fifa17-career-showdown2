@@ -692,27 +692,27 @@
    "room": "HOME"
   },
   "visual-assets/v10_1/plates-hc/emerald/ENV_OFFICE_PHONE_HC_V3.webp": {
-   "sha256": "819e93dbc74e21d384ffe92ca6d51d3f5e16f42c31efac04a84a831326797a0c",
+   "sha256": "97613436f05545732c8602583fe03596b511d2bf7f338b8e785d0ddbd052559d",
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PHONE_EMERALD_P1.webp",
    "room": "OFFICE"
   },
   "visual-assets/v10_1/plates-hc/emerald/ENV_OFFICE_PHONE_HC_V3_590W.webp": {
-   "sha256": "1e30b31d9ff83ce67f40db31a464012c8e2ed5096eab47782e1800433da813ea",
+   "sha256": "463b518d517033bb3c82d4bb20233eed69299cb6f788aca22bae5fceead7022c",
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PHONE_EMERALD_P1.webp",
    "room": "OFFICE"
   },
   "visual-assets/v10_1/plates-hc/emerald/ENV_OFFICE_PLATE_HC_V3_1920.webp": {
-   "sha256": "f2f2edabbdf37c6d39b5972630b7d021d8bc5c76054a3ca7f842ab615d3d3365",
+   "sha256": "f0aff64fb78194082d9f14d04e8189a100357c6ab5aa64878bc4849170a69128",
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_EMERALD_P1_2X.webp",
    "room": "OFFICE"
   },
   "visual-assets/v10_1/plates-hc/emerald/ENV_OFFICE_PLATE_HC_V3_1X.webp": {
-   "sha256": "1c8e08f0fe8bdbfe826113ad1269ec713e5a8db01f09d9cc67fbb734acfa339c",
+   "sha256": "6738c774637c5877cff3df1b26832723edcef99c3044fd336b2b91ed75182066",
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_EMERALD_P1_2X.webp",
    "room": "OFFICE"
   },
   "visual-assets/v10_1/plates-hc/emerald/ENV_OFFICE_PLATE_HC_V3_2X.webp": {
-   "sha256": "05571225fdea5d8bd9d6ceb7da9689f992f792e3b472ccde5bb6166a3089d781",
+   "sha256": "b2c6dfbb5ff6bead21c2e3ebcc6979ac7cdff488b529fbcd0d94a754ee45b338",
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_EMERALD_P1_2X.webp",
    "room": "OFFICE"
   },
