@@ -152,6 +152,7 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - Full contract suite PASS 416/416. Lapis own-art 5, league-3d 3 + 3, Ruby and Emerald own-art 5 each, v10 20, r99 11, Gate coverage and CI orchestration PASS.
   - #1634 F-3 hair was not merged at push time (1d24475c), so it is not in this PR.
   - Next (A-43 option 3): I'll measure the E2 raw input and try the Wooden exact rebuild as a separate small PR, only if it is under about 5 MB and rebuilds byte-identical, by Sat 28 Nov 6 PM Boston.
+  - 22:46 UTC: **Gate GREEN on 1e7bf30f**: 32 checks pass (L1 core 31.8 min including the ~88 s rebuild, under its 45 min limit; seal success), Codex found no major issues, GitHub says mergeable, clean. Ready for your merge.
 
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
