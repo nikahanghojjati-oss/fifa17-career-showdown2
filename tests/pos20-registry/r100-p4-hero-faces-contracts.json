@@ -1,7 +1,7 @@
 {
   "path": "tests/contracts/r100-p4-hero-faces-contracts.cjs",
   "patterns": [
-    "^visual-assets/v10_1/plates-hc/(black/|matte/|silver/)?ENV_ARCHIVE_",
+    "^visual-assets/v10_1/plates-hc/(black/|matte/|silver/|ruby/)?ENV_(ARCHIVE|OFFICE)_",
     "^tests/fixtures/team-v/P4_.*_NEVER_SLIMMER\\.json$",
     "^tools/hero-faces/",
     "^tools/clubhouse-themes/PREMIUM_FILES\\.json$",

@@ -63,13 +63,27 @@ def depth(img, P, N, sc):
     hit = dif > T
     return np.where(hit.any(0), hit.argmax(0), len(dif)) - k0
 
-def measure(new, old, mask, side):
-    """(outline points, inward shift per point, short-run flags) for uint8 RGB arrays new and old at one size."""
+CHANGE_LEVELS = 14   # a pixel moved by more than this (0-255, any channel) is a real change, not WebP noise (about 2-8 levels)
+CHANGE_REACH = 24    # px at 1536 wide: how far in along the normal the depth walk looks, so the reach of a real change
+
+def changed_near(new, old, P, sc):
+    """per outline point: is there a real change (more than CHANGE_LEVELS) within CHANGE_REACH px? If not, the hero there is
+    the same picture before and after, and any short reading is the encoder re-blocking a near-black edge."""
+    H, W = old.shape[:2]
+    ch = (np.abs(new.astype(np.int16) - old.astype(np.int16)).max(2) > CHANGE_LEVELS).astype(np.uint8)
+    r = int(CHANGE_REACH * sc); near = cv2.dilate(ch, np.ones((2 * r + 1, 2 * r + 1), np.uint8)) > 0
+    x = np.clip(np.round(P[:, 0]).astype(int), 0, W - 1); y = np.clip(np.round(P[:, 1]).astype(int), 0, H - 1)
+    return near[y, x]
+
+def measure(new, old, mask, side, changed_only=False):
+    """(outline points, inward shift per point, short-run flags) for uint8 RGB arrays new and old at one size.
+    changed_only: count only outline points near a real change (changed_near); used when a picture is re-encoded whole."""
     H, W = old.shape[:2]; sc = max(1.0, W / 1536)
     P, N = outline(mask, W, H, side)
     s = depth(new, P, N, sc) - depth(old, P, N, sc)
     w = int(5 * sc)
     run = np.convolve((s > sc + 1).astype(float), np.ones(w), "same") >= w * 0.8
+    if changed_only: run = run & changed_near(new, old, P, sc)
     return P, N, s, run
 
 def room_moved(new, old, mask):
@@ -99,13 +113,14 @@ def cover(new, old, mask, side, pad=1):
     out = new.astype(np.float32) * (1 - a[..., None]) + np.where(m[..., None], fill, fb) * a[..., None]
     return np.clip(out + .5, 0, 255).astype(np.uint8), int(m.sum())
 
-def check(rel, mask, side, ref, new_img=None):
+def check(rel, mask, side, ref, new_img=None, changed_only=False):
     new_b = open(os.path.join(ROOT, rel), "rb").read()
     old_b = old_bytes(ref, rel)
     new = np.asarray(new_img if new_img is not None else Image.open(io.BytesIO(new_b)).convert("RGB"))
     old = np.asarray(Image.open(io.BytesIO(old_b)).convert("RGB"))
-    P, _, s, run = measure(new, old, mask, side)
-    return {"sha256": hashlib.sha256(new_b).hexdigest(), "before_sha256": hashlib.sha256(old_b).hexdigest(),
+    P, _, s, run = measure(new, old, mask, side, changed_only)
+    extra = {"short_pts_anywhere": int(measure(new, old, mask, side)[3].sum())} if changed_only else {}
+    return {**extra, "sha256": hashlib.sha256(new_b).hexdigest(), "before_sha256": hashlib.sha256(old_b).hexdigest(),
             "size": [old.shape[1], old.shape[0]], "mask": mask, "outline_pts": int(len(P)), "short_pts": int(run.sum()),
             "room_moved_px": int(room_moved(new, old, mask).sum())}
 
@@ -113,13 +128,14 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--before", required=True); ap.add_argument("--side", choices=("left", "right"), required=True)
     ap.add_argument("--out", required=True); ap.add_argument("--note", default="")
+    ap.add_argument("--changed-only", action="store_true", help="count short points only near a real change (see changed_near)")
     ap.add_argument("files", nargs="+")
     a = ap.parse_args()
     res = {}
     for spec in a.files:
         rel, mask = spec.rsplit(":", 1)
-        res[rel] = check(rel, mask, a.side, a.before); print(rel, json.dumps(res[rel]))
+        res[rel] = check(rel, mask, a.side, a.before, changed_only=a.changed_only); print(rel, json.dumps(res[rel]))
     before = subprocess.run(["git", "-C", ROOT, "rev-parse", a.before], capture_output=True, text=True, check=True).stdout.strip()
     json.dump({"note": a.note or "written by tools/hero-faces/never_slimmer.py; do not edit by hand", "before": before,
-               "side": a.side, "files": res}, open(os.path.join(ROOT, a.out), "w"), indent=1)
+               "side": a.side, **({"scope": f"short_pts counts outline points within {CHANGE_REACH} px (at 1536 wide) of a pixel that changed by more than {CHANGE_LEVELS} levels; short_pts_anywhere counts all"} if a.changed_only else {}), "files": res}, open(os.path.join(ROOT, a.out), "w"), indent=1)
     open(os.path.join(ROOT, a.out), "a").write("\n")

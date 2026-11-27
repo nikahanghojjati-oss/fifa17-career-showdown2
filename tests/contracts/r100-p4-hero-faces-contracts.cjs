@@ -4,6 +4,9 @@
 //      never-slimmer result below is about the picture that ships (tools/hero-faces/never_slimmer.py writes the fixture).
 //   N2 never slimmer: walking the hero outline, the fixed hero never starts further in than today's (short_pts 0), so no
 //      room shows where the man used to be. Today's pictures measured against themselves give 0 too.
+//      A fixture with a "scope" (never_slimmer.py --changed-only, F-2 onwards) counts only outline points within 24 px (at 1536
+//      wide) of a pixel that changed by more than 14 levels: elsewhere the picture before and after is the same, and a whole
+//      re-encode can re-block a near-black desk edge by a pixel; short_pts_anywhere keeps that count for the record.
 //   N3 the room around the man is today's room: pixels outside the outline that moved by more than 12 stay WebP noise
 //      (at most 0.1% of the picture; themed copies are re-encoded by paint.py).
 //   O1 the game never loads the old picture: each fixed file differs from the one it replaces, and the old file's sha256 is
@@ -36,6 +39,19 @@ check("at least one P4 fix is recorded, and F-1 Legacy Nik covers all 25 archive
     for (const n of ["PLATE_HC_V3_2X", "PLATE_HC_V3_1X", "PLATE_HC_V3_1920", "PHONE_HC_V3", "PHONE_HC_V3_590W"])
       assert.ok(names.includes(`visual-assets/v10_1/plates-hc/${theme}ENV_ARCHIVE_${n}.webp`), `${theme}${n}`);
   assert.equal(f1.side, "right", "Nik stays image-right");
+});
+
+check("F-2 Transfer Nik covers all 25 office files, image-right, measured near the change", () => {
+  assert.ok(fixtures.includes("P4_F2_TRANSFER_NIK_NEVER_SLIMMER.json"));
+  const f2 = JSON.parse(read(`${FIX_DIR}/P4_F2_TRANSFER_NIK_NEVER_SLIMMER.json`));
+  const names = Object.keys(f2.files);
+  for (const theme of ["", "black/", "matte/", "silver/", "ruby/"])
+    for (const n of ["PLATE_HC_V3_2X", "PLATE_HC_V3_1X", "PLATE_HC_V3_1920", "PHONE_HC_V3", "PHONE_HC_V3_590W"])
+      assert.ok(names.includes(`visual-assets/v10_1/plates-hc/${theme}ENV_OFFICE_${n}.webp`), `${theme}${n}`);
+  assert.equal(f2.side, "right", "Nik stays image-right");
+  assert.match(f2.scope || "", /within 24 px .* more than 14 levels/);
+  for (const [rel, r] of Object.entries(f2.files))  // the Wooden files pass on the whole outline as well
+    if (!/plates-hc\/(black|matte|silver|ruby)\//.test(rel)) assert.equal(r.short_pts_anywhere, 0, `${rel} short anywhere`);
 });
 
 for (const name of fixtures) {

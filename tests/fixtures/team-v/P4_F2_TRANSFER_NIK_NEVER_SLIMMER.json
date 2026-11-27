@@ -1,0 +1,333 @@
+{
+ "note": "F-2 Transfer Nik (picture H, Nik picked 2026-11-27 20:59 UTC): written by tools/hero-faces/never_slimmer.py --changed-only; do not edit by hand",
+ "before": "c61a5137773a3a166485c3f11c59fcabecf30c7d",
+ "side": "right",
+ "scope": "short_pts counts outline points within 24 px (at 1536 wide) of a pixel that changed by more than 14 levels; short_pts_anywhere counts all",
+ "files": {
+  "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_2X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "d6fe352801cb410c9091d7f8532461c029a8ca64ab96300504f5f74735a87847",
+   "before_sha256": "6cbf56a6654b09356fc0aaa1e61766666de5820380e68f5f247549393bbabeb8",
+   "size": [
+    3072,
+    1728
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 3462,
+   "short_pts": 0,
+   "room_moved_px": 0
+  },
+  "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "26bdfa7783ca71f3ec0fe68c50f0189227bc271762aa831dfb777cc83b35effa",
+   "before_sha256": "be179a183034999a13b5ca72760c37190b79a143a15173cbd1961b45d913044a",
+   "size": [
+    1536,
+    864
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 1727,
+   "short_pts": 0,
+   "room_moved_px": 6
+  },
+  "visual-assets/v10_1/plates-hc/ENV_OFFICE_PLATE_HC_V3_1920.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "bd20b751c1afc8c7c7b12ab42871cf1d7b99356dea48afd3bda3f2f9360bfb1a",
+   "before_sha256": "24f7f10128f6a5bdd02be73935b1fb48a3ef9aa8aa59ba1fcc767cdf0e8ade99",
+   "size": [
+    1920,
+    1080
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 2159,
+   "short_pts": 0,
+   "room_moved_px": 3
+  },
+  "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "4601ac7e473c3282b6725bbf5c847d2bbee8eebcffee6a1f90642148a7d12d30",
+   "before_sha256": "b045dc367db20ccb8d28744fcdd0d4e5bd5cdd778975755f6d31e24283144074",
+   "size": [
+    1179,
+    2096
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 1751,
+   "short_pts": 0,
+   "room_moved_px": 6
+  },
+  "visual-assets/v10_1/plates-hc/ENV_OFFICE_PHONE_HC_V3_590W.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "e8c61fb01a610dff43f055a94fa7199a41f9eb68dba09b80f18ecc93cfb875e0",
+   "before_sha256": "266e38209a19347fbfd489a06d79093d81ebe1df1f80fe7892cc88482bcbe49c",
+   "size": [
+    590,
+    1049
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 875,
+   "short_pts": 0,
+   "room_moved_px": 8
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_OFFICE_PLATE_HC_V3_2X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "9ec416d4a20753231b925dedbbea33113e4e15be3b9edb9023828f65862c0c92",
+   "before_sha256": "b5b2d94024f64fdeee13c8aed7c2ad0663a2d45eb1545fdbaae79de3261898b8",
+   "size": [
+    3072,
+    1728
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 3462,
+   "short_pts": 0,
+   "room_moved_px": 0
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_OFFICE_PLATE_HC_V3_1X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "ff5eccdba4d183236bb910c87c0972e6b16910fbfe48071951a87acdb75addce",
+   "before_sha256": "cce5f86bd45264e500747bfe7b320ed4a97cf3ebadd14cf1f49fe671ddb9404b",
+   "size": [
+    1536,
+    864
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 1727,
+   "short_pts": 0,
+   "room_moved_px": 18
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_OFFICE_PLATE_HC_V3_1920.webp": {
+   "short_pts_anywhere": 11,
+   "sha256": "03cc5f8f3b344a09260ae04ab82db82643793bf50853da1a5fda01c955653085",
+   "before_sha256": "184ebcc4515f43d59244b795d7c3fe2bd82319d0a85a2b8dbe496ebf29032bb1",
+   "size": [
+    1920,
+    1080
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 2159,
+   "short_pts": 0,
+   "room_moved_px": 30
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_OFFICE_PHONE_HC_V3.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "bd8f5df8a413d05957f02aa057861f90eeae92c2c96bebb5c670c190399bd8ae",
+   "before_sha256": "de0d2384c1730451a1576db3d2a1b29e54f2d4cf1b3f3ba241d4787e2065c2a2",
+   "size": [
+    1179,
+    2096
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 1751,
+   "short_pts": 0,
+   "room_moved_px": 2
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_OFFICE_PHONE_HC_V3_590W.webp": {
+   "short_pts_anywhere": 7,
+   "sha256": "175ff452870f6eb87527d52c638da0a58d7494a7a859027f189b301da6c81296",
+   "before_sha256": "c57c1026823959456cc0bfc91502e0509242f269444a718b39b6ffc1bdd9e4d7",
+   "size": [
+    590,
+    1049
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 875,
+   "short_pts": 0,
+   "room_moved_px": 23
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_OFFICE_PLATE_HC_V3_2X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "f99af100d72ee1cbb2f3efdd845cd4a5eabb9f339c00e116ec291001989acdd3",
+   "before_sha256": "5bbbbc7bbde8ed0789b5259d6390ddf158503faedd0ee7c360274392f858d868",
+   "size": [
+    3072,
+    1728
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 3462,
+   "short_pts": 0,
+   "room_moved_px": 242
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_OFFICE_PLATE_HC_V3_1X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "4ce1851ef054f7ad529b74e4c06eb27da79dc489406ed7f57c5711129d5dba0a",
+   "before_sha256": "e3c6fcad74df64cd7b88c4ddc664a4ea6f9659deae2dda0e989ba987c49ef5b7",
+   "size": [
+    1536,
+    864
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 1727,
+   "short_pts": 0,
+   "room_moved_px": 841
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_OFFICE_PLATE_HC_V3_1920.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "222f0c83ab5983736a8233b3557c6d93ea466e7643983ed07d6c04c857ad5d23",
+   "before_sha256": "38510fd64a256c40d9e07a8508d9975cf1f10718f4cbc502b36b434ce86384a5",
+   "size": [
+    1920,
+    1080
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 2159,
+   "short_pts": 0,
+   "room_moved_px": 733
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_OFFICE_PHONE_HC_V3.webp": {
+   "short_pts_anywhere": 1,
+   "sha256": "69160038ca5442e0527dee74c9620c62b228536e29f480040fc43c540d9e03f1",
+   "before_sha256": "3b05aebf5056f21aba9a3cddf5045037a0dc76eb5bce6f435e4ea2d115b691bc",
+   "size": [
+    1179,
+    2096
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 1751,
+   "short_pts": 0,
+   "room_moved_px": 33
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_OFFICE_PHONE_HC_V3_590W.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "c360b3f1a1ee5cb0a46621c373907c8b6fb3e8237d6d93a66b057b7179c0b870",
+   "before_sha256": "f0d729265f09427109f19c8f3ed763c968c6ccb72f7e13aceb9ecf109278edd7",
+   "size": [
+    590,
+    1049
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 875,
+   "short_pts": 0,
+   "room_moved_px": 31
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_OFFICE_PLATE_HC_V3_2X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "1670f7a14e056485e857b9f218f79d618596025ebeb5dac80e5b40aeed50f718",
+   "before_sha256": "7593e05e46b5b419d791faa9d74d7100ef3ccf03bd8c07d9611b6ebd36283c61",
+   "size": [
+    3072,
+    1728
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 3462,
+   "short_pts": 0,
+   "room_moved_px": 10
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_OFFICE_PLATE_HC_V3_1X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "2886a5d0ce2b0664706cd8f9789ae9d3c51641c251d3299f9de467d487e66fbe",
+   "before_sha256": "5f909e0f54c87d32d2e13b6a63bc01530f9a0099af7dd2bcd534b82f8508acff",
+   "size": [
+    1536,
+    864
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 1727,
+   "short_pts": 0,
+   "room_moved_px": 376
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_OFFICE_PLATE_HC_V3_1920.webp": {
+   "short_pts_anywhere": 2,
+   "sha256": "a85b873a249286b91b4ba3bcb71791c1ea5aa5097bcdbb7396ba012920bca243",
+   "before_sha256": "d307b0c6c44fa077aacc80bc9d622619ee92ccddabd2abb426bdcfc173e4e851",
+   "size": [
+    1920,
+    1080
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 2159,
+   "short_pts": 0,
+   "room_moved_px": 876
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_OFFICE_PHONE_HC_V3.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "9ede6874c47feaf94419221595a45df93c6e69f1bd9d5fc7e6959fb2e2dcd383",
+   "before_sha256": "087025cbd261e270abddf4e00c982055d9bb93fe6fd6c8e63a8ced4d04e3d5d7",
+   "size": [
+    1179,
+    2096
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 1751,
+   "short_pts": 0,
+   "room_moved_px": 2
+  },
+  "visual-assets/v10_1/plates-hc/ruby/ENV_OFFICE_PHONE_HC_V3_590W.webp": {
+   "short_pts_anywhere": 1,
+   "sha256": "2ec4f180fc9f99ffea7c2b3705808e92e47a87140bdc04df65a7e1134eaf8ef2",
+   "before_sha256": "97b5a3a2a49399e85ba9a82f87297615dd57b6ea8b12d72e5282ed2875dcde53",
+   "size": [
+    590,
+    1049
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 875,
+   "short_pts": 0,
+   "room_moved_px": 159
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_OFFICE_PLATE_HC_V3_2X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "d0340728a058661f3f3f31940e075567da1cc6cd0656e82a843449854008e3fc",
+   "before_sha256": "723ca50ecc369468817c911cd18d5bf622999425b213c1ccd6d4516425d2f2c1",
+   "size": [
+    3072,
+    1728
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 3462,
+   "short_pts": 0,
+   "room_moved_px": 15
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_OFFICE_PLATE_HC_V3_1X.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "16c3dbfb98b1af12f874edb9fde097502bbe4767ff1872e388b5e00d29cb05f6",
+   "before_sha256": "6eddcda9bb4b3660b969fb1241f57e4024d89cc38efc35817f991084694b5b54",
+   "size": [
+    1536,
+    864
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 1727,
+   "short_pts": 0,
+   "room_moved_px": 699
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_OFFICE_PLATE_HC_V3_1920.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "44bd8148a5847e38a1a1e79c48b6b1e172cbd78909e1023730b215b2b41c5020",
+   "before_sha256": "dc4028676e5aa20d7aea36c92a2c0ef95fab3f7cb4bbc65b0eb122d22f65ee92",
+   "size": [
+    1920,
+    1080
+   ],
+   "mask": "ENV_OFFICE_PLATE_HC_V3_1920",
+   "outline_pts": 2159,
+   "short_pts": 0,
+   "room_moved_px": 1000
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_OFFICE_PHONE_HC_V3.webp": {
+   "short_pts_anywhere": 0,
+   "sha256": "291c31ea8a4c495b9630f14285d4e6c25fc06b20844b2052c0653a912a41716a",
+   "before_sha256": "8addf362cf461f744b1fc40d5aa774f12932e37753ef4e2fe4d1981014025a6e",
+   "size": [
+    1179,
+    2096
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 1751,
+   "short_pts": 0,
+   "room_moved_px": 3
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_OFFICE_PHONE_HC_V3_590W.webp": {
+   "short_pts_anywhere": 13,
+   "sha256": "202f14d7ea155725b2b6c77672ef179721e2319b9b69da1ce9231faadbda2fe8",
+   "before_sha256": "0cd10e452dc9b8a9d98ea150ba559629a7732ebea5f67c67ac0d8dacb70de1e2",
+   "size": [
+    590,
+    1049
+   ],
+   "mask": "ENV_OFFICE_PHONE_HC_V3",
+   "outline_pts": 875,
+   "short_pts": 0,
+   "room_moved_px": 147
+  }
+ }
+}
