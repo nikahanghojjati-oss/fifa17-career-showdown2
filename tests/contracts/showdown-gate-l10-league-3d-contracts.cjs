@@ -39,6 +39,9 @@ async function run(){
   for(const kind of ['2d-wheel','old-plate','no-background','loading-back','blank','empty-board','no-webgl2','ctxloss.rebuild','ctxloss.restore','ctxloss.dead','ctxlost.never','ctxlost.dead'])assert.ok(audit.includes(`"${kind}"`),`the audit fails on ${kind}`);
   for(const beat of ['waiting','late-join','reload','ctxloss','ctxlost','ball4'])assert.ok(audit.includes(`beatNow="${beat}"`),`the audit plays the ${beat} beat`);
   assert.match(audit,/ENV_BOX_\[A-Z0-9_\]\*_V3/,'any ENV_BOX_*_V3 plate fails');
+  // Run 45952036900: a frame while the HTML parser has made <body> but not yet the loading screen is not a blank screen; the
+  // rules start once the loading screen is in the document or the HTML is parsed (never later).
+  assert.ok(audit.includes('if(document.readyState==="loading"&&!document.getElementById("loadingScreen"))return;'),'the sampler starts at the loading screen or the end of parsing');
   ok();
 
   // 3. The route: the L7 legs' fail-closed rule.
