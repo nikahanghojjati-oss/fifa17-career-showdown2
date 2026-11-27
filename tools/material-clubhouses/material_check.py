@@ -49,6 +49,24 @@ LOOKS = {
                  rooms=dict(SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 0.98, 0.42)),
                             SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
                  provisional=True),
+    # Emerald: malachite, bottle-green leather, walnut, satin brass (#0B2E22 / #145A3C / #2E8B57 = 159 / 154 / 146 deg).
+    # Green band 115-175 deg: malachite and bottle green, never lime (under 115) or teal (over 175). The walnut frames
+    # sit in the brown band, so brown_max is 0.20, not Ruby's 0.25: walnut is near-black, and Wooden's honey wood must go.
+    # Reasons in emerald/COLOUR_STUDY.md.
+    "EMERALD": dict(name="Emerald Clubhouse", hue=(115, 175), hue_min=0.50, brown_max=0.20, sat=(0.35, 0.90),
+                    luma=(14, 60), gold_max=0.04,
+                    # Office: the kept ball, cup, paper bundle, blotters, olive tree and brass lamp (with its desk
+                    # reflection) are 36% of the coloured pixels and brown by identity; on E-3 try 1 the room surfaces
+                    # alone measured brown 0.07 (Ruby 0.02, Wooden 0.85) while the whole picture read 0.26.
+                    # Hall: the kept runner rug is 27% of the brown on E-4 try 2, and the big double door's frame and
+                    # stiles are walnut at the palette's #241A12 (measured rgb 38,25,14), so they count as brown too.
+                    rooms=dict(OFFICE=dict(brown_max=0.30), HALL=dict(brown_max=0.30),
+                               # Sign-in lounge (E-25, 26 Nov): the same view boxes and floors as Ruby; the raw V2 plate's
+                               # own spread and detail (176/184, 7.8/11.0) come from its glowing gold panels, not a target.
+                               # E-25: the windows reach the right edge and their sill at 43%, so the view box does too.
+                               SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
+                               SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
+                    provisional=True),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
@@ -189,6 +207,9 @@ def check(key, room, d, sib):
     h, s, _ = hsv(M)
     surf = free & (L >= 6) & (L <= 140)
     col = free & (s > 0.15) & (L >= 6)
+    if cfg.get("view"):  # the city lights are not a room surface: hue and brown leave them out too (E-25, 26 Nov)
+        x0, y0, x1, y1 = cfg["view"]; H, Wd = col.shape
+        col = col.copy(); col[int(y0 * H):int(y1 * H), int(x0 * Wd):int(x1 * Wd)] = False
     hue_share = float(in_band(h, cfg["hue"])[col].mean())
     brown = float(((h >= 15) & (h <= 45))[col].mean())
     sat = float(np.median(s[surf]))

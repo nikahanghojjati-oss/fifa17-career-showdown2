@@ -1,5 +1,5 @@
 {
- "note": "P4 F-1 Legacy Nik (E2): written by tools/hero-faces/never_slimmer.py; do not edit by hand; ruby (Duet P3, N-29) measured against claude-duet/p3-ruby before the re-paint (before_ruby)",
+ "note": "P4 F-1 Legacy Nik (E2): written by tools/hero-faces/never_slimmer.py; do not edit by hand; ruby (Duet P3, N-29) measured against claude-duet/p3-ruby before the re-paint (before_ruby); emerald (Duet P3, N-29/N-31) measured against claude-duet/p3-emerald before the re-paint (before_emerald)",
  "before": "5485f7f4132420542c1809a61501687335489d67",
  "side": "right",
  "files": {
@@ -302,7 +302,68 @@
    "outline_pts": 865,
    "short_pts": 0,
    "room_moved_px": 532
+  },
+  "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_2X.webp": {
+   "sha256": "db21a957ceca5da9fd925e1192c60dc57541523be91c791b145a6599d32b781e",
+   "before_sha256": "a351b8860d163b889a74f8a0c4a786d4ead7d064d61d3a5f59169cb691f47118",
+   "size": [
+    3072,
+    1728
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 3195,
+   "short_pts": 0,
+   "room_moved_px": 0
+  },
+  "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_1X.webp": {
+   "sha256": "119a3a2eaaf9a7da627ddfd71dd5b0cb30d58847b1987f45dbe7df86a9b8953c",
+   "before_sha256": "e29a59903a2e61a11102c6e3ab72f848ced17fe67d7f05c55535d596cead707b",
+   "size": [
+    1536,
+    864
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 1596,
+   "short_pts": 0,
+   "room_moved_px": 617
+  },
+  "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PLATE_HC_V3_1920.webp": {
+   "sha256": "00be27647a16940fdfeb246fbf8c8c057b1a8d5771b5605c5eb0f4002a6d6d31",
+   "before_sha256": "3dfe7cffbfceb89e59f6088c3cc8dddcb0967e2606526de14c9d06ece43072f7",
+   "size": [
+    1920,
+    1080
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 1997,
+   "short_pts": 0,
+   "room_moved_px": 475
+  },
+  "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PHONE_HC_V3.webp": {
+   "sha256": "0ee94e4cd91787578d8974217beefbce8b8ec2eced5ec7daa918581e877029d1",
+   "before_sha256": "f8982234dc51acbd291a40fb2686f98191430e02d4afdd0df122a8943ee1a37b",
+   "size": [
+    1179,
+    2096
+   ],
+   "mask": "ENV_ARCHIVE_PHONE_HC_V3",
+   "outline_pts": 1732,
+   "short_pts": 0,
+   "room_moved_px": 385
+  },
+  "visual-assets/v10_1/plates-hc/emerald/ENV_ARCHIVE_PHONE_HC_V3_590W.webp": {
+   "sha256": "5427f6c48c0bece52069fc61ae17f25a5a0c7d2f91d973e85ae5c62cff14db87",
+   "before_sha256": "eed46688fb3eee8549e0634cfe7844efe9ff0d4ef736e05e09b3da639cfe9e4a",
+   "size": [
+    590,
+    1049
+   ],
+   "mask": "ENV_ARCHIVE_PHONE_HC_V3",
+   "outline_pts": 865,
+   "short_pts": 0,
+   "room_moved_px": 152
   }
  },
- "before_ruby": "5e673ec171bd7faf9bb20a9a78d53cd127b1b2c8"
+ "before_ruby": "5e673ec171bd7faf9bb20a9a78d53cd127b1b2c8",
+ "before_emerald": "70d5422e34a6244e6547dc00305bc1772719fe01"
 }

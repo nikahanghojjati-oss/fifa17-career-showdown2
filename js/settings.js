@@ -1069,13 +1069,15 @@ async function runSettingsEndShowdown(button){
 // to Firestore. Names Nik gave them (2026-11-23): Wooden Clubhouse (the rooms as painted), Platinum Clubhouse (key "silver"; Nik renamed
 // it from Silver on 2026-11-24, HO-161), Black Steel
 // Clubhouse (key "black") and Graphite Clubhouse (key "matte"); Ruby Clubhouse (key "ruby", Nik's name 2026-11-25) is its own painting
-// in red marble and oxblood leather. Each has one line on what the room is made of.
+// in red marble and oxblood leather; Emerald Clubhouse (key "emerald", 2026-11-26) is its own painting in malachite and
+// bottle-green leather. Each has one line on what the room is made of.
 const SETTINGS_CLUBHOUSE_THEMES = [
     ["current", "Wooden Clubhouse", "Walnut panels and marble under warm lamplight, as the rooms were painted."],
     ["silver", "Platinum Clubhouse", "Bright brushed platinum panels under cool night light."],
     ["black", "Black Steel Clubhouse", "Brushed gunmetal and black marble, caught by gold lamplight."],
     ["matte", "Graphite Clubhouse", "Velvet matte graphite with satin titanium, quiet and deep under warm lamps."],
-    ["ruby", "Ruby Clubhouse", "Red Rosso Levanto marble, oxblood leather and antique gold."]
+    ["ruby", "Ruby Clubhouse", "Red Rosso Levanto marble, oxblood leather and antique gold."],
+    ["emerald", "Emerald Clubhouse", "Polished malachite, bottle-green leather and dark walnut, with satin brass."]
 ];
 function settingsClubhouseHintText(value){
     const theme = SETTINGS_CLUBHOUSE_THEMES.find(([key]) => key === value) || SETTINGS_CLUBHOUSE_THEMES[0];

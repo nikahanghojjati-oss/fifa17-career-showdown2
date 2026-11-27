@@ -13,7 +13,7 @@ import sys
 sys.path.insert(0, __import__("os").path.dirname(__file__))
 from mk_desktop import M
 
-BR = "claude-duet/p3-ruby"
+BR = __import__("os").environ.get("P3_REF", "claude-duet/p3-ruby")  # pin links to a commit (Ruby lesson 3)
 BLOB = f"https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/{BR}/project-documents/hc-art/material-clubhouses/src/"
 RAW = f"https://raw.githubusercontent.com/nikahanghojjati-oss/fifa17-career-showdown2/{BR}/project-documents/hc-art/material-clubhouses/src/"
 
@@ -24,7 +24,23 @@ X = {  # Ruby words that grew past batch 1's dictionary (R-6 to R-11 lessons)
   counter="one solid slab of polished Rosso Levanto marble in the same deep wine red, with soft cloudy patches of darker and lighter red and a few long, calm veins of pale cream stone, holding a soft dim reflection of the lamps",
   sample="oxblood leather panels, red-black rosewood frames, Rosso Levanto marble",
   veins=("The marble veins are a few long, smooth, softly curving pale lines that flow gently across the stone like brush strokes, never jagged, broken or cracked like ice.",
-         "The marble veins are a few long, smooth, softly curving lines of pale cream stone, never gold, never wavy stripes, never jagged, broken or cracked like ice.")),
+         "The marble veins are a few long, smooth, softly curving lines of pale cream stone, never gold, never wavy stripes, never jagged, broken or cracked like ice."),
+  slabname="polished Rosso Levanto marble", floorstone="dark polished red stone", on="on the red stone", trim="gold",
+  fall="the red falls off to wine near-black in the corners and toward the ceiling", hall="with the veins running calmly down them",
+  depth="Everything else keeps a deep, muted, aged red. Where the light is brightest the red turns lighter and creamier, never more vivid and never orange. Every red in the room is a touch muted and aged, a deep worn oxblood, never a vivid or saturated red."),
+ # Emerald (26 Nov): batch 1 words plus its lessons: pillar bands straight up and down with a soft satin sheen (E-8), no glow on
+ # the vault (E-5), and greys in the dark greens (E-11: a colour edit cannot add red to a pure dark green).
+ "EMERALD": dict(
+  light_rule="Emerald is deep bottle-green leather and polished malachite at night: rich like a dark green glass bottle held to candlelight, muted and aged, never mint, never lime, never teal.",
+  stone="polished malachite: deep green stone with a few broad, calm bands of lighter and darker green running straight up and down the full height of each pillar, parallel to its corners, never diagonal, slanted or spiral, with a soft, broad, dim satin sheen, never a small hot white spot; solid hard stone, never fabric, satin cloth or curtains",
+  # E-11 and E-12 (26 Nov): without growth lines the stone came back as soft smoke; curtain-like pillars on E-12's second picture
+  # E-14 (26 Nov): try 1 failed sat at 0.93 (vivid counter), fix 1 turned the desk top olive-black; both fixed by these words in edits
+  counter="one plain, calm solid slab of crisp, real cut and polished malachite in the same deep, muted green with a few broad calm bands, and inside each band a few fine crisp growth lines that follow its curve, sharp in focus like a close photograph of a polished stone table top, never blurred, smoky or misty, holding a soft dim cream-gold reflection of the lamps, never yellow or olive; the stone is a touch greyed, its darks near #0B2E22 and its lighter bands a soft muted jade (#4F8A66), never a vivid or saturated green, and any flat stone top, like a desk top or shelf top, is the same muted green malachite, never black, brown or olive",
+  sample="bottle-green leather panels, near-black walnut frames, polished malachite",
+  veins=("", ""),
+  slabname="polished malachite", floorstone="dark polished green stone", on="on the green stone", trim="satin brass",
+  fall="the green falls off to green near-black only in the far corners and toward the ceiling", hall="with the bands running straight up and down them",
+  depth="Everything else keeps a deep, muted, aged green, and the walls behind the men read as a clearly readable rich bottle green, never near-black. Where the light is brightest the green turns a lighter, clearer jade, never yellow, olive or khaki. Every green in the room is a touch muted and aged, a slightly greyed deep bottle green like an old glass bottle, never a vivid, neon or saturated green."),
 }
 
 FLOOR = {"HOME"}  # rooms whose image 1 shows a floor strip under the counter
@@ -89,7 +105,7 @@ def prompt(key, rm):
         keepl = f"Keep in the same places and at the same sizes: {keep}" + (", with the counter edge at exactly the same height" if edge and "counter" in keep and rm != "COACHES" else "")
         keepl += " stays at exactly the same height." if rm == "COACHES" else "."
         if edge:
-            keepl += f" Everything below the counter edge is one plain, calm slab of the same polished Rosso Levanto marble as the counter."
+            keepl += f" Everything below the counter edge is one plain, calm slab of the same {Y['slabname']} as the counter."
         if edge and rm not in ("COACHES", "OFFICE"):  # the Office desk top is meant to show
             # R-13 try 1 (25 Nov): Astra added a deep reflective counter top with the men mirrored in it, and changed the picture's shape.
             keepl += " The counter edge is a thin rail seen straight on, exactly as in image 1: no counter top surface shows above or below it, nothing is mirrored in it, and the front of the counter starts right under the rail."
@@ -98,7 +114,7 @@ def prompt(key, rm):
             keepl += " Every window pane stays clear glass from its bottom frame all the way up to its top frame, showing the night outside exactly as in image 1, with no leather or panel inside any window frame."
         if rm in FLOOR:
             # R-12 fix 2 (25 Nov): an edit let the counter slab swallow the floor strip at the bottom.
-            keepl += " Below the counter slab, the thin strip of floor along the very bottom edge stays exactly where it is in image 1, in dark polished red stone."
+            keepl += f" Below the counter slab, the thin strip of floor along the very bottom edge stays exactly where it is in image 1, in {Y['floorstone']}."
         if not men:
             keepl += " The room is empty of people."
     room = (f"The room: {L['feel']}\n"
@@ -108,12 +124,12 @@ def prompt(key, rm):
     if rm in ("TUNNEL", "LOADING"):
         room += f" Handrails: {L['handrail']}. Floor: {L['mat']}. The pillars keep their exact square shape, with flat faces and straight corners, never round columns."
     if rm == "HALL":
-        room += " The pillars keep their exact shape and stay smooth and polished, with the veins running calmly down them."
+        room += f" The pillars keep their exact shape and stay smooth and polished, {Y['hall']}."
     if rm in SEATS:  # Nik's seating rule; none of the 10 Wooden phone bands shows an armchair or sofa
         room += f" Any armchair or sofa keeps its exact shape, size, cushions and place and is reupholstered in {L['seat']}."
     room += f"\n\nEvery wall, door, frame, shelf, panel and pillar takes one of these materials ({L['materials']}); no light wood is left anywhere in the room."
     if extra == "nolamps":
-        src = ("No wall lamps are visible in this room: light comes only from the lights inside the two display niches and a soft glow along the vault. Add no lamps, sconces or wall lights anywhere. "
+        src = ("No wall lamps are visible in this room: light comes only from the lights inside the two display niches and soft warm light falling along the vault. Add no lamps, sconces or wall lights anywhere. "
                "Each niche throws a soft warm pool onto the leather and stone around it, with a soft warm reflection on the polished front of the counter")
     elif extra == "box":
         # R-17 (26 Nov): image 1 has no lamps in the box; naming lamps invites Astra to add them
@@ -125,38 +141,37 @@ def prompt(key, rm):
                "The pitch light throws a soft warm glow onto the pillars, handrails and walls near the tunnel end, with soft warm reflections on the polished front of the counter; "
                "where the pitch light meets the top step it is a gentle warm glow that fades smoothly, with no hot bright line and no white highlight")
     elif rm == "LOADING":
-        src = ("Light comes only from the same soft overhead glow as image 1 and the floodlit pitch at the end of the tunnel. The pitch light throws a soft warm glow onto the marble, "
-               "the leather and the floor near the tunnel end; where it meets the steps and the gold edge strips it fades smoothly, with no hot bright line and no white highlight")
+        src = ("Light comes only from the same soft overhead glow as image 1 and the floodlit pitch at the end of the tunnel. The pitch light throws a soft warm glow onto the stone, "
+               f"the leather and the floor near the tunnel end; where it meets the steps and the {Y['trim']} edge strips it fades smoothly, with no hot bright line and no white highlight")
     elif rm == "CLUB":
         src = ("Light comes only from the two warm wall lamps in the same places and the floodlit stadium glow through the window. "
                "Each lamp throws a soft warm pool onto the leather around it, and the trophies along the bottom catch a soft warm glint")
     else:
         src = (f"Light comes only from the same warm lamps in the same places{' and the floodlit stadium glow through the window' if win else ''}. "
-               "Each lamp throws a soft warm pool onto the leather and marble around it, with soft warm reflections on the polished front of the counter")
+               "Each lamp throws a soft warm pool onto the leather and stone around it, with soft warm reflections on the polished front of the counter")
         if extra == "tunnel":
             src += "; where the pitch light meets the top step it is a gentle warm glow that fades smoothly, with no hot bright line and no white highlight"
     # Ruby lessons, 26 Nov (Nik: land closer to 9 on the first try). Flat light was the most common miss (R-5, R-8 to R-10, R-13,
     # R-14, R-16): only "brighter brightest spots, the rest unchanged" fixed it; darker shadows failed (R-14 fix 1). Too-vivid reds were
     # the other (R-5, R-7, R-10, R-12 to R-16): only "a touch more muted and aged" fixed it. Both go in every first try.
     if rm == "LOADING":
-        bright = "the pitch glow at the end of the tunnel lights a wide warm pool on the marble and the floor near it"
+        bright = "the pitch glow at the end of the tunnel lights a wide warm pool on the stone and the floor near it"
     elif extra == "nolamps":
-        bright = ("the two display niches glow clearly bright and throw a wide warm pool onto the leather around them, the soft glow along the edges of the vault arches is bright, "
-                  "and the two warm reflections on the polished counter just below the rail are large and clearly bright, a soft cream-gold candlelight sheen on the red stone")
+        bright = ("the two display niches glow clearly bright and throw a wide warm pool onto the leather around them, soft warm light falls along the vault arches, which stay solid stone with no glow from inside, "
+                  "and the two warm reflections on the polished counter just below the rail are large and clearly bright, a soft cream-gold candlelight sheen " + Y["on"])
     elif extra == "tunnel":
         bright = ("the walls and pillars near the bright end of the tunnel catch a clear warm glow, and the warm reflections on the polished counter just below the rail "
-                  "are large and clearly bright, a soft cream-gold sheen on the red stone")
+                  "are large and clearly bright, a soft cream-gold sheen " + Y["on"])
     elif extra == "box":
-        bright = ("the floodlight glow lights a clear warm edge on the leather around the window frame and along the gold rail, and the warm reflections on the polished counter just below the rail "
-                  "are large and clearly bright, a soft cream-gold sheen on the red stone")
+        bright = (f"the floodlight glow lights a clear warm edge on the leather around the window frame and along the {Y['trim']} rail, and the warm reflections on the polished counter just below the rail "
+                  "are large and clearly bright, a soft cream-gold sheen " + Y["on"])
     elif rm == "CLUB":
         bright = "each lamp throws a wide, clearly bright warm pool onto the leather wall around it, a soft cream-gold candlelight sheen"
     else:
         bright = ("each lamp throws a wide, clearly bright warm pool onto the leather around it, and the warm reflections on the polished counter are large and clearly bright, "
-                  "a soft cream-gold candlelight sheen on the red stone")
-    depth = (f" The brightest spots are clearly bright: {bright}. Everything else keeps a deep, muted, aged red. Where the light is brightest the red turns lighter and creamier, "
-             "never more vivid and never orange. Every red in the room is a touch muted and aged, a deep worn oxblood, never a vivid or saturated red.")
-    light = (f"Light: It is night. {Y['light_rule']} {src}, and the red falls off to wine near-black in the corners and toward the ceiling, so the room has depth and never looks flat.{depth}"
+                  "a soft cream-gold candlelight sheen " + Y["on"])
+    depth = f" The brightest spots are clearly bright: {bright}. {Y['depth']}"
+    light = (f"Light: It is night. {Y['light_rule']} {src}, and {Y['fall']}, so the room has depth and never looks flat.{depth}"
              f"{L['men'] if men else ''} {L['sheen']}" + (" The two men stay lit exactly as they are now." if men else ""))
     lock = L["lock"].replace(*Y["veins"])
     # 26 Nov: "a small soft pool" fought the first-try bright-spots line; the lock now only bans the brown tint
@@ -174,6 +189,10 @@ def prompt(key, rm):
     people = "no people other than the two men" if men else "no people"
     fin = (f"Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail; the air is clear, with no fog, no glow halo, no noise grain, "
            f"no streaks and no swirl or crackle patterns: every texture is a straight real one. No new objects and no extra lamps anywhere, no text, no logos, {people}.")
+    if key == "EMERALD":  # E-14: one lighter-band jade in the whole prompt, the muted one the counter line names
+        lock = lock.replace("a soft mid jade (#5E9E74)", "a soft muted jade (#4F8A66)")
+    if not men:  # E-20 (26 Nov): an empty room's light line must not name "the men"
+        light = light.replace("the walls behind the men read", "the walls read")
     return "\n\n".join([head, frame, menl.strip(), keepl, room, light, lock, objs, fin,
                         "Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available."]).replace("\n\n\n\n", "\n\n")
 
