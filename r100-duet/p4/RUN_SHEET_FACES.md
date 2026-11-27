@@ -206,3 +206,34 @@ Light: the same low, warm office light as image 1, from the same side; his face 
 Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
 One picture, square, the same framing as image 1, the largest size available.
 ```
+
+### F-2 results 27 Nov: A 4/10 (Nik very low), C 0/10 (Nik), D 7/10 (Astra Max)
+- A and B: head lifted toward the camera, droopy lids, smirk. C: describing a whole new face drew a stranger. D (keep face, eyes, hair; change beard, brows, mouth): pose, eyes and framing held, frown gone, fuller beard; curls with copper glints remain.
+
+## Prompting study (27 Nov, for Nik)
+Sources: OpenAI image prompting guide and GPT-6 Astra model page; ChatGPT "what's new" GPT-6.2; vendor guides (fal, SimpliGen, Atlas Cloud, TeraBox, GlobalGPT, Viralway). Vendor pages are unverified and disagree on details.
+1. The chat model does not draw the picture. Astra or Sol writes the request; a separate image model (ChatGPT Images 2.6 / GPT-Image-2.6) draws it. No source shows that Astra vs Sol or the effort level changes face or pose fidelity. Keep Astra (it takes the edit words literally); Extra High or Max both fine, Max only adds wait.
+2. Pixels outside the change are never guaranteed. OpenAI's own guide: if a part must stay identical, composite the approved edit into the original. That is our likeness lock, so keep doing it.
+3. Point at the area, don't describe it: ChatGPT's image viewer has a select brush (open the picture, Select, paint the area, type the change). OpenAI's API does the same with markup on the first image only. Stop the brush a few pixels short of features you want kept.
+4. Prompt shape: Change (one thing) / Keep exactly (face, expression, eyes, pose, camera angle, framing, light, room) / Constraints. Repeat the keep list every time.
+5. Never re-describe the face. Name only the parts that change and say "keep his face exactly as in image 1". Re-describing features (C) or a reference at another angle (A, B) draws another man or copies that pose.
+6. Image 1 is always the picture to edit; label every image by its role. Avoid an Image 2 for likeness unless it has the same head angle.
+7. One kind of change per edit, each from the best picture so far in a new chat; never more than two edits deep.
+8. Words to avoid: "relaxed eyes" (gives droopy lids), "half-smile" (gives a smirk), "no halo" alone (still gives a hair rim; describe matte hair with soft dark edges instead).
+
+### F-2 option D-H1: hair only, with the select brush (D as the picture)
+New chat: ChatGPT Work mode, Astra 6, Extra High or Max. Attach the D picture only. Open it, press Select, paint over the hair only (top, sides and back), stopping a few pixels above the forehead and clear of the ear. Paste the box. Save as ENV_OFFICE_PLATE_HC_V4_2X_F2DH1_RAW.
+
+```
+Change only his hair, inside the area I selected. Keep everything else in the picture exactly as it is.
+
+Change: his hair becomes short, thick, dark hair swept up and back from his forehead, with the sides short and lying flat and tidy, in place of the curls. The hair is matte dark brown-black with soft, dark edges against the window. On the top and at the back of his head it reaches out to where the outer edge of the curls is now, never further in.
+
+Keep exactly as they are: his face, forehead, hairline at the temples, eyebrows, eyes, ears, beard and expression; the lean, turn and downward tilt of his head; the framing and size of the picture; his suit, shirt and tie; the dark window and the olive leaves.
+
+The hair has no copper or golden highlights, no frizz, no loose strands and no bright rim of light: the same low, warm office light as the rest of the picture.
+A real photograph, real hair, no glow, no halo, no smoothing, no text. One square picture, the same size and framing.
+```
+
+### F-2 option D-H2: hair only, no brush (D as image 1)
+Same chat set-up and same box, without the select step; replace "inside the area I selected" with "in image 1". Save as ENV_OFFICE_PLATE_HC_V4_2X_F2DH2_RAW.
