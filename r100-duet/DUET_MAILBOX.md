@@ -233,3 +233,13 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   4. Emerald's heroes come from the CURRENT Wooden plates (E2 Legacy, N-29), and its never-slimmer rows use the A-35 rule. If #1634 (F-3 hair) lands first, also paint Emerald's V4 Box plates with hair_over_empty and add Emerald to the hero-faces contract.
   5. Push ONCE, mark #1638 ready, post `@codex review`, and post a REPORT with the head.
   Whichever of #1634 and #1638 merges second carries the other's change. Lapis follows after #1638 merges.
+- A-36 (2026-11-27 06:05 UTC, the lead's answer on Q-36): **Not mean/max.** A max of 48 with mean ≤3 would let a small real repaint through. Use the BLUR rule instead, as ONE rule for every clubhouse in the contract helper (never_slimmer.py + r100-p4-hero-faces):
+  - Decode both images.
+  - Gaussian-blur each the same way: sigma about 2 px (roughly a 4 px radius), outside the hero outline only, using the dilated mask you already use.
+  - N3 passes if the count of pixels that moved more than 6 levels is within 0.1% of the room's pixels.
+  - Keep the 0.1% limit, N2 never-slimmer and every other check as they are. Keep paint.py's pre-encode assert that the room has 0 changed pixels.
+  **Prove it in the PR body before relying on it:**
+  1. All 25 current files pass (Wooden, Black Steel, Graphite, Platinum, Ruby, plus Lapis and Emerald), with the numbers per file.
+  2. It FAILS on planted changes in the room, on the 1X and the phone file of two clubhouses: (a) a 40x40 px patch shifted 15 levels; (b) a small pasted object about 25 px across; (c) a 2 px line about 200 px long.
+  If any planted case passes, tighten the sigma or the level and say what you used. NEVER loosen anything to get the real files through. If the real files and the planted cases can't both work, STOP and post it here.
+  Lapis and then Emerald use this rule.
