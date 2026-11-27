@@ -10,6 +10,8 @@
 //       yet") until the read landed: the same account and manager keep their frame across a key change. A frame older than the
 //       close (the pair now names a closed Showdown the frame does not list as finished) is dropped to loading instead; the
 //       read that key change starts anyway is the only read. A frame that already lists it is kept (nothing flashes).
+//   HL4 (Verify follow-up) a hand-over that never settles (a Team V History file fetch hanging on a half-up link) says
+//       unavailable after History's own 15 s deadline instead of loading for good; a late success still paints History.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -33,15 +35,21 @@ function fakeDoc(){
   const status=node=>node?.attrs?.["data-career-status"]??(node.children||[]).map(status).find(Boolean)??null;
   return {box,text:()=>text(box),status:()=>status(box),doc:{createElement:tag=>el(tag),createDocumentFragment:()=>el("#fragment"),querySelector:sel=>sel==="#legacy .legacyBox"?box:null}};
 }
-function legacyPage({handOver,withOpener=true,withLoader=true}){
+function legacyPage({handOver,withOpener=true,withLoader=true,clock=null}){
   const page=fakeDoc(),errors=[];
-  const sandbox={document:page.doc,console,Promise,Object,
+  const sandbox={document:page.doc,console,Promise,Object,...(clock?{setTimeout:clock.setTimeout,clearTimeout:clock.clearTimeout}:{}),
     CareerModeCareerScreenSeam:Seam,CareerModeOnlinePlayerIdentity:{getState:()=>({registered:true,managerId:"nik"})},
     reportApplicationError:(c,e)=>errors.push(`${c}: ${e&&e.message}`)};
   if(withOpener)sandbox.openRivalryLegacyV10=()=>handOver();
   if(withLoader)sandbox.loadRuntimeScript=()=>handOver();
   sandbox.window=sandbox;vm.createContext(sandbox);vm.runInContext(LEGACY,sandbox,{filename:"js/legacy.js"});
   return {...page,errors,render:arg=>sandbox.renderLegacy(arg)};
+}
+// A fake clock: timers fire only when the test moves time on.
+function fakeClock(){
+  let now=0,next=1;const timers=new Map();
+  return {timers,setTimeout:(fn,ms)=>{const id=next++;timers.set(id,{at:now+ms,fn});return id;},clearTimeout:id=>{timers.delete(id);},
+    advance(ms){now+=ms;for(const [id,t] of [...timers].sort((a,b)=>a[1].at-b[1].at)){if(t.at<=now&&timers.has(id)){timers.delete(id);t.fn();}}}};
 }
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b;});return {promise,resolve,reject};};
 
@@ -105,6 +113,32 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
     // The pair names its closed Showdown in the key (slot 3), which is what the check reads.
     assert.match(RL,/return JSON\.stringify\(\[state\("CareerModeSparkConnectedAccount"\)\?\.accountId\?\?null,identity\(\)\?\.managerId\?\?null,pair\?\.rivalryId\?\?null,pair\?\.closedRivalryId\?\?null,markerEpoch\(\)\]\);/);
     ok("HL3","a History frame older than the close is never shown again; loading until the fresh read lands, nothing extra read");
+  }
+  // HL4 -----------------------------------------------------------------------------------------------------------------
+  {
+    // A hand-over that never settles (a Team V History file fetch hanging on a half-up link): loading until History's own
+    // deadline, then unavailable, so it never stays on loading for good. A late success still paints History.
+    const clock=fakeClock(),hang=deferred(),p=legacyPage({handOver:()=>hang.promise,clock});p.render();
+    assert.equal(p.status(),"loading");assert.equal(clock.timers.size,1,"one deadline per open");
+    clock.advance(14999);await settle();assert.equal(p.status(),"loading","still inside the deadline");
+    clock.advance(1);await settle();assert.equal(p.status(),"unavailable","past the deadline it says unavailable");
+    assert.equal(p.text(),Seam.TEXT.unavailable);
+    hang.resolve(true);await settle();assert.equal(p.status(),"unavailable","a late success leaves the box to Team V's History, which draws over it");
+    assert.equal(p.errors.length,0);
+    // Settled in time: the deadline is cleared, nothing fires later.
+    const c2=fakeClock(),quick=deferred(),q=legacyPage({handOver:()=>quick.promise,clock:c2});q.render();
+    quick.resolve(true);await settle();assert.equal(c2.timers.size,0,"settled hand-over clears its deadline");
+    c2.advance(60000);await settle();assert.equal(q.status(),"loading","no late unavailable over a mounted History");
+    // Only the latest open counts: an older open's deadline and its late failure never paint over a newer open.
+    const c3=fakeClock();const opens=[deferred(),deferred()];let n=0;const r=legacyPage({handOver:()=>opens[n++].promise,clock:c3});
+    r.render();c3.advance(10000);r.render();assert.equal(c3.timers.size,1,"reopening replaces the deadline");
+    c3.advance(6000);await settle();assert.equal(r.status(),"loading","the first open's deadline was dropped");
+    opens[0].resolve(false);await settle();assert.equal(r.status(),"loading","an older open's late failure is ignored");
+    c3.advance(9000);await settle();assert.equal(r.status(),"unavailable","the newer open's own deadline still ends it");
+    // The deadline is History's own (js/rivalryLegacyV10.js LOAD_TIMEOUT).
+    const deadline=Number(LEGACY.match(/const LEGACY_HAND_OVER_DEADLINE_MS = (\d+);/)?.[1]);
+    assert.equal(deadline,Number(RL.match(/const LOAD_TIMEOUT=(\d+),/)?.[1]));assert.equal(deadline,15000);
+    ok("HL4","a hand-over that never settles says unavailable after History's 15 s deadline; a late success still paints");
   }
   console.log(`PASS r100 History honest loading contracts (${passed})`);
 })().catch(error=>{console.error(error);process.exit(1);});
