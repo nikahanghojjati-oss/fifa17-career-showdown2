@@ -110,6 +110,11 @@ jobs:
       - name: 'TEST: Themed Archive plates are exactly what paint.py builds'
         id: archive_rebuild
         run: '"$RUNNER_TEMP/paint-env/bin/python" tools/clubhouse-themes/reproduce_archive.py'
+      - name: Install the pinned OpenCV for the Wooden rebuild (tools/hero-faces/reproduce_wooden_archive.py ENCODER_PIP)
+        run: '"$RUNNER_TEMP/paint-env/bin/pip" install --disable-pip-version-check Pillow==13.0.0 numpy==2.5.3 opencv-python-headless==4.14.0.94'
+      - name: 'TEST: Wooden Archive plates are exactly what F-1 builds'
+        id: wooden_archive_rebuild
+        run: '"$RUNNER_TEMP/paint-env/bin/python" tools/hero-faces/reproduce_wooden_archive.py'
       - name: Record lane result
         if: always()
         shell: bash

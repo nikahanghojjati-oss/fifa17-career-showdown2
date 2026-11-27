@@ -1,12 +1,15 @@
 """F-1 Legacy Nik: carry the E2 head (Nik picked 2026-11-26 18:19 UTC, kept 19:55 over E3) into every Wooden archive file.
 usage: python3 tools/hero-faces/build_legacy_nik.py E2_FULL.png REPO OUTDIR
 E2_FULL.png is ENV_ARCHIVE_PLATE_HC_V4_2X_F1E2_RAW.png (branch claude-duet/p4-faces-inputs, r100-duet/p4/inputs/F-1/raw) fitted into
-today's 2X plate at (1930, 0, 900 px square). Then: tools/clubhouse-themes/paint.py, pin.py, manifest.py, and never_slimmer.py
-for tests/fixtures/team-v/P4_F1_LEGACY_NIK_NEVER_SLIMMER.json."""
+today's 2X plate at (1930, 0, 900 px square) by tools/hero-faces/fit_e2.py. Then: tools/clubhouse-themes/paint.py, pin.py,
+manifest.py, and never_slimmer.py for tests/fixtures/team-v/P4_F1_LEGACY_NIK_NEVER_SLIMMER.json.
+tools/hero-faces/reproduce_wooden_archive.py runs fit_e2.py and this from tools/hero-faces/inputs/F-1 and needs the five
+Wooden Archive files that ship to be exactly what they build (lead A-43, 2026-11-27)."""
 import sys, os, io, cv2, numpy as np
 sys.path.insert(0, os.path.join(sys.argv[2], 'tools/hero-faces')); import never_slimmer as NS
 from PIL import Image, ImageFilter
 E2, REPO, OUT = sys.argv[1:4]
+before_encode = globals().get('before_encode')  # (name, arr) -> arr; set only by reproduce_wooden_archive.py --prove-plants
 P = os.path.join(REPO, 'visual-assets/v10_1/plates-hc/')
 MASKS = os.path.join(REPO, 'tools/clubhouse-themes/masks/')
 os.makedirs(OUT, exist_ok=True)
@@ -33,6 +36,7 @@ def cover(arr, old, mask):
     return out
 
 def write(name, arr, ref, mask):
+    if before_encode: arr = before_encode(name, arr)   # proof seam only, never set by a build
     lim = int(os.path.getsize(P + ref) * 1.06)
     old = np.asarray(Image.open(P + ref).convert('RGB'))
     for rnd in range(4):   # WebP can nudge a rim pixel: put today's pixels back there and encode again

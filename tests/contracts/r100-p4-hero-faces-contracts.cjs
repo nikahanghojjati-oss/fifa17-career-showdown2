@@ -4,8 +4,11 @@
 //      never-slimmer result below is about the picture that ships (tools/hero-faces/never_slimmer.py writes the fixture).
 //   N2 never slimmer: walking the hero outline, the fixed hero never starts further in than today's (short_pts 0), so no
 //      room shows where the man used to be. Today's pictures measured against themselves give 0 too.
-//   N3 the room around the man is today's room. Wooden: pixels outside the outline that moved by more than 12 stay WebP
-//      noise (at most 0.1% of the picture). Every themed copy (lead A-41, 2026-11-27): its room is exactly what paint.py
+//   N3 the room around the man is today's room. Wooden (lead A-43, 2026-11-27): every Wooden Archive file is exactly what
+//      F-1 builds from tools/hero-faces/inputs/F-1 (the E2 picture and the files before F-1), 0 pixels different in the whole
+//      picture; the Showdown Gate's L1 step wooden_archive_rebuild proves that with the pinned encoder and OpenCV
+//      (tools/hero-faces/reproduce_wooden_archive.py), and the old allowance (pixels outside the outline that moved by more
+//      than 12, at most 0.1% of the picture) still holds too. Every themed copy (lead A-41, 2026-11-27): its room is exactly what paint.py
 //      builds from the approved painting and the current Wooden men, 0 pixels different; the Showdown Gate's L1 step
 //      archive_rebuild proves that with the pinned encoder (tools/clubhouse-themes/reproduce_archive.py), and this file
 //      checks that the step is there, runs that tool, installs exactly paint.py's ENCODER_PIP, and that the tool covers
@@ -52,6 +55,27 @@ check("N3 themed copies: Gate L1 rebuilds every themed Archive plate with exactl
   assert.ok(rebuildStep, "L1 installs ENCODER_PIP and runs reproduce_archive.py as step archive_rebuild, with no condition");
 });
 
+// N3 for Wooden: the Gate rebuilds the Wooden Archive files from the F-1 inputs (A-43). Same wiring check.
+const woodenPy = read("tools/hero-faces/reproduce_wooden_archive.py").toString("utf8");
+const woodenPip = (woodenPy.match(/^ENCODER_PIP = "([^"]+)"/m) || [])[1];
+const woodenStep = (() => {
+  const l1 = gate.split(/\n  l1-core:\n/)[1]?.split(/\n  [a-z0-9-]+:\n/)[0] || "";
+  return /\n        id: wooden_archive_rebuild\n        run: '"\$RUNNER_TEMP\/paint-env\/bin\/python" tools\/hero-faces\/reproduce_wooden_archive\.py'\n/.test(l1)
+    && !/id: wooden_archive_rebuild\n        if:/.test(l1) && l1.includes(`/bin/pip" install --disable-pip-version-check ${woodenPip}'\n`);
+})();
+check("N3 Wooden: Gate L1 rebuilds the five Wooden Archive files from the F-1 inputs with the pinned encoder and OpenCV (A-43)", () => {
+  assert.ok(woodenPip && woodenPip.startsWith(`${encoderPip} opencv-python-headless==`), "the Wooden pin is paint.py's encoder plus one OpenCV");
+  assert.ok(/have != ENCODER:\n    setup_error/.test(woodenPy), "a different encoder or OpenCV is a setup error, never a skip");
+  assert.ok(/ok = all_diff == 0/.test(woodenPy), "the whole picture must match exactly");
+  assert.ok(/return 1 if bad or len\(rows\) != len\(FILES\) else 0/.test(woodenPy), "every Wooden Archive file is rebuilt");
+  for (const n of ["PLATE_HC_V3_2X", "PLATE_HC_V3_1X", "PLATE_HC_V3_1920", "PHONE_HC_V3", "PHONE_HC_V3_590W"]) {
+    assert.ok(woodenPy.includes(`"before/ENV_ARCHIVE_${n}.webp": "`), `the rebuild covers ENV_ARCHIVE_${n}`);
+    assert.ok(fs.existsSync(path.join(ROOT, `tools/hero-faces/inputs/F-1/before/ENV_ARCHIVE_${n}.webp`)), `the F-1 input for ENV_ARCHIVE_${n} is in the repo`);
+  }
+  assert.ok(fs.existsSync(path.join(ROOT, "tools/hero-faces/inputs/F-1/ENV_ARCHIVE_PLATE_HC_V4_2X_F1E2_RAW.png")), "the E2 picture is in the repo");
+  assert.ok(woodenStep, "L1 installs the Wooden ENCODER_PIP and runs reproduce_wooden_archive.py as step wooden_archive_rebuild, with no condition");
+});
+
 check("at least one P4 fix is recorded, and F-1 Legacy Nik covers all 35 archive files (Ruby, Emerald and Lapis too, N-29)", () => {
   assert.ok(fixtures.includes("P4_F1_LEGACY_NIK_NEVER_SLIMMER.json"));
   const f1 = JSON.parse(read(`${FIX_DIR}/P4_F1_LEGACY_NIK_NEVER_SLIMMER.json`));
@@ -79,6 +103,7 @@ for (const name of fixtures) {
         assert.ok(rebuildStep, "Showdown Gate L1 has no archive_rebuild step (tools/clubhouse-themes/reproduce_archive.py)");
       } else {
         assert.ok(r.room_moved_px <= 0.001 * r.size[0] * r.size[1], `${r.room_moved_px} room pixels moved`);
+        if (/ENV_ARCHIVE_/.test(rel)) assert.ok(woodenStep, "Showdown Gate L1 has no wooden_archive_rebuild step (tools/hero-faces/reproduce_wooden_archive.py)");
       }
     });
     check(`${name} ${short}: O1 the game never loads the old picture`, () => {
