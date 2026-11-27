@@ -502,6 +502,8 @@ async function openManager(browser,account,label=account,reuse=null){
   await installFirestoreMeter(context,{sdkDir:SDK_DIR,user:label,sink:meter.events,firestoreOrigin:FIRESTORE});
   await context.addInitScript({path:SWITCH});
   if(CLUBHOUSE)await context.addInitScript(theme=>{try{localStorage.setItem("cmsClubhouseTheme",theme);}catch(_e){}},CLUBHOUSE);
+  // WebKit smoke: how long the page's main thread stalls (a 250 ms beat that comes late), read back in the job log.
+  if(SMOKE)await context.addInitScript(noGl=>{try{const h=window.__smokeLag={max:0,gaps:[]};let last=performance.now();setInterval(()=>{const n=performance.now(),g=n-last-250;last=n;if(g>h.max)h.max=Math.round(g);if(g>1000&&h.gaps.length<80)h.gaps.push([Math.round(n/1000),Math.round(g)]);},250);if(noGl){const o=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(t,...a){return /webgl/i.test(String(t))?null:o.call(this,t,...a);};}}catch(_e){}},process.env.CE2PG_SMOKE_NOGL==="1");
   const page=await context.newPage();
   const m=reuse||{user:label,account,context,page,log,viewport};
   if(reuse){m.context=context;m.page=page;}
@@ -535,7 +537,7 @@ async function smokeShot(m,name){
 }
 // League Roulette on a WebKit page: WebKit has WebGL2 (Safari does), so the 3D board must come up, never the 2D wheel.
 async function smokeLeague3d(m){
-  if(!SMOKE)return true;
+  if(!SMOKE||engineFor(m.account)!=="webkit")return true;
   const info=await m.page.evaluate(()=>{const c=document.createElement("canvas");return Boolean(c.getContext("webgl2"));}).catch(()=>null);
   const up=info?await m.page.waitForFunction(()=>{const w=document.getElementById("leagueWheel");return Boolean(w&&w.classList.contains("lr3d-on")&&w.querySelector("canvas")&&document.getElementById("loadingScreen")?.classList.contains("hidden"));},null,{timeout:60000}).then(()=>true).catch(()=>false):null;
   report.smoke.steps.push({step:"league-3d",user:m.user,webgl2:info,board:up});
@@ -550,7 +552,7 @@ async function smokeDoubleTap(m,selector,k){
   else await button.dblclick({timeout:30000});
   const landed=await m.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000}).then(()=>true).catch(()=>false);
   const commit=ctxRef?.entry?.rivalryId?await adminUntil(`rivalries/${ctxRef.entry.rivalryId}/seasonCommits/season_${k}`,()=>true,"season commit",30000).catch(()=>null):null;
-  report.smoke.steps.push({step:"double-tap",user:m.user,season:k,landed,commit:Boolean(commit)});
+  (report.smoke||(report.smoke={shots:[],steps:[]})).steps.push({step:"double-tap",user:m.user,season:k,landed,commit:Boolean(commit)});
   return check(m,`smoke.S${k}.doubleTap`,`a double tap on LOCK & CONFIRM SEASON (season ${k}) confirms the season once`,landed&&Boolean(commit),JSON.stringify({landed,commit:Boolean(commit)}),{screen:"Shared Season Commit"});
 }
 // r92 (W1): what a phone's Shared Season Commit (and its Season Results confirm button) says when the run stops, so a CONFIRM SEASON that did not land can be read afterwards: the
@@ -2040,6 +2042,8 @@ async function main(){
   }catch(error){
     failure=error;
     report.fatal={message:String(error&&error.message||error).slice(0,1500),stack:String(error&&error.stack||"").split("\n").slice(0,8).join("\n")};
+    // WebKit smoke: the job log is all a reader gets (artifacts stay on GitHub), so what each phone shows goes there too.
+    if(SMOKE)for(const m of managers){const seen=await m.page.evaluate(()=>{const vis=e=>e&&e.getClientRects().length>0&&getComputedStyle(e).visibility!=="hidden";const cm=document.getElementById("cmStage");return {url:location.href.split("?")[0],screens:[...document.querySelectorAll(".screen:not(.hidden)")].map(n=>n.id),chamber:vis(cm)?(cm.innerText||"").replace(/\s+/g," ").slice(0,900):null,text:(document.body.innerText||"").replace(/\s+/g," ").slice(0,1500),gl:(()=>{try{return Boolean(document.createElement("canvas").getContext("webgl2"));}catch(_e){return null;}})()};}).catch(error=>({error:String(error&&error.message||error)}));report.fatal[`smoke_${m.user}`]=seen;console.log(`SMOKE-DUMP ${m.user} (${engineFor(m.account)} ${m.viewport.width}x${m.viewport.height}): ${JSON.stringify(seen)}`);console.log(`SMOKE-DUMP ${m.user} errors: ${JSON.stringify({pageErrors:m.log.pageErrors.slice(-8),consoleErrors:m.log.consoleErrors.slice(-12),failed:m.log.failedRequests.slice(-6)}).slice(0,3000)}`);}
     for(const m of managers){report.fatal[`seasonCommit_${m.user}`]=await seasonCommitState(m);report.fatal[`state_${m.user}`]=await describe(m);await addProblem(m,"fatal",`journey stopped (${showdownNow} season ${seasonNow})`,`${report.fatal.message} | ${report.fatal[`state_${m.user}`]}`,{severity:"harness-or-game",name:"fatal"});}
   }finally{
     seasonNow=0;showdownNow="zz";
@@ -2090,6 +2094,7 @@ async function main(){
     const failed=report.checks.some(c=>!c.pass)||Boolean(failure);
     report.verdict=failed?"FAIL":"PASS";
     writeReport();await stopFontSweeps();writeFontSweep();
+    if(SMOKE)for(const m of managers){const lag=await m.page.evaluate(()=>window.__smokeLag||null).catch(()=>null);console.log(`SMOKE-LAG ${m.user} (${engineFor(m.account)}): ${JSON.stringify(lag)}`);}
     await browser.close().catch(()=>{});if(SMOKE)await closeSmokeBrowsers();if(appServer)appServer.kill();
     console.log(`METER summary: ${report.meter.map(e=>`${e.label}: ${e.reads}r/${e.writes}w${e.play?` (play ${e.play.reads}r/${e.play.writes}w)`:""}`).join(" | ")}`);
     console.log(`${report.verdict} ${TAG}: ${report.summary.passed}/${report.summary.checks} checks, ${report.problems.length} problem(s), ${Math.round(report.timings.totalMs/1000)} s -> ${rel(REPORT_PATH)}; screenshots in ${rel(SHOT_DIR)}`);

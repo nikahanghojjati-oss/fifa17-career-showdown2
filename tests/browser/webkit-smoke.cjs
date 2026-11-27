@@ -26,14 +26,15 @@ const {spawn}=require("node:child_process");
 const ROOT=path.resolve(__dirname,"../..");
 const OUT_DIR=path.join(ROOT,"test-results");
 const JOURNEY="tests/browser/ce2pg-journey.cjs";
-const COMMON={CE2PG_PLAN:"single",CE2PG_SEASONS:"1",CE2PG_RUN:"1",CMS_CHROMIUM_MULTI_CONTEXT:"1"};
+const COMMON={CE2PG_PLAN:"single",CE2PG_SEASONS:"1",CE2PG_RUN:"1",CMS_CHROMIUM_MULTI_CONTEXT:"1",CMS_ROULETTE_DEBUG:"1"};
 const LEGS={
   wooden:{label:"WebKit both phones, Wooden; Daniel 1920x866, Nik 390x844 touch; Nik reloads mid-season; Daniel double-taps LOCK & CONFIRM SEASON",
     env:{CE2PG_BROWSER:"webkit",CE2PG_VP_DANIEL:"1920x866",CE2PG_VP_NIK:"390x844",CE2PG_RELOAD_AT:"chamber-continue:1:nik",CE2PG_DOUBLE_TAP:"commit"},webkit:["daniel","nik"]},
   graphite:{label:"WebKit both phones, Graphite; Daniel 390x844 touch, Nik 1920x866; Daniel reloads mid-season",
     env:{CE2PG_BROWSER:"webkit",CE2PG_CLUBHOUSE:"matte",CE2PG_VP_DANIEL:"390x844",CE2PG_VP_NIK:"1920x866",CE2PG_RELOAD_AT:"chamber-continue:1:daniel"},webkit:["daniel","nik"]},
   mixed:{label:"Daniel WebKit 390x844 touch, Nik Chromium 1920x866, Wooden",
-    env:{CE2PG_BROWSER:"mixed",CE2PG_VP_DANIEL:"390x844",CE2PG_VP_NIK:"1920x866"},webkit:["daniel"]}
+    env:{CE2PG_BROWSER:"mixed",CE2PG_VP_DANIEL:"390x844",CE2PG_VP_NIK:"1920x866"},webkit:["daniel"]},
+  nogl:{label:"DEV: WebKit both phones, WebGL off (the 2D/SVG paths)",env:{CE2PG_BROWSER:"webkit",CE2PG_VP_DANIEL:"1920x866",CE2PG_VP_NIK:"390x844",CE2PG_SMOKE_NOGL:"1"},webkit:[]}
 };
 // The steps a leg must show in its report, each passed (a missing one is a red, never a pass).
 function requiredChecks(leg){
@@ -69,9 +70,10 @@ function judge(leg,{code,log,report}){
   }
   const rules=(LEGS[leg].env.CE2PG_RELOAD_AT||"").split(",").filter(Boolean);
   if(rules.length){
-    const fired=log.match(/RELOAD rules fired (\d+)\/(\d+)/);
+    // the journey's own process prints "RELOAD rules fired n/N" when it exits (its bootstrap parent prints 0/N after it)
+    const fired=[...log.matchAll(/RELOAD rules fired (\d+)\/(\d+)/g)];
     const back=(log.match(/^RELOAD back /gm)||[]).length;
-    if(!fired||fired[1]!==fired[2]||Number(fired[2])!==rules.length)reasons.push(`mid-season reload did not fire as planned (${fired?fired[0]:"no RELOAD summary"})`);
+    if(!fired.some(f=>Number(f[1])===rules.length&&Number(f[2])===rules.length))reasons.push(`mid-season reload did not fire as planned (${fired.map(f=>f[0]).join("; ")||"no RELOAD summary"})`);
     if(back<rules.length)reasons.push(`a reloaded page never came back into the game (${back} of ${rules.length})`);
     if(/^RELOAD STUCK /m.test(log))reasons.push("a reloaded page was stuck for 120 s");
   }
@@ -104,6 +106,11 @@ async function runLeg(leg){
   fs.writeFileSync(path.join(OUT_DIR,`webkit-smoke-${leg}.json`),JSON.stringify(out,null,2));
   console.log(`\nWEBKIT-SMOKE ${verdict} ${leg} (${out.seconds} s, ${out.checks.passed}/${out.checks.total} checks): ${LEGS[leg].label}`);
   for(const r of reasons)console.log(`  - ${r}`);
+  // The job log is what a reader of a dispatched run gets (artifacts stay on GitHub): on a red, what went wrong in full.
+  if(verdict!=="PASS"&&report){
+    for(const p of (report.problems||[]).slice(0,8))console.log(`  problem ${p.id} [${p.context}] ${p.screen}: ${String(p.description||"").slice(0,1500)}`);
+    for(const [who,list] of Object.entries(report.console||{}))for(const c of (list||[]).slice(-15))console.log(`  console ${who} S${c.season} ${c.type}: ${String(c.text||"").slice(0,300)}`);
+  }
   process.exit(verdict==="PASS"?0:1);
 }
 
