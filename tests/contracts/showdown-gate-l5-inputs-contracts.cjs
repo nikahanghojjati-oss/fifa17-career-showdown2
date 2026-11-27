@@ -35,7 +35,8 @@ async function run(){
   const head='c'.repeat(40),base='b'.repeat(40),runId=100;
   const route={profile:'L5_INPUTS_CONTRACT',tests:[],proofs:[],operations:false};
   const needs=Object.fromEntries(Object.values(S.LANES).map(def=>[def.job,{result:'success'}]));
-  const lanes=()=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:Object.fromEntries(Object.keys(S.LANES[lane].steps).map(id=>[id,{outcome:'success'}]))})]));
+  const ring2Of=shard=>({stories:S.L9_STORIES,asked:S.L9_STORIES,firstSeed:S.l9Seed(shard),lastSeed:S.l9Seed(shard)+S.L9_STORIES-1,seedsOk:true,survived:S.L9_STORIES});const l9Extra=lane=>S.isL9(lane)?{ring2:ring2Of(S.LANES[lane].shard)}:lane===S.L10_LANE?{league3d:{verdict:'PASS',runs:S.L10_RUNS.map(name=>({name})),failures:[],chromium:{args:['--use-angle=swiftshader']}}}:{};// a ran L9 shard carries its own 50-story report
+  const lanes=()=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:Object.fromEntries(Object.keys(S.LANES[lane].steps).map(id=>[id,{outcome:'success'}])),...l9Extra(lane)})]));
   const skipped=()=>({...lanes(),L5:S.buildLaneRecord({lane:'L5',headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:{regression:{outcome:'skipped'}},l5Run:false,l5Reason:decision({}).l5_reason,files:css})});
   const seal=extra=>S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:base,baseRef:'gameplay/bug-list-1',files:css,prLiveHead:head,route,needs,lanes:skipped(),runId,runAttempt:1,...extra});
   assert.deepEqual(skipped().L5.selected,[]);

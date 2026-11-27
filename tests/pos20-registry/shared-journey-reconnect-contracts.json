@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/shared-journey-reconnect-contracts.cjs",
+  "patterns": [
+    "^js/sharedJourneyReconnect\\.js$",
+    "^js/sharedMultiSeasonProgression\\.js$",
+    "^tests/contracts/shared-journey-reconnect-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-journey\\-reconnect\\-contracts\\.json$"
+  ]
+}

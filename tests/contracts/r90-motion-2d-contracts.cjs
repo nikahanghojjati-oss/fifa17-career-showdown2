@@ -174,7 +174,7 @@ let n=0;const ok=(id,msg)=>{n++;console.log(`ok ${n} ${id} ${msg}`);};
   assert.match(read("js/v10Screens.js"),/mode:loading\?"none":entry\?entry\[1\]:"hidden"/,"nav is \"none\" only while a loading screen covers the app");
   assert.match(club,/#clubWheelScreen\[data-v10-pending\]:not\(\.cl-on\) \{ visibility: hidden; \}/,"Club stays unseen between its styles and its mount");
   assert.match(club,/html:not\(\[data-v10-screen="clubWheelScreen"\]\) #app > main:has\(> #clubWheelScreen:not\(\.hidden\)\) \{ position: static; inset: auto; z-index: auto; pointer-events: auto; \}/,"club.css's bare main rule cannot move the app's main before Club is named");
-  assert.match(read("js/clubScreenV10.js"),/section\.classList\.add\("cl-on"\);\n      clDecorate\(section\);[\s\S]{0,240}root\.ClubPlate\.app\.mount\(/,"cl-on and Team V's first layout land in the same task");
+  assert.match(read("js/clubScreenV10.js"),/section\.classList\.add\("cl-on"\);if\(BOX_ROOM\)section\.classList\.add\("cl-box"\);\n      clDecorate\(section\);[\s\S]{0,240}root\.ClubPlate\.app\.mount\(/,"cl-on, the box room (r100 B7: before any style pass, so the held-pack plate is never fetched) and Team V's first layout land in the same task");
   assert.match(read("js/v10Screens.js"),/liveIds\.some\(id=>\{const def=registry\.get\(id\);return Boolean\(def&&def\.css\.some\(css=>BASE\+css===file\)&&\(mounted\.has\(id\)\|\|def\.css\.every\(css=>styles\.get\(BASE\+css\)\?\.settled===true\)\)\);\}\)/,"a screen's sheets switch on together, once all have settled or it has mounted");
   ok("CLS","the top bar's room is kept under the gate, and Club shows only once laid out");}
 console.log(`PASS r90 MOTION 2D contracts: ${n} numbered checks.`);

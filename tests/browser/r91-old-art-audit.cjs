@@ -28,10 +28,11 @@ const Face = require("./phone-marble-facecheck-audit.cjs");
 const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_OLD_ART_SHOTS || "";
 const reportFile = process.env.CMS_OLD_ART_REPORT || "";
-const touchSize = (w, h) => w < 900 || h < 500;
+const touchSize = (w, h, pointer) => pointer ? pointer === "touch" : w < 900 || h < 500;
 // R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte opens every screen in that clubhouse (this device's pick, localStorage).
 // Every room drawn must then be that theme's copy (plates-hc/<theme>/), and no plain room may even be downloaded: a plain room
 // fetched first could paint for a moment before the themed one (A3, A4).
+// No clubhouse draws or downloads another clubhouse's room or loading room, on any screen (A5; Wooden included).
 const THEME = /^(silver|black|matte)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
 const PLAIN_ROOM = /visual-assets\/v10_1\/plates-hc\/(?:ENV|TILE)_/;
 
@@ -51,11 +52,20 @@ const GROUPS = {
     desk: ["1920x866", "1920x1035", "1363x936", "1024x768", "1280x1024", "3440x1440", "1080x1920", "900x700"],
     "touch-up": ["390x844", "820x1180"],
     "touch-side": ["844x390", "640x360"],
+    // r100 B7 (lead 2026-11-25): the short windows where Season Results lost its room (901-1000 x up to 520 with a mouse,
+    // 560-639 x 340-410) and Final Winner fell between layouts (touch screens so wide and short that the 880px big-phone
+    // zoom left them under 340 tall). "m" forces a mouse window and "t" a touch screen. The Gate runs it on Season Results
+    // and Final Winner only: CMS_OLD_ART_GROUP=short node tests/browser/r91-old-art-audit.cjs SEASON_ENTRY SEASON_REVIEW FINAL_WINNER TROPHY_ROOM
+    // 4th pass: every other landscape window under 901 wide and up to 500 tall (Season Results had no room there: mouse 640-900 x
+    // 411-500, phones under 560 wide or under 340 tall, a touch screen zoomed to 880 x 411-500), and Trophy Room at 761-900 x
+    // 481-500, where the old stadium picture showed between its sideways and desktop layouts.
+    short: ["901x340m", "960x450m", "1000x520m", "560x400", "639x340", "639x410", "1040x400", "1366x500t",
+        "480x300", "534x320", "700x450m", "900x420m", "800x490m", "960x480t", "900x500t"],
     full: [...new Set([...Object.values(NAMED).flat(), ...sweep(900, 0.4, 2.6, 0.05), ...sweep(400, 1.4, 2.6, 0.1)])]
 };
 const group = process.env.CMS_OLD_ART_GROUP || "desk";
 if(!process.env.CMS_OLD_ART_SIZES && !GROUPS[group]) throw new Error(`Unknown CMS_OLD_ART_GROUP ${group}`);
-const SIZES = [...new Set(process.env.CMS_OLD_ART_SIZES ? process.env.CMS_OLD_ART_SIZES.split(",") : GROUPS[group])].map(s => s.split("x").map(Number));
+const SIZES = [...new Set(process.env.CMS_OLD_ART_SIZES ? process.env.CMS_OLD_ART_SIZES.split(",") : GROUPS[group])].map(s => { const [w, h] = s.split("x").map(parseFloat); const size = [w, h]; if(/m$/.test(s)) size.pointer = "mouse"; else if(/t$/.test(s)) size.pointer = "touch"; return size; });
 
 // ---------- screens ----------
 const onHome = async page => {
@@ -90,7 +100,14 @@ const EXTRA = {
         stage.innerHTML = '<div class="sqShell"><div class="sqHeader"><span>Season 1</span><h2 class="sqTitle">Squad Management</h2><span class="sqWhen">Before the Russian Roulette</span></div><p class="sqStatus"></p><div class="sqHost"></div><div class="sqActions"><button class="sqBack" type="button">BACK TO SHOWDOWN HOME</button></div></div>';
         document.body.append(stage);
         window.CareerModeSquadScreen.mount(stage.querySelector(".sqHost"), { sheet: built.sheet || built.proposal, club: "Arsenal", rival: "Chelsea", locked: false, draft: { read: () => [], write(){} } });
-    }) }
+    }) },
+    // r100 B7 (HO-174..181): the sign-in gate on its own clubhouse lounge. The gate opens through the module's own render path
+    // (the r87 error-screens contract's test hook), signed out, over Home.
+    SIGNIN: { host: "onlinePlayerIdentityOverlay", open: async page => {
+        await page.route("**/js/onlinePlayerIdentity.js*", async route => { const res = await route.fetch(); const body = (await res.text()).replace('"use strict";', '"use strict";root.__r91SetGate=s=>{gateOpen=true;setOnlineIdentityState(s);renderOnlineIdentityOverlay();};'); await route.fulfill({ response: res, body }); });
+        await onHome(page);
+        await page.evaluate(() => window.__r91SetGate({ status: "signed-out", online: true, busy: false, message: "" }));
+    } }
 };
 const SCREENS = { ...Short.SCREENS, ...EXTRA };
 delete SCREENS.HISTORY; // History is a view of Legacy: same room
@@ -102,7 +119,8 @@ async function openScreen(page, key){
 // Each screen's own room (HO-068, Nik's picks). A screen may also show Home's room behind an overlay.
 const ROOM = {
     HOME: "HOME", SETTINGS: "SLAB|HOME", RULE_BOOK: "SLAB|HOME", CONNECT_PLAYERS: "TUNNEL", LEGACY: "ARCHIVE", CAREER_STATISTICS: "BOARD", TROPHY_ROOM: "ARCHIVE",
-    RIVALRY: "TUNNEL", STANDINGS: "TUNNEL", FINAL_WINNER: "BOARD", SEASON_ENTRY: "BOARD", SEASON_REVIEW: "BOARD", START: "HALL", LEAGUE: "BOX", CLUB: "BOX", TRANSFER: "OFFICE", SQUAD: "COACHES"
+    RIVALRY: "TUNNEL", STANDINGS: "TUNNEL", FINAL_WINNER: "BOARD", SEASON_ENTRY: "BOARD", SEASON_REVIEW: "BOARD", START: "HALL", LEAGUE: "BOX", CLUB: "BOX", TRANSFER: "OFFICE", SQUAD: "COACHES",
+    SIGNIN: "SIGNIN"
 };
 // LISTED: screens still waiting for new Team V art. May only shrink.
 // Empty since Team V's front hall (HO-069) came in for Start.
@@ -114,7 +132,27 @@ const LISTED = {};
 const KNOWN_SHAPES = [];
 const SCENERY = /(ENV_|OVL_|_PLATE_|PACK_)/;
 const KNOWN_PLAIN_FETCH = /^$/;
-const CURRENT = /visual-assets\/v10_1\/plates-hc\//;
+// The clubhouse's own loading room is current too: the loading screen draws it at startup, before the screen under test shows.
+const CURRENT = new RegExp(`visual-assets/v10_1/plates-hc/|assets/loading/${THEME ? THEME + "/" : ""}ENV_LOADING_`);
+// Lead 2026-11-25 (Nik: never load what we don't show): a clubhouse downloads only its own loading room, never another's.
+// Lead 2026-11-25: retired pictures that no screen draws any more in any frame, tier or fallback; a download fails (A6).
+// Legacy, Trophy Room and Rivalry phone pictures; then Season Results hands and phone room, Final Winner near arms, the
+// Start and League phone heroes, the held-pack Club lounge (desktop and phone), and the Transfer TR2 locked plate and Nik's fingertip.
+const RETIRED_NEVER = new RegExp([
+  "plates-v2/ENV_LEGACY_PHONE_V2", "trophy-room/assets/(?:ENV_TR_PHONE_V1|OVL_TR_(?:DANIEL|NIK)_PHONE_V1)",
+  "rivalry-statistics/assets/(?:ENV_RV_PHONE_V1|OVL_RV_(?:DANIEL|NIK)_PHONE_V1)",
+  "season-results/assets/(?:OVL_SR_(?:DANIEL|NIK)_HAND_V1_|ENV_SR_PHONE_V1|OVL_SR_(?:DANIEL|NIK)_PHONE_V1)",
+  "final-winner/assets/OVL_FW_(?:DANIEL|NIK)_NEAR_ARM_V1_[12]X",
+  "start-join/assets/OVL_SJ_(?:DANIEL|NIK)_PHONE_V1", "league/assets/OVL_LEAGUE_(?:DANIEL|NIK)_PHONE_V1",
+  "plates-v2/ENV_CLUB_PLATE_V2_", "plates-v2/ENV_CLUB_PHONE_V2", "/ENV_TR2_PLATE_G_LOCKED_V1_", "/OVL_NIK_FINGERTIP_V1_",
+  // r100 B7: the old marble Settings room that sat behind the sign-in and error screens (now each clubhouse's own lounge)
+  "plates-v2/ENV_SETTINGS_(?:PLATE|PHONE)_V2"
+].join("|"));
+// r100 B7 (Verify nit on #1632): premium only also means one clubhouse never draws or downloads another clubhouse's room, on
+// any screen (A5), not only the loading room.
+const otherRoom = theme => theme ? new RegExp(`plates-hc/(?!${theme}/)(?:silver|black|matte)/`) : /plates-hc\/(?:silver|black|matte)\//;
+const OTHER_ROOM = otherRoom(THEME);
+const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
     const urls = s => [...String(s || "").matchAll(/url\(["']?([^"')]+)["']?\)/g)].map(m => m[1]);
@@ -133,12 +171,16 @@ function drawnPictures(){
     }
     return out;
 }
-function judge(key, drawn){
+// theme: the clubhouse the page was opened in. Callers that pick the clubhouse themselves (the Season Results reach audit opens
+// all four in one run) pass it; this audit's own runs take CMS_CLUBHOUSE.
+function judge(key, drawn, theme = THEME){
     const scenery = drawn.filter(d => /visual-assets\//.test(d.url) && SCENERY.test(d.url));
     const listed = LISTED[key];
     const old = scenery.filter(d => !CURRENT.test(d.url) && !(listed && listed.allow.test(d.url)));
     const findings = old.map(d => `A1 old picture ${d.url.replace(/^.*visual-assets\/v10_1\//, "")} on ${d.el}`);
-    if(THEME) for(const d of scenery) if(PLAIN_ROOM.test(d.url)) findings.push(`A3 plain room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${THEME} clubhouse on ${d.el}`);
+    if(theme) for(const d of scenery) if(PLAIN_ROOM.test(d.url)) findings.push(`A3 plain room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${theme} clubhouse on ${d.el}`);
+    const other = otherRoom(theme);
+    for(const d of drawn) if(other.test(d.url)) findings.push(`A5 another clubhouse's room ${d.url.replace(/^.*plates-hc\//, "")} drawn in the ${theme || "Wooden"} clubhouse on ${d.el}`);
     const room = ROOM[key];
     if(room && !scenery.some(d => CURRENT.test(d.url) && new RegExp(`ENV_(${room})_`).test(d.url))) findings.push(`A2 the ${room.replace("|", " or ")} room is not drawn`);
     return [...new Set(findings)];
@@ -157,6 +199,9 @@ if(require.main === module){
             const drawn = await page.evaluate(drawnPictures);
             const findings = judge(key, drawn), known = KNOWN_SHAPES.find(k => k.match(w, h));
             if(THEME && requested) for(const u of requested) if(PLAIN_ROOM.test(u) && !KNOWN_PLAIN_FETCH.test(u)) findings.push(`A4 plain room ${u.replace(/^.*plates-hc\//, "")} downloaded in the ${THEME} clubhouse`);
+            if(requested) for(const u of requested) if(RETIRED_NEVER.test(u)) findings.push(`A6 retired picture ${u.replace(/^.*v10_1\//, "")} downloaded (no screen draws it)`);
+            if(requested) for(const u of requested) if(OTHER_ROOM.test(u)) findings.push(`A5 another clubhouse's room ${u.replace(/^.*plates-hc\//, "")} downloaded in the ${THEME || "Wooden"} clubhouse`);
+            if(requested) for(const u of requested) if(OTHER_LOADING.test(u)) findings.push(`A5 another clubhouse's loading room ${u.replace(/^.*assets\/loading\//, "")} downloaded in the ${THEME || "Wooden"} clubhouse`);
             if(known && findings.length){ console.log(`KNOWN ${key} ${w}x${h} (${known.name}; ${known.follow})${findings.map(f => "\n   " + f).join("")}`); return; }
             for(const what of findings) report.push({ screen: key, size: `${w}x${h}`, what });
             if(requested) for(const u of requested){ const shortName = u.replace(/^.*visual-assets\/v10_1\//, ""); if(SCENERY.test(u) && !CURRENT.test(u) && !(LISTED[key] && LISTED[key].allow.test(u)) && !drawn.some(d => d.url === u)) notes.set(`${key} ${shortName}`, (notes.get(`${key} ${shortName}`) || 0) + 1); }
@@ -165,7 +210,7 @@ if(require.main === module){
         };
         const watch = page => { const seen = new Set(); page.on("request", r => { const u = r.url(); if(u.startsWith(baseUrl.origin) && /\.(webp|png|jpe?g|avif)(\?|$)/.test(u)) seen.add(u.replace(baseUrl.origin + "/", "").replace(/\?.*$/, "")); }); return seen; };
         try{
-            const desk = SIZES.filter(([w, h]) => !touchSize(w, h)), touch = SIZES.filter(([w, h]) => touchSize(w, h));
+            const desk = SIZES.filter(size => !touchSize(size[0], size[1], size.pointer)), touch = SIZES.filter(size => touchSize(size[0], size[1], size.pointer));
             // desktop: open once per screen, then drag the window through every desktop size
             if(desk.length){
                 const context = await browser.newContext({ viewport: { width: desk[0][0], height: desk[0][1] }, serviceWorkers: "block" });

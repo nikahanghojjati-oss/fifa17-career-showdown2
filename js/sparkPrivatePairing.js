@@ -755,7 +755,7 @@
     let lo=t-10*60000;while(t-lo>1){const mid=lo+Math.floor((t-lo)/2);if(fsbPacificDay(mid)===today)lo=mid;else t=mid;}
     return t;
   }
-  function fsbDayState(at=fsbNow()){
+  function fsbDayState(at=fsbCalendarNow()){
     const day=fsbPacificDay(at);
     if(!fsbDay){fsbDay={day,reads:0,markReads:0,seasons:[],costs:[],lastCost:0,bill:fsbBillFrom(null,day)};try{const saved=JSON.parse((typeof root.readStorageValue==="function"&&root.readStorageValue(FSB_DAY_KEY))||"null");fsbDay.bill=fsbBillFrom(saved,day);if(saved&&Number.isFinite(saved.lastCost)&&saved.lastCost>0)fsbDay.lastCost=Math.floor(saved.lastCost);if(saved&&saved.day!==day&&Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(saved&&saved.day!==day){if(fsbSeasonCost(saved))fsbDay.lastCost=fsbSeasonCost(saved);fsbDay.markReads=-fsbCarried(saved);}if(saved&&saved.day===day&&Number.isFinite(saved.reads)&&saved.reads>=0){fsbDay.reads=Math.floor(saved.reads);if(Number.isFinite(saved.markReads)&&saved.markReads<=fsbDay.reads)fsbDay.markReads=Math.floor(saved.markReads);if(Array.isArray(saved.seasons))fsbDay.seasons=saved.seasons.filter(key=>typeof key==="string").slice(-FSB_DAY_SEASONS);if(Array.isArray(saved.costs))fsbDay.costs=saved.costs.filter(cost=>Number.isFinite(cost)&&cost>0).slice(-FSB_DAY_SEASONS);}}catch(_error){}fsbDayMark();}
     // F3-14 (Fable job 3): the noted season keys carry over the Pacific reset, so a season acknowledged yesterday is not noted again
@@ -810,7 +810,7 @@
   // lookups: the Rules lookups this request is billed (fsbReadLookups); career: a career-page read (fsbBill).
   function fsbCountRead(count=1,brake=true,lookups=0,career=false){
     if(!(count>0))return;
-    const at=fsbNow(),day=fsbDayState(at);
+    const at=fsbNow(),day=fsbDayState();
     if(brake)for(let index=0;index<count;index+=1)fsbReadTimes.push(at);
     while(fsbReadTimes.length&&at-fsbReadTimes[0]>FSB_BRAKE_WINDOW_MS)fsbReadTimes.shift();
     if(fsbReadTimes.length>FSB_BRAKE_READS*4)fsbReadTimes.splice(0,fsbReadTimes.length-FSB_BRAKE_READS*4);
@@ -1089,7 +1089,7 @@
       if(fsbPaused())return Promise.reject(fsbQuotaError());
       const lookups=fsbReadLookups(fsbPathOf(args[0]),true);
       try{pending=get.apply(this,args);}catch(error){fsbGetFailed(error,lookups);throw error;}
-      return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false,lookups,true);return snapshot;},error=>{fsbGetFailed(error,lookups);throw error;});
+      return Promise.resolve(pending).then(snapshot=>{const units=fsbMeterUnits(snapshot);fsbStats.directReads+=units;fsbCountRead(units,false,lookups,true);fsbTap(fsbPathOf(args[0]),snapshot);return snapshot;},error=>{fsbGetFailed(error,lookups);throw error;});
     };
     fsbMetered.add(metered);
     return metered;
@@ -1099,7 +1099,7 @@
     if(typeof listen!=="function"||fsbMetered.has(listen))return listen;
     const metered=function(ref,...rest){
       let served=false;const path=fsbPathOf(ref);
-      const next=fn=>function(snapshot){const units=fsbMeterUnits(snapshot,true,served),first=!served;if(units||snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)served=true;fsbCountRead(units,true,first||units?fsbReadLookups(path):0);return fn.apply(this,arguments);};
+      const next=fn=>function(snapshot){const units=fsbMeterUnits(snapshot,true,served),first=!served;if(units||snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)served=true;fsbCountRead(units,true,first||units?fsbReadLookups(path):0);if(snapshot&&snapshot.metadata&&snapshot.metadata.fromCache===false)fsbTap(path,snapshot);return fn.apply(this,arguments);};
       const fail=fn=>function(error){fsbCountRead(fsbMeterFailureUnits(error),true,served?0:fsbReadLookups(path));return fn.apply(this,arguments);};
       let functions=0;
       const args=rest.map(arg=>{
@@ -1139,8 +1139,43 @@
     return frozen;
   }
 
-  function fsbNow(){return Date.now();}
+  // Phoenix B2 (r100, B1's quota leg with the clock put back, seed 4181106201): every pause and window this budget holds in page
+  // memory (the quota pause, refused paths, listener health, cached reads, recent input) is measured on this clock. It runs on the
+  // page's monotonic clock (performance.now), so a phone clock set back while the app is open can never bring a finished pause
+  // back or keep a window open longer; a clock that jumps ahead (a phone woken the next day, where the monotonic clock may have
+  // stood still) is followed, so the free reads' Pacific day still turns. It never runs backwards.
+  // The free reads' Pacific billing day is a calendar date, so it reads the phone's own clock (as the partner's phone does, so the
+  // shared meter's days match): only elapsed-time windows use fsbNow (Codex on #1628).
+  function fsbCalendarNow(){return Date.now();}
+  let fsbClockBase=null;
+  function fsbNow(){
+    const wall=Date.now();let mono=NaN;try{mono=root.performance&&typeof root.performance.now==="function"?Number(root.performance.now()):NaN;}catch(_error){mono=NaN;}
+    if(!Number.isFinite(mono))return fsbClockBase===null||wall>fsbClockBase?(fsbClockBase=wall):fsbClockBase;
+    if(fsbClockBase===null)fsbClockBase=wall-mono;
+    const at=fsbClockBase+mono;if(wall>at){fsbClockBase=wall-mono;return wall;}
+    return at;
+  }
   function fsbPathOf(ref){return ref&&typeof ref.path==="string"?ref.path:"";}
+  // r100 Phoenix B5: the Flight Recorder (js/flightRecorder.js) sees each server copy of a rivalry document this layer already
+  // holds (transaction and probe reads, listener deliveries, direct gets). It keeps only the public step ledger of the live
+  // Showdown (never a role document, a pick, a guess, a signing or a score) and makes no read or write of its own. Until the
+  // module has loaded, up to 128 copies wait here; any failure in it is swallowed, so no read, copy or result changes.
+  // Only the six public ledger documents the recorder keeps are handed on or queued (role, Prime Pack and session documents never
+  // are); a failed load drops the queue and waits a minute before trying again.
+  const fsbFlightPath=/^rivalries\/[^/]+(?:\/(?:sharedSetup|careerStart)\/authoritative|\/(?:transferChallenges|seasonResults|seasonCommits)\/season_(?:[1-9]|10))?$/;
+  const fsbFlightQueue=[];let fsbFlightAsked=false,fsbFlightRetryAt=0;
+  function fsbTap(path,snapshot){
+    try{
+      if(typeof path!=="string"||!fsbFlightPath.test(path)||!snapshot||typeof snapshot!=="object"||Array.isArray(snapshot.docs))return;
+      const recorder=root.CareerModeFlightRecorder;
+      if(recorder&&typeof recorder.observe==="function"){fsbTapFlush(recorder);recorder.observe(path,snapshot);return;}
+      if(fsbNow()<fsbFlightRetryAt)return;
+      if(fsbFlightQueue.length>=128)fsbFlightQueue.shift();
+      fsbFlightQueue.push([path,snapshot]);
+      if(!fsbFlightAsked&&typeof root.loadRuntimeScript==="function"){fsbFlightAsked=true;Promise.resolve().then(()=>root.loadRuntimeScript("flight-recorder","js/flightRecorder.js",()=>Boolean(root.CareerModeFlightRecorder))).then(()=>fsbTapFlush(root.CareerModeFlightRecorder),()=>{fsbFlightAsked=false;fsbFlightQueue.length=0;fsbFlightRetryAt=fsbNow()+60000;});}
+    }catch(_error){}
+  }
+  function fsbTapFlush(recorder){try{if(!recorder||typeof recorder.observe!=="function")return;while(fsbFlightQueue.length){const [path,snapshot]=fsbFlightQueue.shift();try{recorder.observe(path,snapshot);}catch(_error){}}}catch(_error){}}
   function fsbIsQuotaError(error){
     for(let item=error,depth=0;item&&typeof item==="object"&&depth<3;item=item.cause,depth+=1){
       const code=String(item.code||"").toLowerCase(),message=String(item.message||"");
@@ -1179,28 +1214,32 @@
     }
     try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-authority-denied"));}catch(_error){}
   }
-  function fsbPaused(){return Boolean(fsbPause&&fsbNow()<fsbPause.until);}
+  // Phoenix B2: the resume timer runs on the page's timers, which can lag a clock that jumped ahead (a phone woken the next day):
+  // the first check that finds the pause over tells the screens itself, once (fsbShownPaused is what was last told).
+  let fsbShownPaused=false;
+  function fsbPaused(){const paused=Boolean(fsbPause&&fsbNow()<fsbPause.until);if(!paused&&fsbShownPaused){fsbShownPaused=false;if(typeof root.setTimeout==="function")root.setTimeout(()=>{if(!fsbPaused())fsbPublish();},0);}return paused;}
   function fsbQuotaError(){fsbStats.pausedRefusals+=1;const error=new Error(FSB_QUOTA_MESSAGE);error.code="resource-exhausted";error.quotaPaused=true;return error;}
   function fsbQuotaMessage(error){return fsbPaused()||(error!==undefined&&fsbIsQuotaError(error))?FSB_QUOTA_MESSAGE:null;}
   function fsbState(){const paused=fsbPaused();return Object.freeze({paused,until:fsbPause?fsbPause.until:null,step:fsbPause?fsbPause.step:null,message:paused?FSB_QUOTA_MESSAGE:null});}
   function fsbPublish(){
-    const state=fsbState();
+    fsbShownPaused=false;const state=fsbState();fsbShownPaused=state.paused;
     try{const html=root.document&&root.document.documentElement;if(html&&html.dataset){if(state.paused)html.dataset.firestoreQuota="paused";else delete html.dataset.firestoreQuota;}}catch(_error){}
     try{if(typeof root.dispatchEvent==="function"&&typeof root.CustomEvent==="function")root.dispatchEvent(new root.CustomEvent("career-mode-firestore-quota",{detail:state}));}catch(_error){}
   }
   function fsbTrip(){
     if(fsbPaused())return;
-    const at=fsbNow(),recent=fsbPause&&at-fsbPause.until<2*60*60000&&fsbPacificDay(fsbPause.since)===fsbPacificDay(at);
+    const at=fsbNow(),wall=fsbCalendarNow(),today=fsbPacificDay(wall),recent=fsbPause&&at-fsbPause.until<2*60*60000&&fsbPause.day===today;
     const step=recent?Math.min(fsbPause.step+1,FSB_PAUSE_STEPS_MS.length-1):0;
     // F3-07 (Fable job 3): the free reads come back at midnight Pacific, so no pause runs past the reset (+1 min).
-    const until=Math.min(at+FSB_PAUSE_STEPS_MS[step],fsbNextPacificDayAt(at)+60000);
-    fsbPause=Object.freeze({step,since:at,until});
+    // The reset is a calendar time (the phone's own clock, like the partner's phone); the pause itself runs on fsbNow.
+    const until=Math.min(at+FSB_PAUSE_STEPS_MS[step],at+Math.max(0,fsbNextPacificDayAt(wall)-wall)+60000);
+    fsbPause=Object.freeze({step,since:at,day:today,until});
     fsbStats.quotaTrips+=1;
     fsbEntries.clear();
     fsbDetachWait();fsbCtxDetach();
     if(fsbResumeTimer!==null&&typeof root.clearTimeout==="function")root.clearTimeout(fsbResumeTimer);
     // One timer per pause, only to tell the screens that online play may resume; it reads nothing itself.
-    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;fsbPublish();},Math.max(0,until-at)+50):null;
+    fsbResumeTimer=typeof root.setTimeout==="function"?root.setTimeout(()=>{fsbResumeTimer=null;if(fsbShownPaused)fsbPublish();},Math.max(0,until-at)+50):null;
     fsbPublish();
   }
   function fsbHidden(){return Boolean(root.document&&root.document.visibilityState==="hidden");}
@@ -1221,6 +1260,10 @@
       // (every update needs WINDOW_OPEN, GUESS_ENTRY or SIGNING_ENTRY before it) and cannot be deleted.
       if(/^rivalries\/[^/]+\/sharedSetup\/leagueProjection$/.test(path))return true;
       if(/^rivalries\/[^/]+\/transferChallenges\/[^/]+$/.test(path))return Boolean(value&&value.phase==="COMPLETED");
+      // r100 read cut B (B4): a manager's private Transfer War document is created by LOCK MY GUESSES and updated once, by LOCK
+      // MY SIGNINGS (the Rules allow an update only while signings and signingLockedAt are still empty, and no delete); once
+      // it holds both, it never changes again, so its copy is kept like the COMPLETED season document above.
+      if(/^rivalries\/[^/]+\/transferChallenges\/[^/]+\/roles\/(playerOne|playerTwo)$/.test(path))return Boolean(value&&value.objectType==="sharedTransferChallengeRole"&&value.signingLockedAt!==null&&value.signingLockedAt!==undefined&&Array.isArray(value.signings));
     }catch(_error){}
     return false;
   }
@@ -1311,6 +1354,7 @@
     if(db!==fsbFirestore)return;
     const path=fsbPathOf(ref);
     if(!path)return;
+    fsbTap(path,snapshot);
     const before=fsbEntries.get(path);
     fsbEntries.delete(path);
     const entry={snapshot,at:fsbNow(),dirty:false,immutable:fsbImmutable(path,snapshot)};
@@ -1367,6 +1411,7 @@
   function fsbCtxDelivery(watch,snapshot){
     if(fsbCtxWatches.get(watch.path)!==watch)return;
     if(!snapshot||!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){watch.healthy=false;return;}
+    fsbTap(watch.path,snapshot);
     const serial=fsbSerial(snapshot),known=fsbEntries.get(watch.path);
     const before=watch.serial!==null?watch.serial:(known?fsbSerial(known.snapshot):null);
     watch.snapshot=snapshot;watch.serial=serial;watch.healthy=true;watch.dirty=false;watch.confirmedAt=fsbNow();
@@ -1497,6 +1542,7 @@
   function fsbWaitDelivery(wait,snapshot){
     if(fsbWait!==wait)return;
     if(!snapshot||!snapshot.metadata||snapshot.metadata.fromCache||snapshot.metadata.hasPendingWrites){wait.healthy=false;return;}
+    fsbTap(wait.path,snapshot);
     const serial=fsbSerial(snapshot),version=fsbVersion(snapshot);
     const before=wait.serial!==null?wait.serial:fsbSerial(fsbEntries.get(wait.path)&&fsbEntries.get(wait.path).snapshot);
     const changed=before!==null&&before!==serial;
@@ -1529,13 +1575,17 @@
     const at=fsbNow(),relaxed=Boolean(options&&options.relaxed===true);
     if(fsbWait){for(const [key,info] of [...fsbWait.owners])if(key!==owner&&at-info.seen>FSB_WAIT_OWNER_MS)fsbWait.owners.delete(key);if(!fsbWait.owners.size)fsbDetachWait();}
     const release=()=>{if(fsbWait&&fsbWait.owners.delete(owner)&&!fsbWait.owners.size)fsbDetachWait();return false;};
-    if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)+$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
+    // r100 B6 JOIN speed: the rivalry document itself may be watched too (Daniel waiting on Nik's JOIN).
+    if(typeof path!=="string"||!/^rivalries\/[^/]+(?:\/[^/]+\/[^/]+)*$/.test(path)){fsbWaitAsks.delete(owner);if(!fsbHidden())fsbReturnWakes.delete(owner);return release();}
     fsbWaitAsks.set(owner,{path,at});if(typeof wake==="function")fsbReturnWakes.set(owner,wake);
     if(fsbPaused()||fsbHidden()||!fsbFirestore||(fsbWaitFailed.get(path)||0)>at)return release();
     if(fsbWait&&fsbWait.path===path){fsbWait.owners.set(owner,{wake,seen:at,relaxed});return fsbWaitLive();}
     if(fsbWait&&!(fsbWait.owners.size===1&&fsbWait.owners.has(owner)))return false;
     const api=fsbSnapshotApi;
-    if(!api){fsbLoadSnapshotApi();return release();}
+    // r100 B6 JOIN speed: the first wait of a page loads the listener module; once it is loaded the same ask attaches at once
+    // (if the screen still asks for it), instead of on that screen's next timed check (3-4 s later on the JOIN waits).
+    // Line comments only below the generated Rules table: its "/*" path strings would pair with a block comment's end.
+    if(!api){const loading=fsbLoadSnapshotApi();if(loading&&typeof loading.then==="function")loading.then(()=>{const ask=fsbWaitAsks.get(owner);if(fsbSnapshotApi&&ask&&ask.path===path&&fsbNow()-ask.at<FSB_WAIT_OWNER_MS)fsbWatchWaitPoint(owner,path,wake,options);},()=>{});return release();}
     fsbDetachWait();
     const wait={path,attachedAt:at,owners:new Map([[owner,{wake,seen:at,relaxed}]]),snapshot:null,serial:null,version:null,healthy:false,dirty:false,confirmedAt:0,lagUntil:0,lagVersion:null,lagSerial:null,unsubscribe:null};
     fsbWait=wait;fsbStats.listenersAttached+=1;

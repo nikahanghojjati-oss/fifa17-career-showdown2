@@ -48,7 +48,8 @@ async function run(){
   const files=['README.md'];
   const needs=Object.fromEntries(Object.values(S.LANES).map(def=>[def.job,{result:'success'}]));
   const allSteps=lane=>Object.fromEntries(Object.keys(S.LANES[lane].steps).map(id=>[id,{outcome:'success'}]));
-  const green=()=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),...(S.isL7(lane)?{files,ironman:{verdict:'PASS',seed:1,seasons:3,attempts:[{exit:0}],replay:'x'}}:{})})]));
+  const ring2Of=shard=>({stories:S.L9_STORIES,asked:S.L9_STORIES,firstSeed:S.l9Seed(shard),lastSeed:S.l9Seed(shard)+S.L9_STORIES-1,seedsOk:true,survived:S.L9_STORIES});const l9Extra=lane=>S.isL9(lane)?{ring2:ring2Of(S.LANES[lane].shard)}:lane===S.L10_LANE?{league3d:{verdict:'PASS',runs:S.L10_RUNS.map(name=>({name})),failures:[],chromium:{args:['--use-angle=swiftshader']}}}:{};// a ran L9 shard carries its own 50-story report
+  const green=()=>Object.fromEntries(S.LANE_IDS.map(lane=>[lane,S.buildLaneRecord({lane,headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'success',steps:allSteps(lane),...l9Extra(lane),...(S.isL7(lane)?{files,ironman:{verdict:'PASS',seed:1,seasons:3,attempts:[{exit:0}],replay:'x'}}:{})})]));
   const seal=extra=>S.evaluateSeal({event:'pull_request',draft:false,headSha:head,baseSha:base,baseRef:'gameplay/r100',files,prLiveHead:head,route,needs,lanes:green(),runId,runAttempt:1,...extra});
   assert.equal(seal({}).verdict,'PASS',JSON.stringify(seal({}).failures));
   for(const id of ['pos1m_standin','pos1m_ring1','pos1m_planted']){const lanes=green();lanes['L8-2']=S.buildLaneRecord({lane:'L8-2',headSha:head,baseSha:base,runId,runAttempt:1,route,jobStatus:'failure',steps:{...allSteps('L8-2'),[id]:{outcome:'failure'}}});assert.equal(seal({lanes}).verdict,'FAIL_TEST',`a red ${id} fails the seal`);}

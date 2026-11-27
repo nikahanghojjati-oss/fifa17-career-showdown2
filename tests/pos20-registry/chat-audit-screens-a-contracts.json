@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/chat-audit-screens-a-contracts.cjs",
+  "patterns": [
+    "^js/screens\\.js$",
+    "^tests/contracts/chat\\-audit\\-screens\\-a\\-contracts\\.cjs$",
+    "^tests/pos20-registry/chat\\-audit\\-screens\\-a\\-contracts\\.json$"
+  ]
+}

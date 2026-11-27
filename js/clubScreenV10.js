@@ -428,7 +428,9 @@
     }
     clTeardown(section);
     try{
-      section.classList.add("cl-on");
+      // r100 B7: the box room class goes on with cl-on, before Team V's stage measures itself, so no style pass ever
+      // sees the held-pack lounge rules (css/v10Club.css CLUB-PLATE-V2) and its plate is never downloaded.
+      section.classList.add("cl-on");if(BOX_ROOM)section.classList.add("cl-box");
       clDecorate(section);
       const data=toPlateData(frame);fx=data.fx;
       mountedFrame=frame;mountedSection=section;crestFor=[frame.clubs.playerOne,frame.clubs.playerTwo];

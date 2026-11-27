@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r80-season-stale-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedMultiSeasonProgression\\.js$",
+    "^js/showdownUI\\.js$",
+    "^js/menuExperience\\.js$",
+    "^tests/contracts/r80\\-season\\-stale\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r80\\-season\\-stale\\-contracts\\.json$"
+  ]
+}

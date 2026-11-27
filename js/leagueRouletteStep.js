@@ -79,7 +79,7 @@
   let target={seed:"",winner:null,drops:0,instant:false};
   // The board mounts on the ledger as the screen first renders it (never on a guess), so a ball dropped before the screen
   // opened is shown at once instead of rolling again.
-  let synced=null,markSynced=()=>{};
+  let synced=null,markSynced=()=>{},ledgerSeen=false,firstDrops=0,lostTimer=null;
   function lrsFreshSync(){synced=new Promise(resolve=>{markSynced=resolve;});}
   lrsFreshSync();
   const listeners=new Set();
@@ -98,6 +98,7 @@
     if(typeof root.loadRuntimeScript!=="function")return false;
     await root.loadRuntimeScript(key,path,ready);return ready();
   }
+  function lrsCover(){try{const screens=root.CareerModeV10Screens;if(lrsShown()&&screens&&typeof screens.holdNow==="function")screens.holdNow(SCREEN_ID);}catch(_error){}}
   // The held screen opens: js/v10Screens.js draws it now that frame() no longer answers HOLD.
   function lrsRelease(){try{const screens=root.CareerModeV10Screens;if(screens&&typeof screens.show==="function")void screens.show(SCREEN_ID).catch(()=>{});}catch(_error){}}
   function lrsSetOn(on){
@@ -107,12 +108,15 @@
     const html=lrsDoc()&&lrsDoc().documentElement;if(html)html.classList.toggle("lr3d-room",on);
     if(!on)lrsLiftLine(false);
   }
-  function lrsTeardown(){
+  // rebuild: the board is built again in place (a lost WebGL context), so the screen keeps the 3D room and never shows the
+  // plain wheel meanwhile.
+  function lrsTeardown(rebuild=false){
     generation+=1;
     const was=scene;scene=null;mountPromise=null;playing=null;planKey="";
+    if(lostTimer!==null){root.clearTimeout(lostTimer);lostTimer=null;}
     if(was){try{was.dispose();}catch(_error){}}
     if(host){host.remove();host=null;}lastBox="";
-    lrsSetOn(false);
+    if(!rebuild)lrsSetOn(false);
   }
   // Leaving Select League frees the board (its GPU memory counts against the iPhone budget); coming back mounts it again
   // on the ledger as it stands.
@@ -220,19 +224,31 @@
     if(screen&&typeof root.MutationObserver==="function")new root.MutationObserver(lrsLayoutSoon).observe(screen,{attributes:true,attributeFilter:["class","hidden","data-v26-league"],childList:true,characterData:true,subtree:true});}
 
   function lrsArm(on){
-    if(!on){lrsTeardown();failed=false;target={seed:"",winner:null,drops:0,instant:false};lrsFreshSync();}
+    if(!on){lrsTeardown();failed=false;target={seed:"",winner:null,drops:0,instant:false};ledgerSeen=false;firstDrops=0;lrsFreshSync();}
     armed=Boolean(on);
+    return armed;
+  }
+  // Nik 2026-11-26 ("League Roulette always the 3D board, never the old wheel, in every clubhouse"): a shared Showdown's League
+  // Roulette is the 3D board also before both players are connected (Daniel's WAITING FOR NIK, a reload while waiting, Nik
+  // waiting for Daniel). js/v10Setup.js arms it idle as the screen opens: the board is built with no plan and no ball (the same
+  // five sections whatever the league), and takes the ledger once the shared presentation gives it. No read, no write.
+  function lrsIdle(){
+    armed=true;
+    if(!ledgerSeen)markSynced();
     return armed;
   }
   // js/v10Setup.js: hold Select League (the loading screen stays) while the armed board is not drawn yet.
   function lrsHolding(){return armed&&!failed&&!lrsAlive();}
 
-  function lrsEnsure(){
+  function lrsEnsure(rebuild=false){
     if(!armed||failed)return Promise.resolve(null);
     const wheel=lrsById("leagueWheel");if(!wheel)return Promise.resolve(null);
     if(lrsAlive()&&host&&host.parentNode===wheel)return Promise.resolve(scene);
     if(mountPromise)return mountPromise;
-    lrsTeardown();
+    lrsTeardown(rebuild===true);
+    // r100 audit F2: the loading screen is up, whole, before the board starts building (its shader compile can hold the page
+    // for seconds on a phone): js/v10Screens.js holds Select League from here until the board has drawn and its room is decoded.
+    if(rebuild!==true)lrsCover();
     const gen=generation;
     lrsStyle();lrsWatchScreen();
     const box=lrsDoc().createElement("div");box.className="lr3dHost";box.setAttribute("aria-hidden","true");
@@ -251,7 +267,7 @@
       }catch(_error){made=null;}
       if(gen!==generation||!armed){if(made){try{made.dispose();}catch(_error){}}return null;}
       if(!made){failed=true;box.remove();if(host===box)host=null;lrsSetOn(false);lrsRelease();lrsEmit("failed");return null;}
-      scene=made;lrsSetOn(true);lrsWatchLayout();lrsLayout();
+      scene=made;lrsSetOn(true);lrsWatchLayout();lrsLayout();lrsWatchContext(box,made);
       made.on((type,data)=>lrsEmit(type,data));
       lrsRelease();lrsEmit("ready",{stage:made.stage});
       void lrsCatchUp();
@@ -262,9 +278,25 @@
     return run;
   }
 
+  // r100 audit (F3): a lost WebGL context (the GPU dropped the picture: memory pressure on an iPhone, a GPU reset on a
+  // Chromebook) that the browser never gave back left a frozen or blank board until the screen was left. A context given back
+  // within LOST_WAIT_MS is restored in place by three.js (the board draws on, as it stood); otherwise the board is built again
+  // on a new canvas, on the ledger as it stands (a ball rolling then is shown rested, never rolled again), and the room stays
+  // on meanwhile. Only a board that cannot be built again falls back to the plain wheel and its text steps, as where 3D never ran.
+  const LOST_WAIT_MS=2500;
+  function lrsWatchContext(box,made){
+    const canvas=typeof box.querySelector==="function"?box.querySelector("canvas"):null;if(!canvas||typeof canvas.addEventListener!=="function")return;
+    const rebuild=()=>{lostTimer=null;if(scene!==made||!armed||failed)return;lrsEmit("lost",{stage:made.stage});lrsTeardown(true);if(lrsShown())void lrsEnsure(true);else lrsSetOn(false);};
+    canvas.addEventListener("webglcontextlost",()=>{if(scene!==made||lostTimer!==null)return;lostTimer=root.setTimeout(rebuild,LOST_WAIT_MS);});
+    canvas.addEventListener("webglcontextrestored",()=>{if(scene!==made||lostTimer===null)return;root.clearTimeout(lostTimer);lostTimer=null;});
+  }
   // The board follows the ledger. instant: show it as it stands (a Showdown opened before the roulette).
+  // The first ledger this board is given shows its balls at once: a board built idle before it (above) never rolls a ball
+  // dropped before this page saw the ledger (a reload, a late join), exactly as a board built on that ledger.
   function lrsSync(next){
+    // (Codex P2 on #1633) kept until the board has shown them: the screen syncs the same ledger again on every board event.
     const drops=Math.max(0,Math.min(4,Number(next&&next.drops)|0));
+    if(!ledgerSeen){ledgerSeen=true;firstDrops=drops;}
     target={seed:String(next&&next.seed||""),winner:next&&next.winner||null,drops,instant:Boolean(next&&next.instant)};
     markSynced();
     if(lrsAlive())void lrsCatchUp();
@@ -289,7 +321,8 @@
         if(planKey!==key){if(s.stage!==0||s.busy||!s.setPlan(target.seed,target.winner))return;planKey=key;}
         if(s.stage>=target.drops)return;
         shown=true;
-        if(target.instant){s.showStage(target.drops);lrsEmit("merged",{stage:s.stage});return;}
+        const atOnce=target.instant?target.drops:Math.min(target.drops,firstDrops);
+        if(s.stage<atOnce){s.showStage(atOnce);lrsEmit("merged",{stage:s.stage});continue;}
         const index=s.stage;lrsEmit("rolling",{index});
         await s.drop(index);
         if(scene!==s)return;
@@ -309,7 +342,7 @@
   function lrsOn(fn){listeners.add(fn);return()=>listeners.delete(fn);}
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
-  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["league-roulette"]=()=>{if(root.getActiveScreenName?.()===SCREEN_ID)return "skip";lrsTeardown();target={seed:"",winner:null,drops:0,instant:false};lrsFreshSync();};}catch(_error){}
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["league-roulette"]=()=>{if(root.getActiveScreenName?.()===SCREEN_ID)return "skip";lrsTeardown();target={seed:"",winner:null,drops:0,instant:false};ledgerSeen=false;firstDrops=0;lrsFreshSync();};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"cms-league-roulette-step",screenId:SCREEN_ID,
-    arm:lrsArm,armed:()=>armed,holding:lrsHolding,ensure:lrsEnsure,sync:lrsSync,stage:lrsStage,busy:lrsBusy,caughtUp:lrsCaughtUp,leagueOut:lrsLeagueOut,failed:()=>failed,on:lrsOn,dispose:lrsTeardown});
+    arm:lrsArm,idle:lrsIdle,armed:()=>armed,holding:lrsHolding,ensure:()=>lrsEnsure(),sync:lrsSync,stage:lrsStage,busy:lrsBusy,caughtUp:lrsCaughtUp,leagueOut:lrsLeagueOut,failed:()=>failed,on:lrsOn,dispose:lrsTeardown});
 });

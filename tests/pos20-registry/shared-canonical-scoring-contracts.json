@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/shared-canonical-scoring-contracts.cjs",
+  "patterns": [
+    "^js/sharedCanonicalScoring\\.js$",
+    "^js/sharedSeasonCommit\\.js$",
+    "^js/scoring\\.js$",
+    "^tests/contracts/shared-canonical-scoring-contracts\\.cjs$",
+    "^tests/pos20-registry/shared\\-canonical\\-scoring\\-contracts\\.json$"
+  ]
+}
