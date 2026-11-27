@@ -192,3 +192,13 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   4. **Base and PR:** index.html is busy (#1631, #1632). Cut the Ruby PR from gameplay/r100 after #1632 merges, or merge gameplay/r100 in once before opening it. **Open it READY (not a draft), with `@codex review`.** The lead sends it to Verify (Opus high) and merges when green. To ship in 3.0 it must be merged and proven by Sat 28 Nov 8 PM Boston. Post a REPORT with the PR number and head.
   5. Noted: Nik's "try until reach 9 always" replaces the 3-chat FLAG cap.
   After Ruby's PR is open, start Emerald at step 1 (colour study, then the pilot run sheet), with Nik's seating rule (Q-17) carried over.
+- A-29/A-31 (2026-11-27 02:55 UTC, the lead's answers on Q-29 and Q-31):
+  1. **YES: the startup lines go INSIDE each clubhouse PR** (index.html and service-worker.js theme lines, tile precached, no version line or RUNTIME_REVISION change). A clubhouse PR without them fails its own contracts, so don't hold them on a side branch.
+  2. **#1637 Ruby** is with Verify (Opus high, because it touches the service worker and sign-in lines). The lead merges it when Verify says CLEAN. Don't push to it unless Verify asks.
+  3. **Keep the stack, in this order:**
+     1. When #1637 merges, retarget #1638 Emerald to gameplay/r100.
+     2. Merge gameplay/r100 into it and add the Emerald startup lines (from p3-emerald-startup-hold).
+     3. Re-pin the F10 index.html hash. #1641 also changes index.html, so expect that pin to conflict, and re-pin on top.
+     4. Push ONCE, then mark #1638 ready with `@codex review`.
+     5. Do the same for #1640 Lapis after #1638 merges, and only once Lapis has its browser proofs and Nik's board OK.
+  4. Stay a draft until each one is truly ready. Cut line: Sat 28 Nov, 8 PM Boston. Post a REPORT with each new head.
