@@ -504,6 +504,7 @@ async function openManager(browser,account,label=account,reuse=null){
   if(CLUBHOUSE)await context.addInitScript(theme=>{try{localStorage.setItem("cmsClubhouseTheme",theme);}catch(_e){}},CLUBHOUSE);
   // WebKit smoke: how long the page's main thread stalls (a 250 ms beat that comes late), read back in the job log.
   if(SMOKE)await context.addInitScript(noGl=>{try{const h=window.__smokeLag={max:0,gaps:[]};let last=performance.now();setInterval(()=>{const n=performance.now(),g=n-last-250;last=n;if(g>h.max)h.max=Math.round(g);if(g>1000&&h.gaps.length<80)h.gaps.push([Math.round(n/1000),Math.round(g)]);},250);if(noGl){const o=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(t,...a){return /webgl/i.test(String(t))?null:o.call(this,t,...a);};}}catch(_e){}},process.env.CE2PG_SMOKE_NOGL==="1");
+  if(SMOKE&&process.env.CE2PG_SMOKE_FS==="longpoll")await context.addInitScript(()=>{window.__CMS_SMOKE_FS_LONGPOLL=true;});
   const page=await context.newPage();
   const m=reuse||{user:label,account,context,page,log,viewport};
   if(reuse){m.context=context;m.page=page;}
@@ -745,7 +746,8 @@ async function playSetup(daniel,nik){
   await daniel.page.getByRole("button",{name:`I STARTED AT ${clubs[0].toUpperCase()}`,exact:true}).click({timeout:30000});
   await budgetWait("career-start-waiting");
   await nik.page.getByRole("button",{name:`I STARTED AT ${clubs[1].toUpperCase()}`,exact:true}).click({timeout:30000});
-  await rosterRoulette.waitForTransfer([daniel.page,nik.page],45000);
+  // WebKit smoke: the runner draws 3D in software (no GPU), so Chamber Men and the roulette get ten more minutes there.
+  await rosterRoulette.waitForTransfer([daniel.page,nik.page],SMOKE?645000:45000);
   for(const m of [daniel,nik])await m.page.locator("#productionSharedCareerStartOverlay").waitFor({state:"hidden",timeout:30000});
   const teamCount=await daniel.page.evaluate(()=>window.CareerModeProductionSharedSeasonResults?.getState?.()?.state?.teamCount??null).catch(()=>null)
     ||await daniel.page.evaluate(l=>{const cat=window.CareerModeSharedShowdownCatalog?.catalog;if(!cat)return null;const key=Object.keys(cat).find(k=>k.replace(/_/g," ").toLowerCase()===String(l).toLowerCase());return key?cat[key].length:null;},league).catch(()=>null)||20;

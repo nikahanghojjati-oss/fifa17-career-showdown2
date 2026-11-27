@@ -34,7 +34,10 @@ const LEGS={
     env:{CE2PG_BROWSER:"webkit",CE2PG_CLUBHOUSE:"matte",CE2PG_VP_DANIEL:"390x844",CE2PG_VP_NIK:"1920x866",CE2PG_RELOAD_AT:"chamber-continue:1:daniel"},webkit:["daniel","nik"]},
   mixed:{label:"Daniel WebKit 390x844 touch, Nik Chromium 1920x866, Wooden",
     env:{CE2PG_BROWSER:"mixed",CE2PG_VP_DANIEL:"390x844",CE2PG_VP_NIK:"1920x866"},webkit:["daniel"]},
-  nogl:{label:"DEV: WebKit both phones, WebGL off (the 2D/SVG paths)",env:{CE2PG_BROWSER:"webkit",CE2PG_VP_DANIEL:"1920x866",CE2PG_VP_NIK:"390x844",CE2PG_SMOKE_NOGL:"1"},webkit:[]}
+  nogl:{label:"DEV: WebKit both phones, WebGL off (the 2D/SVG paths)",env:{CE2PG_BROWSER:"webkit",CE2PG_VP_DANIEL:"1920x866",CE2PG_VP_NIK:"390x844",CE2PG_SMOKE_NOGL:"1"},webkit:[]},
+  "wooden-lp":{label:"DEV A/B: wooden with Firestore long polling",env:{CE2PG_BROWSER:"webkit",CE2PG_VP_DANIEL:"1920x866",CE2PG_VP_NIK:"390x844",CE2PG_RELOAD_AT:"chamber-continue:1:nik",CE2PG_DOUBLE_TAP:"commit",CE2PG_SMOKE_FS:"longpoll"},webkit:["daniel","nik"]},
+  "graphite-lp":{label:"DEV A/B: graphite with Firestore long polling",env:{CE2PG_BROWSER:"webkit",CE2PG_CLUBHOUSE:"matte",CE2PG_VP_DANIEL:"390x844",CE2PG_VP_NIK:"1920x866",CE2PG_RELOAD_AT:"chamber-continue:1:daniel",CE2PG_SMOKE_FS:"longpoll"},webkit:["daniel","nik"]},
+  "mixed-lp":{label:"DEV A/B: mixed with Firestore long polling",env:{CE2PG_BROWSER:"mixed",CE2PG_VP_DANIEL:"390x844",CE2PG_VP_NIK:"1920x866",CE2PG_SMOKE_FS:"longpoll"},webkit:["daniel"]}
 };
 // The steps a leg must show in its report, each passed (a missing one is a red, never a pass).
 function requiredChecks(leg){

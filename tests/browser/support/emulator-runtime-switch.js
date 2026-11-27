@@ -49,7 +49,8 @@
         const app=appModule.initializeApp({apiKey:"demo-api-key",authDomain:`${PROJECT_ID}.firebaseapp.com`,projectId:PROJECT_ID,appId:"demo-app"},`cms-emulator-${decision.user}`);
         const auth=authModule.getAuth(app);
         authModule.connectAuthEmulator(auth,`http://${EMULATOR_HOST}:${decision.authPort}`,{disableWarnings:true});
-        const firestore=firestoreModule.initializeFirestore(app,{localCache:firestoreModule.memoryLocalCache()});
+        // DEV (WebKit smoke A/B): long polling instead of the streaming Listen channel, only when the smoke harness asks.
+        const firestore=firestoreModule.initializeFirestore(app,root.__CMS_SMOKE_FS_LONGPOLL===true?{localCache:firestoreModule.memoryLocalCache(),experimentalForceLongPolling:true}:{localCache:firestoreModule.memoryLocalCache()});
         firestoreModule.connectFirestoreEmulator(firestore,EMULATOR_HOST,decision.firestorePort);
         const identity=USERS[decision.user];
         // Test-only stand-in for the Google popup: same provider class, no extra scopes, a google.com credential
