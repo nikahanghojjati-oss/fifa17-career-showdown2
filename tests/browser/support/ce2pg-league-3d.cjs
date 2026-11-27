@@ -28,7 +28,8 @@ if(isCe2pg&&process.env.CE2PG_LR3D==="1")install();
 
 const THEME=process.env.LR_THEME||"wooden";
 const SWAP=process.env.LR_SWAP==="1";
-const DESKTOP={viewport:{width:1920,height:866}};
+const SHOTS=process.env.LR_SHOTS==="1";
+const DESKTOP={viewport:{width:1920,height:866},...(SHOTS?{deviceScaleFactor:2}:{})};
 const PHONE={viewport:{width:390,height:844},isMobile:true,hasTouch:true,deviceScaleFactor:3};
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
@@ -46,7 +47,8 @@ const f={lo:Math.round(lo*100)/100,lx:Boolean(L&&L.classList.contains("is-exitin
 room:document.documentElement.classList.contains("lr3d-room"),setup:document.documentElement.getAttribute("data-v10-setup")||"",
 v4:/ENV_BOX_[A-Z_]*V4/.test(bg),v3:/ENV_BOX_[A-Z_]*V3/.test(bg),bg:(bg.match(/ENV_BOX_[A-Z0-9_]+/)||[bg.slice(0,40)])[0],ch:(bg.match(/plates-hc\\/([a-z]+)\\//)||[0,""])[1],
 v2,pend:s.hasAttribute("data-v10-pending"),wo:w?Math.round(op(w)*100)/100:0,stage:st?st.stage():null,
-failed:st?st.failed():null,armed:st?st.armed():null,act:Boolean(P&&P.isPresentationActive&&P.isPresentationActive())};
+failed:st?st.failed():null,armed:st?st.armed():null,act:Boolean(P&&P.isPresentationActive&&P.isPresentationActive()),
+wd:((s.innerText||"").match(/[^\\n]*\\b(spin|wheel)[^\\n]*/i)||[""])[0].slice(0,60)};
 const k=JSON.stringify(f);if(k!==last){last=k;F.push({t:Math.round(performance.now()),...f});}}
 else if(last!=="off"){last="off";F.push({t:Math.round(performance.now()),off:true});}}catch(e){}requestAnimationFrame(tick);};requestAnimationFrame(tick);})();`;
 
@@ -98,6 +100,10 @@ function install(){
         ctx.__lr3dWho=who;ctx.__lr3dReq=[];
         await ctx.addInitScript(t=>{try{if(t==="wooden")localStorage.removeItem("cmsClubhouseTheme");else localStorage.setItem("cmsClubhouseTheme",t);}catch(_e){}},THEME);
         await ctx.addInitScript(PERF_INIT);await ctx.addInitScript(FRAMES_INIT);await ctx.addInitScript(ROLLS_INIT);
+        if(SHOTS&&who==="daniel")ctx.on("page",page=>watchWaiting(page,who));
+        // Shots only: Nik's code box (typed join) or JOIN tile stays read-only/disabled until Daniel's waiting screen is pictured (at most 20 s), so the journey
+        // cannot connect Nik before the picture; the release is the same fill the journey was already waiting to make.
+        if(SHOTS&&who==="nik"){await ctx.addInitScript(HOLD_INIT);ctx.on("page",page=>nikPages.push(page));}
         ctx.on("request",r=>{const u=r.url();if(/WHEEL_RIM|ENV_BOX_[A-Z_]*V3|ENV_BOX_[A-Z_]*V4/.test(u))ctx.__lr3dReq.push(u.replace(/^.*visual-assets\/v10_1\//,""));});
       }
       return ctx;
@@ -136,6 +142,8 @@ function frameFault(f){
   if(!f.room)why.push("no lr3d-room");
   if(f.setup!=="league")why.push("no data-v10-setup=league (no room skin)");
   if(!f.v4)why.push(`room is not the V4 plate (${f.bg||"none"})`);
+  // r100 (Nik 2026-11-26: "drop the ball or spin the wheel?"): the 3D board's screen never says spin or wheel
+  if(f.on&&f.wd)why.push(`wheel words on the 3D board ("${f.wd}")`);
   const want=THEME==="wooden"?"":THEME;
   if(f.v4&&f.ch!==want)why.push(`room from clubhouse "${f.ch||"wooden"}" not "${want||"wooden"}"`);
   return why.length?why.join(", "):null;
@@ -241,8 +249,77 @@ async function loseContext(m,label,{restore}){
   judge(await frames(m),label,m.user,{rebuild:!restore});
 }
 
+// ---- LR_SHOTS=1: the pictures for Nik (r100 "Show updated buttons"): each state of the League Roulette's words and button ----
+const SHOT_DIR=process.env.LR_SHOT_DIR||path.join(process.cwd(),"test-results",`${TAG}-shots`);
+const shotsTaken=[];
+function sizeOf(who){return (who==="daniel")!==SWAP?"1920x866":"390x844";}
+async function namedShot(page,who,n,state){
+  try{fs.mkdirSync(SHOT_DIR,{recursive:true});const words=await page.evaluate(()=>({result:(document.getElementById("selectedLeague")?.innerText||"").trim(),button:(document.getElementById("spinLeague")?.innerText||"").trim(),
+      disabled:Boolean(document.getElementById("spinLeague")?.disabled),note:(document.getElementById("leagueStateNote")?.innerText||"").trim(),status:(document.getElementById("sharedShowdownPresentationStatus")?.innerText||"").trim(),
+      board:Boolean(document.querySelector("#leagueWheel.lr3d-on .lr3dHost canvas")),
+      shown:[...document.querySelectorAll("#leagueWheelScreen button,#leagueWheelScreen .stateNote,#leagueWheelScreen p")].filter(e=>e.getClientRects().length&&getComputedStyle(e).visibility!=="hidden"&&e.innerText.trim()).map(e=>`${e.id||e.className}: ${e.innerText.trim().slice(0,70)}${e.disabled?" (off)":""}`)}));
+    const file=`${THEME}-${who}-${sizeOf(who)}-${n}-${state}.png`;await page.screenshot({path:path.join(SHOT_DIR,file)});
+    shotsTaken.push({file,who,size:sizeOf(who),theme:THEME,state,...words});console.log(`LR3D SHOT ${file} :: ${JSON.stringify(words)}`);}catch(e){console.log(`LR3D SHOT failed ${state}: ${e.message}`);}
+}
+// The waiting screen comes before the journey hands over (the other manager not connected yet): watched from the page's start.
+const nikPages=[];
+const HOLD_INIT=`(()=>{let started=false;window.__lrHeld=null;
+  const release=()=>{window.__lrHeld=false;const box=document.getElementById("persistentNikDanielPairCode");if(box)box.readOnly=false;
+    const tile=document.getElementById("newShowdown");if(tile&&tile.dataset.lrHeld){tile.disabled=false;delete tile.dataset.lrHeld;}};
+  window.__lrRelease=release;
+  const look=()=>{if(window.__lrHeld===false)return;
+    const box=document.getElementById("persistentNikDanielPairCode"),tile=document.getElementById("newShowdown");
+    const join=tile&&/Tap to join/.test(tile.textContent||"");
+    if(!started&&((box&&box.getClientRects().length)||join)){started=true;window.__lrHeld=true;setTimeout(release,20000);}
+    if(window.__lrHeld!==true)return;
+    if(box&&!box.readOnly)box.readOnly=true;
+    if(join&&!tile.disabled){tile.disabled=true;tile.dataset.lrHeld="1";}};
+  new MutationObserver(look).observe(document,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:["disabled","readonly","class"]});})();`;
+const releaseNik=()=>Promise.all(nikPages.map(p=>p.evaluate(()=>window.__lrRelease&&window.__lrRelease()).catch(()=>{})));
+function watchWaiting(page,who){
+  let done=false;const until=Date.now()+180000;
+  const look=async()=>{if(done||Date.now()>until||page.isClosed())return;
+    const waiting=await page.evaluate(()=>{const s=document.getElementById("leagueWheelScreen"),L=document.getElementById("loadingScreen"),b=document.getElementById("spinLeague"),st=window.CareerModeLeagueRouletteStep,P=window.CareerModeProductionSharedShowdownPresentation;
+      const up=L&&!L.hidden&&!L.classList.contains("hidden")&&getComputedStyle(L).display!=="none";
+      return Boolean(s&&!s.classList.contains("hidden")&&!up&&!s.hasAttribute("data-v10-pending")&&document.querySelector("#leagueWheel.lr3d-on .lr3dHost canvas")&&st&&!st.holding()&&!(P&&P.isPresentationActive&&P.isPresentationActive()&&window.CareerModeProductionSharedShowdownSetup?.getState?.()?.ready)&&b&&/^WAITING FOR /.test((b.innerText||"").trim()));}).catch(()=>false);
+    if(waiting){done=true;await sleep(1200);await namedShot(page,who,1,"waiting-for-the-other-to-connect");
+      // The board under WAITING: close WAITING (as its BACK does), picture the board's own words, then reopen WAITING with
+      // CONTINUE CAREER (the player's path; it keeps the same code; a hidden code still reads, so the journey is not held up).
+      const closed=await page.evaluate(()=>{const b=document.getElementById("spinLeague");if(!/^WAITING FOR /.test((b?.innerText||"").trim()))return "label "+(b?.innerText||"");
+        return window.CareerModeConnectPlayersScreenV10?.close?.({restoreFocus:false})===true||"close refused";}).catch(e=>e.message);
+      if(closed!==true)console.log(`LR3D SHOT skipped waiting-board: ${closed}`);
+      if(closed===true){await sleep(1500);await namedShot(page,who,1,"waiting-board-under-waiting");
+        await page.locator("#continueSharedSetupGate").click({timeout:5000}).catch(()=>{});
+        await page.waitForFunction(()=>{const l=document.getElementById("connectPlayersScreen");return Boolean(l&&!l.classList.contains("hidden"))||!document.getElementById("continueSharedSetupGate");},null,{timeout:15000}).catch(()=>{});}
+      await releaseNik();return;}
+    setTimeout(look,300);};
+  setTimeout(look,300);
+}
+async function shotsRun(daniel,nik){
+  for(const m of [daniel,nik])await settle(m);
+  for(const m of [daniel,nik])await namedShot(m.page,m.user,2,"ball-1");
+  const rolling=n=>Promise.all([daniel,nik].map(async m=>{const seen=await m.page.waitForFunction(()=>(document.getElementById("spinLeague")?.innerText||"").trim()==="BALL ROLLING…",null,{timeout:45000}).then(()=>true,()=>false);
+    if(seen){await sleep(1500);await namedShot(m.page,m.user,n,"ball-rolling");}}));
+  const drop=async()=>{const r=rolling(drop.n);await dropNext(daniel,nik);await r;await sleep(1200);};
+  drop.n=3;await drop();for(const m of [daniel,nik])await namedShot(m.page,m.user,4,"after-ball-1");
+  drop.n=5;await drop();for(const m of [daniel,nik])await namedShot(m.page,m.user,6,"after-ball-2");
+  drop.n=7;await drop();drop.n=8;await drop();
+  for(const m of [daniel,nik])await namedShot(m.page,m.user,9,"league-revealed");
+  for(const m of [daniel,nik])judge(await frames(m),"shots (every frame of the roulette)",m.user);
+  const said=shotsTaken.filter(x=>/\b(spin|wheel)/i.test([x.result,x.button,x.note,x.status].join(" ")));
+  check("L10.words","no picture of the 3D board says spin or wheel",said.length===0,said);
+  const wait=shotsTaken.filter(x=>x.state==="waiting-for-the-other-to-connect"),board=shotsTaken.filter(x=>x.state==="waiting-board-under-waiting");
+  check("L10.waiting","the waiting-for-the-other-manager screen was pictured",wait.length>0,shotsTaken.map(x=>x.file));
+  const waitBad=wait.filter(x=>!/^WAITING FOR (NIK|DANIEL)$/.test(String(x.button||"").trim().toUpperCase())||x.disabled!==true||!(x.shown||[]).some(t=>/Note: Both players must be connected before the first ball drops\.$/.test(t))||(x.shown||[]).some(t=>/Note: /.test(t)&&!/first ball drops\.$/.test(t))||(x.shown||[]).some(t=>/^continueSharedSetupGate:/.test(t)));
+  const boardBad=board.filter(x=>!/^WAITING FOR (NIK|DANIEL)$/.test(String(x.button||"").trim().toUpperCase())||x.disabled!==true||!(x.shown||[]).some(t=>/Note: Both players must be connected before the first ball drops\.$/.test(t))||!(x.shown||[]).some(t=>/^continueSharedSetupGate: CONTINUE CAREER/.test(t)));
+  check("L10.waitingBoard","WAITING closed over the board: WAITING FOR the other manager, the first-ball note and CONTINUE CAREER to reopen it",board.length>0&&boardBad.length===0,{board:board.map(x=>x.file),boardBad});
+  check("L10.waitingWords","waiting screen: disabled WAITING FOR the other manager, the first-ball note, one button",waitBad.length===0,waitBad);
+  fs.writeFileSync(path.join(SHOT_DIR,`${THEME}${SWAP?"-swap":""}-shots.json`),JSON.stringify(shotsTaken,null,1));
+  return true;
+}
 async function run(daniel,nik){
   for(const m of [daniel,nik])m.user=m.user||(m===daniel?"daniel":"nik");
+  if(SHOTS)return shotsRun(daniel,nik);
   // First entries: Daniel's frames start on his "Waiting for Nik" screen.
   for(const m of [daniel,nik])await settle(m);
   const d0=judge(await frames(daniel),"first entry (waiting for Nik, then both connected)","daniel");
