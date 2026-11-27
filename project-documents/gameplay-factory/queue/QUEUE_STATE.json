@@ -569,7 +569,7 @@
    "552": "retired"
   }
  },
- "updated": "2026-11-27T23:14:15Z",
+ "updated": "2026-11-27T23:18:13Z",
  "counts": {
   "merged": 226,
   "retired": 209,
@@ -4248,7 +4248,7 @@
    "pr": 470,
    "draft": true,
    "pr_url": "https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/pull/470",
-   "branch": "qa/job-1477-audit-design-token-colours"
+   "branch": null
   },
   "1478": {
    "state": "merged",
