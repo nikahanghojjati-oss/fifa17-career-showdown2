@@ -237,3 +237,74 @@ A real photograph, real hair, no glow, no halo, no smoothing, no text. One squar
 
 ### F-2 option D-H2: hair only, no brush (D as image 1)
 Same chat set-up and same box, without the select step; replace "inside the area I selected" with "in image 1". Save as ENV_OFFICE_PLATE_HC_V4_2X_F2DH2_RAW.
+
+### F-2 E result and Nik's rule (27 Nov 19:41-19:44 UTC)
+- E (Sol 5.6 Extra High, from the source crop): 8.5/10 from me; fits the room, never-slimmer passes. Nik: D and E miss his likeness in the jaw, eyes and forehead (they keep today's face).
+- Nik's rule: one picture in one go, no brush and no chained edits; any model; every prompt has a strict likeness lock on his eyes, lips and jaw.
+
+## One-shot face prompt, the template (from every F-1 and F-2 try)
+1. Image 1 = the square head crop of the plate: it gives pose, framing, light and room only.
+2. Image 2 = the Home face: it gives who he is only. Say what NOT to copy from it (hand, camera angle, head turn, light, room).
+3. Pose lock in geometry words: which way the head turns and tilts, which side of the face we see, where the eyes look; "do not turn his face toward the camera and do not lift his head". (A and B lifted the head.)
+4. Likeness lock, one line per feature, each "image 2's ...": eyes (shape, size, iris, upper lids; opening from image 1), brows, nose, lips, jaw and cheeks, forehead and hairline, skin tone. (D and E kept today's face; C's description without a reference drew a stranger.)
+5. Expression in plain shape words: lips closed and relaxed, corners level, no smile, no smirk; brows relaxed, no frown. Never "half-smile" (smirk) or "relaxed eyes" (droopy lids).
+6. Hair and beard described, plus the never-slimmer outline rule.
+7. Light, finish, one square picture at the largest size. "No halo" alone still gives a hair rim: describe matte hair with soft dark edges.
+
+### F-2 option H: one shot, Image 2 = Home face
+New chat (Astra 6 Max, or Sol 5.6 Extra High). Image 1: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/OFFICE_NIK_HEAD_CROP_1700_0_900.png  Image 2: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/HOME_NIK_FACE_ANCHOR.png  Save as ENV_OFFICE_PLATE_HC_V4_2X_F2H_RAW.
+
+```
+Image 1 is the picture to edit: a square close-up of a bearded man in a black suit, black shirt and black tie, leaning over a desk by a dark office window at night. Image 2 is the real man he must be, photographed from the front.
+Image 1 gives only the pose, framing, light and room. Image 2 gives only who he is. Copy nothing else from image 2: not the hand at his chin, the camera angle, the turn of his head, the light or the room.
+
+Pose and framing, exactly as in image 1: the same square picture, his head the same size and in the same place, the top of his hair the same distance from the top edge, his shoulders, black suit, black shirt and black tie exactly as they are. Do not zoom in, do not crop, do not move the camera. He leans forward over the desk; his head is turned toward the left of the picture and tilted down, so his face is seen from above and from his left side, and his eyes look down at the desk at the bottom left. Do not turn his face toward the camera and do not lift his head.
+Room, exactly as in image 1: the dark window frames, the black night glass and the olive leaves at the right edge.
+
+Likeness, exactly as in image 2, seen from image 1's angle. Each of these must be unmistakably the man in image 2:
+- Eyes: image 2's eye shape and size and dark brown irises, with image 2's upper eyelids; open as much as in image 1, looking down at the desk.
+- Eyebrows: image 2's very thick, dark, nearly straight eyebrows, sitting low and close above the eyes; relaxed, with smooth skin between them and no frown.
+- Nose: image 2's nose.
+- Lips: image 2's lips, the same width and fullness, with the full lower lip; closed and relaxed, both corners level, no smile and no smirk.
+- Jaw and cheeks: image 2's broad, square, heavy jaw and full, rounded cheeks; his face as wide as in image 2.
+- Forehead and hairline: image 2's tall, broad forehead and rounded hairline, going back a little at the temples.
+- Skin tone: image 2's.
+
+Hair and beard:
+- Hair: short, thick, dark hair swept up and back from the forehead, the sides short and lying flat and tidy. Matte, with soft, dark edges against the window; no copper or golden highlights, no frizz, no bright rim of light. On the top and at the back of his head it reaches out to where the outer edge of the curls is in image 1.
+- Beard: image 2's full, short, dense dark beard and moustache, covering his cheeks up to just below the cheekbones, with no thin or bare patches.
+The outer edge of his head, hair, beard and ears stays where it is in image 1 or reaches further out, never further in. Wherever the new head is narrower, fill that space with his own hair, his beard or the shadow of his collar, never with the room.
+
+Light: the same low, warm office light as image 1, from the same side; his face no brighter and no darker than in image 1.
+Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
+One picture, square, the same framing as image 1, the largest size available.
+```
+
+### F-2 option I: one shot, Image 2 = Home face, Image 3 = Legacy E2 head (side view of the same man)
+New chat, same models. Image 1 and 2 as H; Image 3: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/LEGACY_NIK_E2_HEAD.png  Save as ENV_OFFICE_PLATE_HC_V4_2X_F2I_RAW.
+
+```
+Image 1 is the picture to edit: a square close-up of a bearded man in a black suit, black shirt and black tie, leaning over a desk by a dark office window at night. Image 2 is the real man he must be, photographed from the front. Image 3 is the same real man with his head turned toward the left of the picture.
+Image 1 gives only the pose, framing, light and room. Images 2 and 3 give only who he is; image 3 shows how his face looks from the side. Copy nothing else from images 2 and 3: not the hand at his chin, the camera angle, the turn or tilt of his head, the light or the room.
+
+Pose and framing, exactly as in image 1: the same square picture, his head the same size and in the same place, the top of his hair the same distance from the top edge, his shoulders, black suit, black shirt and black tie exactly as they are. Do not zoom in, do not crop, do not move the camera. He leans forward over the desk; his head is turned toward the left of the picture and tilted down, so his face is seen from above and from his left side, and his eyes look down at the desk at the bottom left. Do not turn his face toward the camera and do not lift his head.
+Room, exactly as in image 1: the dark window frames, the black night glass and the olive leaves at the right edge.
+
+Likeness, exactly as in images 2 and 3, seen from image 1's angle. Each of these must be unmistakably the man in images 2 and 3:
+- Eyes: image 2's eye shape and size and dark brown irises, with image 2's upper eyelids; open as much as in image 1, looking down at the desk.
+- Eyebrows: image 2's very thick, dark, nearly straight eyebrows, sitting low and close above the eyes; relaxed, with smooth skin between them and no frown.
+- Nose: image 2's nose.
+- Lips: image 2's lips, the same width and fullness, with the full lower lip; closed and relaxed, both corners level, no smile and no smirk.
+- Jaw and cheeks: image 2's broad, square, heavy jaw and full, rounded cheeks; his face as wide as in image 2.
+- Forehead and hairline: image 2's tall, broad forehead and rounded hairline, going back a little at the temples.
+- Skin tone: image 2's.
+
+Hair and beard:
+- Hair: short, thick, dark hair swept up and back from the forehead, the sides short and lying flat and tidy. Matte, with soft, dark edges against the window; no copper or golden highlights, no frizz, no bright rim of light. On the top and at the back of his head it reaches out to where the outer edge of the curls is in image 1.
+- Beard: image 2's full, short, dense dark beard and moustache, covering his cheeks up to just below the cheekbones, with no thin or bare patches.
+The outer edge of his head, hair, beard and ears stays where it is in image 1 or reaches further out, never further in. Wherever the new head is narrower, fill that space with his own hair, his beard or the shadow of his collar, never with the room.
+
+Light: the same low, warm office light as image 1, from the same side; his face no brighter and no darker than in image 1.
+Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
+One picture, square, the same framing as image 1, the largest size available.
+```
