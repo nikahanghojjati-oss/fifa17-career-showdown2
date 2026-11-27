@@ -8,6 +8,8 @@
 //      in view; it shows loading (or stays covered) until the read lands, then the finished Showdown.
 //   HL4 a Team V History file that hangs never leaves History on loading for good: unavailable after the 15 s deadline, and
 //      History still draws once the file arrives.
+//   HL5 a slow cold career that keeps progressing past 15 s: once Team V's History takes the screen it is never replaced by
+//      "unavailable", and it ends on the career.
 // The account, pair and career reader are page stubs (no Firebase; every request off the local origin is aborted); History's
 // own code (js/legacy.js, js/rivalryLegacyV10.js, js/v10Screens.js, Team V's frame) runs for real. "In view" = #legacy shown,
 // not pending (js/v10Screens.js data-v10-pending hides it) and the loading cover (#loadingScreen) down. Sampled every frame.
@@ -49,7 +51,12 @@ function installStubs({ empty, finished, readMs, rivalryId }){
     w.CareerModeProductionFirebaseRuntime = freeze({ ensureAccountServices: async () => ({ ok: true, auth: { currentUser: { uid: "acct_nik" } }, firestore: {}, firestoreSdk: { getDoc: async () => null } }), firebaseFirestoreModule: "about:blank" });
     w.CareerModeCareerStartMarker = freeze({ epoch: () => 0, readMarker: async () => ({ status: "ready" }), careerHiddenRivalryIds: async () => [], hiddenRivalryIds: () => [] });
     w.CareerModeSparkClosedShowdownCareerLoader = freeze({ forgetUnavailableShowdown(){},
-        loadClosedShowdownCareer: async () => { w.__h1.reads += 1; await new Promise(r => setTimeout(r, readMs)); return { model: w.__h1.phase === "live" ? empty : finished, careerInput: { indexStatus: "ready", showdowns: [] } }; } });
+        loadClosedShowdownCareer: async (args = {}) => { w.__h1.reads += 1;
+            // HL5: a long cold career that keeps progressing (one Showdown read every stepMs), as the real reader reports it.
+            const slow = w.__h1.slowRead;
+            if(slow){ for(let done = 1; done <= slow.total; done++){ await new Promise(r => setTimeout(r, slow.stepMs)); args.onProgress?.({ done, total: slow.total }); } }
+            else await new Promise(r => setTimeout(r, readMs));
+            return { model: w.__h1.phase === "live" ? empty : finished, careerInput: { indexStatus: "ready", showdowns: [] } }; } });
 }
 // Every frame while History is open: what is in view.
 function startSampler(){
@@ -62,7 +69,8 @@ function startSampler(){
         const shown = Boolean(host && !host.hidden && !host.classList.contains("hidden") && getComputedStyle(host).display !== "none" && getComputedStyle(host).visibility !== "hidden");
         const pending = Boolean(host && host.hasAttribute("data-v10-pending"));
         const text = shown ? (host.innerText || "").replace(/\s+/g, " ").trim() : "";
-        out.push({ t: Math.round(performance.now()), shown, inView: shown && !pending && !gateUp, text: text.slice(0, 240) });
+        const teamV = Boolean(host && host.dataset.rivalryLegacyV10 === "1" && host.querySelector(".legacyV10Screen"));
+        out.push({ t: Math.round(performance.now()), shown, teamV, inView: shown && !pending && !gateUp, text: text.slice(0, 240) });
         requestAnimationFrame(tick);
     };
     tick();
@@ -163,11 +171,48 @@ async function runHang(browser, size){
 }
 const HANG_WAIT_MS = 17000;
 
+// HL5 (Codex P2 on 3b4f2aff): a slow cold career that keeps progressing past 15 s. Team V's History takes the screen (its loading
+// frame with "n of N") and must never be replaced by History's own box saying unavailable; it ends on the career.
+const SLOW_READ = { total: 12, stepMs: 2000 };
+async function runSlowRead(browser, size){
+    const context = await browser.newContext({ viewport: size.viewport, deviceScaleFactor: size.deviceScaleFactor, isMobile: size.isMobile, hasTouch: size.hasTouch, serviceWorkers: "block" });
+    await context.route("**/*", route => new URL(route.request().url()).origin === baseUrl.origin ? route.continue() : route.abort());
+    const page = await context.newPage(), errors = [], problems = [];
+    page.on("pageerror", e => errors.push(String(e)));
+    await page.goto(baseUrl.href, { waitUntil: "load" });
+    await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 30000 });
+    await page.waitForFunction(() => window.CareerModeV10Screens && window.CareerModeV10Screens.isMounted("mainMenu"), null, { timeout: 30000 });
+    await page.evaluate(installStubs, { empty: EMPTY, finished: FINISHED, readMs: READ_MS, rivalryId: R });
+    await page.evaluate(slow => { window.__h1.slowRead = slow; }, SLOW_READ);
+    await page.evaluate(startSampler);
+    const opened = await page.evaluate(() => { window.openOptionalModule("legacy"); return performance.now(); });
+    const readMs = SLOW_READ.total * SLOW_READ.stepMs;
+    await page.waitForFunction(() => { const h = document.getElementById("legacy"); return h && !h.hasAttribute("data-v10-pending") && window.CareerModeV10Screens.isMounted("legacy") && /No finished Showdowns yet/.test(h.innerText); }, null, { timeout: readMs + 15000 })
+        .catch(() => problems.push(`HL5: History never drew its career after a ${readMs / 1000} s read that kept progressing`));
+    await page.waitForTimeout(400);
+    const frames = await page.evaluate(() => { window.__h1.stop(); return window.__h1.frames; });
+    const reads = await page.evaluate(() => window.__h1.reads);
+    const unavailable = frames.filter(f => f.shown && /Career history is unavailable|could not be loaded/i.test(f.text));
+    if(unavailable.length) problems.push(`HL5: "unavailable" on the History screen for ${unavailable.length} frame(s) (first at ${Math.round((unavailable[0].t - opened) / 100) / 10} s) while the read kept progressing`);
+    const firstTeamV = frames.findIndex(f => f.teamV);
+    const replaced = firstTeamV < 0 ? [] : frames.slice(firstTeamV).filter(f => f.shown && !f.teamV);
+    if(firstTeamV < 0) problems.push("HL5: Team V's History never took the screen");
+    if(replaced.length) problems.push(`HL5: Team V's History was replaced for ${replaced.length} frame(s) after it drew`);
+    const longest = frames.filter(f => f.shown).at(-1);
+    if(reads !== 1) problems.push(`HL5: ${reads} career reads (want 1)`);
+    if(errors.length) problems.push(`page errors: ${errors.join(" | ")}`);
+    const tv = firstTeamV < 0 ? null : Math.round((frames[firstTeamV].t - opened) / 100) / 10;
+    console.log(`${problems.length ? "FAIL" : "ok  "} ${size.name} slow read ${readMs / 1000} s with progress: Team V drew at ${tv} s, ended "${longest ? longest.text.replace(/\d+/g, "#").slice(0, 60) : ""}"; reads ${reads}`);
+    problems.forEach(x => console.log(`  - ${x}`));
+    await context.close();
+    return problems.length;
+}
+
 (async () => {
     const runtime = await resolveChromiumRuntime();
     const browser = await chromium.launch({ headless: true, executablePath: runtime.executablePath, args: runtime.args });
     let failed = 0;
-    try { for(const size of SIZES) failed += await run(browser, size); failed += await runHang(browser, SIZES[0]); }
+    try { for(const size of SIZES) failed += await run(browser, size); failed += await runHang(browser, SIZES[0]); failed += await runSlowRead(browser, SIZES[0]); }
     finally { await browser.close(); }
     console.log(`History honest loading audit: ${failed ? "FAIL" : "PASS"}`);
     process.exit(failed ? 1 : 0);

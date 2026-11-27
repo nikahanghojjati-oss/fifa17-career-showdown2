@@ -12,6 +12,8 @@
 //       read that key change starts anyway is the only read. A frame that already lists it is kept (nothing flashes).
 //   HL4 (Verify follow-up) a hand-over that never settles (a Team V History file fetch hanging on a half-up link) says
 //       unavailable after History's own 15 s deadline instead of loading for good; a late success still paints History.
+//   HL5 (Codex P2 on 3b4f2aff) that deadline covers only the hand-over before Team V's History takes the screen: a slow
+//       read that keeps progressing is never replaced, and Team V's own .legacyBox is never painted over.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -33,17 +35,28 @@ function fakeDoc(){
   const box=el("div","legacyBox");
   const text=node=>[node.textContent||"",...(node.children||[]).map(text)].join(" ").replace(/\s+/g," ").trim();
   const status=node=>node?.attrs?.["data-career-status"]??(node.children||[]).map(status).find(Boolean)??null;
-  return {box,text:()=>text(box),status:()=>status(box),doc:{createElement:tag=>el(tag),createDocumentFragment:()=>el("#fragment"),querySelector:sel=>sel==="#legacy .legacyBox"?box:null}};
+  // Team V's own History markup has a ".legacyV10Screen legacyBox" too (js/rivalryLegacyV10Markup.js); takeOver() puts it in
+  // place the way Team V's draw does (host data-rivalry-legacy-v10="1").
+  const host={dataset:{}};const page={box,host,
+    takeOver(){host.dataset.rivalryLegacyV10="1";const v=el("div","legacyV10Screen legacyBox");v.textContent="TEAM V HISTORY";v.attrs["data-career-status"]="team-v";page.box=v;},
+    text:()=>text(page.box),status:()=>status(page.box),
+    doc:{createElement:tag=>el(tag),createDocumentFragment:()=>el("#fragment"),getElementById:id=>id==="legacy"?host:null,
+      querySelector:sel=>sel==="#legacy .legacyBox"?page.box:null}};
+  return page;
 }
 function legacyPage({handOver,withOpener=true,withLoader=true,clock=null}){
-  const page=fakeDoc(),errors=[];
+  const page=fakeDoc(),errors=[],listeners=new Map(),teamV={reading:false};
   const sandbox={document:page.doc,console,Promise,Object,...(clock?{setTimeout:clock.setTimeout,clearTimeout:clock.clearTimeout}:{}),
+    addEventListener:(type,fn)=>{if(!listeners.has(type))listeners.set(type,new Set());listeners.get(type).add(fn);},
+    removeEventListener:(type,fn)=>{listeners.get(type)?.delete(fn);},
+    CareerModeRivalryLegacyV10:{careerModelLoading:()=>teamV.reading},
     CareerModeCareerScreenSeam:Seam,CareerModeOnlinePlayerIdentity:{getState:()=>({registered:true,managerId:"nik"})},
     reportApplicationError:(c,e)=>errors.push(`${c}: ${e&&e.message}`)};
   if(withOpener)sandbox.openRivalryLegacyV10=()=>handOver();
   if(withLoader)sandbox.loadRuntimeScript=()=>handOver();
   sandbox.window=sandbox;vm.createContext(sandbox);vm.runInContext(LEGACY,sandbox,{filename:"js/legacy.js"});
-  return {...page,errors,render:arg=>sandbox.renderLegacy(arg)};
+  const settled=()=>{teamV.reading=false;for(const fn of [...(listeners.get("career-mode-online-career-load-settled")||[])])fn();};
+  return Object.assign(page,{errors,teamV,settled,listeners,render:arg=>sandbox.renderLegacy(arg)});
 }
 // A fake clock: timers fire only when the test moves time on.
 function fakeClock(){
@@ -139,6 +152,36 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
     const deadline=Number(LEGACY.match(/const LEGACY_HAND_OVER_DEADLINE_MS = (\d+);/)?.[1]);
     assert.equal(deadline,Number(RL.match(/const LOAD_TIMEOUT=(\d+),/)?.[1]));assert.equal(deadline,15000);
     ok("HL4","a hand-over that never settles says unavailable after History's 15 s deadline; a late success still paints");
+  }
+  // HL5 -----------------------------------------------------------------------------------------------------------------
+  {
+    // Codex P2 on 3b4f2aff: the deadline also fired after Team V's History had taken the screen (its read keeps going while
+    // records arrive) and painted over Team V's own .legacyBox. Now: Team V drawn = this deadline stands down.
+    const clock=fakeClock(),slow=deferred(),p=legacyPage({handOver:()=>slow.promise,clock});p.render();
+    p.teamV.reading=true;clock.advance(14000);await settle();p.takeOver();
+    clock.advance(46000);await settle();assert.equal(p.status(),"team-v","a slow read that keeps progressing past 15 s is never replaced");
+    assert.equal(p.text(),"TEAM V HISTORY");assert.equal(clock.timers.size,0,"the deadline stood down once Team V drew");
+    assert.equal(p.listeners.get("career-mode-online-career-load-settled")?.size||0,0,"and stopped listening");
+    slow.resolve(false);await settle();assert.equal(p.text(),"TEAM V HISTORY","even a failure answer never paints over Team V's own box");
+    // Belt and braces: Team V's box is never the one painted, even if the host mark were missing.
+    const c0=fakeClock(),h0=deferred(),p0=legacyPage({handOver:()=>h0.promise,clock:c0});p0.render();p0.takeOver();delete p0.host.dataset.rivalryLegacyV10;
+    c0.advance(15000);await settle();assert.equal(p0.text(),"TEAM V HISTORY","Team V's .legacyV10Screen box is skipped");
+    // Not drawn yet, Team V's career read running: that read's own deadline bounds it, so this one waits for it and then
+    // starts again from when it settles (files still on their way get the full 15 s).
+    const c2=fakeClock(),h2=deferred(),q=legacyPage({handOver:()=>h2.promise,clock:c2});q.render();q.teamV.reading=true;
+    c2.advance(40000);await settle();assert.equal(q.status(),"loading","no unavailable while Team V's read is running");
+    q.settled();c2.advance(14999);await settle();assert.equal(q.status(),"loading","15 s again from the read settling");
+    c2.advance(1);await settle();assert.equal(q.status(),"unavailable","then a hung file still ends on unavailable");
+    // A hung file with no read running still fails at 15 s (HL4) and a reopen leaves no listener behind.
+    const c3=fakeClock(),h3=deferred(),r=legacyPage({handOver:()=>h3.promise,clock:c3});r.render();r.render();
+    assert.equal(r.listeners.get("career-mode-online-career-load-settled")?.size,1,"one listener per open, replaced on reopen");
+    c3.advance(15000);await settle();assert.equal(r.status(),"unavailable");
+    assert.equal(r.listeners.get("career-mode-online-career-load-settled")?.size||0,0);
+    // The event is the one Team V's career reader sends when its reads settle.
+    assert.match(RL,/careerLoadsRunning===0&&typeof root\.CustomEvent==="function"\)root\.dispatchEvent\?\.\(new root\.CustomEvent\("career-mode-online-career-load-settled"\)\)/);
+    assert.match(RL,/const rlCareerModelLoading=\(\)=>careerLoadsRunning>0;/);assert.match(RL,/host\.dataset\.rivalryLegacyV10="1";/);
+    assert.match(read("js/rivalryLegacyV10Markup.js"),/legacyV10Screen legacyBox/,"why Team V's .legacyV10Screen box is skipped");
+    ok("HL5","the deadline covers only the hand-over before Team V's History takes the screen; Team V's box is never painted over");
   }
   console.log(`PASS r100 History honest loading contracts (${passed})`);
 })().catch(error=>{console.error(error);process.exit(1);});

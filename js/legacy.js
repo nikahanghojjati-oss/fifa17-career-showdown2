@@ -11,16 +11,51 @@ let legacyModel = null;
 const LEGACY_LOADING = Object.freeze({ status: "loading" });
 // A hand-over still on its way after History's own deadline (js/rivalryLegacyV10.js LOAD_TIMEOUT, 15 s), for example a
 // Team V History file fetch that hangs on a half-up link, says unavailable instead of loading for good. A late success
-// still paints History (Team V's History replaces this box when it draws). Only the latest open's hand-over counts.
+// still paints History. Only the latest open's hand-over counts.
+// The deadline covers only the hand-over before Team V's History takes the screen (its files and their prepare):
+// - once Team V's History has drawn (#legacy data-rivalry-legacy-v10="1"), its own progress-aware deadline owns
+//   everything after, and this one stands down (a slow cold career that keeps progressing is never replaced);
+// - while Team V's career read is running, that read's deadline bounds it, so this one starts again from when it settles;
+// - Team V's own box (.legacyV10Screen.legacyBox) is never painted over.
 const LEGACY_HAND_OVER_DEADLINE_MS = 15000;
-let legacyHandOverFailed = false, legacyHandOverToken = 0, legacyHandOverTimer = null;
+const LEGACY_CAREER_SETTLED_EVENT = "career-mode-online-career-load-settled";
+let legacyHandOverFailed = false, legacyHandOverToken = 0, legacyHandOverTimer = null, legacyHandOverSettledListener = null;
+
+function legacyTakenByTeamV(){
+    return document.getElementById?.("legacy")?.dataset?.rivalryLegacyV10 === "1";
+}
+
+function disarmLegacyHandOver(){
+    if(legacyHandOverTimer !== null){ window.clearTimeout?.(legacyHandOverTimer); legacyHandOverTimer = null; }
+    if(legacyHandOverSettledListener){ window.removeEventListener?.(LEGACY_CAREER_SETTLED_EVENT, legacyHandOverSettledListener); legacyHandOverSettledListener = null; }
+}
+
+function armLegacyHandOver(token){
+    disarmLegacyHandOver();
+    if(typeof window.setTimeout !== "function"){ return; }
+    const fire = () => {
+        legacyHandOverTimer = null;
+        if(token !== legacyHandOverToken){ return; }
+        if(legacyTakenByTeamV()){ disarmLegacyHandOver(); return; }
+        if(window.CareerModeRivalryLegacyV10?.careerModelLoading?.() === true){ legacyHandOverTimer = window.setTimeout(fire, LEGACY_HAND_OVER_DEADLINE_MS); return; }
+        failLegacyHandOver(token);
+    };
+    legacyHandOverTimer = window.setTimeout(fire, LEGACY_HAND_OVER_DEADLINE_MS);
+    legacyHandOverSettledListener = () => {
+        if(token !== legacyHandOverToken || legacyHandOverTimer === null){ return; }
+        window.clearTimeout?.(legacyHandOverTimer);
+        legacyHandOverTimer = window.setTimeout(fire, LEGACY_HAND_OVER_DEADLINE_MS);
+    };
+    window.addEventListener?.(LEGACY_CAREER_SETTLED_EVENT, legacyHandOverSettledListener);
+}
 
 function failLegacyHandOver(token = legacyHandOverToken){
     if(token !== legacyHandOverToken){ return; }
-    if(legacyHandOverTimer !== null){ window.clearTimeout?.(legacyHandOverTimer); legacyHandOverTimer = null; }
+    disarmLegacyHandOver();
     legacyHandOverFailed = true;
+    if(legacyTakenByTeamV()){ return; }
     const box = document.querySelector("#legacy .legacyBox"), seam = window.CareerModeCareerScreenSeam;
-    if(box && seam && legacyModel === null){ box.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("legacy", null))); }
+    if(box && seam && legacyModel === null && !/\blegacyV10Screen\b/.test(String(box.className || ""))){ box.replaceChildren(seam.paintCareerScreenView(document, seam.careerScreenView("legacy", null))); }
 }
 
 function readLegacyScreenSeam(rerender){
@@ -53,13 +88,13 @@ function renderLegacy(request = false){
             .then(() => true, error => { window.reportApplicationError?.("History screen could not load", error); return false; });
     }
     const token = ++legacyHandOverToken;
-    if(legacyHandOverTimer !== null){ window.clearTimeout?.(legacyHandOverTimer); legacyHandOverTimer = null; }
+    disarmLegacyHandOver();
     legacyHandOverFailed = !handOver || typeof handOver.then !== "function";
     if(!legacyHandOverFailed){
-        if(typeof window.setTimeout === "function"){ legacyHandOverTimer = window.setTimeout(() => { legacyHandOverTimer = null; failLegacyHandOver(token); }, LEGACY_HAND_OVER_DEADLINE_MS); }
+        armLegacyHandOver(token);
         handOver.then(ok => {
             if(token !== legacyHandOverToken){ return; }
-            if(legacyHandOverTimer !== null){ window.clearTimeout?.(legacyHandOverTimer); legacyHandOverTimer = null; }
+            disarmLegacyHandOver();
             if(ok === false){ failLegacyHandOver(token); }
         }, () => failLegacyHandOver(token));
     }
