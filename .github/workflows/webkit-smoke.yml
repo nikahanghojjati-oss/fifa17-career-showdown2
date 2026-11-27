@@ -1,0 +1,27 @@
+name: WebKit smoke
+on:
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: 'Commit to test'
+        required: false
+        default: ''
+permissions:
+  contents: read
+jobs:
+  probe:
+    name: WebKit probe
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps webkit
+      - run: node tests/browser/webkit-probe-dev.cjs
