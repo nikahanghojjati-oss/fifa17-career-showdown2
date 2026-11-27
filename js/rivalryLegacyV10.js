@@ -357,7 +357,22 @@
       return Boolean(history?.isActive?.()&&setup?.sessionId);
     }catch(_){return false;}
   }
-  function rlLiveOrContinue(rivalry){return rivalry?.status==="loading"&&!rlLiveCanArrive()?{...rivalry,status:"unavailable",notice:"continue"}:rivalry;}
+  // r100 H2-1 PR C (Nik: "Standings opened in the middle of a Showdown must always show the scores"): out of the game (an app
+  // reopened on Home) Rivalry Statistics shows THIS SHOWDOWN the way Standings does, from js/seasonFinalV10.js: the phone's
+  // kept verified copy after one check that no later season was accepted, or, with no copy, the one session-free verified
+  // read; anything else (and every failure) is the "continue it from Home" notice, as before. No listener, no retry.
+  async function rlLiveOrContinue(rivalry){
+    if(rivalry?.status!=="loading"||rlLiveCanArrive())return rivalry;
+    const kept=await rlKeptShowdownView();
+    if(kept&&["ready","empty"].includes(kept.status))return {...kept,lifecycle:"active"};
+    return {...rivalry,status:"unavailable",notice:"continue"};
+  }
+  async function rlKeptShowdownView(){
+    try{
+      if(!root.CareerModeSeasonFinalV10)await load("v10-season-final","js/seasonFinalV10.js","CareerModeSeasonFinalV10");
+      return typeof root.CareerModeSeasonFinalV10?.keptShowdownView==="function"?await root.CareerModeSeasonFinalV10.keptShowdownView():null;
+    }catch(_error){return null;}
+  }
   // r87 H4 (Reus Gate, Nik): a first entry, TRY AGAIN, or the connection coming back on "unavailable" keeps the screen covered
   // under Reus while its career is read, then reveals it once. Only a read still running after HOLD_MAX_MS shows the loading
   // frame with its "n of N" progress (inside js/v10Screens.js's LOAD_HOLD_MAX_MS, so the cover never ends first).

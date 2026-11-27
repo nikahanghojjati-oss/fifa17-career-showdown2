@@ -595,6 +595,14 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
       return pending?Promise.race([pending,new Promise(r=>root.setTimeout(r,SF_COPY_READ_MS))]).catch(()=>{}):Promise.resolve();
     }catch(_){return Promise.resolve();}
   }
+  // r100 H2-1 PR C: Rivalry Statistics out of the game asks for the same THIS SHOWDOWN view (js/rivalryLegacyV10.js): one
+  // open of its own, so the same kept copy and one check (or, with no copy, the one verified read), waited for at most
+  // SF_COPY_READ_MS; null when there is nothing verified to show (the notice stays).
+  // Each Rivalry Statistics load is an open of its own, and leaves none behind (the next Standings entry starts its own).
+  async function sfKeptShowdownView(){
+    try{sfInStandings=false;await sfPrepareKeptStandings();const view=currentRivalry();return view&&["ready","empty"].includes(view.status)?view:null;}catch(_){return null;}
+    finally{sfInStandings=false;}
+  }
   function sfLiveCanArrive(){
     try{return Boolean(root.CareerModeProductionSharedHistoryConvergence?.isActive?.()&&root.CareerModeProductionSharedShowdownSetup?.getState?.()?.sessionId);}catch(_){return false;}
   }
@@ -3417,5 +3425,5 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
   }
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
   try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["showdown-champion"]=()=>{retainedHistory=null;sfGazetteHistory=null;};}catch(_error){}
-  return Object.freeze({finalFrame,goldenCourse,goldenCourseChips:sfGoldenCourse,goldenScreenMarkup:goldenMarkup,seasonScreenSource,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
+  return Object.freeze({keptShowdownView:sfKeptShowdownView,finalFrame,goldenCourse,goldenCourseChips:sfGoldenCourse,goldenScreenMarkup:goldenMarkup,seasonScreenSource,rematchFrame,standingsFrames,skinSeason,reviewFinalSeason,installChampionBack,gazetteHistory:()=>sfGazetteHistory,install:installResults});
 });

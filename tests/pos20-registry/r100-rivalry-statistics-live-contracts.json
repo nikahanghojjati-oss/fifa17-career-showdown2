@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r100-rivalry-statistics-live-contracts.cjs",
+  "patterns": [
+    "^js/rivalryLegacyV10\\.js$",
+    "^js/seasonFinalV10\\.js$",
+    "^js/sharedActiveShowdownAdapter\\.js$",
+    "^tests/support/active-showdown-fixtures\\.cjs$",
+    "^tests/contracts/r100\\-rivalry\\-statistics\\-live\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-rivalry\\-statistics\\-live\\-contracts\\.json$"
+  ]
+}
