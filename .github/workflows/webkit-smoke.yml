@@ -1,5 +1,7 @@
 name: WebKit smoke
 on:
+  push:
+    branches: ['claude-gameplay/r100-webkit-smoke-dev']
   workflow_dispatch:
     inputs:
       sha:
