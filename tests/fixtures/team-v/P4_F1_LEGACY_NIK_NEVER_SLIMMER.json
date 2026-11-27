@@ -1,5 +1,5 @@
 {
- "note": "P4 F-1 Legacy Nik (E2): written by tools/hero-faces/never_slimmer.py; do not edit by hand",
+ "note": "P4 F-1 Legacy Nik (E2): written by tools/hero-faces/never_slimmer.py; do not edit by hand; lapis (Duet P3, N-29) measured against claude-duet/p3-lapis before the re-paint (before_lapis)",
  "before": "5485f7f4132420542c1809a61501687335489d67",
  "side": "right",
  "files": {
@@ -242,6 +242,67 @@
    "outline_pts": 865,
    "short_pts": 0,
    "room_moved_px": 182
+  },
+  "visual-assets/v10_1/plates-hc/lapis/ENV_ARCHIVE_PLATE_HC_V3_2X.webp": {
+   "sha256": "191a46c18590613a8b31bc8bb24f45943db74239395596736783fb97d0848e02",
+   "before_sha256": "321f9040c4ced7835de43a044eb8caf98db0793c2d463b1c13277508a048afa3",
+   "size": [
+    3072,
+    1728
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 3195,
+   "short_pts": 0,
+   "room_moved_px": 698
+  },
+  "visual-assets/v10_1/plates-hc/lapis/ENV_ARCHIVE_PLATE_HC_V3_1X.webp": {
+   "sha256": "f76a1d901972c7e6eb5bc5df519fdd6a78fa3af86bf437da8b3ded496035d59e",
+   "before_sha256": "a6873add6c85f4573cdccf3ac4eab42fff02b6728325c69d83da85e8bb5cc6d1",
+   "size": [
+    1536,
+    864
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 1596,
+   "short_pts": 0,
+   "room_moved_px": 7346
+  },
+  "visual-assets/v10_1/plates-hc/lapis/ENV_ARCHIVE_PLATE_HC_V3_1920.webp": {
+   "sha256": "21653eef5071dc88e030ba5f57b6ecd221d0987bea2baf4e428de6f8300edff4",
+   "before_sha256": "e2dfac87c0832e769d9da85394b27397f818d1bba278bb20413e3467328f7111",
+   "size": [
+    1920,
+    1080
+   ],
+   "mask": "ENV_ARCHIVE_PLATE_HC_V3_1920",
+   "outline_pts": 1997,
+   "short_pts": 0,
+   "room_moved_px": 2863
+  },
+  "visual-assets/v10_1/plates-hc/lapis/ENV_ARCHIVE_PHONE_HC_V3.webp": {
+   "sha256": "4c804994d57503460700d1f2826f05dd64bcebd9068932038fe8df61dee2f8f2",
+   "before_sha256": "cb31dcac45d909faa1e6fc9614deba83409fd13a76a7c1ea1e06b065e85ea38a",
+   "size": [
+    1179,
+    2096
+   ],
+   "mask": "ENV_ARCHIVE_PHONE_HC_V3",
+   "outline_pts": 1732,
+   "short_pts": 0,
+   "room_moved_px": 6953
+  },
+  "visual-assets/v10_1/plates-hc/lapis/ENV_ARCHIVE_PHONE_HC_V3_590W.webp": {
+   "sha256": "1db60144c19530b0940e651c9b99022794e17c157f7d17f18fc1b4c662ebc8e1",
+   "before_sha256": "d18c3740ffd4b4f860827598d69a7be09e92734c865829e9f0921cc7815125d7",
+   "size": [
+    590,
+    1049
+   ],
+   "mask": "ENV_ARCHIVE_PHONE_HC_V3",
+   "outline_pts": 865,
+   "short_pts": 0,
+   "room_moved_px": 4793
   }
- }
+ },
+ "before_lapis": "fe74c91d3dd3b3875735027c583c34099829f940"
 }
