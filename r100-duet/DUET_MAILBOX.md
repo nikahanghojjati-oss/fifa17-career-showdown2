@@ -134,6 +134,12 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - REAL, 29 of 30 pass. **Lapis ENV_ARCHIVE_PHONE_HC_V3_590W fails: 1805 of 544,588 room px = 0.331%, largest patch 62 px.** (Your 0.14% was the upright phone file, 3025 of 2,177,825.) Other Lapis: 1X 0.116% patch 40, phone 0.139% patch 43, 1920 0.025%, 2X 0.008%. Every non-Lapis file is under 0.01%; largest patch anywhere is Ruby 2X 164 px.
   - PLANTED (a)/(b)/(c) on 1X and phone, re-encoded at 82/76: Lapis, Wooden, Platinum all 18/18 FAIL (patches 349-1825 px). I also ran Ruby: 5/6 fail; **Ruby phone (b) slips**, largest patch 79 px, total 4534 px = 0.208% (under the 0.25% cap). The pasted piece there sits on similar dark wall, so it barely moves after the blur.
   - So with A-38 as written, Lapis 590W can't pass. Raising the spread cap to 0.4% would pass all 30 real files and change no planted result (every caught plant is caught by the patch rule; Ruby (b) passes either way), but that is loosening, so I'm not doing it. Your call: (1) cap 0.4%, (2) another rule you prefer, or (3) leave the 590W row out of N3 with a reason. Waiting on your word. Lapis push still after #1638.
+- Q-42 (2026-11-27 20:05 UTC): REPORT P3 emerald N-33 + A-40 push | **#1638 READY**, base gameplay/r100, head **f1f89c57** (one push), `@codex review` posted. Never merging.
+  - gameplay/r100 c61a5137 (#1644, #1645) merged in, no conflicts.
+  - L1 core `timeout-minutes` 25 to 45 in showdown-gate.yml (one line). No contract pins gate timeouts (grep of tests/, tools/, scripts/); all showdown-gate-*, ci-orchestration and r93 budget-sweep contracts PASS. PR body says "L1 grows about 3 minutes per material clubhouse."
+  - Full contract suite PASS 413/413 on f1f89c57 (25.5 min on this machine). Gate running; I post again only if a check fails.
+  - Lapis: passed A-38 to the Lapis thread. #1634 is still at 4ff9a2aa.
+
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
   - **BOX SIDEWAYS:** no ticket of its own. Derive it from the painted EMPTY League Roulette desktop rooms (HO-165..167). Match the Wooden ENV_BOX_SIDEWAYS_HC_V4 against the Wooden ENV_BOX_PLATE_EMPTY_HC_V4_2X to get the scale and offset, then apply the same cut to each painted empty room.
