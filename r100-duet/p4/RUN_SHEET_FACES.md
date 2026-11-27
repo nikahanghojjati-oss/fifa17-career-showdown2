@@ -153,3 +153,56 @@ Light: the same low, warm office light as image 1, from the same side; his face 
 Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
 One picture, square, the same framing as image 1, the largest size available.
 ```
+
+### F-2 option B result (Nik 27 Nov 19:30 UTC): rated very low by Nik, my score 4/10
+Raw: inputs branch r100-duet/p4/inputs/F-2/raw/ENV_OFFICE_PLATE_HC_V4_2X_F2B_RAW.png. Framing held (crop route works). What went wrong: the head turned up toward the camera and lost the lean, copying Image 2's angle; heavy, half-shut eyelids; the half-smile became a lopsided smirk; thin cheek beard; frizzy hair with a bright rim. Lessons: Image 2 at another angle pulls its pose in (same as F-1). 'Eyes look down, open and relaxed' gives droopy lids: keep image 1's eyes instead. 'Faint half-smile' gives a smirk: ask for a closed, level, neutral mouth. 'No halo' alone still gave a hair rim: describe matte hair with soft dark edges. F-1's winner (E2) was words only and kept the eyes.
+
+### F-2 option D: words only, eyes and hair kept as today; beard, brows and mouth fixed (smallest change, like F-1 E2). Hair gets its own later edit if needed.
+New chat: ChatGPT Work mode, Astra 6, Extra High.
+- Image 1: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/OFFICE_NIK_HEAD_CROP_1700_0_900.png
+- Image 2: none
+Save as ENV_OFFICE_PLATE_HC_V4_2X_F2D_RAW.
+
+```
+Image 1 is the picture to edit: a square close-up of a bearded man in a black suit, black shirt and black tie, leaning over a desk by a dark office window at night.
+
+Keep the framing of image 1 exactly: the same square picture, his head the same size and in the same place, the top of his hair the same distance from the top edge, his shoulders, black suit, black shirt and black tie exactly as they are. Do not zoom in, do not crop, do not move the camera.
+Keep the room behind him exactly as in image 1: the dark window frames, the black night glass and the olive leaves at the right edge.
+Keep the pose of his head exactly as in image 1: the same lean forward, the same turn and the same downward tilt, his face looking down toward the bottom left of the picture at the desk.
+Keep his hair exactly as in image 1: the same curls, the same outline, the same colour.
+Keep his eyes exactly as in image 1: the same eye shape, the same eyelids open the same amount, looking down at the desk.
+
+Change only these three things:
+- His beard: a full, short, dense dark beard and moustache, neatly trimmed, rising on both cheeks to just below the cheekbones. Every thin or bare patch on his cheeks, jaw and chin becomes dense beard. Along his jaw the beard reaches out to where the edge of his jaw is now, never further in.
+- His eyebrows: the same thickness and colour as now, with the inner ends lowered and relaxed, so the frown is gone and the skin between his brows is smooth with no creases.
+- His mouth: lips closed and relaxed, both corners level, a calm, neutral mouth.
+
+Light: the same low, warm office light as image 1, from the same side; his face no brighter and no darker than now.
+Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
+One picture, square, the same framing as image 1, the largest size available.
+```
+
+### F-2 option E: words only, eyes kept; hair, beard, brows and mouth fixed in one go.
+New chat: ChatGPT Work mode, Astra 6, Extra High.
+- Image 1: https://github.com/nikahanghojjati-oss/fifa17-career-showdown2/blob/claude-duet/p4-faces-inputs/r100-duet/p4/inputs/F-2/OFFICE_NIK_HEAD_CROP_1700_0_900.png
+- Image 2: none
+Save as ENV_OFFICE_PLATE_HC_V4_2X_F2E_RAW.
+
+```
+Image 1 is the picture to edit: a square close-up of a bearded man in a black suit, black shirt and black tie, leaning over a desk by a dark office window at night.
+
+Keep the framing of image 1 exactly: the same square picture, his head the same size and in the same place, the top of his hair the same distance from the top edge, his shoulders, black suit, black shirt and black tie exactly as they are. Do not zoom in, do not crop, do not move the camera.
+Keep the room behind him exactly as in image 1: the dark window frames, the black night glass and the olive leaves at the right edge.
+Keep the pose of his head exactly as in image 1: the same lean forward, the same turn and the same downward tilt, his face looking down toward the bottom left of the picture at the desk.
+Keep his eyes exactly as in image 1: the same eye shape, the same eyelids open the same amount, looking down at the desk.
+
+Change only these four things:
+- His hair: short, thick, dark hair swept up and back from his forehead, the sides short and lying flat and tidy, in place of the curls. The hair is matte with soft, dark edges against the window, with no frizz, no loose strands and no bright rim of light. On the top and at the back of his head the hair reaches out to where the outer edge of his curls is now.
+- His beard: a full, short, dense dark beard and moustache, neatly trimmed, rising on both cheeks to just below the cheekbones. Every thin or bare patch on his cheeks, jaw and chin becomes dense beard. Along his jaw the beard reaches out to where the edge of his jaw is now, never further in.
+- His eyebrows: the same thickness and colour as now, with the inner ends lowered and relaxed, so the frown is gone and the skin between his brows is smooth with no creases.
+- His mouth: lips closed and relaxed, both corners level, a calm, neutral mouth.
+
+Light: the same low, warm office light as image 1, from the same side; his face no brighter and no darker than now.
+Finish: a real photograph, real skin with fine pores, real hair and real beard hairs, no glow, no halo or outline around him, no smoothing, no text.
+One picture, square, the same framing as image 1, the largest size available.
+```
