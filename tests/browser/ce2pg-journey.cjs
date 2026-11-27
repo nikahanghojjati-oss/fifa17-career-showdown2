@@ -92,7 +92,7 @@ const PORT_BASE=Number(process.env.CE2PG_PORT_BASE||9510);
 const PORTS={auth:PORT_BASE,firestore:PORT_BASE+1,hub:PORT_BASE+2,logging:PORT_BASE+3,websocket:PORT_BASE+4};
 const PROJECT="demo-cms-browser-journey";// the emulator switch is pinned to this demo project id
 const OUT_DIR=path.join(ROOT,"test-results");
-const TAG=PLAN_NAME==="golden"?`ce2pg-golden${process.env.CE2PG_UPGRADE_FROM?"-upgrade":""}`:(PLAN_NAME==="main"?`ce2pg-main-${RUN}`:`ce2pg-single-${SEASONS}-${RUN}${SCENARIO?`-${SCENARIO}`:""}${process.env.CE2PG_SACKED?`-sacked-${process.env.CE2PG_SACKED.replace(":","-")}`:""}`)+(process.env.CE2PG_BUDGET==="1"?"-budget":"");
+const TAG=PLAN_NAME==="golden"?`ce2pg-golden${process.env.CE2PG_UPGRADE_FROM?"-upgrade":""}`:(PLAN_NAME==="main"?`ce2pg-main-${RUN}`:`ce2pg-single-${SEASONS}-${RUN}${SCENARIO?`-${SCENARIO}`:""}${process.env.CE2PG_SACKED?`-sacked-${process.env.CE2PG_SACKED.replace(":","-")}`:""}`)+(process.env.CE2PG_BUDGET==="1"?"-budget":"")+(process.env.CE2PG_BROWSER&&process.env.CE2PG_BROWSER!=="chromium"?`-${process.env.CE2PG_BROWSER}`:"")+(process.env.CE2PG_CLUBHOUSE?`-${process.env.CE2PG_CLUBHOUSE}`:"");
 // r91 golden fixture (Nik 2026-11-11 08:34 UTC: keep the finished Arsenal v Burnley row unchanged): see goldenFinishedGame().
 const GOLDEN_IMPORT=process.env.CE2PG_IMPORT?path.resolve(process.env.CE2PG_IMPORT):"";
 const REPORT_PATH=path.join(OUT_DIR,`${TAG}.json`);
@@ -127,6 +127,19 @@ if(!process.env.FIRESTORE_EMULATOR_HOST){
 // From here on we run inside the emulators.
 // ---------------------------------------------------------------------------------------------------------------------------
 const {chromium}=require("playwright");
+// WebKit smoke (r100, Nik 2026-11-27; .github/workflows/webkit-smoke.yml, manual dispatch only, never a Gate lane):
+//   CE2PG_BROWSER=webkit   both phones play in Playwright's WebKit (Safari's engine); a WebKit window under 700 px wide has touch
+//   CE2PG_BROWSER=mixed    Daniel on WebKit, Nik on Chromium (the same Showdown across the two engines)
+//   CE2PG_CLUBHOUSE=<key>  both phones keep that clubhouse (localStorage cmsClubhouseTheme, as Settings does), e.g. matte = Graphite
+//   CE2PG_DOUBLE_TAP=commit Daniel double-taps LOCK & CONFIRM SEASON (two taps at once); the season must still be committed once
+// With CE2PG_BROWSER unset (every Gate lane) the run is Chromium exactly as before: none of the smoke steps run.
+const BROWSER=process.env.CE2PG_BROWSER||"chromium";
+const CLUBHOUSE=process.env.CE2PG_CLUBHOUSE||"";
+const DOUBLE_TAP=process.env.CE2PG_DOUBLE_TAP||"";
+if(!["chromium","webkit","mixed"].includes(BROWSER)||!/^([a-z]+)?$/.test(CLUBHOUSE)||!["","commit"].includes(DOUBLE_TAP)){console.error(`CE2PG_BROWSER chromium|webkit|mixed, CE2PG_CLUBHOUSE a clubhouse key, CE2PG_DOUBLE_TAP ""|commit (got ${BROWSER}, ${CLUBHOUSE}, ${DOUBLE_TAP})`);process.exit(2);}
+const SMOKE=BROWSER!=="chromium";
+const engineFor=account=>BROWSER==="webkit"||BROWSER==="mixed"&&account==="daniel"?"webkit":"chromium";
+const smokeBrowsers={};
 const {resolveChromiumRuntime}=require("../support/chromium-runtime.cjs");
 const {installFirestoreMeter,createMeter}=require("./support/firestore-meter.cjs");
 const ring3=require("./support/ring3-meter.cjs");// POS1M Ring 3: time and Firebase cost per step (CE2PG_RING3=0 turns it off)
@@ -476,7 +489,7 @@ function wirePage(m){
 }
 async function openManager(browser,account,label=account,reuse=null){
   const viewport=VIEWPORTS[account];
-  const context=await browser.newContext({viewport});
+  const context=SMOKE?await smokeBrowsers[engineFor(account)].newContext({viewport,hasTouch:engineFor(account)==="webkit"&&viewport.width<700}):await browser.newContext({viewport});
   const log=reuse?reuse.log:{pageErrors:[],consoleErrors:[],failedRequests:[],httpErrors:[],forbidden:[],productionRuntime:0,taps:[]};
   await context.exposeBinding("__cmsTap",(_source,tap)=>{log.taps.push(tap);});
   await ring3.install(context,label,ring3Events);
@@ -488,6 +501,7 @@ async function openManager(browser,account,label=account,reuse=null){
   // Registered after the SDK route, so it answers firebase-firestore.js first (Playwright runs the newest matching route first).
   await installFirestoreMeter(context,{sdkDir:SDK_DIR,user:label,sink:meter.events,firestoreOrigin:FIRESTORE});
   await context.addInitScript({path:SWITCH});
+  if(CLUBHOUSE)await context.addInitScript(theme=>{try{localStorage.setItem("cmsClubhouseTheme",theme);}catch(_e){}},CLUBHOUSE);
   const page=await context.newPage();
   const m=reuse||{user:label,account,context,page,log,viewport};
   if(reuse){m.context=context;m.page=page;}
@@ -496,6 +510,48 @@ async function openManager(browser,account,label=account,reuse=null){
   await page.goto(urlFor(account),{waitUntil:"domcontentloaded"});
   await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000});
   return m;
+}
+// ---------- WebKit smoke steps (CE2PG_BROWSER webkit|mixed only; see the switch at the top) ----------
+async function launchSmokeBrowsers(){
+  const {webkit}=require("playwright");
+  for(const engine of new Set(["daniel","nik"].map(engineFor))){
+    if(engine==="webkit")smokeBrowsers.webkit=await webkit.launch({headless:true});
+    else{const runtime=await resolveChromiumRuntime();smokeBrowsers.chromium=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});}
+  }
+  report.smoke={browser:BROWSER,clubhouse:CLUBHOUSE||"current",doubleTap:DOUBLE_TAP||null,engines:Object.fromEntries(["daniel","nik"].map(a=>[a,engineFor(a)])),versions:Object.fromEntries(Object.entries(smokeBrowsers).map(([k,b])=>[k,b.version()])),shots:[],steps:[]};
+  console.log(`SMOKE browsers: Daniel ${engineFor("daniel")}, Nik ${engineFor("nik")} (${Object.entries(report.smoke.versions).map(([k,v])=>`${k} ${v}`).join(", ")}); clubhouse ${CLUBHOUSE||"current"}`);
+  return smokeBrowsers[engineFor("daniel")];
+}
+async function closeSmokeBrowsers(){for(const b of Object.values(smokeBrowsers))await b.close().catch(()=>{});}
+// One picture of what the phone shows now (kept as the run's artifact), and on a material clubhouse the page must carry it.
+async function smokeShot(m,name){
+  if(!SMOKE)return true;
+  const file=path.join(SHOT_DIR,`smoke-${m.user}-${name}.png`);
+  const ok=await m.page.screenshot({path:file}).then(()=>true).catch(()=>false);
+  const theme=await m.page.evaluate(()=>document.documentElement.getAttribute("data-clubhouse")||"current").catch(()=>null);
+  report.smoke.shots.push({user:m.user,engine:engineFor(m.account),name,file:rel(file),viewport:m.viewport,theme,ok});
+  await check(m,`smoke.${name}.shot`,`${engineFor(m.account)} ${m.viewport.width}x${m.viewport.height}: a picture of ${name}`,ok,"screenshot failed",{screen:name});
+  return check(m,`smoke.${name}.clubhouse`,`${name} is drawn in the ${CLUBHOUSE||"Wooden"} clubhouse`,theme===(CLUBHOUSE||"current"),`data-clubhouse ${theme}`,{screen:name});
+}
+// League Roulette on a WebKit page: WebKit has WebGL2 (Safari does), so the 3D board must come up, never the 2D wheel.
+async function smokeLeague3d(m){
+  if(!SMOKE)return true;
+  const info=await m.page.evaluate(()=>{const c=document.createElement("canvas");return Boolean(c.getContext("webgl2"));}).catch(()=>null);
+  const up=info?await m.page.waitForFunction(()=>{const w=document.getElementById("leagueWheel");return Boolean(w&&w.classList.contains("lr3d-on")&&w.querySelector("canvas")&&document.getElementById("loadingScreen")?.classList.contains("hidden"));},null,{timeout:60000}).then(()=>true).catch(()=>false):null;
+  report.smoke.steps.push({step:"league-3d",user:m.user,webgl2:info,board:up});
+  await smokeShot(m,"league-roulette");
+  return check(m,"smoke.league.3d",`League Roulette on ${engineFor(m.account)}: WebGL2 ${info}, the 3D board drawn (lr3d-on with a canvas) once the loading screen left`,info===true&&up===true,JSON.stringify({webgl2:info,board:up}),{screen:"League Roulette"});
+}
+// CE2PG_DOUBLE_TAP=commit: two taps at once on the confirm (a touch phone taps twice, a desktop double-clicks). The season is
+// committed once: the button reaches its confirmed state and the database holds the season's commit.
+async function smokeDoubleTap(m,selector,k){
+  const button=m.page.locator(selector);
+  if(engineFor(m.account)==="webkit"&&m.viewport.width<700){await button.tap({timeout:30000});await button.tap({timeout:2000,force:true}).catch(()=>{});}
+  else await button.dblclick({timeout:30000});
+  const landed=await m.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000}).then(()=>true).catch(()=>false);
+  const commit=ctxRef?.entry?.rivalryId?await adminUntil(`rivalries/${ctxRef.entry.rivalryId}/seasonCommits/season_${k}`,()=>true,"season commit",30000).catch(()=>null):null;
+  report.smoke.steps.push({step:"double-tap",user:m.user,season:k,landed,commit:Boolean(commit)});
+  return check(m,`smoke.S${k}.doubleTap`,`a double tap on LOCK & CONFIRM SEASON (season ${k}) confirms the season once`,landed&&Boolean(commit),JSON.stringify({landed,commit:Boolean(commit)}),{screen:"Shared Season Commit"});
 }
 // r92 (W1): what a phone's Shared Season Commit (and its Season Results confirm button) says when the run stops, so a CONFIRM SEASON that did not land can be read afterwards: the
 // module's own view (phase and the fields it keeps), the action button (words, disabled, busy, shown), the status line (a failed season check
@@ -665,6 +721,7 @@ async function checkNoEarlierShowdown(m,where,{selector=null,clubs=[]}={}){
 }
 async function playSetup(daniel,nik){
   for(const m of [daniel,nik])await m.page.locator("#leagueWheelScreen").waitFor({state:"visible",timeout:45000});
+  if(SMOKE)for(const m of [daniel,nik])await smokeLeague3d(m);
   await check(nik,`setup.${showdownNow}.leagueWait`,"Nik waits for Daniel on the league wheel",await nik.page.locator("#spinLeague").isDisabled(),"Nik can spin",{screen:"League wheel"});
   await clubDraw.playLeagueRoulette(daniel,nik);
   const league=norm(await daniel.page.locator("#selectedLeague").textContent());
@@ -845,7 +902,8 @@ async function commitSeason(daniel,nik,k,planSeason,final){
   await budgetWait("commit");
   const kind=outageKind(k);
   if(kind==="commit")await goDark(nik);
-  await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
+  if(DOUBLE_TAP==="commit")await smokeDoubleTap(daniel,"#sharedSeasonCommitAction",k);
+  else await daniel.page.locator("#sharedSeasonCommitAction").click({timeout:30000});
   await daniel.page.waitForFunction(()=>/^(CONFIRMED ✓ · WAITING FOR RIVAL|SEASON CONFIRMED ✓)$/.test(document.getElementById("sharedSeasonCommitAction")?.textContent||""),null,{timeout:30000});
   if(kind==="commit"){
     await daniel.page.waitForTimeout(OUTAGE_MS);await comeBack(nik);
@@ -1888,8 +1946,12 @@ async function main(){
     console.log(`UPGRADE run: ${old} for ${UPGRADE_AFTER} season(s), then this tree`);
   }
   if(!process.env.CMS_BASE_URL)await startAppServer([]);
+  let browser;
+  if(SMOKE)browser=await launchSmokeBrowsers();
+  else{
   const runtime=await resolveChromiumRuntime();
-  const browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
+  browser=await chromium.launch({executablePath:runtime.executablePath,headless:true,args:runtime.args});
+  }
   const managers=[],retired=[];
   let failure=null;
   try{
@@ -1897,6 +1959,7 @@ async function main(){
     const nik=await openManager(browser,"nik");managers.push(nik);
     for(const m of [daniel,nik])await check(m,"boot.switch","emulator switch active (localhost + cmsEmulator=1 only)",await m.page.evaluate(()=>window.__cmsEmulatorSwitch?.active===true),"switch inactive",{screen:"Boot"});
     await phase("sign-in",async()=>{await signIn(daniel,"Daniel",{fresh:PLAN_NAME==="golden"});await signIn(nik,"Nik",{fresh:PLAN_NAME==="golden"});});
+    if(SMOKE)for(const m of [daniel,nik])await smokeShot(m,"home");
     daniel.uid=await accountId(daniel);nik.uid=await accountId(nik);
     await check(null,"boot.accounts","Daniel and Nik signed in as two distinct accounts",Boolean(daniel.uid&&nik.uid&&daniel.uid!==nik.uid),{daniel:daniel.uid,nik:nik.uid},{screen:"Sign in"});
     const ctx={daniel,nik,career:[],browser};ctxRef=ctx;billedModel=billedMeter.loadModel();
@@ -1913,6 +1976,7 @@ async function main(){
       await playShowdown(ctx,spec);
     }
     showdownNow="end";seasonNow=0;
+    if(SMOKE)for(const m of [daniel,nik])await smokeShot(m,"champion");
     if(primePack.enabled()&&PLAN_NAME!=="golden"){
       // Prime Pack: every round the phones played ended as the plan says (who named the Icon, and what it was worth).
       const pv=primePack.verify();report.prime={mode:primePack.MODE,...pv,observed:primePack.observed};
@@ -1937,6 +2001,11 @@ async function main(){
         // sign-in lives, so the wiped page came back signed out and every end.wiped check failed falsely (Chrome 149/153 keep it).
         // The check is about losing LOCAL storage only: the tab's sessionStorage is saved first and put back, before the game's
         // own scripts run, on the first load that finds local storage empty (the wiped load; later loads leave it alone).
+        if(SMOKE&&engineFor(m.account)!=="chromium"){
+          // WebKit has no CDP to clear one origin's storage; the fresh-browser phase below (a new context, empty storage) covers
+          // a phone that lost its storage on WebKit.
+          report.observations.push({where:"storage wipe",user:m.user,skipped:"WebKit: no CDP storage clear; covered by the fresh browser"});continue;
+        }
         const keys=await m.page.evaluate(()=>Object.keys(localStorage));
         const session=await m.page.evaluate(()=>Object.fromEntries(Object.keys(sessionStorage).map(k=>[k,sessionStorage.getItem(k)])));
         await m.page.addInitScript(saved=>{try{if(localStorage.length===0)for(const [k,v] of Object.entries(saved))if(sessionStorage.getItem(k)===null)sessionStorage.setItem(k,v);}catch(_e){}},session);
@@ -2021,7 +2090,7 @@ async function main(){
     const failed=report.checks.some(c=>!c.pass)||Boolean(failure);
     report.verdict=failed?"FAIL":"PASS";
     writeReport();await stopFontSweeps();writeFontSweep();
-    await browser.close().catch(()=>{});if(appServer)appServer.kill();
+    await browser.close().catch(()=>{});if(SMOKE)await closeSmokeBrowsers();if(appServer)appServer.kill();
     console.log(`METER summary: ${report.meter.map(e=>`${e.label}: ${e.reads}r/${e.writes}w${e.play?` (play ${e.play.reads}r/${e.play.writes}w)`:""}`).join(" | ")}`);
     console.log(`${report.verdict} ${TAG}: ${report.summary.passed}/${report.summary.checks} checks, ${report.problems.length} problem(s), ${Math.round(report.timings.totalMs/1000)} s -> ${rel(REPORT_PATH)}; screenshots in ${rel(SHOT_DIR)}`);
   }

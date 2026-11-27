@@ -1,29 +1,108 @@
+# WebKit smoke (r100, Nik 2026-11-27): a one-time check of the frozen release candidate in Playwright's WebKit (Safari's
+# engine), dispatched by hand on the RC commit next to the last red team. Manual dispatch only: no pull_request or push trigger
+# (tests/operations/pos10-authority.test.mjs keeps Showdown Gate the only pull_request workflow), no Gate lane, no change to the
+# Chromium runs. Three legs, each a real two-manager 1-season Showdown on the Firebase emulators with the composed Rules,
+# start to Champion (tests/browser/webkit-smoke.cjs: wooden, graphite, mixed); the summary job prints PASS, FAIL or INFRA per
+# leg in the job log and fails closed (a missing leg or step is a red). Emulator only; never touches production Firebase.
 name: WebKit smoke
+
 on:
-  push:
-    branches: ['claude-gameplay/r100-webkit-smoke-dev']
   workflow_dispatch:
     inputs:
       sha:
-        description: 'Commit to test'
+        description: 'Commit to test (empty = the dispatched branch head)'
         required: false
         default: ''
+
 permissions:
   contents: read
+
+concurrency:
+  group: webkit-smoke-${{ inputs.sha || github.sha }}
+  cancel-in-progress: false
+
 jobs:
-  probe:
-    name: WebKit probe
+  leg:
+    name: WebKit smoke ${{ matrix.leg }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      matrix:
+        leg: [wooden, graphite, mixed]
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
+          ref: ${{ inputs.sha || github.sha }}
           fetch-depth: 1
           persist-credentials: false
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
-      - run: npx playwright install --with-deps webkit
-      - run: node tests/browser/webkit-probe-dev.cjs
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: webkit-smoke-emulators-ubuntu-24.04-firebase-tools-15.28.1-v1
+      - name: Restore Chromium runtime cache
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: /tmp/cms-chromium-runtime
+          key: webkit-smoke-chromium-runtime-ubuntu-24.04-chromium-149.0.0-v1
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Install pinned Firebase emulator test dependencies
+        run: npm install --no-save --package-lock=false firebase@12.17.0 @firebase/rules-unit-testing@5.0.1 firebase-admin@14.2.0
+      - name: Install WebKit (the Playwright version the repo pins)
+        run: npx playwright install --with-deps webkit
+      - name: Build the composed production Rules
+        run: node scripts/build-production-firestore-rules.mjs && node scripts/build-production-firestore-rules-with-persistent-pair.mjs
+      - name: WebKit smoke leg
+        id: leg
+        env:
+          WEBKIT_SMOKE_SHA: ${{ inputs.sha || github.sha }}
+        run: node tests/browser/webkit-smoke.cjs leg ${{ matrix.leg }}
+      - name: Record a setup failure as INFRA
+        if: always() && steps.leg.outcome == 'skipped'
+        env:
+          WEBKIT_SMOKE_SHA: ${{ inputs.sha || github.sha }}
+        run: node tests/browser/webkit-smoke.cjs infra ${{ matrix.leg }}
+      - name: Upload the leg's report and screenshots
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: webkit-smoke-${{ matrix.leg }}
+          path: test-results/
+          if-no-files-found: warn
+          retention-days: 14
+          overwrite: true
+
+  summary:
+    name: WebKit smoke summary
+    needs: leg
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ inputs.sha || github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+      - name: Download every leg's report
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          path: webkit-smoke-reports
+          pattern: webkit-smoke-*
+      - name: WebKit smoke summary (fails closed)
+        run: node tests/browser/webkit-smoke.cjs summary webkit-smoke-reports
