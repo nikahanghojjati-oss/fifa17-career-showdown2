@@ -15,11 +15,14 @@ const LEGACY_LOADING = Object.freeze({ status: "loading" });
 // The deadline covers only the hand-over before Team V's History takes the screen (its files and their prepare):
 // - once Team V's History has drawn (#legacy data-rivalry-legacy-v10="1"), its own progress-aware deadline owns
 //   everything after, and this one stands down (a slow cold career that keeps progressing is never replaced);
-// - while Team V's career read is running, that read's deadline bounds it, so this one starts again from when it settles;
+// - while Team V's career read is running before anything is drawn, this one waits and starts its 15 s again from when
+//   that read settles (so files still on their way get the full window); a read that hangs never settles, so the wait is
+//   capped at LEGACY_HAND_OVER_MAX_MS (2 x 15 s) from the open whatever happens, and then it says unavailable;
 // - Team V's own box (.legacyV10Screen.legacyBox) is never painted over.
 const LEGACY_HAND_OVER_DEADLINE_MS = 15000;
+const LEGACY_HAND_OVER_MAX_MS = 2 * LEGACY_HAND_OVER_DEADLINE_MS;
 const LEGACY_CAREER_SETTLED_EVENT = "career-mode-online-career-load-settled";
-let legacyHandOverFailed = false, legacyHandOverToken = 0, legacyHandOverTimer = null, legacyHandOverSettledListener = null;
+let legacyHandOverFailed = false, legacyHandOverToken = 0, legacyHandOverTimer = null, legacyHandOverCapTimer = null, legacyHandOverSettledListener = null;
 
 function legacyTakenByTeamV(){
     return document.getElementById?.("legacy")?.dataset?.rivalryLegacyV10 === "1";
@@ -27,6 +30,7 @@ function legacyTakenByTeamV(){
 
 function disarmLegacyHandOver(){
     if(legacyHandOverTimer !== null){ window.clearTimeout?.(legacyHandOverTimer); legacyHandOverTimer = null; }
+    if(legacyHandOverCapTimer !== null){ window.clearTimeout?.(legacyHandOverCapTimer); legacyHandOverCapTimer = null; }
     if(legacyHandOverSettledListener){ window.removeEventListener?.(LEGACY_CAREER_SETTLED_EVENT, legacyHandOverSettledListener); legacyHandOverSettledListener = null; }
 }
 
@@ -41,6 +45,13 @@ function armLegacyHandOver(token){
         failLegacyHandOver(token);
     };
     legacyHandOverTimer = window.setTimeout(fire, LEGACY_HAND_OVER_DEADLINE_MS);
+    // The cap: 30 s from the open, never restarted, unless Team V's History has drawn by then.
+    legacyHandOverCapTimer = window.setTimeout(() => {
+        legacyHandOverCapTimer = null;
+        if(token !== legacyHandOverToken){ return; }
+        if(legacyTakenByTeamV()){ disarmLegacyHandOver(); return; }
+        failLegacyHandOver(token);
+    }, LEGACY_HAND_OVER_MAX_MS);
     legacyHandOverSettledListener = () => {
         if(token !== legacyHandOverToken || legacyHandOverTimer === null){ return; }
         window.clearTimeout?.(legacyHandOverTimer);

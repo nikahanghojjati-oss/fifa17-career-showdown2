@@ -8,6 +8,8 @@
 //      in view; it shows loading (or stays covered) until the read lands, then the finished Showdown.
 //   HL4 a Team V History file that hangs never leaves History on loading for good: unavailable after the 15 s deadline, and
 //      History still draws once the file arrives.
+//   HL6 the same with the career read hung too (it never settles): unavailable by 30 s, and History draws once the file
+//      arrives.
 //   HL5 a slow cold career that keeps progressing past 15 s: once Team V's History takes the screen it is never replaced by
 //      "unavailable", and it ends on the career.
 // The account, pair and career reader are page stubs (no Firebase; every request off the local origin is aborted); History's
@@ -53,6 +55,7 @@ function installStubs({ empty, finished, readMs, rivalryId }){
     w.CareerModeSparkClosedShowdownCareerLoader = freeze({ forgetUnavailableShowdown(){},
         loadClosedShowdownCareer: async (args = {}) => { w.__h1.reads += 1;
             // HL5: a long cold career that keeps progressing (one Showdown read every stepMs), as the real reader reports it.
+            if(w.__h1.hangRead) await new Promise(() => {}); // HL6: a read hung on a half-up link never settles
             const slow = w.__h1.slowRead;
             if(slow){ for(let done = 1; done <= slow.total; done++){ await new Promise(r => setTimeout(r, slow.stepMs)); args.onProgress?.({ done, total: slow.total }); } }
             else await new Promise(r => setTimeout(r, readMs));
@@ -135,7 +138,7 @@ async function run(browser, size){
 // never settles. History must not say loading for good: past its 15 s deadline the shown screen says unavailable, and once the
 // file arrives after all, History still draws. One size is enough (the deadline is not about layout).
 const HANG_FILE = /\/visual-assets\/v10_1\/legacy\/strings\.json(\?|$)/;
-async function runHang(browser, size){
+async function runHang(browser, size, { hangRead = false, waitMs = HANG_WAIT_MS, failBy = 14000 } = {}){
     const context = await browser.newContext({ viewport: size.viewport, deviceScaleFactor: size.deviceScaleFactor, isMobile: size.isMobile, hasTouch: size.hasTouch, serviceWorkers: "block" });
     const held = [];
     await context.route("**/*", route => {
@@ -150,21 +153,23 @@ async function runHang(browser, size){
     await page.locator("#loadingScreen").waitFor({ state: "hidden", timeout: 30000 });
     await page.waitForFunction(() => window.CareerModeV10Screens && window.CareerModeV10Screens.isMounted("mainMenu"), null, { timeout: 30000 });
     await page.evaluate(installStubs, { empty: EMPTY, finished: FINISHED, readMs: READ_MS, rivalryId: R });
+    if(hangRead) await page.evaluate(() => { window.__h1.hangRead = true; });
     await page.evaluate(startSampler);
     const opened = await page.evaluate(() => { window.openOptionalModule("legacy"); return performance.now(); });
-    await page.waitForTimeout(HANG_WAIT_MS);
+    await page.waitForTimeout(waitMs);
     const frames = await page.evaluate(() => { window.__h1.stop(); return window.__h1.frames; });
     if(!held.length) problems.push("the History file was never asked for (the hang was not set up)");
-    const early = frames.filter(f => f.shown && f.t - opened < 14000 && /Career history is unavailable|could not be loaded/i.test(f.text));
+    const early = frames.filter(f => f.shown && f.t - opened < failBy && /Career history is unavailable|could not be loaded/i.test(f.text));
     if(early.length) problems.push(`"unavailable" before History's deadline for ${early.length} frame(s)`);
     const last = frames.filter(f => f.shown).at(-1);
-    if(!last || !/Career history is unavailable/i.test(last.text)) problems.push(`HL4: ${HANG_WAIT_MS / 1000} s into a hung hand-over the History screen still says "${last ? last.text.slice(0, 80) : "(not shown)"}", not unavailable (loading for good)`);
+    if(!last || !/Career history is unavailable/i.test(last.text)) problems.push(`${hangRead ? "HL6" : "HL4"}: ${waitMs / 1000} s into a hung hand-over the History screen still says "${last ? last.text.slice(0, 80) : "(not shown)"}", not unavailable (loading for good)`);
     // The file arrives after all: History still draws.
     context.__released = true; held.splice(0).forEach(route => route.continue().catch(() => {}));
-    await page.waitForFunction(() => { const h = document.getElementById("legacy"); return h && window.CareerModeV10Screens.isMounted("legacy") && /No finished Showdowns yet/.test(h.innerText); }, null, { timeout: 20000 })
-        .catch(() => problems.push("HL4: after the file arrived late, History never drew"));
+    // With the read hung too, Team V's History draws whatever its own read deadline says (never the old box).
+    await page.waitForFunction(hung => { const h = document.getElementById("legacy"); return h && window.CareerModeV10Screens.isMounted("legacy") && (hung ? h.dataset.rivalryLegacyV10 === "1" && Boolean(h.querySelector(".legacyV10Screen")) : /No finished Showdowns yet/.test(h.innerText)); }, hangRead, { timeout: 20000 })
+        .catch(() => problems.push(`${hangRead ? "HL6" : "HL4"}: after the file arrived late, History never drew`));
     if(errors.length) problems.push(`page errors: ${errors.join(" | ")}`);
-    console.log(`${problems.length ? "FAIL" : "ok  "} ${size.name} hung History file: at ${HANG_WAIT_MS / 1000} s "${last ? last.text.slice(0, 60) : ""}"; late file -> History drew: ${!problems.some(x => /never drew/.test(x))}`);
+    console.log(`${problems.length ? "FAIL" : "ok  "} ${size.name} hung History file${hangRead ? " + hung career read" : ""}: at ${waitMs / 1000} s "${last ? last.text.slice(0, 60) : ""}"; late file -> History drew: ${!problems.some(x => /never drew/.test(x))}`);
     problems.forEach(x => console.log(`  - ${x}`));
     await context.close();
     return problems.length;
@@ -212,7 +217,7 @@ async function runSlowRead(browser, size){
     const runtime = await resolveChromiumRuntime();
     const browser = await chromium.launch({ headless: true, executablePath: runtime.executablePath, args: runtime.args });
     let failed = 0;
-    try { for(const size of SIZES) failed += await run(browser, size); failed += await runHang(browser, SIZES[0]); failed += await runSlowRead(browser, SIZES[0]); }
+    try { for(const size of SIZES) failed += await run(browser, size); failed += await runHang(browser, SIZES[0]); failed += await runHang(browser, SIZES[0], { hangRead: true, waitMs: 32000, failBy: 29000 }); failed += await runSlowRead(browser, SIZES[0]); }
     finally { await browser.close(); }
     console.log(`History honest loading audit: ${failed ? "FAIL" : "PASS"}`);
     process.exit(failed ? 1 : 0);

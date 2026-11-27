@@ -14,6 +14,8 @@
 //       unavailable after History's own 15 s deadline instead of loading for good; a late success still paints History.
 //   HL5 (Codex P2 on 3b4f2aff) that deadline covers only the hand-over before Team V's History takes the screen: a slow
 //       read that keeps progressing is never replaced, and Team V's own .legacyBox is never painted over.
+//   HL6 (Verify on ffc434db) waiting on Team V's career read before it draws is capped at 30 s from the open (a read hung
+//       on a half-up link never settles); then unavailable, and a late success still draws History.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -132,7 +134,7 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
     // A hand-over that never settles (a Team V History file fetch hanging on a half-up link): loading until History's own
     // deadline, then unavailable, so it never stays on loading for good. A late success still paints History.
     const clock=fakeClock(),hang=deferred(),p=legacyPage({handOver:()=>hang.promise,clock});p.render();
-    assert.equal(p.status(),"loading");assert.equal(clock.timers.size,1,"one deadline per open");
+    assert.equal(p.status(),"loading");assert.equal(clock.timers.size,2,"one deadline and one cap per open");
     clock.advance(14999);await settle();assert.equal(p.status(),"loading","still inside the deadline");
     clock.advance(1);await settle();assert.equal(p.status(),"unavailable","past the deadline it says unavailable");
     assert.equal(p.text(),Seam.TEXT.unavailable);
@@ -144,7 +146,7 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
     c2.advance(60000);await settle();assert.equal(q.status(),"loading","no late unavailable over a mounted History");
     // Only the latest open counts: an older open's deadline and its late failure never paint over a newer open.
     const c3=fakeClock();const opens=[deferred(),deferred()];let n=0;const r=legacyPage({handOver:()=>opens[n++].promise,clock:c3});
-    r.render();c3.advance(10000);r.render();assert.equal(c3.timers.size,1,"reopening replaces the deadline");
+    r.render();c3.advance(10000);r.render();assert.equal(c3.timers.size,2,"reopening replaces the deadline and the cap");
     c3.advance(6000);await settle();assert.equal(r.status(),"loading","the first open's deadline was dropped");
     opens[0].resolve(false);await settle();assert.equal(r.status(),"loading","an older open's late failure is ignored");
     c3.advance(9000);await settle();assert.equal(r.status(),"unavailable","the newer open's own deadline still ends it");
@@ -169,8 +171,7 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
     // Not drawn yet, Team V's career read running: that read's own deadline bounds it, so this one waits for it and then
     // starts again from when it settles (files still on their way get the full 15 s).
     const c2=fakeClock(),h2=deferred(),q=legacyPage({handOver:()=>h2.promise,clock:c2});q.render();q.teamV.reading=true;
-    c2.advance(40000);await settle();assert.equal(q.status(),"loading","no unavailable while Team V's read is running");
-    q.settled();c2.advance(14999);await settle();assert.equal(q.status(),"loading","15 s again from the read settling");
+    c2.advance(5000);await settle();q.settled();c2.advance(14999);await settle();assert.equal(q.status(),"loading","15 s again from the read settling");
     c2.advance(1);await settle();assert.equal(q.status(),"unavailable","then a hung file still ends on unavailable");
     // A hung file with no read running still fails at 15 s (HL4) and a reopen leaves no listener behind.
     const c3=fakeClock(),h3=deferred(),r=legacyPage({handOver:()=>h3.promise,clock:c3});r.render();r.render();
@@ -182,6 +183,26 @@ const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve
     assert.match(RL,/const rlCareerModelLoading=\(\)=>careerLoadsRunning>0;/);assert.match(RL,/host\.dataset\.rivalryLegacyV10="1";/);
     assert.match(read("js/rivalryLegacyV10Markup.js"),/legacyV10Screen legacyBox/,"why Team V's .legacyV10Screen box is skipped");
     ok("HL5","the deadline covers only the hand-over before Team V's History takes the screen; Team V's box is never painted over");
+  }
+  // HL6 -----------------------------------------------------------------------------------------------------------------
+  {
+    // Verify on ffc434db: a career read hung on a half-up link never settles, so waiting on it re-armed for good. The wait is
+    // capped at 30 s from the open (2 x 15 s), the settled restart included; then unavailable. A late success still draws.
+    const c=fakeClock(),h=deferred(),p=legacyPage({handOver:()=>h.promise,clock:c});p.render();p.teamV.reading=true;
+    c.advance(29999);await settle();assert.equal(p.status(),"loading","waiting on Team V's read inside the cap");
+    c.advance(1);await settle();assert.equal(p.status(),"unavailable","a read and a file that both hang end on unavailable at 30 s");
+    assert.equal(c.timers.size,0);assert.equal(p.listeners.get("career-mode-online-career-load-settled")?.size||0,0);
+    h.resolve(true);await settle();assert.equal(p.errors.length,0,"a late success leaves the box to Team V's History");
+    // The settled restart counts against the same cap: settled at 20 s gives 15 s more only up to 30 s.
+    const c1=fakeClock(),h1=deferred(),q=legacyPage({handOver:()=>h1.promise,clock:c1});q.render();q.teamV.reading=true;
+    c1.advance(20000);await settle();q.settled();c1.advance(9999);await settle();assert.equal(q.status(),"loading");
+    c1.advance(1);await settle();assert.equal(q.status(),"unavailable","the cap is never restarted");
+    // Team V drawn before the cap: the cap stands down too (its own deadline owns the read).
+    const c2=fakeClock(),h2=deferred(),r=legacyPage({handOver:()=>h2.promise,clock:c2});r.render();r.teamV.reading=true;
+    c2.advance(14000);r.takeOver();c2.advance(16000);await settle();assert.equal(r.text(),"TEAM V HISTORY");assert.equal(c2.timers.size,0);
+    c2.advance(60000);await settle();assert.equal(r.text(),"TEAM V HISTORY","a drawn History is never replaced");
+    assert.match(LEGACY,/const LEGACY_HAND_OVER_MAX_MS = 2 \* LEGACY_HAND_OVER_DEADLINE_MS;/);
+    ok("HL6","waiting on a hung career read is capped at 30 s from the open, then unavailable; a late success still draws");
   }
   console.log(`PASS r100 History honest loading contracts (${passed})`);
 })().catch(error=>{console.error(error);process.exit(1);});
