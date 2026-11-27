@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r100-league-words-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedShowdownPresentation\\.js$",
+    "^js/leagueWheel\\.js$",
+    "^js/showdownUI\\.js$",
+    "^js/productionSharedJourneyEntry\\.js$",
+    "^index\\.html$",
+    "^tests/contracts/r100\\-league\\-words\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-league\\-words\\-contracts\\.json$"
+  ]
+}

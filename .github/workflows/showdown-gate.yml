@@ -8,6 +8,9 @@
 # (gate-watchdog.yml).
 name: Showdown Gate
 
+# r100 (Nik 2026-11-24, step 4 of the main-suites plan): a push to main runs only L5 (the composed Rules
+# regression and its T9/M12 check that main's Rules match the reviewed pin). Every other lane and the seal
+# run on pull requests only: the release PR's Gate already proved the same tree.
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -26,7 +29,7 @@ concurrency:
 jobs:
   l1-core:
     name: L1 core
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -121,7 +124,7 @@ jobs:
 
   l2-browser-full:
     name: L2 browser full
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     # r100 B7: the full browser bundle already ran 38-40 min (sign-in lounge PR 38m17s and 39m42s); the Trophy Room BACK check
     # (reach audit R8) took it past 40, cancelling a run whose every audit had passed. 55, as the other long lanes.
@@ -199,7 +202,7 @@ jobs:
 
   l3a:
     name: L3A storage gameplay
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
@@ -327,7 +330,7 @@ jobs:
 
   l3b:
     name: L3B visual
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
@@ -419,7 +422,7 @@ jobs:
 
   l4-remote:
     name: L4 remote
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:
@@ -602,7 +605,7 @@ jobs:
 
   l6-browser-journey:
     name: L6 browser journey
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -712,7 +715,7 @@ jobs:
   # (scripts/ironman-leg.mjs): a second failure is red, a pass on the rerun is FLAKY (listed by the seal, filed and fixed).
   l7-ironman:
     name: L7 Ironman ${{ matrix.leg }}
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 75
     strategy:
@@ -821,7 +824,7 @@ jobs:
 
   l8-pos1m:
     name: L8 POS1M ${{ matrix.shard }}
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
@@ -899,7 +902,7 @@ jobs:
   # scripts/showdown-gate.mjs l9Decision) and whenever tests/pos1m changes; a skip is verified by the seal. Emulator only.
   l9-pos1m-ring2:
     name: L9 POS1M Ring 2 ${{ matrix.shard }}
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     strategy:
@@ -997,10 +1000,112 @@ jobs:
           overwrite: true
           retention-days: 7
 
+  # L10 League Roulette 3D (Phoenix B1, lead 2026-11-26): the only lane with WebGL on (SwiftShader). Every other browser lane
+  # runs the pinned Chromium with --disable-webgl, so nothing else ever draws the real 3D League Roulette. One job: Wooden and
+  # Graphite at 1920x866 and 390x844, Daniel waiting before Nik connects, a late join, reloads, a WebGL context loss and the
+  # last ball. Same fail-closed route as L7 (l10Decision); a skip is recomputed and verified by the seal, and a run must
+  # carry the audit's own report (both runs, WebGL on, no failure).
+  l10-league-3d:
+    name: L10 League Roulette 3D
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.draft == false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Fetch exact diff base
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [[ "$GATE_EVENT" == "pull_request" ]]; then base="$GATE_BASE_SHA"; else base="$GATE_BEFORE_SHA"; fi
+          if [[ -n "$base" && ! "$base" =~ ^0+$ ]]; then git fetch --no-tags --depth=1 origin "$base"; fi
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          cache: npm
+      - name: 'TEST: Compute Showdown Gate route'
+        id: route
+        shell: bash
+        env:
+          GATE_EVENT: ${{ github.event_name }}
+          GATE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_BEFORE_SHA: ${{ github.event.before }}
+        run: node scripts/showdown-gate.mjs route --lane L10 --out "$RUNNER_TEMP/route.json" --github-output "$GITHUB_OUTPUT"
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        if: steps.route.outputs.l10_run == 'true'
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Restore Firebase emulator and npx caches
+        if: steps.route.outputs.l10_run == 'true'
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/firebase/emulators
+            ~/.npm/_npx
+          key: showdown-gate-L6-emulators-ubuntu-24.04-firebase-tools-15.27.0-15.28.1-v1
+      - name: Restore Playwright and Chromium browser caches
+        if: steps.route.outputs.l10_run == 'true'
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            ~/.cache/ms-playwright
+            /tmp/cms-chromium-runtime
+          key: showdown-gate-browsers-ubuntu-24.04-playwright-1.62.1-chromium-149.0.0-v1
+      - name: Install locked dependencies
+        if: steps.route.outputs.l10_run == 'true'
+        run: npm ci
+      - name: Install the pinned Firebase SDK the page loads
+        if: steps.route.outputs.l10_run == 'true'
+        run: npm install --no-save --package-lock=false firebase@12.17.0
+      - name: 'TEST: League Roulette 3D with WebGL on (Wooden and Graphite, 1920x866 and 390x844)'
+        id: league3d
+        if: steps.route.outputs.l10_run == 'true'
+        env:
+          CMS_CHROMIUM_MULTI_CONTEXT: '1'
+        run: node tests/browser/r100-league-roulette-webgl-audit.cjs
+      - name: Upload League Roulette 3D report and screenshots
+        if: always() && steps.route.outputs.l10_run == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: league-roulette-3d
+          path: |
+            test-results/r100-league-roulette-webgl.json
+            test-results/r100-league-roulette-webgl
+          if-no-files-found: ignore
+          retention-days: 7
+          overwrite: true
+      - name: Record lane result
+        if: always()
+        shell: bash
+        env:
+          GATE_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          GATE_RUN_ATTEMPT: ${{ github.run_attempt }}
+          GATE_JOB_STATUS: ${{ job.status }}
+          GATE_STEPS_JSON: ${{ toJSON(steps) }}
+        run: node scripts/showdown-gate.mjs finalize --lane L10 --route "$RUNNER_TEMP/route.json" --league3d test-results/r100-league-roulette-webgl.json --out "$RUNNER_TEMP/lane/lane.json"
+      - name: Upload lane record
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: showdown-gate-lane-L10
+          path: ${{ runner.temp }}/lane/lane.json
+          if-no-files-found: warn
+          overwrite: true
+          retention-days: 7
+
   seal:
     name: seal
-    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey, l7-ironman, l8-pos1m, l9-pos1m-ring2]
-    if: ${{ !cancelled() }}
+    needs: [l1-core, l2-browser-full, l3a, l3b, l4-remote, l5-rules-regression, l6-browser-journey, l7-ironman, l8-pos1m, l9-pos1m-ring2, l10-league-3d]
+    if: ${{ github.event_name == 'pull_request' && !cancelled() }}
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
