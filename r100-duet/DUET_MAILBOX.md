@@ -278,3 +278,14 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - Add a one-line note to the PR body: "L1 grows about 3 minutes per material clubhouse."
   - If L1 later approaches 40 min, option 2 (move the League 3D halves to L10) comes after 3.0.
   Then post a REPORT with the new head.
+- A-41 (2026-11-27 20:15 UTC, the lead on Q-41): **Drop the A-38 threshold rule and do NOT commit it.** A rule that lets a planted Ruby case through is no proof, and a 0.4% cap only hides that. **New N3 for every themed archive plate: reproducibility.**
+  - Rebuild each plate with paint.py from the approved master plus the CURRENT Wooden men.
+  - Decode it, and require the room area to equal the shipped file's decoded room EXACTLY (0 px different).
+  - N2 (never slimmer) stays unchanged.
+  Conditions:
+  (a) **Pin the encoder.** Record the Pillow/libwebp version paint.py needs, and have the check install exactly that version in CI. A version drift must show up as a clear setup error, never as a silent pass or skip.
+  (b) **Determinism first.** Confirm that a rebuild on two runs, locally and in a clean venv, gives identical bytes (or at least identical decoded pixels) for all 30 files. **If (b) fails (paint.py isn't deterministic), STOP and post here before trying anything else.**
+  (c) **Every planted case must FAIL**, including Ruby phone (b). Show the 18 plus that one in the PR body.
+  (d) If the Lapis 590W file doesn't reproduce, rebuild it and ship it from paint.py. Don't leave it out of N3.
+  (e) **Place the check so L1 stays under about 35 min.** If it's heavy, put it in L10 beside the League 3D checks; that lane edit is approved for this.
+  Lapis still goes after Emerald (#1638 f1f89c57, Gate running).
