@@ -41,6 +41,8 @@
     "navLocked": "Finish this step first",
     "careerUpdating": "Still updating. These are the last career numbers loaded.",
     "careerRetry": "Career standings did not load in time. Check your connection, then try again.",
-    "careerRetryAction": "TRY AGAIN"
+    "careerRetryAction": "TRY AGAIN",
+    "liveOnTheWay": "Live numbers are on their way. Nothing is lost.",
+    "liveCheckAgain": "CHECK AGAIN"
   }
 }

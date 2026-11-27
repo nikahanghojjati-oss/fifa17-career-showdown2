@@ -357,7 +357,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
-    if(scope.status==="unavailable"&&scope.notice==="continue")current.notice="continue";
+    if(scope.status==="unavailable"&&["continue","onTheWay"].includes(scope.notice))current.notice=scope.notice;
     if(["ready","partial","empty"].includes(scope.status)&&scope.score&&scope.managers){
       if(!["daniel","nik"].every(m=>number(scope.score[m])&&scope.managers[m]&&COUNT_FIELDS.every(k=>number(scope.managers[m][k]))))current={status:"unavailable"};
       else {current.score={...scope.score};current.managerRecords=Object.fromEntries(["daniel","nik"].map(m=>[m,Object.fromEntries(COUNT_FIELDS.map(k=>[k,scope.managers[m][k]]))]));}
@@ -430,8 +430,8 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     // r100 H2-1 (Nik: "Standings opened in the middle of a Showdown must always show the scores and everything, and never sit
     // stuck loading"). In the game the live providers bring the numbers; while they are still on their way Standings waits,
     // but at most SF_LIVE_WAIT_MS (a provider that is half up, or never answers, can no longer hold "Loading standings.").
-    const rid=typeof pair?.rivalryId==="string"?pair.rivalryId:"";
-    if(sfLiveCanArrive()){
+    const rid=typeof pair?.rivalryId==="string"?pair.rivalryId:"",inGame=sfLiveCanArrive();
+    if(inGame){
       if(!sfLoadingSince||sfLoadingRid!==rid){sfLoadingSince=Date.now();sfLoadingRid=rid;sfWakeAfter(SF_LIVE_WAIT_MS+50);}
       if(Date.now()-sfLoadingSince<SF_LIVE_WAIT_MS)return view;
     }
@@ -441,8 +441,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     const kept=sfKeptView(snapshot,rid);
     if(kept)return kept;
     // r87 career fixes (lane C C-01): nothing this phone can show yet, so THIS SHOWDOWN says how to load it instead of
-    // "Loading standings." forever.
-    return {status:"unavailable",notice:"continue"};
+    // "Loading standings." forever. r100 Verify F2: a player already in the game is not sent to Home; the numbers are on
+    // their way, and CHECK AGAIN (a tap, never a loop) waits for them once more.
+    return {status:"unavailable",notice:inGame?"onTheWay":"continue"};
   }
   // ---- r100 H2-1: this Showdown's numbers on Standings after an app reopen ----
   // The copy is the last authoritative Multi Season view this phone read (state, dashboard and the History projection,
@@ -495,8 +496,16 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   }
   // Standings opening (its loader's prepare): a fresh check for this open, waited for at most SF_COPY_READ_MS behind the
   // loading screen, and only when the live numbers cannot come (in the game nothing changes and nothing is read).
+  // Each entry to Standings is one open (Codex P2 on #1649). The loader runs prepare on the first entry only (js/v10Screens.js
+  // keeps it in screenLoads), so the open starts at whichever comes first, that prepare or career-mode-screen-shown for
+  // Standings, and ends when another screen is shown; redraws and a second signal for the same entry add no read.
+  let sfInStandings=false;
+  function sfEnterStandings(){if(sfInStandings)return;sfInStandings=true;sfCopyOpen+=1;sfLoadingSince=0;}
+  function sfStandingsShown(screen){if(screen!=="standings"){sfInStandings=false;return;}sfPrepareKeptStandings();}
+  // CHECK AGAIN (in the game, live numbers late): a new open on the player's tap: the live wait once more, then the copy's check.
+  function sfStandingsCheckAgain(){sfInStandings=false;sfPrepareKeptStandings();signature="";wake();}
   function sfPrepareKeptStandings(){
-    sfCopyOpen+=1;sfLoadingSince=0;
+    sfEnterStandings();
     try{
       const snapshot=sfSnapshot(),view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot);
       if(!view||view.status!=="loading"||sfLiveCanArrive())return Promise.resolve();
@@ -3319,8 +3328,9 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     root.addEventListener?.("career-mode-shared-history-convergence-state-change",()=>sfRetainHistory(state("CareerModeProductionSharedHistoryConvergence")));
     root.addEventListener?.("online",sfRetryClosedHistory);
     root.document.addEventListener("visibilitychange",sfRetryClosedHistory);
-    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();if(root.getActiveScreenName?.()==="standings")refreshStandingsCareer();wake();});
+    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();if(root.getActiveScreenName?.()==="standings")refreshStandingsCareer();sfStandingsShown(root.getActiveScreenName?.());wake();});
     root.addEventListener?.("career-mode-standings-retry",sfRetryStandingsCareer);
+    root.addEventListener?.("career-mode-standings-check-again",sfStandingsCheckAgain);
     followPair();
     wake();return true;
   }

@@ -23,6 +23,8 @@
 //   S8 in the game (live numbers ready): the live view, no read, the copy is not looked at
 //   S9 every open makes its own single read (no cached verdict from an earlier open), and CAREER is not touched
 //   S10 the progression keeps the copy on every authoritative read; the Showdown reset leaves storage alone
+//   S11 through the real loader (prepare runs once per page): every entry to Standings makes its own one read (Codex P2)
+//   S12 in the game with the live numbers late: "Live numbers are on their way. Nothing is lost." and CHECK AGAIN (Verify F2)
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -58,7 +60,7 @@ function page({snapshot,copy=null,commit=null,readFails=false,readHangs=false,li
   root.CareerModeProductionSharedHistoryConvergence.isActive=()=>liveCanArrive;
   const ctx={root,Date:{now:()=>now},JSON,Promise,Number,String,Boolean,Object,Array,RegExp,Error,console};
   vm.createContext(ctx);
-  vm.runInContext(`let signature="";function wake(){globalThis.__wakes=(globalThis.__wakes||0)+1;}\n${BLOCK}\nglobalThis.api={currentRivalry,sfPrepareKeptStandings};`,ctx);
+  vm.runInContext(`let signature="";function wake(){globalThis.__wakes=(globalThis.__wakes||0)+1;}\n${BLOCK}\nglobalThis.api={currentRivalry,sfPrepareKeptStandings,sfStandingsShown,sfStandingsCheckAgain};`,ctx);
   const flush=async()=>{for(let i=0;i<20;i++)await Promise.resolve();await new Promise(r=>setImmediate(r));for(let i=0;i<20;i++)await Promise.resolve();};
   const advance=async ms=>{now+=ms;for(const t of timers.filter(t=>t.at<=now&&!t.done)){t.done=true;t.fn();}await flush();};
   return {api:ctx.api,reads,storage,flush,advance,wakes:()=>ctx.__wakes||0,frames:()=>S.standingsFrames(ctx.api.currentRivalry(),null)};
@@ -131,7 +133,7 @@ const home=p=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:null,
     await pg.advance(WAIT-1);assert.equal(pg.api.currentRivalry().status,"loading");
     await pg.advance(51);assert.ok(pg.wakes()>=1,"the screen is woken when the wait ends");pg.api.currentRivalry();await pg.flush();
     const v=pg.api.currentRivalry();assert.equal(v.status,"ready","after 8 s: the checked copy");assert.deepEqual(v.score,score1);assert.equal(pg.reads.length,1);}
-  {const pg=page({snapshot:home(p1),liveCanArrive:true});await pg.api.sfPrepareKeptStandings();assert.equal(pg.api.currentRivalry().status,"loading");await pg.advance(WAIT+100);assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"continue"},"no copy: the notice after 8 s, not loading forever");assert.equal(pg.reads.length,0);}
+  {const pg=page({snapshot:home(p1),liveCanArrive:true});await pg.api.sfPrepareKeptStandings();assert.equal(pg.api.currentRivalry().status,"loading");await pg.advance(WAIT+100);assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"},"no copy, in the game: 'on their way' after 8 s (Verify F2: never 'continue from Home'), not loading forever");assert.equal(pg.reads.length,0);}
   ok("S7","half-up providers: loading for at most 8 s, then the checked copy or the notice");
 
   // S8
@@ -141,7 +143,7 @@ const home=p=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:null,
   ok("S8","in the game the live view stands: no read, the copy is not looked at");
 
   // S9
-  {const pg=page({snapshot:home(p1),copy:copy1,commit:pending});for(let open=1;open<=3;open++){await pg.api.sfPrepareKeptStandings();await pg.flush();assert.equal(pg.api.currentRivalry().status,"ready");assert.equal(pg.reads.length,open,`open ${open}: its own single read`);}}
+  {const pg=page({snapshot:home(p1),copy:copy1,commit:pending});for(let open=1;open<=3;open++){await pg.api.sfPrepareKeptStandings();await pg.flush();assert.equal(pg.api.currentRivalry().status,"ready");assert.equal(pg.reads.length,open,`open ${open}: its own single read`);pg.api.sfStandingsShown("standings");await pg.flush();assert.equal(pg.reads.length,open,"the same entry's shown signal adds no read");pg.api.sfStandingsShown("mainMenu");}}
   assert.ok(!/sfKept|sfCopy/.test(SRC.slice(SRC.indexOf("function currentCareer"),SRC.indexOf("function currentCareer")+600)),"CAREER's model is not touched");
   assert.equal((SRC.match(/sfKeptView\(/g)||[]).length,3,"the copy is used by THIS SHOWDOWN only (currentRivalry and the Standings prepare)");
   assert.ok(SRC.includes('prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip(),sfPrepareKeptStandings()])'),"Standings' loader waits for the one read behind the loading screen");
@@ -157,5 +159,50 @@ const home=p=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:null,
     vm.runInContext(`const PMSP_STANDINGS_KEY="cms.liveStandings.v1";${fn};for(let i=0;i<3;i++)pmspKeepForStandings(${JSON.stringify(p1.rivalryId)},${JSON.stringify(v1)});`,sandbox);
     assert.equal(writes,1,"the same view three polls running is written once");assert.equal(sandbox.written[0],KEY);const pg=page({snapshot:home(p1),copy:sandbox.written[1],commit:pending});await pg.api.sfPrepareKeptStandings();await pg.flush();assert.deepEqual(pg.api.currentRivalry().score,score1,"what the progression keeps is what Standings shows");}
   ok("S10","the progression keeps the copy on every authoritative read (newest Showdown only); the reset leaves storage alone");
+  // S11 (Codex P2 + Verify F1 on #1649): through the real loader. js/v10Screens.js runs a screen's prepare once per page
+  // (screenLoads), so each entry to Standings must start its own open from career-mode-screen-shown: unread on the first
+  // entry, the connection back, a second entry checks again and the copy shows. The real seasonFinalV10.js, installed.
+  {const V=read("js/v10Screens.js");assert.match(V,/function vsLoadScreen\(id\)\{\n    if\(!screenLoads\.has\(id\)\)\{/,"the loader caches each screen's load (and prepare) once per page");
+    const storage=new Map([[KEY,JSON.stringify(copy1)]]);let fail=true,active="mainMenu";const reads=[],listeners={doc:{},win:{}},defs=new Map();
+    const sdk={doc:(_db,...parts)=>parts.join("/"),runTransaction:async(_db,fn)=>fn({get:async ref=>{reads.push(ref);if(fail)throw new Error("unavailable");return {exists:()=>true,data:()=>pending};}})};
+    const snap=home(p1);
+    const c={console,setTimeout,clearTimeout,setInterval:()=>0,readStorageValue:k=>storage.get(k)??null,writeStorageValue:(k,v)=>{storage.set(k,v);return true;},
+      CareerModeV10Screens:new Proxy({install(){return {register:(id,d)=>defs.set(id,d)};}},{get:(t,k)=>k in t?t[k]:()=>Promise.resolve(false)}),
+      CareerModeSharedActiveShowdownAdapter:A,
+      CareerModeOnlinePlayerIdentity:{getState:()=>snap.identity},CareerModePersistentNikDanielPair:{getState:()=>snap.pair},
+      CareerModeProductionSharedMultiSeasonProgression:{getState:()=>null},CareerModeProductionSharedHistoryConvergence:{getState:()=>null,isActive:()=>false},
+      CareerModeProductionSharedShowdownSetup:{getState:()=>null},CareerModeProductionSharedFinalReconciliation:{getState:()=>null},CareerModeProductionSharedTerminalClose:{getState:()=>null},
+      CareerModeProductionFirebaseRuntime:{ensureAccountServices:async()=>({ok:true,auth:{currentUser:{uid:"acct_daniel"}},firestore:{},firestoreSdk:sdk})},
+      getActiveScreenName:()=>active,loadRuntimeScript:()=>new Promise(()=>{}),
+      document:{getElementById:()=>null,querySelector:()=>null,querySelectorAll:()=>[],addEventListener(t,fn){(listeners.doc[t]||=[]).push(fn);},createElement:()=>({style:{},classList:{add(){},remove(){},toggle(){}},setAttribute(){},appendChild(){},addEventListener(){}})},
+      addEventListener(t,fn){(listeners.win[t]||=[]).push(fn);},dispatchEvent(){},CustomEvent:class{}};
+    c.window=c;c.globalThis=c;vm.createContext(c);vm.runInContext(read("js/seasonFinalV10.js"),c,{filename:"js/seasonFinalV10.js"});
+    await c.CareerModeSeasonFinalV10.install();
+    const def=defs.get("standings");let prepared=null;
+    const settle=async()=>{for(let i=0;i<10;i++)await new Promise(r=>setImmediate(r));};
+    // a real entry: showScreen fires career-mode-screen-shown; the loader runs prepare on the first entry only
+    const enter=async()=>{active="standings";for(const fn of listeners.doc["career-mode-screen-shown"]||[])fn({detail:{screen:"standings"}});if(!prepared){prepared=def.prepare().catch(()=>{});}await prepared;await settle();return J(def.frame().SHOWDOWN.model);};
+    const leave=async()=>{active="mainMenu";for(const fn of listeners.doc["career-mode-screen-shown"]||[])fn({detail:{screen:"mainMenu"}});await settle();};
+    const first=await enter();assert.deepEqual(first,{status:"unavailable",notice:"continue"},"first entry, the read fails: the notice");assert.equal(reads.length,1,"one read for the entry (shown and prepare are the same open)");
+    for(let i=0;i<5;i++)def.frame();await settle();assert.equal(reads.length,1,"redraws: no read");
+    await leave();fail=false;
+    const second=await enter();assert.equal(reads.length,2,"the second entry checks again (no prepare runs for it)");assert.equal(second.status,"ready","the connection is back: the copy shows");assert.deepEqual(second.score,score1);
+    await leave();const third=await enter();assert.equal(reads.length,3,"every entry: its own single read");assert.equal(third.status,"ready");}
+  ok("S11","through the real loader: each Standings entry makes its own one read (unread, then back: the copy shows)");
+
+  // S12 (Verify F2): in the game, live numbers late and no checked copy: honest in-game words, never "continue it from Home";
+  // CHECK AGAIN waits for them once more, on the tap only.
+  {const strings=JSON.parse(read("visual-assets/v10_1/standings/app-strings.json")).strings;
+    assert.equal(strings.liveOnTheWay,"Live numbers are on their way. Nothing is lost.");assert.equal(strings.liveCheckAgain,"CHECK AGAIN");assert.doesNotMatch(strings.liveOnTheWay,/continue|Home/i);
+    const sd=read("visual-assets/v10_1/standings/standings.js");
+    assert.match(sd,/m\.notice === "onTheWay" \? \(S\.liveOnTheWay/,"Standings prints the in-game line");assert.match(sd,/new CustomEvent\("career-mode-standings-check-again"\)/,"CHECK AGAIN sends one event");
+    assert.match(SRC,/root\.addEventListener\?\.\("career-mode-standings-check-again",sfStandingsCheckAgain\)/);
+    assert.deepEqual(J(S.standingsFrames({status:"unavailable",notice:"onTheWay"},null).SHOWDOWN.model),{status:"unavailable",notice:"onTheWay"},"the frame carries it");
+    const pg=page({snapshot:home(p1),copy:copy1,commit:acked,liveCanArrive:true});await pg.api.sfPrepareKeptStandings();pg.api.currentRivalry();await pg.advance(WAIT+100);pg.api.currentRivalry();await pg.flush();
+    assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"},"in the game, the copy behind: on their way");assert.equal(pg.reads.length,1);
+    await pg.advance(600000);pg.api.currentRivalry();await pg.flush();assert.equal(pg.reads.length,1,"no read on its own, even after 10 minutes");
+    const ctx2=page({snapshot:home(p1),copy:copy1,commit:acked,liveCanArrive:true});await ctx2.api.sfPrepareKeptStandings();ctx2.api.currentRivalry();await ctx2.advance(WAIT+100);ctx2.api.currentRivalry();await ctx2.flush();
+    assert.deepEqual(J(ctx2.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"});ctx2.api.sfStandingsCheckAgain();assert.equal(ctx2.api.currentRivalry().status,"loading","CHECK AGAIN: the live numbers are waited for once more");await ctx2.advance(WAIT+100);ctx2.api.currentRivalry();await ctx2.flush();assert.equal(ctx2.reads.length,2,"then one more check of the copy");}
+  ok("S12","in the game: 'Live numbers are on their way. Nothing is lost.' with CHECK AGAIN on the tap, never 'continue from Home', no loop");
   console.log(`PASS r100 Standings after an app reopen (${n} checks)`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
