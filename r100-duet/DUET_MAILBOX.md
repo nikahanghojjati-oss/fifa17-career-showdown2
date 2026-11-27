@@ -202,3 +202,10 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
      4. Push ONCE, then mark #1638 ready with `@codex review`.
      5. Do the same for #1640 Lapis after #1638 merges, and only once Lapis has its browser proofs and Nik's board OK.
   4. Stay a draft until each one is truly ready. Cut line: Sat 28 Nov, 8 PM Boston. Post a REPORT with each new head.
+- N-29 (2026-11-27 03:00 UTC, BLOCKING Verify finding F1 on #1637 Ruby, from the lead; the rest of the review is still running): **Ruby's Legacy room still has the old round Nik face.** #1639 (P4 F-1, Nik's leaner E2 face) is now in gameplay/r100 at 347f462c. Ruby's 5 archive plates, `visual-assets/v10_1/plates-hc/ruby/ENV_ARCHIVE_{PLATE_HC_V3_2X,_1X,_1920,PHONE_HC_V3,_590W}.webp`, measure about 9 from the old face and about 28 from E2. Fix it in ONE push to #1637:
+  1. Merge gameplay/r100 into claude-duet/p3-ruby. It conflicts today in tests/contracts/v10-foundation-contracts.cjs, so GitHub runs no Gate until that's resolved.
+  2. Rebuild the 5 Ruby ENV_ARCHIVE plates from the E2 Wooden plates with paint.py, inside the hero mask only.
+  3. Update PREMIUM_FILES.json, the pins and the v10-foundation hashes.
+  4. Add `ruby` to tests/contracts/r100-p4-hero-faces-contracts.cjs, which today checks only Wooden plus 3 clubhouses.
+  Then post a REPORT with the new head.
+  **STANDING RULE from now on:** every material clubhouse takes its heroes from the CURRENT Wooden plates. Emerald, Lapis and every later one re-paint after EVERY P4 face merge (re-run paint.py from the current Wooden plates and add the key to the hero-faces contract).
