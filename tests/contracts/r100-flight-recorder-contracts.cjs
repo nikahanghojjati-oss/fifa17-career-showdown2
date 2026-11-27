@@ -240,7 +240,7 @@ await check('FR9 review fixes and background only: the tap hands on only the six
   const rx=new RegExp(/const fsbFlightPath=\/(.*)\/;/.exec(pairing)[1].replace(/\\\//g,'/'));
   for(const p of [`rivalries/${RID}`,`rivalries/${RID}/sharedSetup/authoritative`,`rivalries/${RID}/careerStart/authoritative`,`rivalries/${RID}/transferChallenges/season_3`,`rivalries/${RID}/seasonResults/season_10`,`rivalries/${RID}/seasonCommits/season_1`])assert.ok(rx.test(p),p);
   for(const p of [`rivalries/${RID}/roles/playerOne`,`rivalries/${RID}/primePack/season_1`,`rivalries/${RID}/sessions/x`,`rivalries/${RID}/seasonResults/season_11`,`rivalries/${RID}/transferChallenges/season_1/roles/playerTwo`,`accounts/x`])assert.equal(rx.test(p),false,p);
-  assert.match(pairing,/fsbFlightAsked=false;fsbFlightQueue\.length=0;fsbFlightRetryAt=Date\.now\(\)\+60000;/,'a failed load drops the queue and backs off');
+  assert.match(pairing,/fsbFlightAsked=false;fsbFlightQueue\.length=0;fsbFlightRetryAt=fsbNow\(\)\+60000;/,'a failed load drops the queue and backs off');
   assert.match(RECORDER_SOURCE,/if\(!onTop\(chip,box\)\)return null;/,'the phoenix rises only where the chip is what is painted');
   assert.match(RECORDER_SOURCE,/#settingsOverlay:not\(\.hidden\), dialog\[open\]/,'never with Settings, a dialog or a modal open');
   assert.match(RECORDER_SOURCE,/ARM_MS=15000/,'armed for 15 s, never long after the resume');

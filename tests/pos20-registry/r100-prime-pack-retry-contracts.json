@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r100-prime-pack-retry-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedTransferChallenge\\.js$",
+    "^js/productionSharedCareerStart\\.js$",
+    "^js/iconGuessStep\\.js$",
+    "^tests/contracts/r100\\-prime\\-pack\\-retry\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-prime\\-pack\\-retry\\-contracts\\.json$"
+  ]
+}

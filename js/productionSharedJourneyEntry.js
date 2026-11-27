@@ -52,20 +52,45 @@
   }
   async function loadScript(key,path,ready){if(ready())return ready();if(typeof root.loadRuntimeScript!=="function")throw new Error("Required runtime is unavailable.");await root.loadRuntimeScript(key,path,ready);return ready();}
   async function loadStyle(){if(typeof root.loadRuntimeStyle==="function")await root.loadRuntimeStyle("ssjr-entry","css/remoteJoining.css");}
+  // r100 (Nik 2026-11-26: "Does it say drop the ball or spin the wheel? ... the right button"): the League Roulette is the 3D
+  // board on the waiting screen too (#1633), so while Daniel and Nik are not both connected it says WAITING FOR the other
+  // manager and the first ball, never the wheel's words; only the plain wheel where the board could not run keeps them.
+  function rouletteWaiting(){try{const step=root.CareerModeLeagueRouletteStep;return !(step&&typeof step.failed==="function"&&step.failed());}catch(_error){return true;}}
+  function otherManagerUpper(){
+    let role="";try{role=root.CareerModePersistentNikDanielPair?.getState?.()?.managerRole||"";}catch(_error){role="";}
+    const other=role==="playerOne"?"playerTwo":role==="playerTwo"?"playerOne":"";if(!other)return "THE OTHER PLAYER";
+    let name="";try{name=typeof currentShowdown!=="undefined"&&currentShowdown&&currentShowdown.managers?currentShowdown.managers[other]:"";}catch(_error){name="";}
+    return String(name||(other==="playerOne"?"Daniel":"Nik")).toUpperCase();
+  }
+  // WAITING is the Connect Players layer (js/connectPlayersScreenV10.js, #connectPlayersScreen), opened over the board with stayOnScreen.
+  const WAITING_LAYER_ID="connectPlayersScreen";
+  const waitingOpen=()=>{const layer=root.document&&root.document.getElementById(WAITING_LAYER_ID);return Boolean(layer&&!layer.classList.contains("hidden")&&!layer.hidden);};
+  let waitingWatched=null;
+  function watchWaitingLayer(){
+    const layer=root.document&&root.document.getElementById(WAITING_LAYER_ID);
+    if(!layer||layer===waitingWatched||typeof root.MutationObserver!=="function")return;
+    waitingWatched=layer;new root.MutationObserver(()=>applyLocalDrawLock()).observe(layer,{attributes:true,attributeFilter:["class","hidden"]});
+  }
   function applyLocalDrawLock(){
-    const locked=pending(),presentationOwns=locked&&presentationActive();
+    const locked=pending(),presentationOwns=locked&&presentationActive(),roulette=locked&&!presentationOwns&&rouletteWaiting();
     for(const id of [LOCAL_SPIN_ID,LOCAL_CLUB_ID]){
       const button=root.document&&root.document.getElementById(id);if(!button)continue;
-      if(locked&&!presentationOwns){button.disabled=true;button.dataset.sharedJourneyLocked="true";button.setAttribute("aria-disabled","true");button.title="Both players must be connected before this step.";}
+      if(locked&&!presentationOwns){button.disabled=true;button.dataset.sharedJourneyLocked="true";button.setAttribute("aria-disabled","true");button.title="Both players must be connected before this step.";
+        if(roulette&&id===LOCAL_SPIN_ID){const label=`WAITING FOR ${otherManagerUpper()}`;if(button.textContent!==label)button.textContent=label;}}
       else if(button.dataset.sharedJourneyLocked==="true"){button.disabled=false;delete button.dataset.sharedJourneyLocked;button.removeAttribute("aria-disabled");button.removeAttribute("title");}
     }
     const wheel=root.document&&root.document.querySelector("#leagueWheelScreen .wheelContainer");
     if(wheel){
       let resume=root.document.getElementById(SHARED_CONTINUE_ID);
-      if(locked&&!presentationOwns&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
-      if((!locked||presentationOwns)&&resume)resume.remove();
+      // CONTINUE CAREER reopens WAITING (PR #901): while WAITING is open over the board it is the same step twice, so the board's
+      // screen shows one button, WAITING FOR the other manager; it comes back as soon as WAITING is closed (BACK, Escape, X).
+      const reopen=locked&&!presentationOwns&&!(roulette&&waitingOpen());
+      if(reopen&&!resume){resume=create("button","menuButton","CONTINUE CAREER");resume.id=SHARED_CONTINUE_ID;resume.type="button";resume.addEventListener("click",()=>void continueFromLockedWheel());wheel.insertBefore(resume,wheel.querySelector(".backButton")||null);}
+      if(!reopen&&resume)resume.remove();
       let note=root.document.getElementById("sharedJourneyLeagueLockNote");
-      if(locked&&!presentationOwns&&!note){note=create("p","stateNote","Connect Daniel and Nik to pick the league.");note.id="sharedJourneyLeagueLockNote";wheel.insertBefore(note,wheel.firstChild);}
+      const words=roulette?"Both players must be connected before the first ball drops.":"Connect Daniel and Nik to pick the league.";
+      if(locked&&!presentationOwns&&!note){note=create("p","stateNote",words);note.id="sharedJourneyLeagueLockNote";wheel.insertBefore(note,wheel.firstChild);}
+      else if(locked&&!presentationOwns&&note&&note.textContent!==words)note.textContent=words;
       if((!locked||presentationOwns)&&note)note.remove();
     }
   }
@@ -716,7 +741,7 @@
     root.CareerModeConnectPlayersScreenV10?.close?.({restoreFocus:false});
     overlay.classList.remove("hidden");await renderPanel({...options,status});return true;
   }
-  function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");return true;}
+  function closePanel(){const overlay=root.document&&root.document.getElementById(PANEL_ID);if(overlay)overlay.classList.add("hidden");applyLocalDrawLock();return true;}
   async function seasonsStartGate(){
     try{
       const modes=await loadScript("showdown-modes","js/showdownModes.js",()=>root.CareerModeShowdownModes);
@@ -792,7 +817,7 @@
     try{unsubscribe=typeof identity?.subscribe==="function"?identity.subscribe(watch):null;}catch(_error){unsubscribe=null;}watch();
     setTimeout(()=>void autoOpenAfterLoad().catch(error=>report("Could not open career entry",error)).finally(()=>{releaseStartupHold();try{unsubscribe?.();}catch(_error){}}),0);
   }
-  function install(){if(installed)return true;installed=true;root.document?.addEventListener?.("career-mode-screen-shown",followChampionScreen);root.addEventListener?.("career-mode-shared-terminal-close-state-change",followClose);/* F1: a due Champion screen is a live game for the reload resume (and its loading screen) */if(championPending())try{root.sessionStorage?.setItem(LIVE_GAME_KEY,"1");}catch(_error){}installStartButton();applyLocalDrawLock();watchEntryPair();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();applyLocalDrawLock();watchEntryPair();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())startStartupResume();return true;}
+  function install(){if(installed)return true;installed=true;root.document?.addEventListener?.("career-mode-screen-shown",followChampionScreen);root.addEventListener?.("career-mode-shared-terminal-close-state-change",followClose);/* F1: a due Champion screen is a live game for the reload resume (and its loading screen) */if(championPending())try{root.sessionStorage?.setItem(LIVE_GAME_KEY,"1");}catch(_error){}installStartButton();watchWaitingLayer();applyLocalDrawLock();watchEntryPair();const identity=entryIdentity();if(identity&&typeof identity.subscribe==="function")identityUnsubscribe=identity.subscribe(()=>syncStartButtonIdentity());const observer=new MutationObserver(()=>{installStartButton();watchWaitingLayer();applyLocalDrawLock();watchEntryPair();});observer.observe(root.document.documentElement,{childList:true,subtree:true});if(pending())startStartupResume();return true;}
 
-  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,closeEndedThenNew,continueFromLockedWheel,startupResume:()=>startupResumePromise,openPanel,closePanel,openSharedExperience,openClosedShowdown,openFinalResult,championAfterClose,championTakingOver,isPending:pending});
+  return Object.freeze({contractVersion:7,feature:"ssjr-production-paired-first-entry",startOpensWaitingOverLeagueWheel:true,startNeverOffersToCloseLiveShowdown:true,connectedPairOpensRemoteJoiningDirectly:true,activeSessionContinuesIntoShowdown:true,productionEnabled:true,singleProductEntry:true,pairingBeforeLeagueClub:true,activeSessionBeforeLeagueClub:true,peerActiveReturnToSharedEntry:true,bothDevicesPrepareSharedShell:true,joinerShellProvisionedAutomatically:true,continueCareerUsesPairedAuthority:true,polishedLeagueWheelAfterAuthority:true,polishedClubPacksAfterAuthority:true,confirmedSetupResumesAtCareerStart:true,acceptedSeasonResumesAtActiveSeason:true,establishedPairNeverAutoOpensEntry:true,closedShowdownNeverReopensEntry:true,engineeringSetupPanelPlayerFacing:false,persistedSaveMarker:true,canonicalLocalSaveMutationDuringSharedSetup:false,billingRequired:false,install,preparePairingShell:startShared,provisionJoinerShell,openWaiting,followStartDecision,closeEndedThenNew,continueFromLockedWheel,startupResume:()=>startupResumePromise,openPanel,closePanel,openSharedExperience,openClosedShowdown,openFinalResult,championAfterClose,championTakingOver,isPending:pending,isStarting:()=>busy});
 });

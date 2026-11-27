@@ -308,7 +308,10 @@ function updateShowdownUI(){
     const latestCompletedRound = latestRound && latestRound.playerOne && latestRound.playerTwo ? latestRound : null;
 
     setDashboardTextIfChanged(ui.indicator, completed ? "Showdown Complete" : `Season ${currentRound} / ${currentShowdown.totalRounds}`);
-    setDashboardTextIfChanged(ui.selectedLeague, leagueName || "Spin to select league");
+    // r100: before the league is known, a shared Showdown's League Roulette words are the roulette's (js/leagueWheel.js), never "spin".
+    const rouletteWords = !leagueName && typeof window.leagueRouletteWordsOwner === "function" ? window.leagueRouletteWordsOwner() : false;
+    if(rouletteWords === "start"){ setDashboardTextIfChanged(ui.selectedLeague, "Five leagues. Four balls. One league stays."); }
+    else if(!rouletteWords){ setDashboardTextIfChanged(ui.selectedLeague, leagueName || "Spin to select league"); }
     setDashboardTextIfChanged(ui.showdownName, currentShowdown.name);
     setDashboardTextIfChanged(ui.league, leagueName || "League not selected");
     setDashboardTextIfChanged(ui.round, roundLabel);

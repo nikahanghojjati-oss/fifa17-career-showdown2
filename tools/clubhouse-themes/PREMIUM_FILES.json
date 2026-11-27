@@ -77,27 +77,27 @@
    "room": "PANEL_MARBLE"
   },
   "visual-assets/v10_1/plates-hc/black/ENV_ARCHIVE_PHONE_HC_V3.webp": {
-   "sha256": "a5f6933d603dc401fd8c54bc00308c35f2a82b8646b1e7e9eb92243b2a965cd8",
+   "sha256": "48696de855ff444a1cde3e32017040806fd816d0ecbab6c8d5ddadd51f9f1b7c",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PHONE_BLACK_P1.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/black/ENV_ARCHIVE_PHONE_HC_V3_590W.webp": {
-   "sha256": "71c02d1ded1fc4efd38a8d6d8005e32a1f72d8ef1b43e3fc2ea3334cdd70f172",
+   "sha256": "593cb5c9c803c4a32faf8b03636cdd1fb37e7fe212b76119a249900778af5e3e",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PHONE_BLACK_P1.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/black/ENV_ARCHIVE_PLATE_HC_V3_1920.webp": {
-   "sha256": "8114060209fb14461730e0629856b0f3c8d6dd7982633c20972e2ebc96fc3262",
+   "sha256": "fa5a9036762aa71d43b4e7b713d4f7402c8f4f5a01713e107d97049875fec709",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_BLACK_P1_2X.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/black/ENV_ARCHIVE_PLATE_HC_V3_1X.webp": {
-   "sha256": "97fe3f760bf320e9c283c6e82deee4af252ad241c3a347a3ef6ba939383bdb53",
+   "sha256": "0066d72f175a3756823c13418d438e1dab122b514d32136dccf5daf3c7a8001c",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_BLACK_P1_2X.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/black/ENV_ARCHIVE_PLATE_HC_V3_2X.webp": {
-   "sha256": "042629cbe833e16b7634177a3de395b3df4ba672bc0c55df639d61119de996c6",
+   "sha256": "7cac1f45fdc08250fafec26e2b4578db15a382509c433c3610a26494859cf85e",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_BLACK_P1_2X.webp",
    "room": "ARCHIVE"
   },
@@ -331,6 +331,31 @@
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_BLACK_P1_2X.webp",
    "room": "OFFICE"
   },
+  "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PHONE_HC_V1.webp": {
+   "sha256": "08a6cfc385a2dfd38c77a6e8cc0b2892cd4ec579a7507de8cd4ef4bcab700579",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_BLACK_P1.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PHONE_HC_V1_590W.webp": {
+   "sha256": "5f996b909fb86fdabd88121da9569f6af9649959dc23a5dd2d7d91e3631c59d7",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_BLACK_P1.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PLATE_HC_V1_1920.webp": {
+   "sha256": "e14c9f57bf4c7a9915ee0dc34c7aa223136af2ed3c9727999881f3955db9477a",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_BLACK_P1_2X.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PLATE_HC_V1_1X.webp": {
+   "sha256": "734324dfe7e7473689ebbf83879777a55d7934f7dcc7d02fb028deddfbba7458",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_BLACK_P1_2X.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/black/ENV_SIGNIN_PLATE_HC_V1_2X.webp": {
+   "sha256": "351ddb27485b646951a6bdf833c61e05d30073edb9e55e5c60de34b4dbae5c0d",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_BLACK_P1_2X.webp",
+   "room": "SIGNIN"
+  },
   "visual-assets/v10_1/plates-hc/black/ENV_SLAB_HC_V1_1920.webp": {
    "sha256": "594ca1f35af95f0b978c4bf447db1ff8037d4e645c318df18c9c715d5779b47e",
    "painting": "tools/clubhouse-themes/paintings/ENV_SLAB_BLACK_P1_2X.webp",
@@ -387,27 +412,27 @@
    "room": "SLAB"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_ARCHIVE_PHONE_HC_V3.webp": {
-   "sha256": "e8657ebfe2ffb34d8e85f4a7a3abc42b668181e0932eeea1761fd0cde134aebb",
+   "sha256": "a27fdebf0133a525d18eb90ba8565ad14cfd6b61bc635b9ca892b6036fe3f008",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PHONE_MATTE_P1.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_ARCHIVE_PHONE_HC_V3_590W.webp": {
-   "sha256": "e9b7cbf3f892fefdfd4aed9061f400e707b4cebcc21f55cd31c0dd2327aa9bec",
+   "sha256": "4e6ca746492f24f1adec73f6d0ae079f3a9376c7c6b44209a13b7ea212a3af48",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PHONE_MATTE_P1.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_ARCHIVE_PLATE_HC_V3_1920.webp": {
-   "sha256": "61a9ca3d78fbb5d0e4d2170ac0a4f5c6aa752985c4f69b253edb075b0b08dbfd",
+   "sha256": "0ef25ab82e1504751a47f86b05869c51c244d38cfd40cfd43ba007ffdc98ce09",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_MATTE_P1_2X.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_ARCHIVE_PLATE_HC_V3_1X.webp": {
-   "sha256": "e51d22a6c59d909989554ba7fea79923814b295d192f563b62b2d63958c8c624",
+   "sha256": "63c7e9cebcb69bbb67bdd43be72969727fac4338e98309a3e959247606a43453",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_MATTE_P1_2X.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_ARCHIVE_PLATE_HC_V3_2X.webp": {
-   "sha256": "adf8c0bba5bedce6a9a316ffc3bc36dfda3252707647fdac27637f63141259ed",
+   "sha256": "318383173cf65dc866e347825bcea86db47a3099ac13f36a01016c5e39e03550",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_MATTE_P1_2X.webp",
    "room": "ARCHIVE"
   },
@@ -641,6 +666,31 @@
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_MATTE_P1_2X.webp",
    "room": "OFFICE"
   },
+  "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PHONE_HC_V1.webp": {
+   "sha256": "9a7e34a2c3780ada0fbd51d409723b7bea0882041c257b7c9f733981bc8f031a",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_MATTE_P1.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PHONE_HC_V1_590W.webp": {
+   "sha256": "0f2dcf6e3e1e7a25891b098af59757e135555cde143e9fb090ceb469d02d7dc9",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_MATTE_P1.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PLATE_HC_V1_1920.webp": {
+   "sha256": "f6fa5263e2873c9e5a62f8a34d25c11b9ff8a9a6641c9c88ca8f652a0912b25f",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_MATTE_P1_2X.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PLATE_HC_V1_1X.webp": {
+   "sha256": "fc2309b5f3822aca7636c98e7efbd22624c01deb641298cdc6798eab951ee4b3",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_MATTE_P1_2X.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/matte/ENV_SIGNIN_PLATE_HC_V1_2X.webp": {
+   "sha256": "866cf86320aa622b42d35533eb9c603165377857728813f2dbaf2f7773063869",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_MATTE_P1_2X.webp",
+   "room": "SIGNIN"
+  },
   "visual-assets/v10_1/plates-hc/matte/ENV_SLAB_HC_V1_1920.webp": {
    "sha256": "55b82df7e46e99dfdf6066dee3bd11c2a5d0b8ba2a68c51e33822b091443c189",
    "painting": "tools/clubhouse-themes/paintings/ENV_SLAB_MATTE_P1_2X.webp",
@@ -697,27 +747,27 @@
    "room": "SLAB"
   },
   "visual-assets/v10_1/plates-hc/silver/ENV_ARCHIVE_PHONE_HC_V3.webp": {
-   "sha256": "27e07aca096b22f69782347fa81ccd4f875d9348872ca37f9308e3011bb71f03",
+   "sha256": "b862fc95b220c8699b6199b5bb1b886e07231614c4db0694c7fe5c4826d843bc",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PHONE_SILVER_P1.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/silver/ENV_ARCHIVE_PHONE_HC_V3_590W.webp": {
-   "sha256": "c3b63424b160c11fb678bfb93c9e556efd606c3ed27929cc293d96f6d84da3a1",
+   "sha256": "ebbcfe5fa81774771e3131de0eff2403b3b6b8b403d1e3bc7afbddf015ac7782",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PHONE_SILVER_P1.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/silver/ENV_ARCHIVE_PLATE_HC_V3_1920.webp": {
-   "sha256": "d5167855f8e969819fcd2a4f44751cfcd08cd08e1ac31ff26bcdab1438ddcf47",
+   "sha256": "97c1a993e2ae69bcf7f894376cf8bccc77ed5a9ff4d70ec07cad49a6dd01e041",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_SILVER_P1_2X.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/silver/ENV_ARCHIVE_PLATE_HC_V3_1X.webp": {
-   "sha256": "18668c38a86d7d097647156adb5cdec75c95e9008c29bdfdccc4e630938ae372",
+   "sha256": "98dd0af7e8e930fc5815cb5d477a92082ddaf414767554d82ffc13c608ff0472",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_SILVER_P1_2X.webp",
    "room": "ARCHIVE"
   },
   "visual-assets/v10_1/plates-hc/silver/ENV_ARCHIVE_PLATE_HC_V3_2X.webp": {
-   "sha256": "4aa52fb36098285c85ff3d450534f87910dcb3b97c1ef1be4de15b65c41f3883",
+   "sha256": "d4861420b9c329bc66bdc81f307a2f13caa54def9cf94439f3745174febe6fcd",
    "painting": "tools/clubhouse-themes/paintings/ENV_ARCHIVE_PLATE_SILVER_P1_2X.webp",
    "room": "ARCHIVE"
   },
@@ -951,6 +1001,31 @@
    "painting": "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_SILVER_P1_2X.webp",
    "room": "OFFICE"
   },
+  "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PHONE_HC_V1.webp": {
+   "sha256": "6f1e8be8c6d3140e4c3119e74fdc6327b0a5481ceed7d81cbcd178c6d7264ad6",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_SILVER_P1.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PHONE_HC_V1_590W.webp": {
+   "sha256": "6a22cbc927e83970b463cc4b69c6c1fe8dbe0a9ad8e3afd3ef99e1f769e52c68",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_SILVER_P1.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PLATE_HC_V1_1920.webp": {
+   "sha256": "263dcf5852290756e7da160bcf6e291eeb78edd84ae75b607bcfaf389d918117",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_SILVER_P1_2X.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PLATE_HC_V1_1X.webp": {
+   "sha256": "c81c1ed11d38cae99d77f6246728abfd23af036d39d4ddccc51c5ca0a6785a69",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_SILVER_P1_2X.webp",
+   "room": "SIGNIN"
+  },
+  "visual-assets/v10_1/plates-hc/silver/ENV_SIGNIN_PLATE_HC_V1_2X.webp": {
+   "sha256": "65fbe790fda13ef8e0e7361696be3e3e6271df878447a2790aac28fbdb6c9cb9",
+   "painting": "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_SILVER_P1_2X.webp",
+   "room": "SIGNIN"
+  },
   "visual-assets/v10_1/plates-hc/silver/ENV_SLAB_HC_V1_1920.webp": {
    "sha256": "be496074f21d484c445a605e7e35a7ee5064f029934cb3c7caaef4f92a380ced",
    "painting": "tools/clubhouse-themes/paintings/ENV_SLAB_SILVER_P1_2X.webp",
@@ -1071,6 +1146,12 @@
   "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_BLACK_P1_2X.webp": "a138a3c941063996178480f83abb8b3f28c7f6fc2b3dcbc9211b86ab90a4f900",
   "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_MATTE_P1_2X.webp": "d5e2f8f983a38a047d453dafcea8bc59f6ee09368696acb345ed77e11c382590",
   "tools/clubhouse-themes/paintings/ENV_OFFICE_PLATE_SILVER_P1_2X.webp": "2937bca660ea1f85af7fc062aa234bdb2a2b7c9ed4057096f7d205bb22c4d690",
+  "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_BLACK_P1.webp": "44c7e99d88b6cc5a3df27382d4e39cd836ce67d10875fb1c5a4b5c5c06556262",
+  "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_MATTE_P1.webp": "d5e3eb31e3c6ef06b39b93b48bc6241865184494956f983515079bfb1cf413c6",
+  "tools/clubhouse-themes/paintings/ENV_SIGNIN_PHONE_SILVER_P1.webp": "2b794fe10a442fea7a3a2dddbfc54ce9ba352a9863e223162504fdccc580746e",
+  "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_BLACK_P1_2X.webp": "721939041c50c5b5e380df2c90629c6012b841e74654c282c40b45f682f09e50",
+  "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_MATTE_P1_2X.webp": "e4822b6c039a5666e593ccf18be9bfc73234c839f266491be22c331e91aee3f5",
+  "tools/clubhouse-themes/paintings/ENV_SIGNIN_PLATE_SILVER_P1_2X.webp": "40ed39114cdc08eb73c41c96067a8d9b8f2a7ebe4a290b07104a0721aad4ba88",
   "tools/clubhouse-themes/paintings/ENV_SLAB_BLACK_P1_2X.webp": "397c92201f76821e4c37fc1475f8638d195cc053a442a95c8cc1a8156547c647",
   "tools/clubhouse-themes/paintings/ENV_SLAB_MATTE_P1_2X.webp": "1d36c6c673ec094f9f676c5bff7b6814dc4eadb7cd3a523ff0eca6a8d299180f",
   "tools/clubhouse-themes/paintings/ENV_SLAB_SILVER_P1_2X.webp": "d0e3d11cea0565fc79dbbf0d39acc484e11e9431526628da7a8e3a19662d28a5",

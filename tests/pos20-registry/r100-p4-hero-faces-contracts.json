@@ -1,0 +1,11 @@
+{
+  "path": "tests/contracts/r100-p4-hero-faces-contracts.cjs",
+  "patterns": [
+    "^visual-assets/v10_1/plates-hc/(black/|matte/|silver/)?ENV_ARCHIVE_",
+    "^tests/fixtures/team-v/P4_.*_NEVER_SLIMMER\\.json$",
+    "^tools/hero-faces/",
+    "^tools/clubhouse-themes/PREMIUM_FILES\\.json$",
+    "^tests/contracts/r100\\-p4\\-hero\\-faces\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-p4\\-hero\\-faces\\-contracts\\.json$"
+  ]
+}

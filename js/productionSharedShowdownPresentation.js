@@ -25,6 +25,7 @@
   // Wheel polish: the league name, lock note and Continue stay back until the wheel has stopped (4.1 s), then the
   // revealed league holds on screen for 2.6 s before the club packs, so both managers see the winner land.
   const LEAGUE_SPIN_MS=4100;
+  const ROULETTE_LINE="Five leagues. Four balls. One league stays.";
   const LEAGUE_REVEAL_HOLD_MS=2600;
   const LEAGUE_AUTO_FORWARD_MS=LEAGUE_SPIN_MS+LEAGUE_REVEAL_HOLD_MS;
   let leagueSpinUntil=0;
@@ -53,6 +54,14 @@
   // Polish pass (r87): players see the starting manager's name (Daniel), never "the host".
   function ssjpHostName(){const role=state&&state.setup&&state.setup.coordinatorRole||(state&&state.managerRole==="playerOne"?"playerTwo":"playerOne");return String(ssjpManagers()[role]||"Daniel");}
   function ssjpHostUpper(){return ssjpHostName().toUpperCase();}
+  // The other manager (this phone's role from the Setup, or from the pair while the Setup is not open yet): "NIK" on Daniel's
+  // phone, "DANIEL" on Nik's. No read: the pair's state is already on this page.
+  function ssjpOtherUpper(){
+    let role=state&&state.managerRole||"";
+    if(role!=="playerOne"&&role!=="playerTwo"){try{role=root.CareerModePersistentNikDanielPair?.getState?.()?.managerRole||"";}catch(_error){role="";}}
+    const other=role==="playerOne"?"playerTwo":role==="playerTwo"?"playerOne":"";
+    return other?String(ssjpManagers()[other]||(other==="playerOne"?"Daniel":"Nik")).toUpperCase():"THE OTHER PLAYER";
+  }
   function ssjpBoundSeasonLength(){
     const rivalryId=String(state?.rivalryId||"").trim(),match=/^pair_([0-9a-f])[0-9a-f]{63}$/i.exec(rivalryId);
     return match?SEASON_BY_CAPABILITY_NIBBLE[match[1].toLowerCase()]||null:null;
@@ -102,17 +111,21 @@
   }
   async function ssjpEnsureGameplay(){if(typeof root.ensureGameplayModules!=="function")throw new Error("Gameplay presentation loader is unavailable.");await root.ensureGameplayModules();if(typeof root.ensureRequiredFootballVisualExperience==="function")await root.ensureRequiredFootballVisualExperience();}
   function ssjpIsDraw(setup){return Boolean(setup&&typeof setup==="object"&&Object.hasOwn(setup,"stops"));}
+  function ssjpAdoptRouletteStep(){
+    rouletteStep=root.CareerModeLeagueRouletteStep||null;
+    // A ball setting off, landing, its section joining the neighbours, or the board opening re-renders the words.
+    if(rouletteStep&&!rouletteListening){rouletteListening=true;rouletteStep.on(type=>{if(type!=="drop"&&active&&ssjpPending()&&ssjpActiveScreen()==="leagueWheelScreen")void ssjpRenderLeague();});}
+    return rouletteStep;
+  }
   function ssjpEnsureRouletteStep(){
     if(rouletteStep)return Promise.resolve(rouletteStep);
-    if(!rouletteStepPromise)rouletteStepPromise=ssjpLoadScript("league-roulette-step","js/leagueRouletteStep.js",()=>root.CareerModeLeagueRouletteStep).then(()=>{
-      rouletteStep=root.CareerModeLeagueRouletteStep||null;
-      // A ball setting off, landing, its section joining the neighbours, or the board opening re-renders the words.
-      if(rouletteStep&&!rouletteListening){rouletteListening=true;rouletteStep.on(type=>{if(type!=="drop"&&active&&ssjpPending()&&ssjpActiveScreen()==="leagueWheelScreen")void ssjpRenderLeague();});}
-      return rouletteStep;
-    }).catch(error=>{rouletteStepPromise=null;throw error;});
+    if(!rouletteStepPromise)rouletteStepPromise=ssjpLoadScript("league-roulette-step","js/leagueRouletteStep.js",()=>root.CareerModeLeagueRouletteStep).then(ssjpAdoptRouletteStep).catch(error=>{rouletteStepPromise=null;throw error;});
     return rouletteStepPromise;
   }
-  function ssjpRouletteOn(){return Boolean(rouletteStep&&rouletteStep.armed());}
+  // r100 (lr-buttons, silver, Daniel on the phone): the Setup skin arms the board idle before this module has loaded the step,
+  // and for that moment the words fell through to the 2D wheel's ("BOTH PLAYERS CONNECTED · Spin the wheel."). The step already
+  // on the page is the same one: it is taken at once, so the board's words follow the board from its first frame.
+  function ssjpRouletteOn(){if(!rouletteStep&&root.CareerModeLeagueRouletteStep)ssjpAdoptRouletteStep();return Boolean(rouletteStep&&rouletteStep.armed());}
   // Release review (#1567): the balls follow the ledger, not this phone's board. A roulette ledger before its fourth ball is
   // played with the text steps where js/leagueRouletteStep.js did not load or arm here (as where 3D cannot run), so the
   // rival's DROP BALL never vanishes. The board is not loaded late: it would replay balls over a screen that moved on.
@@ -182,6 +195,11 @@
     const ready=Boolean(state&&state.ready);
     if(ssjpRouletteOn()){ssjpRouletteSync();if(ready)return ssjpRenderRoulette(screen,result,button,note);}
     else if(ssjpRouletteTextSteps())return ssjpRenderRoulette(screen,result,button,note);
+    // r100 (Nik 2026-11-26: "Does it say drop the ball or spin the wheel? ... the right screen and the right button"): the League
+    // Roulette is the 3D board also before both players are connected (#1633), so its words are the roulette's, never a spin:
+    // the roulette line, WAITING FOR the other manager, and the first ball in the note. The plain wheel's words stay only where
+    // the roulette is not armed (the 2D league wheel of an older Setup).
+    if(!ready&&ssjpRouletteOn()){ssjpClearLeagueLock(null,track);ssjpText(result,ROULETTE_LINE);ssjpSetControl(button,{label:`WAITING FOR ${ssjpOtherUpper()}`,disabled:true});if(note){ssjpText(note,state&&state.status==="error"&&state.message||"Both players must be connected before the first ball drops.");note.classList.remove("hidden");}return true;}
     if(!ready){ssjpClearLeagueLock(null,track);ssjpText(result,"Connect both players to spin");ssjpSetControl(button,{label:"CONNECT BOTH PLAYERS FIRST",disabled:true});if(note){ssjpText(note,state&&state.message||"Both players must be connected before the wheel can spin.");note.classList.remove("hidden");}return true;}
     if(!state.setup){ssjpClearLeagueLock(note,track);ssjpText(result,"League wheel ready");ssjpSetControl(button,{label:state.remoteRole==="host"?"SPIN WHEEL":`WAITING FOR ${ssjpHostUpper()}`,disabled:state.remoteRole!=="host"||ssjpActionBusy()});ssjpSetSharedStatus(state.remoteRole==="host"?"BOTH PLAYERS CONNECTED · Spin the wheel.":`BOTH PLAYERS CONNECTED · Waiting for ${ssjpHostName()} to spin.`);return true;}
     if(state.setup.phase==="SHARED_SETUP_OPEN"){ssjpClearLeagueLock(note,track);ssjpText(result,"Spin to reveal the league");ssjpSetControl(button,{label:ssjpCoordinator()?"SPIN WHEEL":`WAITING FOR ${ssjpHostUpper()} TO SPIN`,disabled:!ssjpCoordinator()||ssjpActionBusy()});ssjpSetSharedStatus(ssjpCoordinator()?"SETUP OPEN · Spin the wheel.":`SETUP OPEN · Waiting for ${ssjpHostName()} to spin.`);return true;}
@@ -205,7 +223,7 @@
     const step=rouletteStep,setup=state.setup,hideNote=()=>{if(note){ssjpText(note,"");note.classList.add("hidden");}};
     if(!setup||setup.phase==="SHARED_SETUP_OPEN"){
       const mine=setup?ssjpCoordinator():state.remoteRole==="host";
-      ssjpText(result,"Five leagues. Four balls. One league stays.");
+      ssjpText(result,ROULETTE_LINE);
       ssjpSetControl(button,{label:mine?"DROP BALL":`WAITING FOR ${ssjpHostUpper()}`,disabled:!mine||ssjpActionBusy()});
       ssjpSetSharedStatus(mine?"BOTH PLAYERS CONNECTED · Drop the first ball.":`BOTH PLAYERS CONNECTED · ${ssjpHostName()} drops the first ball.`);
       hideNote();return true;
