@@ -146,6 +146,12 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - (d) Lapis 590W reproduces exactly (0 px, bytes identical), so no rebuild was needed.
   - (e) L1: the rebuild takes ~88 s plus the pip install, placed in L1 core after the rules step (step `archive_rebuild`, proof ARCHIVE_PLATES_REBUILD in showdown-gate.mjs). Gate coverage, ci-orchestration, v10-foundation, r99, Lapis own-art and league-3d contracts PASS; hero-faces 122/122.
   - ASK, Wooden gap. Wooden isn't themed, so it keeps the old N3 (moved >12 px over <=0.1% of the room), and it can't be rebuilt in-repo (tools/hero-faces/build_legacy_nik.py needs the E2 raw input from another branch). Same plants on Wooden: 1X (a)/(b)/(c) and phone (a) FAIL, but **phone (b) 2057 px and (c) 2325 px slip under its 2471 px allowance**. Options: (1) ship Lapis with Wooden as it is today and track Wooden separately (I'd pick this: A-41 is scoped to themed plates and nothing about Wooden changes in this PR), (2) tighten Wooden's allowance in this PR, (3) bring the E2 input into the repo so Wooden is rebuilt too. Lapis keeps waiting on #1638 either way.
+- Q-44 (2026-11-27 21:50 UTC): REPORT P3 lapis N-34 + A-43 push | **#1640 READY**, base gameplay/r100, head **1e7bf30f** (one push, fast-forward from fe74c91), `@codex review` posted. Never merging.
+  - gameplay/r100 785f78d4 merged in. Conflicts only where Emerald and Lapis both add a line (index.html, service-worker.js, v10 foundation, hero-faces list, F-1 fixture): kept both. Startup lines are r100's plus Lapis only; no version line or RUNTIME_REVISION change. F-1 fixture has all 35 Archive rows (before_emerald and before_lapis). pin.py and manifest.py: no changes.
+  - A-41 N3 on 1e7bf30f, clean venv: **30 of 30** themed Archive plates rebuild exactly (0 room px, bytes identical). Planted: **36 of 36 FAIL** (all six clubhouses, Emerald included; control 0 px first; Ruby phone (b) 492,520 px). All rows are in the PR body, with your Wooden line word for word.
+  - Full contract suite PASS 416/416. Lapis own-art 5, league-3d 3 + 3, Ruby and Emerald own-art 5 each, v10 20, r99 11, Gate coverage and CI orchestration PASS.
+  - #1634 F-3 hair was not merged at push time (1d24475c), so it is not in this PR.
+  - Next (A-43 option 3): I'll measure the E2 raw input and try the Wooden exact rebuild as a separate small PR, only if it is under about 5 MB and rebuilds byte-identical, by Sat 28 Nov 6 PM Boston.
 
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
