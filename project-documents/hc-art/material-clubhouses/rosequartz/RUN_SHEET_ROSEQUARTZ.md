@@ -43,6 +43,7 @@ Image links are pinned to commit `a6c0666d`, so they never move.
 | Players' tunnel (RQ-8) | 8.5 | 8.5 | 2 (T1E1, locked 28 Nov) | thin pale streaks on the wall slabs and the counter (the stone edit cleared them; glint 5.0 on the counter's lit top edge, the goal and hair, the same as the Lapis tunnel master) |
 | Club room (RQ-9) | 8.5 | 8.5 | 3 (T1E2, locked 28 Nov) | thin pale veins on the back wall and the counter (stone edit cleared them), then a flat counter, 123 to 82 (the counter light edit gave 149 to 46; its lit top edge lifts glint to 11.0). The floodlight wash kept the far back wall a readable mid rose on the first try |
 | Loading tunnel (RQ-10) | 8.5 | 8 | 3 (T1E2, locked 28 Nov) | fine pale veins on the walls, pillars and counter (stone edit cleared them), and flat light: the left walls across from the one lamp as bright as beside it (light edit: left walls 120 to 70, lamp pool 175, counter 100 to 37) |
+| Material slab (RQ-11) | 8.5 | 7.5 | 3 (T1E2, locked 28 Nov at 8.5 under the 8-and-above bar) | first try a pale pastel pink (luma 133): the prompt gave no night depth target and Image 2's lamp-lit stone pulled it pale; two light edits took it to #874d5f, luma 88, ivory text contrast 5.4 median, 4.6 p95. Next time give the slab its deep night hex targets up front and use Image 2 for material only |
 
 ## Batch 1: the 8 desktop rooms and the material slab (Rosequartz 3-11)
 Image 2 for every ticket here: the people-free cut of the two approved pilot rooms.
@@ -305,7 +306,7 @@ Tries:
 - Saves as `ENV_SLAB_ROSEQUARTZ_P1_2X`
 
 ```
-Image 1 is the picture to edit; keep every person in it exactly. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms: the big rose quartz slabs set in matched pairs, the plum-black fluted wood, the slim brushed rose gold lines, the plain dusty mauve-rose velvet seats and the rose quartz counter blocks. Match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball, rug or layout.
+Image 1 is the picture to edit; it has no people and none are added. Image 2 shows only the approved materials and light of this clubhouse, cut from two finished rooms: the big rose quartz slabs set in matched pairs, the plum-black fluted wood, the slim brushed rose gold lines, the plain dusty mauve-rose velvet seats and the rose quartz counter blocks. Match its materials, colours, finish and light exactly, and copy nothing else from it: none of its furniture, lamps, blankets, ball, rug or layout.
 
 Keep image 1 exactly the same size and framing, exactly 3072 by 1728 pixels. Repaint the whole surface as one new stone, seen straight on.
 

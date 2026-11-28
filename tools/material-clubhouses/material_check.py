@@ -144,7 +144,13 @@ LOOKS = {
                               # Club PALACE_T1E2 (locked 28 Nov): glint 11.0. 1194 of 1464 points are the thin lamp-lit eased top
                               # edge of the counter after the counter light edit (1.9 before it), the rest the stadium floodlights
                               # and the lamps; the wall slabs and the counter face hold none.
-                              CLUB=dict(glint_max=11.5))),
+                              CLUB=dict(glint_max=11.5),
+                              # Slab PALACE_T1E2 (locked 28 Nov at 8.5 under Nik's 8-and-above bar, 08:44 UTC): #874d5f, luma 88.3,
+                              # detail 0.41. Rose quartz is the palest stone in the set, so the slab sits brighter than Lapis (46.7),
+                              # Emerald (39.1) and Ruby (25.1), but ivory text (#f2ebdd) still holds WCAG AA on it: contrast 5.4 at
+                              # the median and 4.6 at p95. Detail sits under the counters' 0.56-0.64 at slab scale because the slab
+                              # is one calm field of soft misty clouds with no joints or lamp edges.
+                              SLAB=dict(luma=(14, 89), detail_min=0.40))),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
