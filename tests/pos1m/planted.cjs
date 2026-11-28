@@ -9,6 +9,11 @@
 const os=require("node:os");
 const fs=require("node:fs");
 const {Worker,isMainThread,parentPort,workerData}=require("node:worker_threads");
+// Each tab now runs its own copy of the budget layer in a vm context (tests/pos1m/budget.cjs). Those contexts are cheap
+// garbage, but V8 lets a worker's old space grow to its default limit (about 4 GB) before it collects them, so four
+// workers outgrew a 16 GB runner after ~5,000 stories each. A 1 GB old space keeps a worker under ~300 MB (live data is
+// under 100 MB) at no measurable speed cost.
+const WORKER_LIMITS=Object.freeze({maxOldGenerationSizeMb:Number(process.env.POS1M_WORKER_HEAP_MB)||1024});// env: the check that a starved worker fails loudly
 const CATCHES=3;
 
 function seedList(count){
@@ -31,10 +36,21 @@ if(isMainThread){
   const next=()=>{
     if(!queue.length){if(!active)finish();return;}
     const bug=queue.shift();active+=1;
-    const worker=new Worker(__filename,{workerData:{bug,seeds:seedList(Math.max(opt.stories,bug&&bug.stories||0))}});
-    worker.on("message",m=>results.push(m));
-    worker.on("error",e=>results.push({id:bug?bug.id:"baseline",law:bug&&bug.law,caught:false,error:String(e.stack||e)}));
-    worker.on("exit",()=>{active-=1;next();});
+    const worker=new Worker(__filename,{workerData:{bug,seeds:seedList(Math.max(opt.stories,bug&&bug.stories||0))},resourceLimits:WORKER_LIMITS});
+    // A worker that dies (out of memory, a crash, a non-zero exit) or ends without its answer counts as a MISSED bug (or a
+    // failed baseline), loudly, never as a pass.
+    let answered=false,died=null;
+    worker.on("message",m=>{answered=true;results.push(m);});
+    worker.on("error",e=>{died=String(e&&(e.code?`${e.code}: ${e.message}`:e.stack||e));});
+    worker.on("exit",code=>{
+      if(!answered||died||code!==0){
+        const id=bug?bug.id:"baseline",error=`worker died: ${died||`exit code ${code}`}`;
+        const prior=results.find(r=>r.id===id);
+        if(prior){prior.caught=false;prior.error=error;prior.died=true;}
+        else results.push({id,law:bug&&bug.law,caught:false,died:true,stories:0,catches:[],error});
+      }
+      active-=1;next();
+    });
   };
   const finish=()=>{
     results.sort((a,b)=>a.id.localeCompare(b.id));
@@ -49,6 +65,8 @@ if(isMainThread){
     if(!opt.baseline)console.log(`ledger replays re-found: ${report.ledgerReplays.refound} of ${report.ledgerReplays.total}`);
     if(opt.out)fs.writeFileSync(opt.out,JSON.stringify(report,null,1));
     console.log(`laws with a planted bug only they catch: ${[...sole.keys()].sort().join(", ")||"none"}`);
+    const expected=opt.baseline?1:bugs.length;
+    if(results.length!==expected||results.some(r=>r.died)){console.log(`FAIL POS1M planted run: ${results.filter(r=>r.died).map(r=>`${r.id} ${r.error}`).join("; ")||`${results.length} of ${expected} answers`}`);process.exitCode=1;return;}
     if(opt.baseline){const r=results[0];console.log(r&&!r.caught?`PASS POS1M baseline: the unchanged game breaks no law in ${r.stories} stories`:`FAIL POS1M baseline: the unchanged game broke a law`);process.exitCode=r&&!r.caught?0:1;return;}
     console.log(caught===results.length?`PASS POS1M planted bugs: ${caught} of ${results.length} caught`:`FAIL POS1M planted bugs: ${caught} of ${results.length} caught`);
     process.exitCode=caught===results.length?0:1;
@@ -62,6 +80,7 @@ if(isMainThread){
     const catches=[];let stories=0;
     for(const seed of seeds){
       stories+=1;
+      if(String(seed)===process.env.POS1M_SELFTEST_OOM){const hog=[];for(;;)hog.push(new Array(1<<16).fill(seed+0.5));}// self-test: this worker runs out of memory
       let s;
       try{s=await runStory(seed);}catch(error){catches.push({seed,laws:[],error:String(error.message||error).slice(0,300)});if(catches.length>=CATCHES)break;continue;}
       if(s.error||s.violations.length){catches.push({seed,laws:s.violations.map(v=>v.law).sort(),detail:(s.violations[0]&&s.violations[0].detail||s.error||"").slice(0,300)});if(catches.length>=CATCHES)break;}

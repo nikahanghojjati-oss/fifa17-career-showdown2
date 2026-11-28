@@ -228,7 +228,7 @@ const increment=(db,ref)=>runTransaction(db,async tx=>{const snap=await tx.get(r
     assert.notEqual(await run(77),await run(78),"a different seed explores a different story");
   }
   ok("same seed gives the same story, byte for byte");
-  // 14. Multi Season reads go through the phone's real budget layer (tests/pos1m/budget.cjs), one copy per tab. It keeps only
+  // 14. Provider calls go through the phone's real budget layer (tests/pos1m/budget.cjs), one copy per tab. It keeps only
   // what can never change (an ACKNOWLEDGED commit), re-reads everything else from the server, never hides an error, and a
   // fresh tab (a reload) starts with an empty memory. H2-2 (2026-11-28): without it Ring 1 re-read every accepted season on
   // every attempt, which no phone does; with it the stand-in must still be no kinder than the phone.
@@ -257,6 +257,38 @@ const increment=(db,ref)=>runTransaction(db,async tx=>{const snap=await tx.get(r
     assert.ok(["unavailable","deadline-exceeded","resource-exhausted"].includes(value.failed),`a network error reaches the provider (${value.failed})`);
     assert.ok(value.sameCopy&&value.ownCopy,"one budget copy per tab");
   }
-  ok("Multi Season reads use the phone's real budget layer, per tab: keeps only final documents, never hides an error");
+  ok("provider calls use the phone's real budget layer, per tab: keeps only final documents, never hides an error");
+  // 16. The budget copy has the browser's monotonic clock: moving the phone clock back 5 minutes neither stretches nor
+  // shortens the 10-minute quota pause (Codex #1653: without performance.now() the pause was still on after 11 minutes).
+  {
+    const {budgetFor}=require("./budget.cjs");
+    const {value}=await inSim(16,{},async({server})=>{
+      const client=server.client({uid:"a",label:"A"}),api=budgetFor({client}).api;
+      api.noteError({code:"resource-exhausted",message:"Quota exceeded."});
+      const started=api.paused();
+      await new Promise(resolve=>setTimeout(resolve,60_000));client.skewMs-=5*60_000;// the phone clock jumps back 5 minutes
+      await new Promise(resolve=>setTimeout(resolve,8*60_000));const at9=api.paused();
+      await new Promise(resolve=>setTimeout(resolve,2*60_000));const at11=api.paused();
+      return {started,at9,at11};
+    });
+    assert.equal(value.started,true,"resource-exhausted starts the quota pause");
+    assert.equal(value.at9,true,"after 9 minutes the pause is still on (a backward clock does not shorten it)");
+    assert.equal(value.at11,false,"after 11 minutes the pause is over (a backward clock does not stretch it)");
+  }
+  ok("the budget copy runs on a monotonic clock: a phone clock moved back never stretches a quota pause");
+  // 17. A worker that runs out of memory under the 1 GB cap (here a 64 MB cap and a self-test hog) fails Ring 1 and the
+  // planted run loudly, naming its seeds; its stories never count as passing (lead, #1653).
+  {
+    const {spawnSync}=require("node:child_process"),path=require("node:path");
+    const run=(script,args,oomSeed)=>spawnSync(process.execPath,[path.join(__dirname,script),...args],{encoding:"utf8",timeout:240_000,env:{...process.env,POS1M_WORKER_HEAP_MB:"64",POS1M_SELFTEST_OOM:String(oomSeed)}});
+    const ring=run("run.cjs",["--stories","6","--seed","1","--workers","2","--quiet"],3);
+    assert.equal(ring.status,1,`Ring 1 with a dead worker must fail (exit ${ring.status})`);
+    assert.match(ring.stdout,/FAIL POS1M worker 0 \(seeds 1\.\.3\) died: ERR_WORKER_OUT_OF_MEMORY/);
+    assert.match(ring.stdout,/1 of 6 stories never played/);
+    const planted=run("planted.cjs",["--only","P26-multi-end-read-never-answers","--stories","20","--workers","1"],40020/* the first seed of planted.cjs seedList (requiring planted.cjs would start a planted run) */);
+    assert.equal(planted.status,1,`the planted run with a dead worker must fail (exit ${planted.status})`);
+    assert.match(planted.stdout,/FAIL POS1M planted run: P26-multi-end-read-never-answers worker died: ERR_WORKER_OUT_OF_MEMORY/);
+  }
+  ok("a worker that runs out of memory fails Ring 1 and the planted run loudly, naming its seeds");
   console.log(`PASS POS1M stand-in harshness contracts (${checks} checks)`);
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});

@@ -157,9 +157,10 @@ class Manager{
   opts(tab,extra={},provider=null){
     const o=W.providerOptions(this.story.world,{role:this.role,deviceId:tab.deviceId,client:tab.client},extra);
     if(provider==="Transfer"){if(tab.serverEstimateMs===undefined)tab.serverEstimateMs=this.story.sim.int(3_001)-1_500;o.nowEpochMs=this.story.sim.now+tab.serverEstimateMs;}
-    // Multi Season reads go through the tab's own Firestore budget layer, as production passes them (tests/pos1m/budget.cjs).
-    if(provider==="Multi")return budgeted(tab,o);
-    return o;
+    // Every provider call goes through the tab's own Firestore budget layer, as production passes them
+    // (tests/pos1m/budget.cjs): a denied write there clears what the page kept, and a write marks its documents stale,
+    // for every provider on that page (Verify F1, #1653). The final no-fault oracle reads stay raw.
+    return budgeted(tab,o);
   }
   async call(tab,provider,fn,extra,label){
     // A phone that just moved already holds the new state from its own answer; it reads again only after that.
