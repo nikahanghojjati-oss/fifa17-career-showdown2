@@ -342,4 +342,24 @@ check("the service worker precaches each clubhouse's panel marble the panels ask
   assert.match(sw, /V10_IMAGE_PATH = \/\^visual-assets\\\/v10_1\\\/\.\+\\\./, "the themed rooms are runtime-cached like every plate");
 });
 
+// Duet P4 F-3 (Nik 2026-11-26: League Roulette hair cut off outside the Wooden clubhouse). The V4 Box room is painted empty,
+// so the men's whole hair is laid back from the Wooden V4 plate through a matte against Team V's Wooden empty room
+// (paint.py hair_over_empty), never through the pulled-in cut alone. Pixel proof: paint.py asserts it per file as it paints.
+check("the League Roulette rooms keep the men's whole hair in every clubhouse (paint.py hair_over_empty)", () => {
+  const crypto = require("node:crypto");
+  const P = read("tools/clubhouse-themes/paint.py");
+  const want = (P.match(/WOOD_EMPTY_V4_SHA = "([0-9a-f]{64})"/) || [])[1];
+  assert.ok(want, "paint.py pins the Wooden empty V4 room");
+  const empty = "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp";
+  assert.equal(crypto.createHash("sha256").update(fs.readFileSync(path.join(ROOT, empty))).digest("hex"), want, `${empty} is Team V's Wooden empty room`);
+  assert.match(P, /if mask == HAIR_MASK:[^\n]*\n\s+laid, hair = hair_over_empty\(wood, src, wood\.size\)/, "the V4 Box desktop files take the hair matte");
+  assert.match(P, /HAIR_MASK = "ENV_BOX_PLATE_HC_V4_1920"/);
+  assert.match(P, /assert kept == 0, f"\{theme\}\/\{name\}: \{kept\} room pixels outside the men changed"/, "the room outside the men stays the painting");
+  const man = JSON.parse(read("tools/clubhouse-themes/PREMIUM_FILES.json")).files;
+  const themes = fs.readdirSync(path.join(ROOT, "visual-assets/v10_1/plates-hc"), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name);
+  assert.ok(themes.length >= 3);
+  for(const theme of themes) for(const size of ["1920", "1X", "2X"])
+    assert.ok(`visual-assets/v10_1/plates-hc/${theme}/ENV_BOX_PLATE_HC_V4_${size}.webp` in man, `${theme} ${size} League Roulette room is a listed premium file`);
+});
+
 console.log(`PASS R99-01 clubhouse themes: ${passed} checks.`);

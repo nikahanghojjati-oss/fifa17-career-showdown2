@@ -10,6 +10,12 @@
 //      pinned nowhere (PREMIUM_FILES.json, the plate pins, the face fixtures), while the new one is pinned for every
 //      premium (themed) copy. Fixed files keep their names; the image cache is keyed by RUNTIME_REVISION, which the release
 //      moves, so nobody keeps the old bytes.
+//   C1 every clubhouse in the game is covered (lead N-3, 2026-11-27): the clubhouse list is read from the themed plate folders
+//      and paint.py's THEME table, never typed here, so a new clubhouse (Ruby, Emerald, Lapis...) fails these checks until
+//      each face fix reaches it. Material clubhouses take their men from the current Wooden plates.
+//   F3 League Roulette (Nik 2026-11-26): every clubhouse's V4 Box room keeps the men's whole hair (paint.py hair_over_empty).
+//      Pixel proof in tests/fixtures/team-v/P4_F3_LEAGUE_HAIR.json (tools/hero-faces/league_hair.py): outside the pulled-in
+//      cut, the Wooden hair band matches the Wooden plate (5-9 levels mean) instead of the painted wall (60-93 before the fix).
 // Run: node tests/contracts/r100-p4-hero-faces-contracts.cjs
 const assert = require("node:assert/strict");
 const crypto = require("node:crypto");
@@ -27,12 +33,22 @@ const premium = JSON.parse(read("tools/clubhouse-themes/PREMIUM_FILES.json")).fi
 const PIN_FILES = ["tools/clubhouse-themes/PREMIUM_FILES.json", "tests/contracts/v10-foundation-contracts.cjs",
   ...fs.readdirSync(path.join(ROOT, FIX_DIR)).filter(n => n.endsWith(".json") && !/NEVER_SLIMMER/.test(n)).map(n => `${FIX_DIR}/${n}`)];
 const pins = PIN_FILES.map(f => read(f).toString("utf8")).join("\n");
+const PLATES = "visual-assets/v10_1/plates-hc";
+const folders = fs.readdirSync(path.join(ROOT, PLATES), { withFileTypes: true }).filter(d => d.isDirectory()).map(d => d.name).sort();
+const paintThemes = [...read("tools/clubhouse-themes/paint.py").toString("utf8").match(/^THEME = \{([^}]*)\}/m)[1]
+  .matchAll(/"[A-Z_]+": "([a-z_]+)"/g)].map(m => m[1]).sort();
+const CLUBHOUSES = ["", ...folders.map(f => `${f}/`)];
 
-check("at least one P4 fix is recorded, and F-1 Legacy Nik covers all 30 archive files (Ruby and Emerald too, N-29)", () => {
+check("C1 the clubhouse list is every themed plate folder, and paint.py paints exactly those", () => {
+  assert.ok(folders.length >= 3, "silver, black and matte at least");
+  assert.deepEqual(folders, paintThemes, "a themed plate folder and paint.py's THEME table disagree");
+});
+
+check("at least one P4 fix is recorded, and F-1 Legacy Nik covers the 5 archive files in every clubhouse", () => {
   assert.ok(fixtures.includes("P4_F1_LEGACY_NIK_NEVER_SLIMMER.json"));
   const f1 = JSON.parse(read(`${FIX_DIR}/P4_F1_LEGACY_NIK_NEVER_SLIMMER.json`));
   const names = Object.keys(f1.files);
-  for (const theme of ["", "black/", "matte/", "silver/", "ruby/", "emerald/"])
+  for (const theme of CLUBHOUSES)
     for (const n of ["PLATE_HC_V3_2X", "PLATE_HC_V3_1X", "PLATE_HC_V3_1920", "PHONE_HC_V3", "PHONE_HC_V3_590W"])
       assert.ok(names.includes(`visual-assets/v10_1/plates-hc/${theme}ENV_ARCHIVE_${n}.webp`), `${theme}${n}`);
   assert.equal(f1.side, "right", "Nik stays image-right");
@@ -60,4 +76,22 @@ for (const name of fixtures) {
     });
   }
 }
+const hair = JSON.parse(read(`${FIX_DIR}/P4_F3_LEAGUE_HAIR.json`));
+check("F3 the League Roulette hair proof covers every clubhouse", () => {
+  assert.deepEqual([...hair.clubhouses].sort(), folders, "re-run tools/hero-faces/league_hair.py: a clubhouse is missing");
+  assert.ok(hair.max_mean <= 20);
+});
+for (const theme of folders) check(`F3 ${theme}: the League Roulette room keeps the men's whole hair (paint.py hair_over_empty)`, () => {
+  const P = read("tools/clubhouse-themes/paint.py").toString("utf8");
+  assert.match(P, /if mask == HAIR_MASK:[^\n]*\n\s+laid, hair = hair_over_empty\(wood, src, wood\.size\)/, "the V4 Box desktop files take the hair matte");
+  for (const size of ["1920", "1X", "2X"]) {
+    const rel = `${PLATES}/${theme}/ENV_BOX_PLATE_HC_V4_${size}.webp`;
+    const r = hair.files[rel];
+    assert.ok(r, `${rel} is measured (tools/hero-faces/league_hair.py)`);
+    assert.equal(sha(rel), r.sha256, `${rel} changed since it was measured: re-run tools/hero-faces/league_hair.py`);
+    assert.ok(r.band_px > 1000 && r.band_mean <= hair.max_mean, `${rel}: hair band ${r.band_mean} levels off the Wooden hair`);
+    assert.equal(premium[rel] && premium[rel].sha256, r.sha256, `${rel} is listed as a premium file with its own bytes`);
+    assert.ok(pins.includes(r.sha256), `${rel} is pinned`);
+  }
+});
 console.log(`${passed} r100 P4 hero-face checks passed`);

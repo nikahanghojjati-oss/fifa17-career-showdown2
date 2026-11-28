@@ -232,17 +232,17 @@
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/black/ENV_BOX_PLATE_HC_V4_1920.webp": {
-   "sha256": "d600a0d052d9a479e28e314a9b90392f3ee4c4b363bf923fd4bb04f9ca451277",
+   "sha256": "b82e9fff2f76bffa2c37aef0c8d49fc7ac01b8ba56405dd2a4b2315275dbac99",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_BLACK_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/black/ENV_BOX_PLATE_HC_V4_1X.webp": {
-   "sha256": "5fd52b2f817a6ab5d825a4e60cb1f0167c7db95d79714f5915884a04e6289a5f",
+   "sha256": "e1da5a469a0e0a497b3e46cd57d5b614ed1fe107aca051838db574439b789fca",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_BLACK_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/black/ENV_BOX_PLATE_HC_V4_2X.webp": {
-   "sha256": "206c0bf806b5fc00d4e3c9eb7a28cd1d12918557435b90c6d6bd829c9265090b",
+   "sha256": "c337fe628b9f85dfec9986dc69ef422193df49d7b3fda33949c2455175e470f0",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_BLACK_P1_2X.webp",
    "room": "BOX"
   },
@@ -567,17 +567,17 @@
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/emerald/ENV_BOX_PLATE_HC_V4_1920.webp": {
-   "sha256": "4623d33c7ab5e865cb7ed65c429767b5f8f88309dcb554572449813dcabf7488",
+   "sha256": "59c433734ce800abac810f92116350e152da6bb760e8391ba8e7c4cecef7e07e",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_EMERALD_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/emerald/ENV_BOX_PLATE_HC_V4_1X.webp": {
-   "sha256": "ab6f1f43032368bbecf245631f19e0bce119fc04a6519efc33afaa3ac01e168e",
+   "sha256": "165f311724c537b8817429e6f2430b9b0ba361fd66a0fc30d1a4699b7d0f08db",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_EMERALD_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/emerald/ENV_BOX_PLATE_HC_V4_2X.webp": {
-   "sha256": "7b903a7ef4009731a30e2ce745fcfdf701a172fa85e62a79c01ccbc8bf7283ac",
+   "sha256": "200b0636f79d020992d14e64828f13c50f0022cadab5fa8a0342683487a82955",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_EMERALD_P1_2X.webp",
    "room": "BOX"
   },
@@ -902,17 +902,17 @@
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_1920.webp": {
-   "sha256": "e97a2db259054d6f04943805aafb18eefbe4b1153abd1eb293726d4cbbadcf39",
+   "sha256": "0ad7c9604bd8347f72cc8bc2569205f92460a0f4218c48c308f6b43773648652",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_MATTE_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_1X.webp": {
-   "sha256": "007a98181a81e7c0417d133b604f69ec0847b335d9fc008dcb07138c7c72323d",
+   "sha256": "86ce103a5208acd067c64220c0b9bca30b563723f63f2c6bb20ce4ecb30debf2",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_MATTE_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_2X.webp": {
-   "sha256": "557a3161574f7d94e410387e7680fcf7ed70567cf287e5107e37d872531bca74",
+   "sha256": "36e3b64270e13290d8866b6de7016a8aee8e1b4f7f7af7b7d0c81c6f7b69d2db",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_MATTE_P1_2X.webp",
    "room": "BOX"
   },
@@ -1237,17 +1237,17 @@
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/ruby/ENV_BOX_PLATE_HC_V4_1920.webp": {
-   "sha256": "ebd77a48051c64ffdbd8cffbf947c0a263bbccde0bd98bff11c267f86a7945c6",
+   "sha256": "87659cab3780ad5b756c6479601b92d7164abdf90cea1427812bfc3354ed8d2c",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_RUBY_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/ruby/ENV_BOX_PLATE_HC_V4_1X.webp": {
-   "sha256": "b860c0c19974beac7ed7dff3028bae5e95dcf97d86ad38be55ddbe7bee572215",
+   "sha256": "dadc94255a4d4159637e775d32fa2abedc034ed319be16d57d7c3374b55ec0aa",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_RUBY_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/ruby/ENV_BOX_PLATE_HC_V4_2X.webp": {
-   "sha256": "61e4773c1cb653d49829cafb74298539ccd00899bf8967f7cf4ae1b15ac6170f",
+   "sha256": "5f74da5a71cb32991600ee94c76df21e4d8a632dd2965ae5c1399c0d0feb3df6",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_RUBY_P1_2X.webp",
    "room": "BOX"
   },
@@ -1572,17 +1572,17 @@
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_1920.webp": {
-   "sha256": "512dc7461defef8014b6c5513f97ff7d428dcdd3e0115433005b1026dc526457",
+   "sha256": "2d7c80d4d2a34a93ff8819cba5a50162373a2b8e347f40f7b52dab166011c463",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_SILVER_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_1X.webp": {
-   "sha256": "1b043c55780cad7a338ad9e18f0e989e328501f46822221830ef9bebb693e096",
+   "sha256": "c8db635b36d8bbce90ad5917940b5fc44ac100e8a0110adef41c2d48e46665a5",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_SILVER_P1_2X.webp",
    "room": "BOX"
   },
   "visual-assets/v10_1/plates-hc/silver/ENV_BOX_PLATE_HC_V4_2X.webp": {
-   "sha256": "0f5c0170124f42fc9c0c0ced53dfe8f226a9ed5b67cedfa07b7f6a9fc86d652f",
+   "sha256": "2224ceea7b6c6578baa9a64317a6b37bf99d9026a3cadb94d3cfa3bbd8813404",
    "painting": "tools/clubhouse-themes/paintings/ENV_BOX_PLATE_EMPTY_SILVER_P1_2X.webp",
    "room": "BOX"
   },
