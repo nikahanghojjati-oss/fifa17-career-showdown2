@@ -39,6 +39,7 @@ Image links are pinned to commit `a6c0666d`, so they never move.
 | Hall (RQ-4) | 8.5 | 8 | 3 (T1E2, locked 28 Nov) | thin pale diagonal lines on the walls and pillars although the lock said "no lines" (fixed by a stone edit, 8.5); light too even, top of the room twice as bright as the masters (fixed by a light edit: brighter lamp pools, upper walls deepen to plum, 9). Batch now says "no lines of any kind" in the wall sentence itself |
 | Archive (RQ-5) | 8.5 | 8.5 | 3 (T1E2, locked 28 Nov) | thin wispy lines on the huge counter and side walls (stone edit fixed them); counter evenly lit, no shade (light edit: counter deepens step by step to plum at the bottom, 9; the edit also redrew the corridor shelves closer to image 1). Batch now says "no lines" and the step-by-step fall in the counter sentence too |
 | Directors' box (RQ-6) | 8.5 | 9 | 1 (T1, locked 28 Nov) | first try with the no-lines and step-by-step counter wording: stone clean, counter falls 131 to 57, stadium and objects held; the glass cabinet became an open lit niche (small) |
+| Coaches' room (RQ-7) | 8.5 | 8.5 | 2 (T1E1, locked 28 Nov) | wispy pale lines on the counter and side wall slabs again, though the counter wording said no lines (the stone edit cleared them and kept the counter's fall, 116 to 40) |
 
 ## Batch 1: the 8 desktop rooms and the material slab (Rosequartz 3-11)
 Image 2 for every ticket here: the people-free cut of the two approved pilot rooms.
