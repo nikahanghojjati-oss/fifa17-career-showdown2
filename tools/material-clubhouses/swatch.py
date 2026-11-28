@@ -60,7 +60,10 @@ COMPOSE = {"OFFICE": ((40, 300, 340, 513), (700, 1180, 1000, 1500), 40),
 STONE_FROM = {"TUNNEL": "COACHES", "HOME": "OFFICE"}
 # Per-look boxes where a look's own painting puts something else in the shared box (L-12, 26 Nov: the Lapis Home upper
 # wall at the shared box is plain dark ceiling; its tooled Persian leather panels sit lower, left of the window).
-COMPOSE_LOOK = {"LAPIS": {"HOME": ((360, 575, 560, 905), (700, 1180, 900, 1400), 50)}}
+COMPOSE_LOOK = {"LAPIS": {"HOME": ((360, 575, 560, 905), (700, 1180, 900, 1400), 50)},
+               # Rose Quartz (28 Nov): the shared box is the plain plum ceiling and moulding, so Image 2 showed no wall stone;
+               # the lamp-lit rose quartz wall slab left of the window, over the Office desk stone.
+               "ROSEQUARTZ": {"HOME": ((420, 590, 620, 870), (700, 1180, 900, 1400), 50)}}
 # R-20 (26 Nov): the Club materials strip held a window band, a floor with a vein and an armchair edge, none of which the Club phone
 # has; IMG2_REF_CLUB_MAT_<LOOK>_SWATCH.png is now one stitched leather wall panel cut from the accepted desktop painting at this box (9:16).
 MAT_BOX = {"CLUB_MAT": ("CLUB", (600, 578, 850, 1022))}  # room whose accepted desktop painting gives the stone patch

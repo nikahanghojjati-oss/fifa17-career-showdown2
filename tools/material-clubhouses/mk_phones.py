@@ -58,6 +58,19 @@ X = {  # Ruby words that grew past batch 1's dictionary (R-6 to R-11 lessons)
   slabname="honed lapis lazuli", floorstone="honed deep lapis lazuli stone", on="on the blue stone", trim="satin gold",
   fall="the blue falls off to ultramarine near-black only in the far corners and toward the ceiling", hall="with the drifts running straight up and down them",
   depth="Everything else keeps a vivid, saturated ultramarine, and the walls behind the men read as a clearly readable vivid ultramarine, never near-black. Where the light is brightest the blue turns a brighter, clearer ultramarine, never grey, green or purple. Every blue in the room is rich and jewel-like, never navy-grey, purple or teal, and the hand-tooled Persian vines and palmettes and the flowered borders on the leather stay rich and clearly readable."),
+
+ # Rose Quartz modern palace (28 Nov): batch 1 words as locked (RQ-1 to RQ-11). Lessons: thin pale lines came back on almost every
+ # first try (the stone edit cleared them), counters came out flat (the light edit fixed them), one-lamp rooms came out evenly lit.
+ "ROSEQUARTZ": dict(
+  light_rule=M["ROSEQUARTZ"]["light_rule"],
+  stone="tall rose quartz slabs with fine straight joints, an even dusty rose with only a few soft misty milky clouds and no lines of any kind, edged with slim plum-black fluted wood strips",
+  counter=M["ROSEQUARTZ"]["counter"].replace("exactly like the counter in image 2", "exactly like the stone in image 2"),
+  sample="tall rose quartz slabs in matched pairs, plum-black fluted wood strips, slim brushed rose gold lines",
+  veins=("", ""),
+  slabname="honed rose quartz", floorstone="honed deep plum stone", on="", trim="brushed rose gold",
+  fall="away from the light the dusty rose deepens gradually, step by step, to deep plum (#4A2246) and plum near-black (#2A1230) only in the far corners and toward the top",
+  hall="clad in tall rose quartz slabs with fine straight joints",
+  depth="Everything else keeps a calm dusty rose with a soft mauve lean, and the walls behind the men read as a clearly readable mid dusty rose, never near-black. Where the light is brightest the stone turns a paler, milkier rose (#E0B5D0), never peach, salmon or orange. The rose quartz everywhere is an even dusty rose with only a few soft, broad, misty milky clouds and no lines, streaks or veins of any kind."),
 }
 
 FLOOR = {"HOME"}  # rooms whose image 1 shows a floor strip under the counter
@@ -217,10 +230,40 @@ def prompt(key, rm):
                      ("warm reflection on the polished front of the counter", "warm glow on the honed front of the counter")):
             light = light.replace(o, n)
         room = room.replace("stay smooth and polished", "stay smooth and honed")
+    if key == "ROSEQUARTZ":  # palace: honed stone, no leather, nothing reflected (RQ-1 to RQ-11)
+        for o, n in (("soft warm reflections on the polished front of the counter", "soft, blurred warm patches of light on the honed front of the counter"),
+                     ("warm reflections on the polished front of the counter", "soft, blurred warm patches of light on the honed front of the counter"),
+                     ("onto the leather around them", "onto the rose quartz around them"),
+                     ("warm reflections on the polished counter just below the rail", "soft warm wash of light along the top of the counter just below the rail"),
+                     ("the warm reflections on the polished counter", "the warm wash along the top of the counter"),
+                     ("warm reflections on the polished counter", "warm wash along the top of the counter"),
+                     ("warm reflection on the polished front of the counter", "warm patch of light on the honed front of the counter"),
+                     ("onto the leather and stone around it", "onto the rose quartz around it"),
+                     ("onto the leather around it", "onto the rose quartz around it"),
+                     ("onto the leather wall around it", "onto the rose quartz wall around it"),
+                     ("on the leather around the window frame", "on the rose quartz around the window frame"),
+                     ("the stone, the leather and the floor", "the stone and the floor"),
+                     ("a soft cream-gold candlelight sheen", "where the stone turns a paler, milkier rose"),
+                     ("a soft cream-gold sheen", "where the stone turns a paler, milkier rose"),
+                     ("are large and clearly bright", "is clearly bright")):
+            light = light.replace(o, n)
+        room = room.replace("stay smooth and polished", "stay honed and even")
+        room = room.replace("Pillars: ", "Pillars and any wall pillar: ")
     if not men:  # E-20 (26 Nov): an empty room's light line must not name "the men"
         light = light.replace("the walls behind the men read", "the walls read")
-    return "\n\n".join([head, frame, menl.strip(), keepl, room, light, lock, objs, fin,
+    out = "\n\n".join([head, frame, menl.strip(), keepl, room, light, lock, objs, fin,
                         "Same tall 9:16 framing as image 1, nothing cropped or extended at any edge, largest size available."]).replace("\n\n\n\n", "\n\n")
+    if key == "ROSEQUARTZ":  # "glow" paints glowing stone (playbook word map); the room has no leather
+        for o, n in (("no leather or panel inside any window frame", "no stone or panel inside any window frame"),
+                     ("a plain leather band", "a plain rose quartz band"), ("milkier rose .", "milkier rose."),
+                     ("the floodlight glow lights", "the floodlight lights"), ("The glow through the window lights", "The floodlight through the window lights"), ("the panelled leather wall", "the panelled rose quartz wall"),
+                     ("the two soft warm wash of light", "the soft warm wash of light"),
+                     ("stadium glow", "stadium light"), ("overhead glow", "overhead light"), ("the pitch glow", "the pitch light"),
+                     ("a clear warm glow", "a clear warm wash of light"), ("a soft warm glow onto", "a soft warm wash of light onto"),
+                     ("a gentle warm glow", "a gentle warm wash of light"), ("niches glow clearly bright", "niches are lit clearly bright"),
+                     ("Finish: real materials as a set builder would make them, handcrafted,", "Finish: real materials as a stonemason and a cabinet maker would make them, brand new and immaculate, like a photograph of a real seven-star hotel lobby, never a render or an AI image,")):
+            out = out.replace(o, n)
+    return out
 
 
 def main():
