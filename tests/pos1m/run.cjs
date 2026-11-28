@@ -6,10 +6,12 @@
 const os=require("node:os");
 const fs=require("node:fs");
 const {Worker,isMainThread,parentPort,workerData}=require("node:worker_threads");
-// Each tab now runs its own copy of the budget layer in a vm context (tests/pos1m/budget.cjs). Those contexts are cheap
-// garbage, but V8 lets a worker's old space grow to its default limit (about 4 GB) before it collects them, so four
-// workers outgrew a 16 GB runner after ~5,000 stories each. A 1 GB old space keeps a worker under ~300 MB (live data is
-// under 100 MB) at no measurable speed cost.
+// Each tab runs its own copy of the budget layer (tests/pos1m/budget.cjs: one compiled page factory, a fresh page object
+// per tab). Those pages are cheap garbage, but V8 lets a worker's old space grow to its default limit (about 4 GB) before
+// it collects them, so four workers outgrew a 16 GB runner after ~5,000 stories each. A 1 GB old space keeps a worker
+// under ~300 MB (live data is under 100 MB) at no measurable speed cost.
+// POS1M_WORKER_HEAP_MB and POS1M_SELFTEST_OOM are for stand-in check 17 only (a starved worker must fail loudly); the
+// Gate never sets them.
 const WORKER_LIMITS=Object.freeze({maxOldGenerationSizeMb:Number(process.env.POS1M_WORKER_HEAP_MB)||1024});// env: the check that a starved worker fails loudly
 const FAILURES_KEPT=200;// a report keeps the first 200 failing stories (every one is still counted in failed)
 
