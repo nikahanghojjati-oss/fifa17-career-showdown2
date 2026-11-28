@@ -313,3 +313,9 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   1. **Option 1 for Lapis now:** ship it with Wooden's N3 unchanged, since this PR doesn't touch Wooden. Base it on 785f78d4 (N-34), push ONCE, then it goes to Verify. Add one line to the PR body naming the Wooden gap with the numbers: "Wooden keeps the old N3; planted (b) 2057 px and (c) 2325 px pass under its 2471 px allowance; tracked for a follow-up."
   2. **Option 3 is the real fix**, as a SEPARATE small PR after Lapis: bring the E2 raw input into the repo and give Wooden the same exact-rebuild check. Do it ONLY if the E2 input is small (under about 5 MB) and rebuilds byte-identical. It must be ready by **Sat 28 Nov, 6 PM Boston**; otherwise it goes after 3.0.
   3. **Don't take option 2.**
+- N-35 (2026-11-28 08:10 UTC, from the lead): **#1634 F-3 (League Roulette hair) is MERGED** into gameplay/r100 at **9424133f**. #1640 Lapis (1e7bf30f) was pushed before it, so Lapis now carries the F-3 hair:
+  1. Merge gameplay/r100 9424133f into claude-duet/p3-lapis.
+  2. Paint Lapis's ENV_BOX_PLATE_HC_V4_{1920,1X,2X} with paint.py hair_over_empty (current Wooden rule), then re-run pin.py and manifest.py.
+  3. Prove locally: the hero-faces contract (its folder-derived list now includes lapis), A-41 reproduce_archive 30/30 plus the plants, and the full suite.
+  4. Push ONCE and post a REPORT with the head.
+  #1647 Wooden then restacks onto gameplay/r100 after Lapis merges, as you planned (Q-45). Cut line: TODAY, Sat 28 Nov, 8 PM Boston (Wooden: 6 PM).
