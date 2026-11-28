@@ -1,0 +1,9 @@
+{
+  "path": "tests/contracts/r100-board-fill-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^tests/browser/r100\\-board\\-fill\\-audit\\.cjs$",
+    "^tests/contracts/r100\\-board\\-fill\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-board\\-fill\\-contracts\\.json$"
+  ]
+}

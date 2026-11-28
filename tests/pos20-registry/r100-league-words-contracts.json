@@ -9,6 +9,8 @@
     "^css/v10Setup\\.css$",
     "^js/leagueRouletteStep\\.js$",
     "^index\\.html$",
+    "^js/ruleBook\\.js$",
+    "^js/settings\\.js$",
     "^tests/contracts/r100\\-league\\-words\\-contracts\\.cjs$",
     "^tests/pos20-registry/r100\\-league\\-words\\-contracts\\.json$"
   ]

@@ -409,7 +409,7 @@ async function selfTest(browser){
 // in a screenshot (decoded by the page itself) and returns them in CSS px.
 function markPlates({ zones, swap }){
     const urlsOf = v => [...String(v || "").matchAll(/url\(["']?([^"')]+)["']?\)/g)].map(m => m[1]);
-    const keyOf = u => { const m = /plates-hc\/(ENV_[A-Z]+_(?:PLATE|PHONE)_HC_V3(?:_TALL)?)/.exec(u || ""); return m && m[1]; };
+    const keyOf = u => { const m = /plates-hc\/(?:[a-z]+\/)?(ENV_[A-Z]+_(?:PLATE|PHONE)_HC_V3(?:_TALL)?)/.exec(u || ""); return m && m[1]; };
     // A room is a big picture: a small crop of a room (the 36x52 manager portraits in Career Statistics' leader cards are
     // cut from the board room) is not scenery. Where two rooms are stacked (Home stays under Connect Players), the one the
     // player sees is the room: the candidate that comes first in the paint stack at most of a grid of points.
@@ -457,7 +457,7 @@ function markPlates({ zones, swap }){
 // The room the player sees at the faces: the first element at a face centre that paints an HC V3 room (a screen can keep
 // another room under it, e.g. Home under Connect Players).
 function topRoom(points){
-    const keyOf = u => { const m = /plates-hc\/(ENV_[A-Z]+_(?:PLATE|PHONE)_HC_V3(?:_TALL)?)/.exec(u || ""); return m && m[1]; };
+    const keyOf = u => { const m = /plates-hc\/(?:[a-z]+\/)?(ENV_[A-Z]+_(?:PLATE|PHONE)_HC_V3(?:_TALL)?)/.exec(u || ""); return m && m[1]; };
     const probe = document.createElement("style"); probe.textContent = "*{pointer-events:auto!important}"; document.head.appendChild(probe);
     try{
         for(const [x, y] of points) for(const el of document.elementsFromPoint(x, y)){

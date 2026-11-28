@@ -872,6 +872,25 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
  #app #seasonEntry .v10GoldenStage { background-image:image-set(url("${u("ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x); }
  html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app #seasonEntry .v10GoldenStage { background-image:image-set(url("${u("ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x,url("${u("ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x); }
 }
+/* r100 H3 F1: a window wider than the room (16:9; 1920x866, 2560x1080) is covered edge to edge, with no flat side bands. The
+   room is drawn the window's width there (one plate pixel = 100vw / 1536); its top stays where the hair clears the top bar by
+   10px, so the extra height is cut from the counter at the bottom. When the counter's lip falls too low for the strip and
+   SEE FINAL WINNER, they ride up just enough to stay on screen (as Final Winner's plaque does) and the trophy stands on them,
+   kept under the title lines. At 16:9 and narrower nothing changes. */
+@media (min-width:901px) and (min-height:501px) and (min-aspect-ratio:16/9) {
+ #app #seasonEntry .v10GoldenStage {
+  --gk:max(calc(var(--gh) / 864),min(calc(100vw / 1536),calc(var(--gh) / 864 * 1.4)));
+  --gdrop:max(0px,calc(var(--sd-nav-top-h,52px) + 10px - 49 * var(--gk)));
+  --glip:calc(var(--gdrop) + 641 * var(--gk));
+  --gcount:min(calc(var(--glip) + 12px),calc(var(--gh) - 176px));
+  --gcup-b:min(var(--glip),calc(var(--gcount) - 8px));
+  --gcup-h:min(calc(300 * var(--gk)),calc((var(--gcup-b) - var(--sd-nav-top-h,52px) - 190px) * 768 / 744));
+  height:max(var(--gh),calc(var(--gcount) + 176px));
+  background-size:auto calc(864 * var(--gk));
+ }
+ #app #seasonEntry .v10GoldenStage .goldenTrophy { top:calc(var(--gcup-b) - var(--gcup-h) * 744 / 768);height:var(--gcup-h);width:calc(var(--gcup-h) * 2 / 3); }
+ #app #seasonEntry .v10GoldenStage .goldenCounter { top:var(--gcount); }
+}
 /* Upright phones and tablets narrower than 901px: the phone plate from the top, the screen's own height or taller. */
 @media (max-width:900px) and (orientation:portrait) {
  #app #seasonEntry .v10GoldenStage {
@@ -2950,6 +2969,17 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
 @media (min-width:1537px), (min-width:901px) and (min-height:865px){
   #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x)}
   html:is([data-assets="2"],[data-assets="3"],[data-assets="4"]) #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)){background-image:image-set(url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_1920.webp")}") 1.25x,url("${assetUrl(BASE+"plates-hc/ENV_BOARD_PLATE_HC_V3_2X.webp")}") 2x)}
+}
+/* r100 H3 F1: a window wider than the room (16:9; 1920x866, 2560x1080) is covered edge to edge, with no flat side bands: the
+   room is drawn the window's width (one plate pixel = 100vw / 1536), its top where the hair clears the top bar by 10px, so the
+   extra height is cut from the counter at the bottom. Every slot is placed in plate pixels, so it moves with the room; the
+   plaque and the buttons ride up to stay on screen as on any short window. At 16:9 and narrower nothing changes. */
+@media (min-width:901px) and (min-height:501px) and (min-aspect-ratio:16/9) {
+ #app main:has(> #seasonEntry.seasonScreenV10.v10FinalMode:not(.hidden)) {
+  --fw-k:max(calc(100svh / 864),min(calc(100vw / 1536),calc(100svh / 864 * 1.4)));
+  --fw-drop:max(0px,calc(var(--sd-nav-top-h,52px) + 10px - 49 * var(--fw-k)));
+  background-size:auto calc(864 * var(--fw-k));
+ }
 }
 /* r91 old-art: upright windows wider than 900 keep this desktop layout; the room is drawn the window's width (one plate
    pixel = 100vw / 1536) instead of its height, so both men stay whole, and the wood colour carries on below. */

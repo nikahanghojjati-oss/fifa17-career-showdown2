@@ -626,7 +626,7 @@ function createMotionPanel(){
         ),
         createMotionChoice(
             "REDUCE MOTION",
-            "Cut menu transitions, the wheel delay and club reveal effects.",
+            "Cut menu transitions, the long League Roulette ball drop and club reveal effects.",
             state.motionPreference === "reduce",
             "reduce"
         )
