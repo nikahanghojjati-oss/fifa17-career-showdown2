@@ -47,6 +47,7 @@ Image links are pinned to commit `a6c0666d`, so they never move.
 | Home lounge, phone (RQ-12) | 8.5 | 8.5 | 1 (T1, locked 28 Nov under the 8-and-above bar) | first try: scale 1.005, men 7.0, all checks pass; the dark top band became plain rose quartz and the walls read calm and plain, with few clouds |
 | Board Room, phone (RQ-13) | 8.5 | 8.5 | 1 (T1, locked 28 Nov under the 8-and-above bar) | first try: scale 1.005, men 6.3, rail at 52.5%, all checks pass; faint thin pale streaks in the counter and the wall slabs, copied from the Board master in Image 2 |
 | Office, phone (RQ-14) | 8 | 8.5 | 1 (T1, locked 28 Nov under the 8-and-above bar) | first try: scale 1.002, men 8.4, all checks pass; the desk came back as one flat top of two slabs with one joint and both blotters, the window clear and the lamp at the right edge (the flat-desk ticket worked) |
+| Hall, phone (RQ-15) | 8 | 8 | 1 (T1, locked 28 Nov under the 8-and-above bar) | first try: scale 1.000, men 4.7, all checks pass; pillars, door, fanlight, stairs and side table kept; light a little even, the lamp pools are soft rather than clearly bright |
 
 ## Batch 1: the 8 desktop rooms and the material slab (Rosequartz 3-11)
 Image 2 for every ticket here: the people-free cut of the two approved pilot rooms.
