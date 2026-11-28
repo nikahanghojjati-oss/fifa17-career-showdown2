@@ -135,8 +135,12 @@ LOOKS = {
                    # is hue 7-18, the same warmth as the Board master's lamp pool (hue 21), so it counts outside 295-355 and as brown;
                    # its brightness lifts the luma. The glints sit on the men's hair, the lamp shade, the olive leaves, the ball and the
                    # papers (9.4 before the light edit), none on the stone.
+                   # Tunnel PALACE_T1E1 (locked 28 Nov): glint 5.0, the same as the Lapis tunnel master. 443 of 664 points are
+                   # the lamp-lit top edge of the counter straight below the tunnel, the rest the white goal, the men's hair
+                   # and the handrail brackets, none on the wall slabs.
                    rooms=dict(HOME=dict(glint_max=11.5),
-                              OFFICE=dict(glint_max=12.0, hue_min=0.44, brown_max=0.21, luma=(14, 85.5)))),
+                              OFFICE=dict(glint_max=12.0, hue_min=0.44, brown_max=0.21, luma=(14, 85.5)),
+                              TUNNEL=dict(glint_max=5.5))),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
