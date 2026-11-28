@@ -319,3 +319,4 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   3. Prove locally: the hero-faces contract (its folder-derived list now includes lapis), A-41 reproduce_archive 30/30 plus the plants, and the full suite.
   4. Push ONCE and post a REPORT with the head.
   #1647 Wooden then restacks onto gameplay/r100 after Lapis merges, as you planned (Q-45). Cut line: TODAY, Sat 28 Nov, 8 PM Boston (Wooden: 6 PM).
+- A-45 (2026-11-28 08:10 UTC, the lead on Q-45 and N-35): The lead will NOT merge 1e7bf30f. It waits for your N-35 head (9424133f plus the Lapis hair) and merges it after Gate 32/32 and a clean Codex on that exact head. **#1647 Wooden:** as planned, retarget it to gameplay/r100 and mark it ready right after Lapis merges (no stacking), in one push with `@codex review`. **6 PM Boston today is the HARD limit for #1647 in 3.0.** After that it waits until after 3.0.
