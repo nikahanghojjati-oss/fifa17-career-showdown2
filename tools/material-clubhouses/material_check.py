@@ -131,7 +131,12 @@ LOOKS = {
                        # hue 0.66 pale 0.003 luma 54.4 glint 10.9. The Board's lamp-lit rose quartz slabs fill most of the
                        # wall, so night luma runs to 84. The Home's glints sit on the stadium floodlights, the pitch lines
                        # and the men's hair edges (Astra sharpened them on the stone edit), none on the stone.
-                       rooms=dict(HOME=dict(glint_max=11.5))),
+                       # Office PALACE_T2E1 (locked 28 Nov): hue 0.457, brown 0.204, luma 84.5, glint 11.6. The lamp pool on the desk
+                   # is hue 7-18, the same warmth as the Board master's lamp pool (hue 21), so it counts outside 295-355 and as brown;
+                   # its brightness lifts the luma. The glints sit on the men's hair, the lamp shade, the olive leaves, the ball and the
+                   # papers (9.4 before the light edit), none on the stone.
+                   rooms=dict(HOME=dict(glint_max=11.5),
+                              OFFICE=dict(glint_max=12.0, hue_min=0.44, brown_max=0.21, luma=(14, 85.5)))),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 

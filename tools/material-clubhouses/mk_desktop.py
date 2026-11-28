@@ -109,6 +109,8 @@ M = {
   sizelock=True,
   subs=[("on the polished stone desk top around its base, with a dim soft reflection of the lit shade in the stone", "on the honed rose quartz desk top around its base, where the stone turns a paler, milkier rose, with one soft, blurred warm patch of light in it"),
         (", polished and even all the way round, with the soft misty milky clouds running calmly down them", ", clad in tall rose quartz slabs with fine straight joints, honed and even all the way round, edged with slim plum-black fluted wood strips"),
+        # The pillar line read "become smooth the same rose quartz ..., clad in" (two stone phrases in a row); say it once.
+        ("become smooth the same rose quartz as image 2, honed, calm and hand-cut, with fine straight joints where pieces meet, clad in", "are clad in"),
         ("with the soft misty milky clouds running along the curve of each arch like the grain of a carved stone ring", "built of large hand-cut rose quartz blocks fitted along the curve of each arch with fine straight joints and one slim brushed rose gold line"),
         ("The walls become real rose quartz", "The walls become tall slabs of rose quartz set in matched pairs, separated by slim upright strips of plum-black fluted wood each edged with one slim recessed brushed rose gold line, real rose quartz"),
         ("and the pillars become real rose quartz", "and the pillars become tall columns clad in rose quartz slabs with fine straight joints, edged with slim plum-black fluted wood strips, real rose quartz"),
