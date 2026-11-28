@@ -38,6 +38,7 @@ Image links are pinned to commit `a6c0666d`, so they never move.
 | Office (RQ-3) | 8.5 | 7.5 | 3 (T2E1, locked 28 Nov) | desk top became a narrow strip over a tall block front ("row of blocks like the counter"); lamp-lit stone went peach (hue 15). Try 2: desk as two flat slabs seen from above; lit stone keeps its mauve lean (8.5, lamp pool weak). Edit 1: light only, brighter wider pool reaching the blotter (9) |
 | Hall (RQ-4) | 8.5 | 8 | 3 (T1E2, locked 28 Nov) | thin pale diagonal lines on the walls and pillars although the lock said "no lines" (fixed by a stone edit, 8.5); light too even, top of the room twice as bright as the masters (fixed by a light edit: brighter lamp pools, upper walls deepen to plum, 9). Batch now says "no lines of any kind" in the wall sentence itself |
 | Archive (RQ-5) | 8.5 | 8.5 | 3 (T1E2, locked 28 Nov) | thin wispy lines on the huge counter and side walls (stone edit fixed them); counter evenly lit, no shade (light edit: counter deepens step by step to plum at the bottom, 9; the edit also redrew the corridor shelves closer to image 1). Batch now says "no lines" and the step-by-step fall in the counter sentence too |
+| Directors' box (RQ-6) | 8.5 | 9 | 1 (T1, locked 28 Nov) | first try with the no-lines and step-by-step counter wording: stone clean, counter falls 131 to 57, stadium and objects held; the glass cabinet became an open lit niche (small) |
 
 ## Batch 1: the 8 desktop rooms and the material slab (Rosequartz 3-11)
 Image 2 for every ticket here: the people-free cut of the two approved pilot rooms.
