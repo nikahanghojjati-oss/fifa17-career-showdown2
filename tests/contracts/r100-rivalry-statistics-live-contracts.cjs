@@ -8,6 +8,8 @@
 //   R2 nothing verified (null, a throw, a loading or unavailable answer, seasonFinalV10 not loadable): the notice
 //   R3 in the game, or a Showdown that is not loading: the live path is untouched and nothing is asked
 //   R4 seasonFinalV10's keptShowdownView (real code): one open, the kept copy after one check; no copy and no reader: null
+//   R5 Spark (Verify on #1651): reloads that come by themselves ask once per open at most, then keep this open's answer;
+//      the player's TRY AGAIN and each new entry ask again; the online/visibility retry skips a notice whose try is spent
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const path=require("node:path");
@@ -28,7 +30,7 @@ function rivalryPage({live=false,sf}){
   const root={loadRuntimeScript:async(key,file,ready)=>{loads.push(key);if(sf!==undefined&&sf!=="unloadable")root.CareerModeSeasonFinalV10=sf;if(sf==="unloadable")throw new Error("offline");return ready();}};
   if(sf&&sf!=="unloadable"&&sf.preloaded)root.CareerModeSeasonFinalV10=sf;
   const ctx={root,Promise,Object,Error,console};vm.createContext(ctx);
-  vm.runInContext(`const load=(key,file,global)=>root.loadRuntimeScript(key,file,()=>Boolean(root[global]));function rlLiveCanArrive(){return ${live};}\n${RBLOCK}\nglobalThis.api={rlLiveOrContinue};`,ctx);
+  vm.runInContext(`const load=(key,file,global)=>root.loadRuntimeScript(key,file,()=>Boolean(root[global]));function rlLiveCanArrive(){return ${live};}let ctxKey="k1";function context(){return ctxKey;}\n${RBLOCK}\nglobalThis.api={rlLiveOrContinue,setContext:k=>{ctxKey=k;}};`,ctx);
   if(sf&&typeof sf.keptShowdownView==="function"){const inner=sf.keptShowdownView;sf.keptShowdownView=async()=>{asked++;return inner();};}
   return {api:ctx.api,loads,asked:()=>asked};
 }
@@ -79,5 +81,18 @@ function rivalryPage({live=false,sf}){
     kept.api.sfStandingsShown("standings");await new Promise(r=>setImmediate(r));await new Promise(r=>setImmediate(r));assert.equal(kept.reads.length,3,"and Standings entered next starts its own (no open left behind)");
     assert.match(SSRC,/return Object\.freeze\(\{keptShowdownView:sfKeptShowdownView,/,"seasonFinalV10 offers it");}
   ok("R4","seasonFinalV10's keptShowdownView: the kept copy after its one check, else nothing");
+  // R5
+  {let answer=null;const pg=rivalryPage({sf:{preloaded:true,keptShowdownView:async()=>answer}});const NOTICE={...loading,status:"unavailable",notice:"continue"};
+    assert.deepEqual(J(await pg.api.rlLiveOrContinue(loading,"open")),NOTICE);assert.equal(pg.asked(),1,"the entry asks");
+    assert.deepEqual(J(await pg.api.rlLiveOrContinue(loading,"auto")),NOTICE);assert.equal(pg.asked(),2,"one reload by itself asks once");
+    answer=view;for(let i=0;i<5;i++)assert.deepEqual(J(await pg.api.rlLiveOrContinue(loading,"auto")),NOTICE,"further reloads by themselves keep this open's answer");assert.equal(pg.asked(),2,"and ask nothing (no 3 + 4n read on each wake-up)");
+    const tap=J(await pg.api.rlLiveOrContinue(loading,"tap"));assert.equal(tap.status,"ready");assert.equal(pg.asked(),3,"a tap always asks");
+    assert.equal(J(await pg.api.rlLiveOrContinue(loading,"auto")).status,"ready","a reload by itself after it keeps the verified answer");assert.equal(pg.asked(),3);
+    pg.api.setContext("k2");assert.deepEqual(J(await pg.api.rlLiveOrContinue(loading,"auto")),NOTICE,"another account or pair: never the last open's numbers");assert.equal(pg.asked(),3);
+    answer=null;await pg.api.rlLiveOrContinue(loading,"open");assert.equal(pg.asked(),4,"a new entry asks again");await pg.api.rlLiveOrContinue(loading,"auto");assert.equal(pg.asked(),5,"with its own one reload by itself");}
+  assert.match(RSRC,/sources\[screen\]\?\.notice==="continue"&&rlKeptOpen\.auto>=RL_KEPT_AUTO_MAX\)\)void refresh\(screen,false,true,true\)/,"the online/visibility retry skips a notice whose one try is spent, and says it is automatic");
+  assert.match(RSRC,/rlLiveOrContinue\(\{\.\.\.active\.rivalry,lifecycle:active\.classification\},event\|\|auto\?"auto":retry\?"tap":"open"\)/,"refresh says which kind of load it is");
+  assert.match(RSRC,/retry\.addEventListener\("click",\(\)=>\{void refresh\(screen,false,true\)/,"TRY AGAIN stays the player's tap");
+  ok("R5","Spark: one automatic try per open, then this open's answer; the player's tap and each new entry ask again");
   console.log(`PASS r100 Rivalry Statistics after an app reopen (${n} checks)`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
