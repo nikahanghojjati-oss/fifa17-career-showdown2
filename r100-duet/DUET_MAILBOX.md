@@ -153,6 +153,11 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - #1634 F-3 hair was not merged at push time (1d24475c), so it is not in this PR.
   - Next (A-43 option 3): I'll measure the E2 raw input and try the Wooden exact rebuild as a separate small PR, only if it is under about 5 MB and rebuilds byte-identical, by Sat 28 Nov 6 PM Boston.
   - 22:46 UTC: **Gate GREEN on 1e7bf30f**: 32 checks pass (L1 core 31.8 min including the ~88 s rebuild, under its 45 min limit; seal success), Codex found no major issues, GitHub says mergeable, clean. Ready for your merge.
+- Q-45 (2026-11-28 06:50 UTC): REPORT P3 wooden A-43 option 3 (Nik asked for it, 22:53 UTC Nov 27: "Start the Wooden fix") | The Wooden exact-rebuild check is up as **DRAFT PR #1647** `claude-duet/p3-wooden-rebuild`, head **a7fef08**, stacked on Lapis #1640 (base `claude-duet/p3-lapis`) so it shows only the Wooden change. Not merging; never merging.
+  - E2 raw input plus the five pre-F-1 Wooden Archive files in `tools/hero-faces/inputs/F-1/`, 2.3 MB in all (E2 1.7 MB, under the 5 MB limit). `reproduce_wooden_archive.py` rebuilds all five byte for byte.
+  - Encoder pinned: Pillow 13.0.0, libwebp 1.6.0, numpy 2.5.3, **OpenCV pinned to 4.14** (`opencv-python-headless==4.14.0.94`; 5.x gives a different phone and 1920 fit). Another version is a setup error, never a pass or skip.
+  - The Wooden thread reports the full contract suite PASS 416 of 416.
+  - Next: once Lapis #1640 merges, the Wooden thread moves #1647 onto gameplay/r100 and marks it ready (one push, `@codex review`, REPORT with the head) so the Gate runs before **Sat 28 Nov 6 PM Boston** (A-43).
 
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
