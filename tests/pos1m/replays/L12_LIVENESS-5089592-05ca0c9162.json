@@ -1,0 +1,46 @@
+{
+ "schemaVersion": 1,
+ "engine": "POS1M",
+ "law": "L12_LIVENESS",
+ "detail": "story did not reach the end in 9 virtual hours (idle); finished: playerTwo",
+ "seed": 5089592,
+ "plan": {
+  "seed": 5089592,
+  "kind": "chapter",
+  "totalSeasons": 10,
+  "fromSeason": 10,
+  "stopAtSeason": null,
+  "checkpointSeed": 10102,
+  "faults": {
+   "callError": 0.11575949903799966,
+   "lostAck": 0,
+   "contentionDenied": 0.5,
+   "phantomAbort": 0.009627743856981397,
+   "listenerDelayMs": 0,
+   "listenerStall": 0,
+   "listenerDeath": 0
+  },
+  "chaos": {
+   "rate": 0
+  },
+  "skewMs": {
+   "playerOne": 0,
+   "playerTwo": 0
+  },
+  "sackedSeason": null,
+  "sackedRole": "playerTwo",
+  "expireWindow": false
+ },
+ "shrunk": [
+  "no fault moves",
+  "lostAck off",
+  "listenerStall off",
+  "listenerDeath off",
+  "listener delay off",
+  "clock skew off",
+  "window run-out off"
+ ],
+ "head": "785f78d48ffd4d0ebb79df80776fe016565e0dde",
+ "planted": null,
+ "savedAt": "2026-11-28T02:07:58.613Z"
+}

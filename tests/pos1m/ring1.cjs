@@ -19,6 +19,7 @@ const Setup=P("sparkSharedShowdownSetup.js"),Career=P("sparkSharedCareerStart.js
 const PROVIDERS={Setup,Career,Transfer,Results,Commit,Scoring,History,Multi};
 const Guess=require(path.join(W.ROOT,"js","iconGuess.js"));
 const {freshModule}=require("./fresh.cjs");
+const {budgeted}=require("./budget.cjs");
 const ProductionTransfer=require(path.join(W.ROOT,"js","productionSharedTransferChallenge.js"));
 const SetupProtocol=require(path.join(W.ROOT,"js","sharedShowdownSetup.js"));
 // The documents that ARE each provider's action (a side write such as sharedSetup/leagueProjection is not the action).
@@ -156,6 +157,8 @@ class Manager{
   opts(tab,extra={},provider=null){
     const o=W.providerOptions(this.story.world,{role:this.role,deviceId:tab.deviceId,client:tab.client},extra);
     if(provider==="Transfer"){if(tab.serverEstimateMs===undefined)tab.serverEstimateMs=this.story.sim.int(3_001)-1_500;o.nowEpochMs=this.story.sim.now+tab.serverEstimateMs;}
+    // Multi Season reads go through the tab's own Firestore budget layer, as production passes them (tests/pos1m/budget.cjs).
+    if(provider==="Multi")return budgeted(tab,o);
     return o;
   }
   async call(tab,provider,fn,extra,label){

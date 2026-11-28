@@ -228,5 +228,35 @@ const increment=(db,ref)=>runTransaction(db,async tx=>{const snap=await tx.get(r
     assert.notEqual(await run(77),await run(78),"a different seed explores a different story");
   }
   ok("same seed gives the same story, byte for byte");
+  // 14. Multi Season reads go through the phone's real budget layer (tests/pos1m/budget.cjs), one copy per tab. It keeps only
+  // what can never change (an ACKNOWLEDGED commit), re-reads everything else from the server, never hides an error, and a
+  // fresh tab (a reload) starts with an empty memory. H2-2 (2026-11-28): without it Ring 1 re-read every accepted season on
+  // every attempt, which no phone does; with it the stand-in must still be no kinder than the phone.
+  {
+    const {budgeted,budgetFor}=require("./budget.cjs");
+    const commitPath="rivalries/r/seasonCommits/season_1",rivalryPath="rivalries/r";
+    const {value}=await inSim(14,{},async({server,sim})=>{
+      server.adminSet(commitPath,{phase:"ACKNOWLEDGED",revision:3});server.adminSet(rivalryPath,{n:1});
+      const client=server.client({uid:"a",label:"A"}),tab={client};
+      const o=budgeted(tab,{user:{uid:"a"},firestore:client,firebaseSdk:sdk});
+      const readTx=paths=>o.firebaseSdk.runTransaction(client,async tx=>{const out=[];for(const p of paths)out.push((await tx.get(sdk.doc(client,p))).data());return out;});
+      const reads=()=>server.meter.reads;
+      const r0=reads();await readTx([commitPath,rivalryPath]);const first=reads()-r0;
+      await new Promise(resolve=>setTimeout(resolve,120_000));// past every reuse window (2 s, 60 s quiet)
+      server.adminSet(rivalryPath,{n:2});
+      const r1=reads();const again=await readTx([commitPath,rivalryPath]);const second=reads()-r1;
+      const fresh={client};const r2=reads();await budgeted(fresh,{user:{uid:"a"},firestore:client,firebaseSdk:sdk}).firebaseSdk.runTransaction(client,async tx=>(await tx.get(sdk.doc(client,commitPath))).data());const reload=reads()-r2;
+      await new Promise(resolve=>setTimeout(resolve,120_000));client.faults={...client.faults,callError:1};
+      let failed=null;try{await readTx([rivalryPath]);}catch(error){failed=error.code;}
+      return {first,second,again,reload,failed,sameCopy:budgetFor(tab)===budgetFor(tab),ownCopy:budgetFor(tab).api!==budgetFor(fresh).api};
+    });
+    assert.equal(value.first,2,"a cold tab reads both documents from the server");
+    assert.equal(value.second,1,"the second read keeps only the ACKNOWLEDGED commit and asks the server for the rivalry");
+    assert.equal(value.again[1].n,2,"the rivalry change is seen, never an old copy");
+    assert.equal(value.reload,1,"a fresh tab (reload) has an empty memory and reads the commit again");
+    assert.ok(["unavailable","deadline-exceeded","resource-exhausted"].includes(value.failed),`a network error reaches the provider (${value.failed})`);
+    assert.ok(value.sameCopy&&value.ownCopy,"one budget copy per tab");
+  }
+  ok("Multi Season reads use the phone's real budget layer, per tab: keeps only final documents, never hides an error");
   console.log(`PASS POS1M stand-in harshness contracts (${checks} checks)`);
 })().catch(error=>{console.error(error.stack||error);process.exit(1);});
