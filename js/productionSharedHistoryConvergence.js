@@ -11,6 +11,17 @@
   let fastWaitKey="",fastWaitSince=0;
   const PANEL_ID="sharedHistoryConvergencePanel";
   let heldErrorKey="";
+  // r100 H1 F7: right after this phone's season commit the provider can re-read a season's commit from a copy taken before
+  // the ACK (a listener copy, or one under 2 s old, in js/firestoreBudget.js), so the page itself already holds the
+  // ACKNOWLEDGED commit while the read still says it is not. While that is so, and for at most FAST_POLL_WINDOW_MS, the miss
+  // is held quietly (the view kept, nothing reported); the 3 s fast poll catches up with no added read. After the window
+  // it is reported exactly as before, so a History that really is stuck still says so.
+  let ackHoldKey="",ackHoldSince=0;
+  function phcAckHeld(request,error){
+    if(!/COMMIT_NOT_ACKNOWLEDGED$/.test(String(error?.code||""))||!phcCachedTerminal(request))return false;
+    if(ackHoldKey!==request.key){ackHoldKey=request.key;ackHoldSince=Date.now();}
+    return Date.now()-ackHoldSince<FAST_POLL_WINDOW_MS;
+  }
   let installed=false,busy=false,provider=null,setupApi=null,commitApi=null,scoringApi=null,view=null,contextKey="",refreshPromise=null;
 
   function phcFail(code,message){const error=new Error(message||code);error.code=code;throw error;}
@@ -99,10 +110,10 @@
     }
     const result=await provider.read(await phcProviderOptions(request));if(!phcContextMatches(request))return null;
     if(!result||result.ok!==true||result.authoritative!==true||result.phase!=="HISTORY_CONVERGED"||result.revision!==1||result.throughSeason!==request.throughSeason||String(result.rivalryId||"")!==request.rivalryId||!result.projection||result.projection.phase!=="HISTORY_CONVERGED"||result.projection.acceptedSeasons!==request.throughSeason)phcFail(result?.code||"HISTORY_CONVERGENCE_PROVIDER_INVALID");
-    view=result;contextKey=request.key;phcRender();try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-history-convergence-state-change",{detail:{phase:view.phase,throughSeason:view.throughSeason,acceptedRevisionKey:view.acceptedRevisionKey||view.projection.acceptedRevisionKey}}));}catch(_error){}return view;
+    view=result;contextKey=request.key;ackHoldKey="";phcRender();try{root.dispatchEvent?.(new root.CustomEvent("career-mode-shared-history-convergence-state-change",{detail:{phase:view.phase,throughSeason:view.throughSeason,acceptedRevisionKey:view.acceptedRevisionKey||view.projection.acceptedRevisionKey}}));}catch(_error){}return view;
   }
   function phcRefresh(light=false){
-    const request=phcRequest();if(!request||!phcSharedMarker())return Promise.resolve(phcClear(request));if(refreshPromise)return refreshPromise;busy=true;const current=phcRefreshNow(request,light===true).then(value=>{heldErrorKey="";return value;},error=>{if(/_CONTEXT_STALE$/.test(String(error?.code||"")))return view&&contextKey===request.key?view:null;if(phcContextMatches(request)){const key=`${request.key}|${String(error?.code||error?.message||"HISTORY_FAILED").slice(0,80)}`;if(key!==heldErrorKey){heldErrorKey=key;if(view&&contextKey===request.key)return view;phcClear(request);return null;}heldErrorKey="";phcClear(request);phcReport("Could not bring History up to date",error);}return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;});refreshPromise=current;return current;
+    const request=phcRequest();if(!request||!phcSharedMarker())return Promise.resolve(phcClear(request));if(refreshPromise)return refreshPromise;busy=true;const current=phcRefreshNow(request,light===true).then(value=>{heldErrorKey="";return value;},error=>{if(/_CONTEXT_STALE$/.test(String(error?.code||"")))return view&&contextKey===request.key?view:null;if(phcContextMatches(request)){const key=`${request.key}|${String(error?.code||error?.message||"HISTORY_FAILED").slice(0,80)}`;if(key!==heldErrorKey){heldErrorKey=phcAckHeld(request,error)?"":key;if(view&&contextKey===request.key)return view;phcClear(request);return null;}heldErrorKey="";phcClear(request);phcReport("Could not bring History up to date",error);}return null;}).finally(()=>{busy=false;if(refreshPromise===current)refreshPromise=null;});refreshPromise=current;return current;
   }
   function phcWaitingKey(){const request=phcRequest();if(!request||!phcSharedMarker()||!phcCachedTerminal(request))return "";if(contextKey===request.key&&view&&view.phase==="HISTORY_CONVERGED")return "";return `${request.key}|history`;}
   function phcFastPollDue(){const key=phcWaitingKey();if(!key){fastWaitKey="";fastWaitSince=0;return false;}const now=Date.now();if(key!==fastWaitKey){fastWaitKey=key;fastWaitSince=now;}const due=now-fastWaitSince<FAST_POLL_WINDOW_MS;if(due&&root.document?.visibilityState!=="hidden")root.CareerModeFirestoreBudget?.wantFresh?.();return due;}
@@ -112,6 +123,6 @@
   function phcInstall(){if(installed)return true;installed=true;for(const event of ["career-mode-shared-canonical-scoring-state-change","career-mode-shared-season-commit-state-change","career-mode-shared-setup-state-change","career-mode-connected-account-state-change","career-mode-app-check-state-change","career-mode-shared-season-cursor-change"]){root.addEventListener?.(event,phcWake);}root.document?.addEventListener?.("visibilitychange",phcWake);if(typeof root.setInterval==="function"){root.setInterval(phcWake,POLL_MS);root.setInterval(phcFastWake,FAST_POLL_MS);}if(typeof root.setTimeout==="function")root.setTimeout(phcWake,0);return true;}
 
   // Phoenix W5: a new Showdown (or the ended one let go on Home) puts this module's Showdown data back to a fresh page's (the reset in js/persistentNikDanielPair.js).
-  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["history-convergence"]=()=>{view=null;contextKey="";heldErrorKey="";fastWaitKey="";fastWaitSince=0;};}catch(_error){}
+  try{(root.CareerModeShowdownClears||(root.CareerModeShowdownClears={}))["history-convergence"]=()=>{view=null;contextKey="";heldErrorKey="";fastWaitKey="";fastWaitSince=0;ackHoldKey="";ackHoldSince=0;};}catch(_error){}
   return Object.freeze({contractVersion:1,feature:"ssjr-production-shared-history-convergence",productionEnabled:true,runtimeRevision:"1.9.1-r12",requiresAcknowledgedSeasonCommit:true,requiresCanonicalScoring:true,providerEnforcedSource:true,readOnlyDerivedProjection:true,identitySafe:true,exactSeasonAddressing:true,canonicalStorageMutation:false,providerWriteRequired:false,listPermissionRequired:false,billingRequired:false,blazeRequired:false,cloudRunRequired:false,cloudFunctionsRequired:false,pollIntervalMs:POLL_MS,fastPollIntervalMs:FAST_POLL_MS,fastPollWindowMs:FAST_POLL_WINDOW_MS,isWaitingForRival:()=>Boolean(phcWaitingKey()),install:phcInstall,refresh:phcRefresh,getState:()=>view,isActive:phcSharedMarker});
 });
