@@ -1783,7 +1783,11 @@
   function v10Wire(screen,host){
     if(screen==="careerStatistics"){
       const rivalry=host.querySelector("#careerStatisticsRivalryButton");
-      if(rivalry){const available=(typeof currentShowdown!=="undefined"&&currentShowdown)||v10Source(screen)?.history?.showdowns?.some(r=>r.status==="completed");rivalry.classList.toggle("hidden",!available);rivalry.addEventListener("click",()=>{if(available&&typeof root.openRivalryStatistics==="function")root.openRivalryStatistics();});}
+      // r100 H2-3: after an app reopen mid-Showdown currentShowdown is empty until CONTINUE, so the pair (read on Home) naming
+      // an active Showdown shows the button too: the same gate Standings and Rivalry Statistics trust for THIS SHOWDOWN (their
+      // kept copy or verified read brings the numbers). Nothing is read here. With no Showdown at all it stays hidden.
+      let pairActive=false;try{const pair=root.CareerModePersistentNikDanielPair?.getState?.(),close=root.CareerModeProductionSharedTerminalClose?.getState?.();pairActive=pair?.initialized===true&&pair.status!=="unpaired"&&pair.connectionState==="active"&&/^pair_[0-9a-f]{64}$/.test(String(pair.rivalryId||""))&&!(close?.phase==="CLOSED"&&close.rivalryId===pair.rivalryId);}catch(_){pairActive=false;}
+      if(rivalry){const available=(typeof currentShowdown!=="undefined"&&currentShowdown)||pairActive||v10Source(screen)?.history?.showdowns?.some(r=>r.status==="completed");rivalry.classList.toggle("hidden",!available);rivalry.addEventListener("click",()=>{if(available&&typeof root.openRivalryStatistics==="function")root.openRivalryStatistics();});}
       // One delegated listener on the document: a redraw replaces this button, and a tap on a node that is mid-replace must still open.
       if(!v10Wire.tapBound){v10Wire.tapBound=true;root.document?.addEventListener?.("click",event=>{if(event.target?.closest?.("#trophyRoomButton")&&typeof root.openOptionalModule==="function")root.openOptionalModule("trophyRoom");});}
     }
