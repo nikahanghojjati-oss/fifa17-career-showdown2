@@ -1,0 +1,44 @@
+{
+ "_about": "The project's stage plan (Nik, 2026-10-09 22:00 UTC): 1) finish the remaining bugs, 2) visual fixes, 3) visual mockups for phone, 4) improved desktop versions. custom_view.py draws the Goals card from this file plus live data (numbered jobs, reports/OLYMPIAD_RECHECK_*.md, the relay). When an Olympiad bug or a Sol lead becomes a job, put the job number in its 'job'; it counts as settled once that job is done. Set a Sol lead's 'state' to 'not real' when the live recheck disproves it.",
+ "olympiad_jobs": {
+  "V1": "1048",
+  "V2": "1048",
+  "V3": "1049",
+  "V4": "1050",
+  "V5": "1053",
+  "V6": "1051",
+  "V7": "1052"
+ },
+ "sol_leads": [
+  {
+   "id": "S1",
+   "lead": "League points cap is 114 everywhere though the Bundesliga maximum is 102",
+   "state": "confirmed (defensive fix; the only literal 114 left is a loose upper bound in terminal close)",
+   "job": "1055"
+  },
+  {
+   "id": "S2",
+   "lead": "Season 3+ simultaneous results",
+   "state": "confirmed on the emulator 2026-10-10: season-2 simultaneous publish stopped once in 10 runs (Transfer Challenge re-read failed)",
+   "job": "1587"
+  },
+  {
+   "id": "S3",
+   "lead": "Local Reconciliation stuck waiting",
+   "state": "not real: both managers reached Local Reconciliation PREVIEW READY by themselves in 10 of 10 local 3-season emulator journeys (J10.1) plus every CI run",
+   "job": "1057"
+  },
+  {
+   "id": "S4",
+   "lead": "Transfer timers mismatched across devices",
+   "state": "real but small: each phone anchors the server clock after the token round trip, so countdowns can differ by about a second",
+   "job": "1058"
+  },
+  {
+   "id": "S5",
+   "lead": "A slow screen overwrites a newer tap",
+   "state": "confirmed on the emulator 2026-10-10: a slow Season Results load pulled the manager back after they moved to the dashboard",
+   "job": "1579"
+  }
+ ]
+}
