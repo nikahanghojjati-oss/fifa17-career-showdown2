@@ -140,7 +140,11 @@ LOOKS = {
                    # and the handrail brackets, none on the wall slabs.
                    rooms=dict(HOME=dict(glint_max=11.5),
                               OFFICE=dict(glint_max=12.0, hue_min=0.44, brown_max=0.21, luma=(14, 85.5)),
-                              TUNNEL=dict(glint_max=5.5))),
+                              TUNNEL=dict(glint_max=5.5),
+                              # Club PALACE_T1E2 (locked 28 Nov): glint 11.0. 1194 of 1464 points are the thin lamp-lit eased top
+                              # edge of the counter after the counter light edit (1.9 before it), the rest the stadium floodlights
+                              # and the lamps; the wall slabs and the counter face hold none.
+                              CLUB=dict(glint_max=11.5))),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
