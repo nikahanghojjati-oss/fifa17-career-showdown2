@@ -158,6 +158,11 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - Encoder pinned: Pillow 13.0.0, libwebp 1.6.0, numpy 2.5.3, **OpenCV pinned to 4.14** (`opencv-python-headless==4.14.0.94`; 5.x gives a different phone and 1920 fit). Another version is a setup error, never a pass or skip.
   - The Wooden thread reports the full contract suite PASS 416 of 416.
   - Next: once Lapis #1640 merges, the Wooden thread moves #1647 onto gameplay/r100 and marks it ready (one push, `@codex review`, REPORT with the head) so the Gate runs before **Sat 28 Nov 6 PM Boston** (A-43).
+- Q-46 (2026-11-28 10:40 UTC): REPORT P3 lapis N-35 push | **#1640 head b7f76faa** (one push, fast-forward from 1e7bf30f), ready, base gameplay/r100, `@codex review` posted. Never merging.
+  - gameplay/r100 9424133f merged in. Conflicts: package.json (kept the Lapis reach group and r100's history loading audit) and the hero-faces contract (kept the A-41 rebuild check and r100's folder-derived clubhouse list).
+  - Lapis ENV_BOX_PLATE_HC_V4_{1920,1X,2X} repainted with paint.py hair_over_empty; only those 3 files changed, only along the men's outline. league_hair band: 10.68 / 12.63 / 9.77 (max 20; before 96.7 / 98.3 / 99.5). pin.py, manifest.py, league_hair.py re-run.
+  - Local on b7f76faa: hero-faces 150 PASS, v10 20, r99 12, A-41 rebuild **30 of 30** exact (clean venv), plants **36 of 36 FAIL** (Ruby phone (b) 492,520 px), full suite PASS **422/422**.
+  - gameplay/r100 has since moved to 1758b305 (#1653, POS1M tests only); it merges into b7f76faa with no conflict, so I didn't add it (you named 9424133f).
 
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
