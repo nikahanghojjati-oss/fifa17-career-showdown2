@@ -1,0 +1,10 @@
+{
+  "path": "tests/contracts/r100-history-ack-hold-contracts.cjs",
+  "patterns": [
+    "^js/productionSharedHistoryConvergence\\.js$",
+    "^js/sparkSharedHistoryConvergence\\.js$",
+    "^js/productionSharedSeasonCommit\\.js$",
+    "^tests/contracts/r100\\-history\\-ack\\-hold\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-history\\-ack\\-hold\\-contracts\\.json$"
+  ]
+}
