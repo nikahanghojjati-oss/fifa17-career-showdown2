@@ -357,7 +357,7 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function standingsFrames(rivalry,career){
     const scope=rivalry&&["loading","empty","unavailable","partial","ready"].includes(rivalry.status)?rivalry:{status:"unavailable"};
     let current={status:scope.status};
-    if(scope.status==="unavailable"&&scope.notice==="continue")current.notice="continue";
+    if(scope.status==="unavailable"&&["continue","onTheWay"].includes(scope.notice))current.notice=scope.notice;
     if(["ready","partial","empty"].includes(scope.status)&&scope.score&&scope.managers){
       if(!["daniel","nik"].every(m=>number(scope.score[m])&&scope.managers[m]&&COUNT_FIELDS.every(k=>number(scope.managers[m][k]))))current={status:"unavailable"};
       else {current.score={...scope.score};current.managerRecords=Object.fromEntries(["daniel","nik"].map(m=>[m,Object.fromEntries(COUNT_FIELDS.map(k=>[k,scope.managers[m][k]]))]));}
@@ -374,6 +374,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
       if(all.status!=="unavailable"){all.standings=standings;if(all.status==="partial")all.coverage=career.coverage;}
     }
     if(["ready","partial"].includes(all.status)&&!all.standings)all={status:"unavailable"};
+    // r100 H1 F5: a career read past its wait: the kept numbers say they are still updating; none kept, TRY AGAIN
+    if(all.status==="unavailable"&&career?.notice==="retry")all.notice="retry";
+    if(career?.updating===true&&["ready","partial","empty"].includes(all.status))all.updating=true;
     // r86 Special Player chip: THIS SHOWDOWN shows the live Showdown's, CAREER the most recently confirmed one's (none before r86).
     if(current.score){const sp=sfSpecial(chip=>chip.live());if(sp)current.specialPlayers=sp;}
     if(all.standings){const sp=sfSpecial(chip=>chip.latest(career.history&&career.history.showdowns));if(sp)all.specialPlayers=sp;}
@@ -423,9 +426,93 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
     const snapshot=sfSnapshot(),pair=snapshot.pair;
     if(pair?.initialized===true&&pair.status==="unpaired"&&!pair.rivalryId&&snapshot.terminalClose?.phase==="CLOSED")snapshot.terminalClose=null;
     const view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot)||{status:"unavailable"};
-    // r87 career fixes (lane C C-01): out of the game the live providers never run, so THIS SHOWDOWN says how to load it
-    // instead of "Loading standings." forever (no read is made for this; in the game nothing changes).
-    return view.status==="loading"&&!sfLiveCanArrive()?{status:"unavailable",notice:"continue"}:view;
+    if(view.status!=="loading"){sfLoadingSince=0;return view;}
+    // r100 H2-1 (Nik: "Standings opened in the middle of a Showdown must always show the scores and everything, and never sit
+    // stuck loading"). In the game the live providers bring the numbers; while they are still on their way Standings waits,
+    // but at most SF_LIVE_WAIT_MS (a provider that is half up, or never answers, can no longer hold "Loading standings.").
+    const rid=typeof pair?.rivalryId==="string"?pair.rivalryId:"",inGame=sfLiveCanArrive();
+    if(inGame){
+      if(!sfLoadingSince||sfLoadingRid!==rid){sfLoadingSince=Date.now();sfLoadingRid=rid;sfWakeAfter(SF_LIVE_WAIT_MS+50);}
+      if(Date.now()-sfLoadingSince<SF_LIVE_WAIT_MS)return view;
+    }
+    // Out of the game (an app reopened on Home: the live providers only start with CONTINUE), or the live numbers did not
+    // come: this phone's own last verified numbers for this Showdown, used only once one read has shown that no later season
+    // has been accepted since (js/productionSharedMultiSeasonProgression.js keeps them). Never an older season.
+    const kept=sfKeptView(snapshot,rid);
+    if(kept)return kept;
+    // r87 career fixes (lane C C-01): nothing this phone can show yet, so THIS SHOWDOWN says how to load it instead of
+    // "Loading standings." forever. r100 Verify F2: a player already in the game is not sent to Home; the numbers are on
+    // their way, and CHECK AGAIN (a tap, never a loop) waits for them once more.
+    return {status:"unavailable",notice:inGame?"onTheWay":"continue"};
+  }
+  // ---- r100 H2-1: this Showdown's numbers on Standings after an app reopen ----
+  // The copy is the last authoritative Multi Season view this phone read (state, dashboard and the History projection,
+  // which the adapter verifies again as it always does). It is shown only when (1) the pair, read on Home, still names that
+  // Showdown as active, and (2) one read of the next season's commit (rivalries/{id}/seasonCommits/season_{n+1}) shows it
+  // is not ACKNOWLEDGED: so the copy holds every accepted season and no older standing is ever shown. A finished last season
+  // needs no read. The read is made once per Standings open (no listener, no retry) and gives up after SF_COPY_READ_MS:
+  // anything unread, failed or newer than the copy keeps the "continue it from Home" notice. CAREER is not touched.
+  const SF_LIVE_COPY_KEY="cms.liveStandings.v1",SF_LIVE_WAIT_MS=8000,SF_COPY_READ_MS=6000;
+  let sfLoadingSince=0,sfLoadingRid="",sfCopyCheck=null,sfCopyOpen=0;
+  function sfWakeAfter(ms){try{root.setTimeout(()=>{signature="";wake();},ms);}catch(_){}}
+  function sfKeptCopy(rid){
+    if(!/^pair_[0-9a-f]{64}$/.test(rid))return null;
+    let copy=null;try{copy=JSON.parse(String(root.readStorageValue?.(SF_LIVE_COPY_KEY,true)||"null"));}catch(_){return null;}
+    const v=copy&&copy.schemaVersion===1&&copy.rivalryId===rid?copy.view:null,st=v&&v.state;
+    if(!v||v.ok!==true||v.authoritative!==true||v.rivalryId!==rid||!st||st.rivalryId!==rid||!Number.isInteger(st.acceptedSeasons)||st.acceptedSeasons<0||![1,3,5,10].includes(st.totalSeasons)||st.acceptedSeasons>st.totalSeasons)return null;
+    return v;
+  }
+  function sfCopyKey(v){return `${v.rivalryId}|${v.state.acceptedSeasons}|${v.state.acceptedRevisionKey||""}|${v.state.terminal===true}`;}
+  function sfKeptView(snapshot,rid){
+    const pair=snapshot.pair;
+    if(!pair||pair.initialized!==true||pair.connectionState!=="active"||pair.rivalryId!==rid)return null;
+    const copy=sfKeptCopy(rid);if(!copy)return null;
+    // this open's check; one still in flight from a moment ago is taken over rather than read twice
+    const key=sfCopyKey(copy);let check=sfCopyCheck&&sfCopyCheck.key===key?sfCopyCheck:null;
+    if(check&&check.open!==sfCopyOpen){if(check.status==="checking")check.open=sfCopyOpen;else check=null;}
+    if(!check)check=sfStartCopyCheck(copy,key);
+    if(check.status==="checking")return {status:"loading"};
+    if(check.status!=="current")return null;
+    const view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView({...snapshot,multiSeason:copy,history:null})||null;
+    // "empty" is a Showdown with no season accepted yet (0 - 0, its league, clubs and season 1); a pending code never gets here
+    return view&&["ready","empty"].includes(view.status)?view:null;
+  }
+  // One read per Standings open: the next season's commit. Resolves "current" (not accepted: the copy is up to date),
+  // "behind" (accepted since: a newer season exists) or "unread" (no service, an error, or no answer in SF_COPY_READ_MS).
+  function sfStartCopyCheck(copy,key){
+    const check={key,open:sfCopyOpen,status:"checking"};sfCopyCheck=check;
+    const done=status=>{if(check.status!=="checking")return;check.status=status;if(sfCopyCheck===check){signature="";wake();}};
+    if(copy.state.terminal===true||copy.state.acceptedSeasons>=copy.state.totalSeasons){done("current");return check;}
+    const next=copy.state.acceptedSeasons+1;
+    root.setTimeout?.(()=>done("unread"),SF_COPY_READ_MS);
+    check.promise=Promise.resolve().then(async()=>{
+      const runtime=root.CareerModeProductionFirebaseRuntime||(typeof root.loadRuntimeScript==="function"?(await root.loadRuntimeScript("firebase-runtime","js/productionFirebaseRuntime.js",()=>root.CareerModeProductionFirebaseRuntime),root.CareerModeProductionFirebaseRuntime):null);
+      const services=(root.CareerModeFirestoreBudget?.services||(x=>x))(await runtime.ensureAccountServices());
+      const sdk=services?.firestoreSdk;if(!services||services.ok===false||!services.auth?.currentUser||!services.firestore||typeof sdk?.doc!=="function"||typeof sdk?.runTransaction!=="function")throw new Error("STANDINGS_COPY_SERVICE");
+      const commit=await sdk.runTransaction(services.firestore,async tx=>{const snap=await tx.get(sdk.doc(services.firestore,"rivalries",copy.rivalryId,"seasonCommits",`season_${next}`));return snap&&typeof snap.exists==="function"&&snap.exists()?snap.data():null;});
+      done(commit&&commit.phase==="ACKNOWLEDGED"?"behind":"current");
+    }).catch(()=>done("unread"));
+    return check;
+  }
+  // Standings opening (its loader's prepare): a fresh check for this open, waited for at most SF_COPY_READ_MS behind the
+  // loading screen, and only when the live numbers cannot come (in the game nothing changes and nothing is read).
+  // Each entry to Standings is one open (Codex P2 on #1649). The loader runs prepare on the first entry only (js/v10Screens.js
+  // keeps it in screenLoads), so the open starts at whichever comes first, that prepare or career-mode-screen-shown for
+  // Standings, and ends when another screen is shown; redraws and a second signal for the same entry add no read.
+  let sfInStandings=false;
+  function sfEnterStandings(){if(sfInStandings)return;sfInStandings=true;sfCopyOpen+=1;sfLoadingSince=0;}
+  function sfStandingsShown(screen){if(screen!=="standings"){sfInStandings=false;return;}sfPrepareKeptStandings();}
+  // CHECK AGAIN (in the game, live numbers late): a new open on the player's tap: the live wait once more, then the copy's check.
+  function sfStandingsCheckAgain(){sfInStandings=false;sfPrepareKeptStandings();signature="";wake();}
+  function sfPrepareKeptStandings(){
+    sfEnterStandings();
+    try{
+      const snapshot=sfSnapshot(),view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot);
+      if(!view||view.status!=="loading"||sfLiveCanArrive())return Promise.resolve();
+      sfKeptView(snapshot,typeof snapshot.pair?.rivalryId==="string"?snapshot.pair.rivalryId:"");// starts this open's one read when a copy is kept
+      const check=sfCopyCheck;
+      return check&&check.open===sfCopyOpen&&check.status==="checking"&&check.promise?Promise.race([check.promise,new Promise(r=>root.setTimeout(r,SF_COPY_READ_MS))]).catch(()=>{}):Promise.resolve();
+    }catch(_){return Promise.resolve();}
   }
   function sfLiveCanArrive(){
     try{return Boolean(root.CareerModeProductionSharedHistoryConvergence?.isActive?.()&&root.CareerModeProductionSharedShowdownSetup?.getState?.()?.sessionId);}catch(_){return false;}
@@ -434,16 +521,30 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   // CE2PG: Standings only reused the model another screen last read, so opened first it said "unavailable" and
   // after a newer Showdown closed it kept the older career. Each Standings open now refreshes that model once
   // (the same exact gets Career Statistics makes when it opens); Career says Loading until it lands.
-  let standingsCareerLoad=null;
+  // r100 H1 F5 (half-up connection: Firestore requests hang with no error while the phone says online): CAREER said
+  // "Loading standings." for as long as the read hung. Now it waits at most SF_CAREER_WAIT_MS; after that it shows the last
+  // career numbers this page loaded with a "still updating" line, or, with none, says so with TRY AGAIN. The read itself is
+  // not cut: when its answer lands it still updates the screen. TRY AGAIN (the player's tap) is the only new read; there is
+  // no automatic retry, and a career that loads in time makes no extra read.
+  const SF_CAREER_WAIT_MS=12000;
+  let standingsCareerLoad=null,standingsCareerSlow=false;
   function sfOnlineCareer(){const id=state("CareerModeOnlinePlayerIdentity");return id?.registered===true&&["daniel","nik"].includes(id.managerId);}
   function refreshStandingsCareer(){
     if(standingsCareerLoad||!sfOnlineCareer()||typeof root.loadRuntimeScript!=="function")return;
+    standingsCareerSlow=false;
     const load=standingsCareerLoad=Promise.resolve().then(async()=>{
       if(!root.CareerModeRivalryLegacyV10)await root.loadRuntimeScript("rivalry-legacy-v10","js/rivalryLegacyV10.js",()=>Boolean(root.CareerModeRivalryLegacyV10));
       await root.CareerModeRivalryLegacyV10.loadCareerModel();
-    }).catch(()=>{}).then(()=>{if(standingsCareerLoad===load)standingsCareerLoad=null;signature="";wake();});
+    }).catch(()=>{}).then(()=>{if(standingsCareerLoad===load){standingsCareerLoad=null;standingsCareerSlow=false;}signature="";wake();});
+    try{root.setTimeout(()=>{if(standingsCareerLoad===load){standingsCareerSlow=true;signature="";wake();}},SF_CAREER_WAIT_MS);}catch(_){}
   }
-  function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null;return supplied??(standingsCareerLoad?{status:"loading"}:root.CareerModeRivalryLegacyV10?.cachedCareerModel?.())??null;}catch(_){return null;}}
+  // TRY AGAIN on CAREER: a fresh read for this page (the one still hanging can no longer publish over it).
+  function sfRetryStandingsCareer(){if(!standingsCareerSlow)return;standingsCareerLoad=null;standingsCareerSlow=false;refreshStandingsCareer();signature="";wake();}
+  function currentCareer(){try{const supplied=typeof careerStatisticsModel!=="undefined"?careerStatisticsModel:null,kept=root.CareerModeRivalryLegacyV10?.cachedCareerModel?.()??null;if(supplied!=null)return supplied;
+    if(!standingsCareerLoad)return kept;
+    if(!standingsCareerSlow)return {status:"loading"};
+    return kept&&["ready","partial","empty"].includes(kept.status)?{...kept,updating:true}:{status:"unavailable",notice:"retry"};
+  }catch(_){return null;}}
   // HO-068: Team V's markup still names the plates-v2 phone plate; the Final Winner phone picture is the board room now
   // (its 590 px copy at the smallest download size, html[data-assets="0"]).
   // r100 B7: the old Season Results phone room, phone managers and desktop hands, and the Final Winner near arms, sit in
@@ -3213,7 +3314,7 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     root.SEASON_RESULTS_APP=true;root.FINAL_WINNER_APP=true;root.STANDINGS_APP=true;
     const loader=root.CareerModeV10Screens.install();
     loader.register("seasonEntry",{auto:false,hold:true,css:["season-results/season-results.css","final-winner/final-winner.css","season-results/app.css"],js:[["v10-season-results","season-results/season-results.js",()=>typeof root.ShowdownSeasonResultsBoot==="function"],["v10-final-winner","final-winner/final-winner.js",()=>typeof root.ShowdownFinalWinnerBoot==="function"]],prepare:()=>Promise.all([prepare("season-results"),prepare("final-winner"),sfEnsureChip(),sfEnsureTurning()]),frame:seasonScreenSource,mount:(frame,host)=>sfKeepFocus(()=>renderSeason(frame,host)),unmount:host=>sfKeepFocus(()=>{finalSeasonReview=false;restoreFinal(host);})});
-    loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
+    loader.register("standings",{auto:false,hold:true,css:["standings/standings.css","season-results/app.css"],js:[["v10-standings","standings/standings.js",()=>typeof root.ShowdownStandingsBoot==="function"]],prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip(),sfPrepareKeptStandings()]),frame:()=>standingsFrames(currentRivalry(),currentCareer()),mount:renderStandings,unmount(host){host.firstElementChild?.v10StageHandle?.destroy();host.replaceChildren();}});
     installStandingsRoute();installChampionBack();
     // r87 Touchline Gazette: its own page after Season Results (CONTINUE TO SEASON N+1) and after Final Winner (its exits).
     // Small and loaded here with the screens it follows; its paper, sheet and copy load only when a paper is due.
@@ -3227,7 +3328,9 @@ html:is([data-motion-reduced="true"],[data-reduced-motion="true"]) #app #seasonE
     root.addEventListener?.("career-mode-shared-history-convergence-state-change",()=>sfRetainHistory(state("CareerModeProductionSharedHistoryConvergence")));
     root.addEventListener?.("online",sfRetryClosedHistory);
     root.document.addEventListener("visibilitychange",sfRetryClosedHistory);
-    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();if(root.getActiveScreenName?.()==="standings")refreshStandingsCareer();wake();});
+    root.document.addEventListener("career-mode-screen-shown",()=>{signature="";followPair();if(root.getActiveScreenName?.()==="standings")refreshStandingsCareer();sfStandingsShown(root.getActiveScreenName?.());wake();});
+    root.addEventListener?.("career-mode-standings-retry",sfRetryStandingsCareer);
+    root.addEventListener?.("career-mode-standings-check-again",sfStandingsCheckAgain);
     followPair();
     wake();return true;
   }

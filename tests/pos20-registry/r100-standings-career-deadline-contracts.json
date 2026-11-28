@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r100-standings-career-deadline-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^js/rivalryLegacyV10\\.js$",
+    "^visual-assets/v10_1/standings/standings\\.js$",
+    "^visual-assets/v10_1/standings/app-strings\\.json$",
+    "^visual-assets/v10_1/standings/app-shell\\.html$",
+    "^tests/contracts/r100\\-standings\\-career\\-deadline\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-standings\\-career\\-deadline\\-contracts\\.json$"
+  ]
+}

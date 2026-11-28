@@ -125,8 +125,13 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   assert.doesNotMatch(golden,/\b110\b|\b11 a season\b/,"no 110 anywhere");
   assert.doesNotMatch(golden,/localStorage|sessionStorage|indexedDB/,"the Golden screen stores nothing; the rise plays once per page");
   // the page's Firestore calls are the ones it had before r93 (the completed-Showdown read only)
-  const count=re=>(src.match(re)||[]).length;
+  // r100 H2-1 adds one read, outside the Golden code: Standings' freshness check of the kept live standings (one read-only
+  // transaction get per Standings open, tests/contracts/r100-standings-reopen-contracts.cjs); it is counted on its own.
+  const h21=part("// ---- r100 H2-1: this Showdown's numbers on Standings","// Standings opening (its loader's prepare)");
+  const rest=src.replace(h21,"");
+  const count=(re,text=rest)=>(text.match(re)||[]).length;
   assert.deepEqual([count(/readCompletedShowdown\(/g),count(/firestoreSdk/g),count(/getDoc/g),count(/setDoc|updateDoc|runTransaction|writeBatch|onSnapshot/g)],[1,3,3,0],"as at 2.5.0 (main 36b648ad)");
+  assert.deepEqual([count(/firestoreSdk/g,h21),count(/sdk\.runTransaction\(/g,h21),count(/tx\.get\(/g,h21),count(/getDoc|setDoc|updateDoc|tx\.set|tx\.update|writeBatch|onSnapshot/g,h21)],[1,1,1,0],"r100 H2-1: one transaction get, no write, no listener");
   ok("GS3","no Firestore read or write added; the Golden code stores nothing at all");
 }
 
