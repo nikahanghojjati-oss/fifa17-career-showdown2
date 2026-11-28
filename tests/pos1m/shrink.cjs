@@ -97,7 +97,11 @@ function remember(replay,file){
 if(require.main===module){
   (async()=>{
     const argv=process.argv.slice(2),opt={};
+    const usage="usage: node tests/pos1m/shrink.cjs --seed N [--law L13_REPEAT_ONCE] [--kind full|chapter] [--mutant ID] [--dir out/]";
+    if(argv.includes("--help")||argv.includes("-h")){console.log(usage);return;}
     for(let i=0;i<argv.length;i+=2)opt[argv[i].replace(/^--/,"")]=argv[i+1];
+    // H2-2 nit: a missing or bad --seed ran seed NaN and saved a stray replay into tests/pos1m/replays.
+    if(!/^\d+$/.test(String(opt.seed||""))){console.log(usage);process.exitCode=2;return;}
     if(opt.mutant){const M=require("./mutant.cjs");M.install(M.list().find(b=>b.id===opt.mutant));}
     const {runStory,planFor}=require("./ring1.cjs");
     const seed=Number(opt.seed);

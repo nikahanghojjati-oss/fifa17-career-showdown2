@@ -1,0 +1,9 @@
+{
+ "id": "P26-multi-end-read-never-answers",
+ "law": "L12_LIVENESS",
+ "title": "After the last season is acknowledged, the Multi Season read asks History one season too far",
+ "file": "js/sparkSharedMultiSeasonProgression.js",
+ "find": "throughSeason:authority.acceptedSeasons});",
+ "replace": "throughSeason:authority.acceptedSeasons===authority.setup.totalSeasons?authority.acceptedSeasons+1:authority.acceptedSeasons});",
+ "why": "Every read after the final acknowledgement fails, however warm the phone's budget layer is, so the Showdown never completes (the real version of H2-2). L12 must still catch a stalled end read with Multi going through the budget layer."
+}

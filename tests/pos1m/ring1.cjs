@@ -19,6 +19,7 @@ const Setup=P("sparkSharedShowdownSetup.js"),Career=P("sparkSharedCareerStart.js
 const PROVIDERS={Setup,Career,Transfer,Results,Commit,Scoring,History,Multi};
 const Guess=require(path.join(W.ROOT,"js","iconGuess.js"));
 const {freshModule}=require("./fresh.cjs");
+const {budgeted}=require("./budget.cjs");
 const ProductionTransfer=require(path.join(W.ROOT,"js","productionSharedTransferChallenge.js"));
 const SetupProtocol=require(path.join(W.ROOT,"js","sharedShowdownSetup.js"));
 // The documents that ARE each provider's action (a side write such as sharedSetup/leagueProjection is not the action).
@@ -156,7 +157,16 @@ class Manager{
   opts(tab,extra={},provider=null){
     const o=W.providerOptions(this.story.world,{role:this.role,deviceId:tab.deviceId,client:tab.client},extra);
     if(provider==="Transfer"){if(tab.serverEstimateMs===undefined)tab.serverEstimateMs=this.story.sim.int(3_001)-1_500;o.nowEpochMs=this.story.sim.now+tab.serverEstimateMs;}
-    return o;
+    // Every provider call goes through the tab's own Firestore budget layer, as production passes them
+    // (tests/pos1m/budget.cjs): a denied write there clears what the page kept, and a write marks its documents stale,
+    // for every provider on that page (Verify F1, #1653). The final no-fault oracle reads stay raw.
+    // Ring 2's recording (plan.serial) stays on the raw stand-in: tests/pos1m/ring2.cjs replays each recorded call raw on
+    // the emulator and compares the answers, so it measures the stand-in's Rules against the real Rules. A call the budget
+    // layer answered from a copy this page kept (up to 2 s old, or 60 s on an untapped check) is not a Rules answer: a
+    // START or confirm refused on a copy from just before the rival's spin came back HARSHER_STANDIN against the server's
+    // fresh ok (#1653 L9: 15 of 50 stories on shard 4).
+    if(this.story.plan.serial)return o;
+    return budgeted(tab,o);
   }
   async call(tab,provider,fn,extra,label){
     // A phone that just moved already holds the new state from its own answer; it reads again only after that.

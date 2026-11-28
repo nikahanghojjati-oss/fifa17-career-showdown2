@@ -21,4 +21,4 @@ function freshModule(relative){
   m._compile(sourceOf(absolute),absolute);
   return m.exports;
 }
-module.exports={freshModule};
+module.exports={freshModule,sourceOf};
