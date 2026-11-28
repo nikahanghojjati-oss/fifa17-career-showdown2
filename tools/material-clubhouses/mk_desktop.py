@@ -119,6 +119,12 @@ M = {
         # Office palace T1 (28 Nov): "a row of blocks like the counter" turned the flat desk top into a narrow strip over a
         # tall block front, and the lamp-lit stone went peach (hue 15). The desk keeps its own flat top.
         ("The desk top becomes a row of large hand-cut rose quartz blocks with fine straight joints and softly eased edges, exactly like the counter in image 2;", "The desk top becomes one wide, flat, level surface of two big hand-cut rose quartz slabs lying flat and meeting at one fine straight joint, seen from above exactly as the dark stone desk top in image 1: its flat top runs from behind the blotters all the way down to the bottom edge of the picture, with no front face, no step, no ledge and no upright blocks;"),
+        # Hall palace (28 Nov): the stone grew thin pale lines on big plain walls although the lock said "no lines"; the wall
+        # sentence now says it itself. Archive: drop the double stone phrase and the "dim reflection", and ask for the Hall's
+        # step-by-step fall to deep plum at the top (Hall T1 came out evenly lit; the light edit fixed it).
+        ("solid, opaque the same rose quartz as image 2, honed, calm and hand-cut, with fine straight joints where pieces meet, built of", "solid, opaque rose quartz, built of"),
+        (", lit only by the warm light with one soft dim reflection, so each arch edge", ", lit only by the warm light, so each arch edge"),
+        ("and the dusty rose deepens to deep plum in the corners and toward the vault, so the room has depth", "and away from them the dusty rose deepens gradually, step by step, to a rich deep plum in the corners and at the top of the vault, so the room has real depth"),
         ("Finish: real materials as a set builder would make them, handcrafted, with clean sharp detail;", "Finish: real materials as a stonemason, an upholsterer and a cabinet maker would make them, brand new and immaculate, like a photograph of a real seven-star hotel lobby, never a render or an AI image, with clean sharp detail;")],
   base="calm dusty rose",
   fall="dusty rose deepens to deep plum",
@@ -128,7 +134,7 @@ M = {
         "quartz counter blocks. Match its materials, colours, finish and light exactly, and copy nothing else from it: none of its "
         "furniture, lamps, blankets, ball, rug or layout."),
   feel="The lobby of a real seven-star hotel at night in the modern palace style of the Aman and Bulgari hotels, calm, spare and monumental, built by master craftsmen: huge slabs of hand-cut rose quartz, plum-black fluted wood, slim brushed rose gold lines and plain dusty mauve-rose velvet.",
-  wall="tall slabs of rose quartz exactly like the walls in image 2, set in matched pairs so the soft clouds of each pair meet in a gentle matching pattern at the joint, separated by slim upright strips of plum-black fluted wood (#1E0C1C) carved in fine vertical reeds, each edged with one slim recessed brushed rose gold line; any big plain wall area is a few very large, calm slabs with fine straight joints, keeping the same panel layout",
+  wall="tall slabs of rose quartz exactly like the walls in image 2, each an even dusty rose with only a few soft misty milky clouds and no lines of any kind, set in matched pairs so the soft clouds of each pair meet in a gentle matching pattern at the joint, separated by slim upright strips of plum-black fluted wood (#1E0C1C) carved in fine vertical reeds, each edged with one slim recessed brushed rose gold line; any big plain wall area is a few very large, calm slabs with fine straight joints, keeping the same panel layout",
   stone="the same rose quartz as image 2, honed, calm and hand-cut, with fine straight joints where pieces meet",
   frame="plum-black wood with a slim brushed rose gold inner line",
   door="plum-black fluted wood carved in fine vertical reeds, with one slim brushed rose gold line and a small brushed rose gold handle",
