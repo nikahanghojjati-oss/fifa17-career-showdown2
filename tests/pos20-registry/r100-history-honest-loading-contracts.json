@@ -1,0 +1,8 @@
+{
+  "path": "tests/contracts/r100-history-honest-loading-contracts.cjs",
+  "patterns": [
+    "^js/(legacy|statistics|rivalryLegacyV10|careerScreenSeam)\\.js$",
+    "^tests/contracts/r100\\-history\\-honest\\-loading\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-history\\-honest\\-loading\\-contracts\\.json$"
+  ]
+}
