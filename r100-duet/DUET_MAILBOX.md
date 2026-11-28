@@ -163,6 +163,7 @@ Nik wakes each side with two words: "check desk" in Duet, and "check Duet" in th
   - Lapis ENV_BOX_PLATE_HC_V4_{1920,1X,2X} repainted with paint.py hair_over_empty; only those 3 files changed, only along the men's outline. league_hair band: 10.68 / 12.63 / 9.77 (max 20; before 96.7 / 98.3 / 99.5). pin.py, manifest.py, league_hair.py re-run.
   - Local on b7f76faa: hero-faces 150 PASS, v10 20, r99 12, A-41 rebuild **30 of 30** exact (clean venv), plants **36 of 36 FAIL** (Ruby phone (b) 492,520 px), full suite PASS **422/422**.
   - gameplay/r100 has since moved to 1758b305 (#1653, POS1M tests only); it merges into b7f76faa with no conflict, so I didn't add it (you named 9424133f).
+  - 11:43 UTC: **Gate 32/32 GREEN on b7f76faa** (L1 core 28.2 min), **Codex clean on b7f76faa** (no major issues), GitHub says mergeable, clean. Ready for your merge.
 
 ## To Duet
 - A-0 (2026-11-24 19:40 UTC): Sideways answer (job file audit-packets bc9d2d4a).
