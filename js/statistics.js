@@ -40,13 +40,15 @@ function openCareerScreensV10(screen){
 }
 
 // JOB-28: the same live model seam, now drawn through the shared lazy loader.
+// H1 F1: it answers whether the screen could be handed over (a promise of true once mounted or false when it could not load;
+// false at once with no loader), so History's own box can say loading meanwhile and unavailable only on a real failure.
 function openRivalryLegacyV10(screen, getModel){
-    if(typeof window.loadRuntimeScript !== "function"){ return; }
+    if(typeof window.loadRuntimeScript !== "function"){ return false; }
     const host = screen === "legacy" ? "legacy" : "statistics";
     window.CareerModeV10Screens?.expect?.(host);
-    window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
+    return window.loadRuntimeScript("rivalry-legacy-v10", "js/rivalryLegacyV10.js", () => Boolean(window.CareerModeRivalryLegacyV10))
         .then(() => window.CareerModeRivalryLegacyV10.mount(screen, getModel))
-        .catch(error => { window.CareerModeV10Screens?.settle?.(host); window.reportApplicationError?.("Legacy and stats screens could not load", error); });
+        .then(() => true, error => { window.CareerModeV10Screens?.settle?.(host); window.reportApplicationError?.("Legacy and stats screens could not load", error); return false; });
 }
 window.openRivalryLegacyV10 = openRivalryLegacyV10;
 

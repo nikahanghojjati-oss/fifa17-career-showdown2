@@ -28,7 +28,8 @@ B7 builds the desktop files from the same deliveries (desk_out, paint_desk):
   ENV_SLAB_<LOOK>_P1_2X           -> ENV_SLAB_HC_V1_{1920,1X,2X} and TILE_SLAB_HC_V1_512 (the Wooden tile is the 2X slab's
                                      1024 px square at SLAB_TILE_BOX, halved; made seamless across its edges, tile_from)
   ENV_BOX_PLATE_EMPTY_<LOOK>_P1_2X -> ENV_BOX_PLATE_HC_V4_{1920,1X,2X}: the Wooden V4 men (placed apart, HO-097 part 2) laid
-                                     on the painted empty room through masks/ENV_BOX_PLATE_HC_V4_1920.png
+                                     on the painted empty room through masks/ENV_BOX_PLATE_HC_V4_1920.png, with the hair
+                                     outside that cut kept too (hair_over_empty: Duet P4 F-3)
 Each desktop file gets the same checks as a phone file: alignment, 0 face pixels changed before encoding, face drift after
 WebP, file size against Wooden.
 
@@ -313,6 +314,45 @@ def paint_phone(theme, name, path, room, folder, mask, framing, dest_root=None, 
             "core_px": int(core.sum()), "core_changed_pre_encode": changed,
             "core_decoded_mean_diff": drift, "face_crops": crop}
 
+# Duet P4 F-3 (Nik 2026-11-26: League Roulette hair cut off outside the Wooden clubhouse). The V4 Box painting is an EMPTY
+# room, so unlike the other rooms nothing painted sits under the men's edge: the pulled-in hero mask trimmed the outer curls
+# and the top of the hair to the painted wall. Team V's Wooden empty room (HO-097 ENV_BOX_PLATE_EMPTY_HC_V4_2X, the same
+# pixels as the Wooden V4 plate without the men) gives each edge pixel's own matte: within HAIR_GROW px of the cut, a pixel
+# that differs from the Wooden empty room by more than HAIR_T0 levels is hair, fully so at HAIR_T1; it is laid over the
+# painting as W + (1 - a) * (painting - Wooden empty), which keeps the hair and swaps only the room seen through it.
+# Pixels where a is 0 are the painting, unchanged (asserted).
+WOOD_EMPTY_V4 = os.path.join(PAINTINGS, "ENV_BOX_PLATE_EMPTY_HC_V4_2X.webp")
+WOOD_EMPTY_V4_SHA = "232dca44d403c1440eb1562a56036df699f409cf7fbfb3f98010e6e54195e4ce"
+HAIR_MASK = "ENV_BOX_PLATE_HC_V4_1920"
+HAIR_GROW = 12    # px at 1920 wide: how far outside the hero cut hair is looked for
+HAIR_RAMP = 4     # px at 1920 wide: the outer edge of that band fades to the painting
+HAIR_T0, HAIR_T1 = 6.0, 36.0  # levels (max over R, G, B) against the Wooden empty room: not hair below T0, all hair at T1
+
+def hair_over_empty(wood, paint_img, size):
+    """The Wooden men with their whole hair on the painted empty room at this size (float arrays out, plus the hair matte)."""
+    import hashlib
+    import cv2
+    assert hashlib.sha256(open(WOOD_EMPTY_V4, "rb").read()).hexdigest() == WOOD_EMPTY_V4_SHA, "Wooden empty V4 room changed"
+    bw_img = Image.open(WOOD_EMPTY_V4).convert("RGB")
+    if bw_img.size != size: bw_img = bw_img.resize(size, Image.LANCZOS)
+    dx, dy = shift_of(bw_img, wood)
+    assert abs(dx) <= 1 and abs(dy) <= 1, f"Wooden empty room is {dx},{dy} px off the Wooden V4 plate"
+    if dx or dy: bw_img = shifted(bw_img, dx, dy)
+    s = size[0] / 1920
+    w = np.asarray(wood, np.float32); bw = np.asarray(bw_img, np.float32); bt = np.asarray(paint_img, np.float32)
+    raw = np.asarray(Image.open(os.path.join(MASKS, HAIR_MASK + ".png")).convert("L").resize(size, Image.LANCZOS), np.float32) / 255
+    dist = cv2.distanceTransform((raw < 0.5).astype(np.uint8), cv2.DIST_L2, 5)
+    grow = HAIR_GROW * s
+    ramp = np.clip((grow - dist) / (HAIR_RAMP * s), 0, 1)
+    ad = np.clip((np.abs(w - bw).max(-1) - HAIR_T0) / (HAIR_T1 - HAIR_T0), 0, 1)
+    ad = cv2.GaussianBlur(ad, (0, 0), 0.6 * s)
+    a = np.where(dist < grow, ad, 0)
+    a = np.where(raw >= 0.5, np.maximum(a, raw), a)
+    a = np.maximum(a, hero_mask("BOX", size, HAIR_MASK)[..., 0])
+    comp = w + (1 - a[..., None]) * (bt - bw)
+    out = np.where((a > 0)[..., None], bt + ramp[..., None] * (comp - bt), bt)
+    return out, a
+
 def tile_from(master):
     """TILE_SLAB_HC_V1_512 from a 2X slab painting: the same square as the Wooden tile, halved, then made seamless: a copy
     rolled by half a tile (its own edges meet in the middle, so it repeats) takes over in a TILE_SEAM band at each edge."""
@@ -340,7 +380,14 @@ def paint_desk(theme, name, path, room, folder, mask, framing, crops_root=None, 
             if dx or dy: src = shifted(src, dx, dy)
     m = hero_mask(None if mask is None else room, wood.size, mask)
     w8 = np.asarray(wood); w = w8.astype(np.float32)
-    out = np.clip(np.asarray(src, np.float32) * (1 - m) + w * m + .5, 0, 255).astype(np.uint8)
+    if mask == HAIR_MASK:  # the V4 Box room is painted empty: keep the men's whole hair (hair_over_empty)
+        laid, hair = hair_over_empty(wood, src, wood.size)
+        out = np.clip(laid + .5, 0, 255).astype(np.uint8)
+        room_px = hair <= 0
+        kept = int(np.any(out[room_px] != np.asarray(src)[room_px], axis=-1).sum())
+        assert kept == 0, f"{theme}/{name}: {kept} room pixels outside the men changed"
+    else:
+        out = np.clip(np.asarray(src, np.float32) * (1 - m) + w * m + .5, 0, 255).astype(np.uint8)
     core = m[..., 0] >= 1.0
     changed = int(np.any(out[core] != w8[core], axis=-1).sum()) if core.any() else 0
     assert changed == 0, f"{theme}/{name}: {changed} face pixels changed before encoding"

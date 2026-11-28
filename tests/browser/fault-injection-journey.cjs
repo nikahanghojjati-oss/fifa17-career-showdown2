@@ -521,6 +521,8 @@ const TAPKILL_WRITE=/^(CONFIRM MY RESULT|LOCK & CONFIRM SEASON|CONFIRM SEASON|I 
 const TAPKILL_NAV=/^(SIGN IN WITH GOOGLE|SIGN IN|CONTINUE SHOWDOWN|CONTINUE CAREER|CONTINUE REPLAY|VIEW TRANSFER VERDICTS|ENTER SEASON RESULTS|VIEW MY CONFIRMED RESULT|VIEW SEASON RESULTS|CONTINUE TO SEASON RESULTS|OPEN TRANSFER WAR|ENTER GUESSES|ENTER SIGNINGS|VIEW FINAL RESULT|CONTINUE)/i;
 // FIJ_EPILOGUE=0 (the Showdown Gate on a PR that changes no pairing, Home, Settings or sync file): the run stops after the
 // Showdown it plays; the epilogue points run in the full matrix and on PRs that touch those files.
+// FIJ_STANDINGS=1 adds the Standings probes (r100 H2-1, see the end of this file): Standings at each season point and after an app reopen.
+// FIJ_STANDINGS_FRESH=1 removes the phone's kept copy before each reopen's STANDINGS (a new phone: r100 H2-1 PR B).
 const EPILOGUE=process.env.FIJ_EPILOGUE!=="0",EPILOGUE_POINTS=["home-join","end-showdown","sacked","unpair"];
 const RUN_POINTS=EPILOGUE?POINTS:POINTS.filter(p=>!EPILOGUE_POINTS.includes(p));
 report.epilogue=EPILOGUE;
@@ -696,7 +698,7 @@ const readsOf=(events,user)=>events.filter(e=>e.k==="read"&&(!user||e.user===use
 // ---------------------------------------------------------------------------------------------------------------------------
 // One write point: the fault around the write, the path forward on both phones, then the convergence checks.
 // ---------------------------------------------------------------------------------------------------------------------------
-async function writePoint(ctx,point,{writer,tap,ready,prep=null,other=null,settle,checks,landed=null}){
+async function writePointCore(ctx,point,{writer,tap,ready,prep=null,other=null,settle,checks,landed=null}){
   pointNow=point;
   // tapkill proves W3 tap memory on the phone that writes, so at a W3 point it always faults the writer (any seed, any phone mode).
   // lostreply drops the answer of the writer's own commit, so it always faults the phone that waits on that answer (Codex on
@@ -1111,6 +1113,7 @@ async function main(){
 
   // ----- r100 W9 epilogue: Showdown 2 (home-join, end-showdown after season 1) and Showdown 3 (sacked in season 1, unpair) -----
   async function epilogue(ctx,endCheck){
+    await h2BeforeEpilogue(ctx);
     const {daniel,nik}=ctx;const both=[daniel,nik];
     const closedInDb=async rid=>plain(F(await admin(`rivalries/${rid}`),"data","connectionState"))==="closed";
     const settingsOpen=p=>visible(p,"#settingsOverlay");
@@ -1640,6 +1643,121 @@ async function commitWithFaults(ctx,R,season,final){
         await check(null,"history.same",sums.every(x=>x===sums[0]&&new RegExp(`^1 of ${TOTAL} seasons? played`).test(x)&&x.includes(want)),`Shared History: ${JSON.stringify(sums)}`);
       }
     }});
+}
+
+// ===== r100 H2-1: Standings mid-Showdown (FIJ_STANDINGS=1; hunt H2's probes, Nik: "Standings opened in the middle of a
+// Showdown must always show the scores and everything, and never sit stuck loading") =====
+// At career-start, season-results, season-commit and season-ack (FIJ_STANDINGS_POINTS) each phone opens STANDINGS (from Home
+// when the screen has no tab) and reads THIS SHOWDOWN and CAREER: never loading for 30 s (stuck), never unavailable, and
+// THIS SHOWDOWN's score equal to the acknowledged seasons in the emulator database. After season-ack each phone is also
+// reopened (tab closed, the app opened again, signed in on Home, STANDINGS at once): the r100 H2-1 case. Season Results after
+// both confirmed and the Champion screen after the close are held 30 s with no tap (FIJ_STANDINGS_HOLD_MS): they must not move.
+// Every finding is an end check, so the run FAILs on it. Also after the close (CAREER holds the finished Showdown).
+const H2_PROBE_POINTS=new Set((process.env.FIJ_STANDINGS_POINTS||"career-start,season-results,season-commit,season-ack").split(","));
+const H2_HOLD_MS=Number(process.env.FIJ_STANDINGS_HOLD_MS||30000);
+report.h2=report.h2||{standings:[],holds:[],findings:[]};
+function h2Find(kind,detail){const f={point:pointNow,kind,detail:String(detail).slice(0,900)};report.h2.findings.push(f);report.endChecks.push({id:`standings.${kind}@${pointNow}`,pass:false,detail:f.detail});console.log(`PROBLEM H2 ${kind} at ${pointNow}: ${f.detail.slice(0,300)}`);}
+const h2Screens=page=>page.evaluate(()=>[...document.querySelectorAll(".screen")].filter(s=>!s.classList.contains("hidden")&&s.getClientRects().length&&getComputedStyle(s).display!=="none").map(s=>s.id).join(",")).catch(()=>"?");
+async function h2Expected(ctx){
+  const rid=ctx.rivalryId;if(!rid)return null;let acked=0;
+  for(let k=1;k<=TOTAL;k++){const c=docData(await admin(`rivalries/${rid}/seasonCommits/season_${k}`));if(c&&c.phase==="ACKNOWLEDGED")acked=k;else break;}
+  let d=0,n=0;for(let k=0;k<acked;k++){d+=scoreSeason(PLAN[k].daniel);n+=scoreSeason(PLAN[k].nik);}return {acked,daniel:d,nik:n};
+}
+async function h2ReadView(page,viewId){
+  return page.evaluate(id=>{const st=document.getElementById("sdgState"),fx=window.STANDINGS_FIXTURES,stage=document.querySelector("#standings [data-view]");
+    const key=id==="sdgViewCareer"?"CAREER":"SHOWDOWN",model=fx&&fx.frames&&fx.frames[key]?fx.frames[key].model:null;
+    return {view:stage?.dataset?.view||null,domStatus:stage?.dataset?.status||null,stateText:st&&!st.hidden?st.textContent:"",model:model?{status:model.status,score:model.score||null,season:model.season??null,totalSeasons:model.totalSeasons??null,notice:model.notice||null,standings:model.standings?{daniel:{cp:model.standings.daniel?.careerPoints,w:model.standings.daniel?.seasonWins},nik:{cp:model.standings.nik?.careerPoints,w:model.standings.nik?.seasonWins}}:null}:null};},viewId).catch(e=>({error:String(e.message).split("\n")[0]}));
+}
+let h2Model=null;
+async function h2StandingsProbe(ctx,label,closed=false){
+  const exp=await h2Expected(ctx).catch(()=>null);
+  for(const m of [ctx.daniel,ctx.nik]){
+    if(m.__skip)continue;
+    const page=m.page,before=await h2Screens(page);const rec={point:pointNow,label,user:m.user,before,exp,views:{},closed};
+    let tab=page.locator("button.sd-nav-tab[data-nav-key=standings]:visible").first();
+    if(!(await tab.count().catch(()=>0))){const home=page.locator("button.sd-nav-tab[data-nav-key=home]:visible").first();rec.via="no standings tab on screen";if(await home.count().catch(()=>0)){await home.click({timeout:5000}).catch(()=>{});await sleep(1500);}else{await backHome(m);}tab=page.locator("button.sd-nav-tab[data-nav-key=standings]:visible").first();}
+    if(!(await tab.count().catch(()=>0))){rec.skipped="no Standings tab reachable";report.h2.standings.push(rec);h2Find("standings.noTab",`${m.user} on ${before}: no Standings tab`);continue;}
+    const readFrom=meter.events.length;
+    const t0s=Date.now();await tab.click({timeout:8000}).catch(e=>{rec.clickErr=String(e.message).split("\n")[0];});
+    const shown=await page.locator("#standings").waitFor({state:"visible",timeout:20000}).then(()=>true,()=>false);rec.openMs=Date.now()-t0s;
+    if(!shown){h2Find("standings.neverOpened",`${m.user} from ${before}: #standings not visible after 20 s (now ${await h2Screens(page)})`);await shot(m,`h2-${pointNow}-standings-noopen`);report.h2.standings.push(rec);continue;}
+    for(const id of ["sdgViewShowdown","sdgViewCareer"]){
+      const v0=Date.now();await page.locator(`#${id}`).click({timeout:5000}).catch(()=>{});
+      let v=null;while(Date.now()-v0<30000){v=await h2ReadView(page,id);if(v&&v.model&&v.model.status!=="loading"&&v.domStatus!=="loading")break;await sleep(250);}
+      v.ms=Date.now()-v0;rec.views[id]=v;const who=`${m.user} ${id==="sdgViewCareer"?"CAREER":"THIS SHOWDOWN"} (from ${before})`;
+      if(!v.model||v.model.status==="loading")h2Find("standings.stuckLoading",`${who}: still loading after 30 s ${JSON.stringify(v)}`);
+      else if(v.ms>3000)h2Find("standings.slow",`${who}: ${v.ms} ms to leave loading`);
+      if(v.model&&v.model.status==="unavailable")h2Find("standings.unavailable",`${who}: ${JSON.stringify(v)}`);
+      if(id==="sdgViewShowdown"&&exp&&!/finalWinnerScreen/.test(before)&&!rec.closed&&v.model&&["ready","partial","empty"].includes(v.model.status)){
+        const sc=v.model.score;if(exp.acked>0&&(!sc||sc.daniel!==exp.daniel||sc.nik!==exp.nik))h2Find("standings.staleShowdown",`${who}: score ${JSON.stringify(sc)} but ${exp.acked} season(s) acknowledged in the database = Daniel ${exp.daniel} Nik ${exp.nik}`);
+      }
+      if(v.model&&(v.model.status==="loading"||v.model.status==="unavailable"||v.ms>3000))await shot(m,`h2-${pointNow}-${id}`);
+    }
+    // r100 H2-1 PR B: what this open cost (both views drawn): document reads, and billed with the Rules lookups
+    // (tests/browser/support/billed-meter.cjs prices them from the composed production Rules)
+    {const ev=meter.events.slice(readFrom).filter(e=>e.user===m.account||e.user===m.user);rec.reads=readsOf(ev);
+      try{const B=require("./support/billed-meter.cjs");h2Model=h2Model||B.loadModel();const t=B.price(h2Model,ev);rec.billed=t.billed!=null?t.billed:t.docReads+t.rulesReads;rec.rulesReads=t.rulesReads;}catch(e){rec.billedError=String(e.message).slice(0,120);}
+      console.log(`H2 STANDINGS ${label} ${m.user}: THIS SHOWDOWN ${rec.views.sdgViewShowdown?.model?.status} ${JSON.stringify(rec.views.sdgViewShowdown?.model?.score||null)} season ${rec.views.sdgViewShowdown?.model?.season??"-"} in ${rec.views.sdgViewShowdown?.ms} ms; reads ${rec.reads} (billed ${rec.billed??"?"}${rec.billedError?" "+rec.billedError:""})`);}
+    report.h2.standings.push(rec);writeReport();
+    // Back the way a player goes: the HOME tab, then the normal path forward (CONTINUE SHOWDOWN) brings the game back.
+    const home=page.locator("button.sd-nav-tab[data-nav-key=home]:visible").first();if(await home.count().catch(()=>0))await home.click({timeout:5000}).catch(()=>{});else await backHome(m);
+    await page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).catch(()=>{});
+    rec.backOn=await h2Screens(page);
+    // The live step comes back from Home: Season Results (seasonEntry) must reopen when it was the step.
+    if(/seasonEntry/.test(before)&&!/finalWinnerScreen/.test(before)&&!rec.closed){const back=await drive(m,async p=>/seasonEntry/.test(await h2Screens(p)),{label:"H2 back to Season Results",timeout:60000}).then(()=>true,()=>false);rec.resultsBack=back;if(!back)h2Find("results.notBack",`${m.user}: Season Results did not come back from Home within 60 s (now ${await h2Screens(page)})`);}
+  }
+}
+
+// App reopen: the tab is closed and the app opened again in a new tab (signed in again on Home), then STANDINGS straight away.
+async function h2ReopenProbe(ctx,label,closed=false){
+  for(const m of [ctx.daniel,ctx.nik]){
+    if(m.page.__fijSwapped)continue;
+    await reopenTab(m);const page=m.page;const t0r=Date.now();
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:60000}).catch(()=>{});
+    const until=Date.now()+90000;let ok=false;
+    while(Date.now()<until){
+      const signed=await page.evaluate(t=>document.getElementById("onlinePlayerIdentityBadge")?.textContent===t,NAMES[m.account].toUpperCase()).catch(()=>false);
+      if(signed&&await visible(page,"#mainMenu")){ok=true;break;}
+      let tapped=false;for(const name of ["SIGN IN WITH GOOGLE",new RegExp(`^${NAMES[m.account]} · PLAYER`,"i")]){if(await clickIf(page,page.locator("#onlinePlayerIdentityOverlay button,[id^='onlinePlayerIdentity'] button").filter({hasText:name}))){tapped=true;break;}}
+      if(!tapped&&await visible(page,"#mainMenu"))await clickIf(page,page.locator("button:visible").filter({hasText:/^\s*SIGN IN\s*$/}));
+      if(!tapped&&!(await visible(page,"#mainMenu"))){const home=page.locator("button.sd-nav-tab[data-nav-key=home]:visible").first();if(await home.count().catch(()=>0))await home.click({timeout:3000}).catch(()=>{});}
+      await sleep(700);
+    }
+    if(!ok){report.notes.push(`H2 reopen ${label}: ${m.user} not signed in on Home within 90 s (${await h2Screens(page)})`);continue;}
+    report.notes.push(`H2 reopen ${label}: ${m.user} signed in on Home ${Date.now()-t0r} ms after the reopen`);
+    // FIJ_STANDINGS_FRESH=1 (r100 H2-1 PR B): the phone holds no kept copy of this Showdown's numbers (a new phone, or site
+    // data cleared): the copy is removed before STANDINGS is opened.
+    const fresh=process.env.FIJ_STANDINGS_FRESH==="1";
+    if(fresh)await page.evaluate(()=>{try{localStorage.removeItem("cms.liveStandings.v1");}catch(_e){}}).catch(()=>{});
+    await h2StandingsProbe({daniel:m===ctx.daniel?m:{...ctx.daniel,__skip:true},nik:m===ctx.nik?m:{...ctx.nik,__skip:true},rivalryId:ctx.rivalryId},`reopen ${label}${fresh?" (no kept copy)":""}`,closed);
+  }
+}
+// Hold: no tap for H2_HOLD_MS; the screen must not move by itself.
+async function h2Hold(ctx,want,label){
+  const watch=[ctx.daniel,ctx.nik].filter(m=>!m.page.__fijSwapped);const start={};
+  for(const m of watch)start[m.user]=await h2Screens(m.page);
+  const moved={};const until=Date.now()+H2_HOLD_MS;
+  while(Date.now()<until){for(const m of watch){if(moved[m.user])continue;const s=await h2Screens(m.page);if(want.test(start[m.user])&&!want.test(s)){moved[m.user]={from:start[m.user],to:s,afterMs:H2_HOLD_MS-(until-Date.now())};}}await sleep(1000);}
+  const rec={point:pointNow,label,start,moved};report.h2.holds.push(rec);
+  for(const [u,v] of Object.entries(moved)){h2Find("hold.leftWithoutTap",`${u}: ${label} left by itself after ${v.afterMs} ms (${v.from} -> ${v.to})`);await shot(ctx[u],`h2-${pointNow}-hold-${u}`);}
+  for(const m of watch)if(!want.test(start[m.user]))report.notes.push(`H2 hold ${label}: ${m.user} was not on it at the start (${start[m.user]})`);
+}
+async function writePoint(ctx,point,opts){
+  const rec=await writePointCore(ctx,point,opts);
+  if(process.env.FIJ_STANDINGS!=="1")return rec;
+  try{
+    if(point==="season-ack")await h2Hold(ctx,/seasonEntry/,"Season Results after both confirmed");
+    if(point==="terminal-close")await h2Hold(ctx,/seasonEntry/,"Showdown Champion after the close");
+    if(H2_PROBE_POINTS.has(point))await h2StandingsProbe(ctx,point);
+    if(point==="season-ack"&&process.env.FIJ_STANDINGS_REOPEN!=="0")await h2ReopenProbe(ctx,"after season ack");
+  }catch(e){h2Find("probe.error",String(e.message));}
+  writeReport();return rec;
+}
+async function h2BeforeEpilogue(ctx){
+  if(process.env.FIJ_STANDINGS!=="1")return;
+  try{pointNow="after-close";await h2StandingsProbe(ctx,"after the Showdown closed",true);if(process.env.FIJ_STANDINGS_REOPEN!=="0")await h2ReopenProbe(ctx,"after close",true);
+    for(const r of report.h2.standings.filter(r=>r.label==="after the Showdown closed")){const c=r.views?.sdgViewCareer?.model;if(c&&c.status==="empty")h2Find("career.missingFinished",`${r.user}: CAREER still empty right after the finished Showdown ${JSON.stringify(c)}`);}
+  }catch(e){h2Find("probe.error",String(e.message));}
 }
 
 main().catch(error=>{console.error(error);try{report.verdict="FAIL";report.fatal=report.fatal||{message:String(error&&error.message||error)};writeReport();}catch(_e){}process.exit(1);});

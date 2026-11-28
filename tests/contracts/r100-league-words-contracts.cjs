@@ -20,6 +20,8 @@
 //   W6 the board armed before the presentation has taken the step: the roulette's words from the first frame
 //   W8 CONTINUE CAREER in the button group under the board (note, CONTINUE CAREER, WAITING FOR NIK, BACK), never above it
 //   W7 no player screen reaches a one-device League Roulette (START is the shared entry; no Showdown without a manager)
+//   W9 the Rule Book and Settings name the League Roulette, never a wheel (r100 hunt H3 F4: "left on the whole wheel", "the
+//      wheel delay"), and the shared Setup's closing line says the League Roulette
 // No Firestore, no storage: the pair's role is read from its state already on the page.
 const assert=require("node:assert/strict");
 const fs=require("node:fs");
@@ -219,5 +221,19 @@ function w8(){
     "the board's desktop box keeps clear of Daniel's waiting note too (with CONTINUE CAREER no longer above, the board would grow over it)");
   ok("W8","CONTINUE CAREER sits in the button group under the board: note, CONTINUE CAREER, WAITING FOR NIK, BACK; the board keeps clear of the note");
 }
-w1();w2();w3();w4();w5();w6();w8();
+// ---- W9: the Rule Book and Settings say League Roulette, never wheel (r100 hunt H3 F4) ----
+function w9(){
+  const rules=read("js/ruleBook.js"),settings=read("js/settings.js"),pres=read("js/productionSharedShowdownPresentation.js");
+  const roulette=rules.split("\n").find(line=>/League Roulette picks the league/.test(line));
+  assert.ok(roulette,"the Rule Book still explains the League Roulette");
+  assert.doesNotMatch(roulette,WHEEL_WORDS,"the Rule Book's League Roulette line says no spin and no wheel");
+  assert.match(roulette,/until one league stays\./,"the Rule Book ends the roulette with the screen's own words: one league stays");
+  const reduce=settings.match(/createMotionChoice\(\s*"REDUCE MOTION",\s*"([^"]*)"/);
+  assert.ok(reduce,"Settings still offers REDUCE MOTION with its line");
+  assert.doesNotMatch(reduce[1],/\bwheel/i,"REDUCE MOTION's line names no wheel");
+  assert.match(reduce[1],/League Roulette/,"REDUCE MOTION's line names the League Roulette (Reduce Motion shortens its ball drop)");
+  assert.ok(pres.includes("SETUP COMPLETE · Both managers saw the League Roulette and the club packs.")&&!pres.includes("saw the wheel"),"the Setup's closing line names the League Roulette");
+  ok("W9","the Rule Book and Settings name the League Roulette, never a wheel; the Setup's closing line too");
+}
+w1();w2();w3();w4();w5();w6();w8();w9();
 w7().then(()=>console.log(`PASS r100 League Roulette words contracts (${n} checks)`)).catch(error=>{console.error(error);process.exitCode=1;});

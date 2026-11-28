@@ -57,7 +57,8 @@ function standingsHarness({cached=null,online=true,pair=null,terminalClose=null}
   const loader={register(id,def){registrations.set(id,def);},async show(id){if(id!==active)return false;drawn.set(id,registrations.get(id).frame());return true;},invalidate(id){drawn.delete(id);}};
   const ctx={console,
     document:{addEventListener(type,fn){if(!docListeners.has(type))docListeners.set(type,[]);docListeners.get(type).push(fn);},getElementById:()=>null,querySelector:()=>null},
-    setTimeout:(fn)=>setImmediate(fn),
+    // r100: the Standings waits (H2-1's 6 s and 8 s, F5's 12 s CAREER deadline) keep their length here (unref'd, so the run ends)
+    setTimeout:(fn,ms)=>ms>=6000?setTimeout(fn,ms).unref():setImmediate(fn),
     getActiveScreenName:()=>active,
     CareerModeOnlinePlayerIdentity:{getState:()=>online?{registered:true,managerId:"nik"}:{registered:false,managerId:null}},
     CareerModeRivalryLegacyV10:legacy,
