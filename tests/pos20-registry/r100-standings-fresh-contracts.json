@@ -1,0 +1,12 @@
+{
+  "path": "tests/contracts/r100-standings-fresh-contracts.cjs",
+  "patterns": [
+    "^js/seasonFinalV10\\.js$",
+    "^js/sparkCompletedShowdownReader\\.js$",
+    "^js/sharedActiveShowdownAdapter\\.js$",
+    "^js/sharedHistoryConvergence\\.js$",
+    "^tests/support/active-showdown-fixtures\\.cjs$",
+    "^tests/contracts/r100\\-standings\\-fresh\\-contracts\\.cjs$",
+    "^tests/pos20-registry/r100\\-standings\\-fresh\\-contracts\\.json$"
+  ]
+}

@@ -522,6 +522,7 @@ const TAPKILL_NAV=/^(SIGN IN WITH GOOGLE|SIGN IN|CONTINUE SHOWDOWN|CONTINUE CARE
 // FIJ_EPILOGUE=0 (the Showdown Gate on a PR that changes no pairing, Home, Settings or sync file): the run stops after the
 // Showdown it plays; the epilogue points run in the full matrix and on PRs that touch those files.
 // FIJ_STANDINGS=1 adds the Standings probes (r100 H2-1, see the end of this file): Standings at each season point and after an app reopen.
+// FIJ_STANDINGS_FRESH=1 removes the phone's kept copy before each reopen's STANDINGS (a new phone: r100 H2-1 PR B).
 const EPILOGUE=process.env.FIJ_EPILOGUE!=="0",EPILOGUE_POINTS=["home-join","end-showdown","sacked","unpair"];
 const RUN_POINTS=EPILOGUE?POINTS:POINTS.filter(p=>!EPILOGUE_POINTS.includes(p));
 report.epilogue=EPILOGUE;
@@ -1667,6 +1668,7 @@ async function h2ReadView(page,viewId){
     const key=id==="sdgViewCareer"?"CAREER":"SHOWDOWN",model=fx&&fx.frames&&fx.frames[key]?fx.frames[key].model:null;
     return {view:stage?.dataset?.view||null,domStatus:stage?.dataset?.status||null,stateText:st&&!st.hidden?st.textContent:"",model:model?{status:model.status,score:model.score||null,season:model.season??null,totalSeasons:model.totalSeasons??null,notice:model.notice||null,standings:model.standings?{daniel:{cp:model.standings.daniel?.careerPoints,w:model.standings.daniel?.seasonWins},nik:{cp:model.standings.nik?.careerPoints,w:model.standings.nik?.seasonWins}}:null}:null};},viewId).catch(e=>({error:String(e.message).split("\n")[0]}));
 }
+let h2Model=null;
 async function h2StandingsProbe(ctx,label,closed=false){
   const exp=await h2Expected(ctx).catch(()=>null);
   for(const m of [ctx.daniel,ctx.nik]){
@@ -1675,6 +1677,7 @@ async function h2StandingsProbe(ctx,label,closed=false){
     let tab=page.locator("button.sd-nav-tab[data-nav-key=standings]:visible").first();
     if(!(await tab.count().catch(()=>0))){const home=page.locator("button.sd-nav-tab[data-nav-key=home]:visible").first();rec.via="no standings tab on screen";if(await home.count().catch(()=>0)){await home.click({timeout:5000}).catch(()=>{});await sleep(1500);}else{await backHome(m);}tab=page.locator("button.sd-nav-tab[data-nav-key=standings]:visible").first();}
     if(!(await tab.count().catch(()=>0))){rec.skipped="no Standings tab reachable";report.h2.standings.push(rec);h2Find("standings.noTab",`${m.user} on ${before}: no Standings tab`);continue;}
+    const readFrom=meter.events.length;
     const t0s=Date.now();await tab.click({timeout:8000}).catch(e=>{rec.clickErr=String(e.message).split("\n")[0];});
     const shown=await page.locator("#standings").waitFor({state:"visible",timeout:20000}).then(()=>true,()=>false);rec.openMs=Date.now()-t0s;
     if(!shown){h2Find("standings.neverOpened",`${m.user} from ${before}: #standings not visible after 20 s (now ${await h2Screens(page)})`);await shot(m,`h2-${pointNow}-standings-noopen`);report.h2.standings.push(rec);continue;}
@@ -1690,6 +1693,11 @@ async function h2StandingsProbe(ctx,label,closed=false){
       }
       if(v.model&&(v.model.status==="loading"||v.model.status==="unavailable"||v.ms>3000))await shot(m,`h2-${pointNow}-${id}`);
     }
+    // r100 H2-1 PR B: what this open cost (both views drawn): document reads, and billed with the Rules lookups
+    // (tests/browser/support/billed-meter.cjs prices them from the composed production Rules)
+    {const ev=meter.events.slice(readFrom).filter(e=>e.user===m.account||e.user===m.user);rec.reads=readsOf(ev);
+      try{const B=require("./support/billed-meter.cjs");h2Model=h2Model||B.loadModel();const t=B.price(h2Model,ev);rec.billed=t.billed!=null?t.billed:t.docReads+t.rulesReads;rec.rulesReads=t.rulesReads;}catch(e){rec.billedError=String(e.message).slice(0,120);}
+      console.log(`H2 STANDINGS ${label} ${m.user}: THIS SHOWDOWN ${rec.views.sdgViewShowdown?.model?.status} ${JSON.stringify(rec.views.sdgViewShowdown?.model?.score||null)} season ${rec.views.sdgViewShowdown?.model?.season??"-"} in ${rec.views.sdgViewShowdown?.ms} ms; reads ${rec.reads} (billed ${rec.billed??"?"}${rec.billedError?" "+rec.billedError:""})`);}
     report.h2.standings.push(rec);writeReport();
     // Back the way a player goes: the HOME tab, then the normal path forward (CONTINUE SHOWDOWN) brings the game back.
     const home=page.locator("button.sd-nav-tab[data-nav-key=home]:visible").first();if(await home.count().catch(()=>0))await home.click({timeout:5000}).catch(()=>{});else await backHome(m);
@@ -1717,7 +1725,11 @@ async function h2ReopenProbe(ctx,label,closed=false){
     }
     if(!ok){report.notes.push(`H2 reopen ${label}: ${m.user} not signed in on Home within 90 s (${await h2Screens(page)})`);continue;}
     report.notes.push(`H2 reopen ${label}: ${m.user} signed in on Home ${Date.now()-t0r} ms after the reopen`);
-    await h2StandingsProbe({daniel:m===ctx.daniel?m:{...ctx.daniel,__skip:true},nik:m===ctx.nik?m:{...ctx.nik,__skip:true},rivalryId:ctx.rivalryId},`reopen ${label}`,closed);
+    // FIJ_STANDINGS_FRESH=1 (r100 H2-1 PR B): the phone holds no kept copy of this Showdown's numbers (a new phone, or site
+    // data cleared): the copy is removed before STANDINGS is opened.
+    const fresh=process.env.FIJ_STANDINGS_FRESH==="1";
+    if(fresh)await page.evaluate(()=>{try{localStorage.removeItem("cms.liveStandings.v1");}catch(_e){}}).catch(()=>{});
+    await h2StandingsProbe({daniel:m===ctx.daniel?m:{...ctx.daniel,__skip:true},nik:m===ctx.nik?m:{...ctx.nik,__skip:true},rivalryId:ctx.rivalryId},`reopen ${label}${fresh?" (no kept copy)":""}`,closed);
   }
 }
 // Hold: no tap for H2_HOLD_MS; the screen must not move by itself.

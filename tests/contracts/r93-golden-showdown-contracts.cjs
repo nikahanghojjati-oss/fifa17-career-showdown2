@@ -131,7 +131,8 @@ const closedOnly=r=>({phase:"CLOSED",terminal:true,rivalryId:r.rivalryId,termina
   const rest=src.replace(h21,"");
   const count=(re,text=rest)=>(text.match(re)||[]).length;
   assert.deepEqual([count(/readCompletedShowdown\(/g),count(/firestoreSdk/g),count(/getDoc/g),count(/setDoc|updateDoc|runTransaction|writeBatch|onSnapshot/g)],[1,3,3,0],"as at 2.5.0 (main 36b648ad)");
-  assert.deepEqual([count(/firestoreSdk/g,h21),count(/sdk\.runTransaction\(/g,h21),count(/tx\.get\(/g,h21),count(/getDoc|setDoc|updateDoc|tx\.set|tx\.update|writeBatch|onSnapshot/g,h21)],[1,1,1,0],"r100 H2-1: one transaction get, no write, no listener");
+  // PR B adds the session-free verified read for a phone with no kept copy (the completed-Showdown reader's exact gets).
+  assert.deepEqual([count(/sdk\.runTransaction\(/g,h21),count(/tx\.get\(/g,h21),count(/readActiveShowdown\(/g,h21),count(/setDoc|updateDoc|tx\.set|tx\.update|writeBatch|onSnapshot/g,h21)],[1,1,1,0],"r100 H2-1: one transaction get, the verified reader once, no write, no listener");
   ok("GS3","no Firestore read or write added; the Golden code stores nothing at all");
 }
 

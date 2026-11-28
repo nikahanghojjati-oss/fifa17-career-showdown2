@@ -133,7 +133,7 @@ const home=p=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:null,
     await pg.advance(WAIT-1);assert.equal(pg.api.currentRivalry().status,"loading");
     await pg.advance(51);assert.ok(pg.wakes()>=1,"the screen is woken when the wait ends");pg.api.currentRivalry();await pg.flush();
     const v=pg.api.currentRivalry();assert.equal(v.status,"ready","after 8 s: the checked copy");assert.deepEqual(v.score,score1);assert.equal(pg.reads.length,1);}
-  {const pg=page({snapshot:home(p1),liveCanArrive:true});await pg.api.sfPrepareKeptStandings();assert.equal(pg.api.currentRivalry().status,"loading");await pg.advance(WAIT+100);assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"},"no copy, in the game: 'on their way' after 8 s (Verify F2: never 'continue from Home'), not loading forever");assert.equal(pg.reads.length,0);}
+  {const pg=page({snapshot:home(p1),liveCanArrive:true});await pg.api.sfPrepareKeptStandings();assert.equal(pg.api.currentRivalry().status,"loading");await pg.advance(WAIT+100);pg.api.currentRivalry();await pg.flush();assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"},"no copy, in the game (and here no verified read can be made): 'on their way' after 8 s (Verify F2: never 'continue from Home'), not loading forever");assert.equal(pg.reads.length,0);}
   ok("S7","half-up providers: loading for at most 8 s, then the checked copy or the notice");
 
   // S8
@@ -145,7 +145,8 @@ const home=p=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:null,
   // S9
   {const pg=page({snapshot:home(p1),copy:copy1,commit:pending});for(let open=1;open<=3;open++){await pg.api.sfPrepareKeptStandings();await pg.flush();assert.equal(pg.api.currentRivalry().status,"ready");assert.equal(pg.reads.length,open,`open ${open}: its own single read`);pg.api.sfStandingsShown("standings");await pg.flush();assert.equal(pg.reads.length,open,"the same entry's shown signal adds no read");pg.api.sfStandingsShown("mainMenu");}}
   assert.ok(!/sfKept|sfCopy/.test(SRC.slice(SRC.indexOf("function currentCareer"),SRC.indexOf("function currentCareer")+600)),"CAREER's model is not touched");
-  assert.equal((SRC.match(/sfKeptView\(/g)||[]).length,3,"the copy is used by THIS SHOWDOWN only (currentRivalry and the Standings prepare)");
+  assert.equal((SRC.match(/sfKeptView\(/g)||[]).length,4,"the copy is used by THIS SHOWDOWN only (currentRivalry and the Standings prepare, twice: a copy found behind goes on to the verified read)");
+  assert.equal((SRC.match(/sfFreshView\(/g)||[]).length,3,"the verified read for a phone with no copy starts only from sfKeptView (tests/contracts/r100-standings-fresh-contracts.cjs)");
   assert.ok(SRC.includes('prepare:()=>Promise.all([prepare("standings"),standingsModules(),sfEnsureChip(),sfPrepareKeptStandings()])'),"Standings' loader waits for the one read behind the loading screen");
   ok("S9","each Standings open makes its own single read; CAREER is not touched");
 
@@ -198,10 +199,10 @@ const home=p=>({identity:F.identity(),pair:F.pair(p.rivalryId),multiSeason:null,
     assert.match(sd,/m\.notice === "onTheWay" \? \(S\.liveOnTheWay/,"Standings prints the in-game line");assert.match(sd,/new CustomEvent\("career-mode-standings-check-again"\)/,"CHECK AGAIN sends one event");
     assert.match(SRC,/root\.addEventListener\?\.\("career-mode-standings-check-again",sfStandingsCheckAgain\)/);
     assert.deepEqual(J(S.standingsFrames({status:"unavailable",notice:"onTheWay"},null).SHOWDOWN.model),{status:"unavailable",notice:"onTheWay"},"the frame carries it");
-    const pg=page({snapshot:home(p1),copy:copy1,commit:acked,liveCanArrive:true});await pg.api.sfPrepareKeptStandings();pg.api.currentRivalry();await pg.advance(WAIT+100);pg.api.currentRivalry();await pg.flush();
-    assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"},"in the game, the copy behind: on their way");assert.equal(pg.reads.length,1);
+    const pg=page({snapshot:home(p1),copy:copy1,commit:acked,liveCanArrive:true});await pg.api.sfPrepareKeptStandings();pg.api.currentRivalry();await pg.advance(WAIT+100);pg.api.currentRivalry();await pg.flush();pg.api.currentRivalry();await pg.flush();
+    assert.deepEqual(J(pg.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"},"in the game, the copy behind and no verified read: on their way");assert.equal(pg.reads.length,1);
     await pg.advance(600000);pg.api.currentRivalry();await pg.flush();assert.equal(pg.reads.length,1,"no read on its own, even after 10 minutes");
-    const ctx2=page({snapshot:home(p1),copy:copy1,commit:acked,liveCanArrive:true});await ctx2.api.sfPrepareKeptStandings();ctx2.api.currentRivalry();await ctx2.advance(WAIT+100);ctx2.api.currentRivalry();await ctx2.flush();
+    const ctx2=page({snapshot:home(p1),copy:copy1,commit:acked,liveCanArrive:true});await ctx2.api.sfPrepareKeptStandings();ctx2.api.currentRivalry();await ctx2.advance(WAIT+100);ctx2.api.currentRivalry();await ctx2.flush();ctx2.api.currentRivalry();await ctx2.flush();
     assert.deepEqual(J(ctx2.api.currentRivalry()),{status:"unavailable",notice:"onTheWay"});ctx2.api.sfStandingsCheckAgain();assert.equal(ctx2.api.currentRivalry().status,"loading","CHECK AGAIN: the live numbers are waited for once more");await ctx2.advance(WAIT+100);ctx2.api.currentRivalry();await ctx2.flush();assert.equal(ctx2.reads.length,2,"then one more check of the copy");}
   ok("S12","in the game: 'Live numbers are on their way. Nothing is lost.' with CHECK AGAIN on the tap, never 'continue from Home', no loop");
   console.log(`PASS r100 Standings after an app reopen (${n} checks)`);
