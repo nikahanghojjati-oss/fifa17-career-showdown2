@@ -523,6 +523,7 @@ const TAPKILL_NAV=/^(SIGN IN WITH GOOGLE|SIGN IN|CONTINUE SHOWDOWN|CONTINUE CARE
 // Showdown it plays; the epilogue points run in the full matrix and on PRs that touch those files.
 // FIJ_STANDINGS=1 adds the Standings probes (r100 H2-1, see the end of this file): Standings at each season point and after an app reopen.
 // FIJ_STANDINGS_FRESH=1 removes the phone's kept copy before each reopen's STANDINGS (a new phone: r100 H2-1 PR B).
+// FIJ_CAREER_BUTTON=1 then opens CAREER STATISTICS from Home and taps CURRENT RIVALRY STATISTICS (r100 H2-3).
 const EPILOGUE=process.env.FIJ_EPILOGUE!=="0",EPILOGUE_POINTS=["home-join","end-showdown","sacked","unpair"];
 const RUN_POINTS=EPILOGUE?POINTS:POINTS.filter(p=>!EPILOGUE_POINTS.includes(p));
 report.epilogue=EPILOGUE;
@@ -1730,7 +1731,36 @@ async function h2ReopenProbe(ctx,label,closed=false){
     const fresh=process.env.FIJ_STANDINGS_FRESH==="1";
     if(fresh)await page.evaluate(()=>{try{localStorage.removeItem("cms.liveStandings.v1");}catch(_e){}}).catch(()=>{});
     await h2StandingsProbe({daniel:m===ctx.daniel?m:{...ctx.daniel,__skip:true},nik:m===ctx.nik?m:{...ctx.nik,__skip:true},rivalryId:ctx.rivalryId},`reopen ${label}${fresh?" (no kept copy)":""}`,closed);
+    if(process.env.FIJ_CAREER_BUTTON==="1"&&!closed)await h2CareerButtonProbe(ctx,m,`reopen ${label}`);
   }
+}
+// FIJ_CAREER_BUTTON=1 (r100 H2-3): after the reopen, from Home, CAREER STATISTICS must offer CURRENT RIVALRY STATISTICS (the
+// pair has an active Showdown even with no finished one), and its tap must show THIS SHOWDOWN's acknowledged score.
+async function h2CareerButtonProbe(ctx,m,label){
+  const page=m.page,rec={point:pointNow,label,user:m.user};report.h2.careerButton=report.h2.careerButton||[];
+  try{
+    rec.exp=await h2Expected(ctx).catch(()=>null);
+    await page.locator("#careerStatisticsButton:visible").first().click({timeout:8000});
+    await page.locator("#careerStatistics").waitFor({state:"visible",timeout:20000});
+    await page.locator("#loadingScreen").waitFor({state:"hidden",timeout:30000}).catch(()=>{});
+    await page.waitForFunction(()=>document.getElementById("careerStatistics")?.classList.contains("careerScreenV10")&&document.getElementById("careerStatisticsRivalryButton"),null,{timeout:20000}).catch(()=>{});
+    await sleep(800);
+    rec.buttonShown=await page.evaluate(()=>{const b=document.getElementById("careerStatisticsRivalryButton");return Boolean(b&&!b.classList.contains("hidden")&&b.getClientRects().length&&getComputedStyle(b).visibility!=="hidden");}).catch(()=>false);
+    await shot(m,`h2-${pointNow}-career-button`);
+    if(!rec.buttonShown){h2Find("career.rivalryButtonHidden",`${m.user} ${label}: CURRENT RIVALRY STATISTICS is not on Career Statistics`);}
+    else{
+      const t0=Date.now();await page.locator("#careerStatisticsRivalryButton").click({timeout:8000});
+      await page.locator("#statistics").waitFor({state:"visible",timeout:20000});
+      let f=null;while(Date.now()-t0<30000){f=await page.evaluate(()=>{const d=window.RivalryFixtures,fr=d&&d.frames?Object.values(d.frames)[0]:null;return fr?{status:fr.status||null,score:fr.score||null,lifecycle:fr.ui?.lifecycle||null,notice:fr.notice||null}:null;}).catch(()=>null);if(f&&f.status&&f.status!=="loading"&&await page.locator("#loadingScreen").isHidden().catch(()=>true))break;await sleep(250);}
+      rec.rivalry=f;rec.ms=Date.now()-t0;await shot(m,`h2-${pointNow}-rivalry-from-career`);
+      if(!f||f.status!=="ready")h2Find("career.rivalryNotReady",`${m.user} ${label}: Rivalry Statistics from Career Statistics ${JSON.stringify(f)}`);
+      else if(rec.exp&&rec.exp.acked>0&&(f.score?.daniel!==rec.exp.daniel||f.score?.nik!==rec.exp.nik))h2Find("career.rivalryStale",`${m.user} ${label}: ${JSON.stringify(f.score)} but the database says Daniel ${rec.exp.daniel} Nik ${rec.exp.nik}`);
+    }
+    console.log(`H2 CAREER BUTTON ${label} ${m.user}: button ${rec.buttonShown?"shown":"HIDDEN"}; Rivalry Statistics ${rec.rivalry?`${rec.rivalry.status} ${JSON.stringify(rec.rivalry.score)} ${rec.rivalry.lifecycle} in ${rec.ms} ms`:"-"}`);
+  }catch(e){h2Find("career.probeError",`${m.user} ${label}: ${String(e.message).split("\n")[0]}`);}
+  report.h2.careerButton.push(rec);writeReport();
+  const home=page.locator("button.sd-nav-tab[data-nav-key=home]:visible").first();if(await home.count().catch(()=>0))await home.click({timeout:5000}).catch(()=>{});else await backHome(m);
+  await page.locator("#mainMenu").waitFor({state:"visible",timeout:15000}).catch(()=>{});
 }
 // Hold: no tap for H2_HOLD_MS; the screen must not move by itself.
 async function h2Hold(ctx,want,label){

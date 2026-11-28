@@ -49,6 +49,7 @@ const EXEMPT=Object.freeze({
   careerSummaryStore:'career totals for History, Trophy Room and Legacy: they must keep every finished Showdown',
   sparkClosedShowdownCareerLoader:'finished Showdowns for History: kept so moving through History stays fast',
   rivalryLegacyV10:'career pages cache (History, Legacy): every finished Showdown, not the live one',
+  careerScreensV10:'Career Statistics and Trophy Room screen handles only (r100 H2-3 reads the pair to show CURRENT RIVALRY STATISTICS and keeps nothing)',
   touchlineGazette:'bounded caches keyed by rivalry and season (one squad ask per paper, warmed papers) or by picture URL; a closed rivalry refuses a re-ask, so forgetting would only add refused reads',
   showdownModes:'Settings: the account career marker and Settings messages',
   settings:'Settings dialog handles and messages, no Showdown data',
