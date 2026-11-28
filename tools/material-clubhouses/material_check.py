@@ -67,6 +67,58 @@ LOOKS = {
                                SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
                                SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46))),
                     provisional=True),
+    # Lapis: lapis lazuli with diamond, glass and gem flakes (Nik 18:40 UTC: no gold flakes), lapis-blue leather, ebony,
+    # satin gold trim. Nik's pick "Lapis Vivid" #165CC4, "Vivid Vibrant" #1268E8 in lamp pools (both 216 deg). Blue band 200-255 deg: ultramarine, never teal (under 200) or
+    # violet (over 255). Nik, 26 Nov 2026 18:37 UTC: "I want the lapis to really look vibrant and in some type of way even
+    # vivid ... like a lively touch." So Lapis drops the "muted and aged" ceiling: sat may run to 0.97 (Ruby/Emerald 0.90)
+    # and luma to 70. Plastic flatness is still caught by spread and detail.
+    # Reasons in lapis/COLOUR_STUDY.md.
+    # Calibrated on the approved pilot (Nik, 26 Nov 2026 19:58 UTC): Board ENV_BOARD_PLATE_LAPIS_P1F_2X_T4 (Persian
+    # rug, sat 0.988, glint 40.1) and Home ENV_HOME_PLATE_LAPIS_P1D_2X_T2 (sat 0.977, glint 6.5). Both read vivid, not
+    # plastic, so sat runs to 0.99. The Board's glint is the approved gold fan of rays and the raised edges of the
+    # hand-tooled Persian pattern, not hot spots on stone, so the Board alone gets its own glint ceiling.
+    "LAPIS": dict(name="Lapis Clubhouse", hue=(200, 255), hue_min=0.50, brown_max=0.20, sat=(0.45, 0.99),
+                  luma=(14, 70), gold_max=0.04,
+                  rooms=dict(BOARD=dict(glint_max=45.0),
+                             # Office: the glints sit on the satin gold window lines, the lamp stem and the lamp-lit olive
+                             # leaves, not on the honed desk (33 px below the desk line, on the paper bundle). Master F1: 20.2.
+                             OFFICE=dict(glint_max=22.0),
+                             # Archive: master F2 sits on the lines (sat 0.991, glint 8.09, on the gold shelf edges
+                             # and niche trims); the counter stone is clean, so the Archive gets a hair of headroom.
+                             ARCHIVE=dict(sat=(0.45, 0.995), glint_max=8.5),
+                             # Tunnel: master T1 glint 5.0, on the gold mat edge strips, the step nosings, the white goal
+                             # and stands at the far end and the lit bulkhead lamp; no stone hot spots.
+                             TUNNEL=dict(glint_max=5.5),
+           # Club room: master F1 glint 16.9, all on the satin gold window and panel frame lines, the lit flowered
+           # borders beside the lamps, the lamp metal, armchair highlights and the books; the floor and counter are clean.
+           CLUB=dict(glint_max=17.5),
+           # Loading tunnel: master T1 glint 9.4, on the gold mat edge strips, the handrail brackets, the counter's
+           # lit top edge and the tooled leather lit by the bulkhead lamp; no stone hot spots.
+           LOADING=dict(glint_max=10.0),
+           # Board phone: master T2 (L-13) sat 0.991 (half the band is the counter's pure blue lapis, like the approved stone,
+           # R=0) and glint 3.2, all on the lamp-lit left end of the gold rail straight under the wall lamp and the lamp itself.
+           BOARD_PHONE=dict(sat=(0.45, 0.995), glint_max=3.5),
+           # Office phone: master F1 (L-14) sat 0.993; the counter's pure blue lapis fills the lower 60% of the band.
+           OFFICE_PHONE=dict(sat=(0.45, 0.995)),
+           # Hall phone: master F1 (L-15) sat 0.992, the same pure blue counter filling the lower third.
+           HALL_PHONE=dict(sat=(0.45, 0.995)),
+           # Archive phone: master T1 (L-16) sat 0.990, the pure blue counter again (the desktop Archive has the same 0.995).
+           ARCHIVE_PHONE=dict(sat=(0.45, 0.995)),
+           # Coaches phone: master T1 (L-18) sat 0.990; its counter fills the lower 61% of the band in the pure blue stone.
+           COACHES_PHONE=dict(sat=(0.45, 0.995)),
+           # Tunnel phone: master T1 (L-19) sat 0.992; the pure blue counter fills the lower half of the band.
+           TUNNEL_PHONE=dict(sat=(0.45, 0.995)),
+           # Club phone: master T1 (L-20) glint 10.9, of which 191 of 676 points are the stadium floodlights through the
+           # window (the view, not a room surface), so the view is left out; the other 7.8 sit on the lamp-lit bead borders and flower
+           # centres of the tooled panels, as on the desktop Club (17.5), so the ceiling is the usual top of 8.0.
+           CLUB_PHONE=dict(view=(0.0, 0.17, 1.0, 0.43), glint_max=8.0),
+           # Slab: the locked rooms' own lapis (Club counter and floor) is pure blue with no red, sat 1.00, so the slab
+           # may sit just as high; it is matched to the stone already approved.
+           # may sit just as high; it is matched to the stone already approved. Its detail floor is the approved
+           # counter stone's own (Coaches counter at slab scale: 0.67; master T4: 0.69): any crisper and Astra paints felt.
+           SLAB=dict(sat=(0.45, 1.0), detail_min=0.65),
+                             SIGNIN=dict(spread_min=60, detail_min=3.1, view=(0.43, 0.0, 1.0, 0.43)),
+                             SIGNIN_PHONE=dict(spread_min=50, detail_min=2.5, view=(0.76, 0.0, 1.0, 0.46)))),
 }
 ORDER = ["RUBY", "EMERALD", "LAPIS", "ROSEQUARTZ", "AMETHYST", "RHODOCHROSITE", "VIOLA"]
 
@@ -224,6 +276,7 @@ def check(key, room, d, sib):
         ("luma", sm["luma"], cfg["luma"][0] <= sm["luma"] <= cfg["luma"][1], f"{cfg['luma'][0]}-{cfg['luma'][1]} (night)"),
     ]
     gl = max(3.0, min(8.0, .6 * sb["glint"])) if sb else 3.0
+    gl = cfg.get("glint_max", gl)
     sp = max(sw["spread"], .75 * sb["spread"]) if sb else sw["spread"]
     # Sign-in lounge: its Wooden is B7's raw Settings V2 plate (blazing gold strips, AI over-sharpening; B7 repaints it
     # too), so its spread and detail are no floor for a handcrafted room. Rooms may set their own floors in LOOKS.

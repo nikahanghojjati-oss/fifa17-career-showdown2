@@ -1,0 +1,14 @@
+{
+  "path": "tests/contracts/p3-lapis-own-art-contracts.cjs",
+  "patterns": [
+    "^index\\.html$",
+    "^service\\-worker\\.js$",
+    "^css/",
+    "^js/",
+    "^assets/loading/",
+    "^visual\\-assets/v10_1/plates\\-hc/",
+    "^tools/clubhouse\\-themes/",
+    "^tests/contracts/p3\\-lapis\\-own\\-art\\-contracts\\.cjs$",
+    "^tests/pos20-registry/p3\\-lapis\\-own\\-art\\-contracts\\.json$"
+  ]
+}

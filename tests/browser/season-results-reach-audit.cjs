@@ -37,7 +37,7 @@ const SIZES = (process.env.CMS_REACH_SIZES ? process.env.CMS_REACH_SIZES.split("
     .map(s => { const [w, h] = s.split("x").map(parseFloat); return { w, h, touch: /t$/.test(s), name: s }; });
 const TROPHY_SIZES = (process.env.CMS_REACH_TROPHY_SIZES ? process.env.CMS_REACH_TROPHY_SIZES.split(",") : ["761x481", "800x490", "800x520", "880x640", "900x481", "900x700", "1024x600", "700x450", "800x490t", "900x500t"])
     .map(s => { const [w, h] = s.split("x").map(parseFloat); return { w, h, touch: /t$/.test(s), name: s }; });
-const CLUBHOUSES = (process.env.CMS_REACH_CLUBHOUSES || "wooden,silver,black,matte,ruby,emerald").split(",");
+const CLUBHOUSES = (process.env.CMS_REACH_CLUBHOUSES || "wooden,silver,black,matte,ruby,emerald,lapis").split(",");
 
 // runs in the page: every finding at the current window size
 async function reachFindings(){

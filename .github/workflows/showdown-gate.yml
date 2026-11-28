@@ -103,6 +103,13 @@ jobs:
           node scripts/build-production-firestore-rules.mjs
           node scripts/build-production-firestore-rules-with-persistent-pair.mjs
           node scripts/assert-firestore-zero-billing-boundary.mjs
+      - name: Install the pinned plate encoder (tools/clubhouse-themes/paint.py ENCODER_PIP)
+        run: |
+          python3 -m venv "$RUNNER_TEMP/paint-env"
+          "$RUNNER_TEMP/paint-env/bin/pip" install --disable-pip-version-check Pillow==13.0.0 numpy==2.5.3
+      - name: 'TEST: Themed Archive plates are exactly what paint.py builds'
+        id: archive_rebuild
+        run: '"$RUNNER_TEMP/paint-env/bin/python" tools/clubhouse-themes/reproduce_archive.py'
       - name: Record lane result
         if: always()
         shell: bash

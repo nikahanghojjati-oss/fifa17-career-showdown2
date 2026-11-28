@@ -4,6 +4,7 @@
  "clubhouses": [
   "black",
   "emerald",
+  "lapis",
   "matte",
   "ruby",
   "silver"
@@ -44,6 +45,24 @@
    "band_px": 26624,
    "band_mean": 7.16,
    "band_p90": 17.0
+  },
+  "visual-assets/v10_1/plates-hc/lapis/ENV_BOX_PLATE_HC_V4_1920.webp": {
+   "sha256": "496c9716d106971a9910edbef9f527576dbf7ab2734f5580d27b4c979a241085",
+   "band_px": 10283,
+   "band_mean": 10.68,
+   "band_p90": 22.0
+  },
+  "visual-assets/v10_1/plates-hc/lapis/ENV_BOX_PLATE_HC_V4_1X.webp": {
+   "sha256": "6fdfb4db4dbd32c296cd7302c833b65dc1dd78159c71ac8abef6349ba78ed97b",
+   "band_px": 5852,
+   "band_mean": 12.63,
+   "band_p90": 27.0
+  },
+  "visual-assets/v10_1/plates-hc/lapis/ENV_BOX_PLATE_HC_V4_2X.webp": {
+   "sha256": "a0ab57440c225e575fcb9caff762bbdca63f649c1b036d4c0505559d71d7e318",
+   "band_px": 26624,
+   "band_mean": 9.77,
+   "band_p90": 21.0
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_1920.webp": {
    "sha256": "0ad7c9604bd8347f72cc8bc2569205f92460a0f4218c48c308f6b43773648652",

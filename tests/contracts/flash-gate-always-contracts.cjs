@@ -50,7 +50,7 @@ const FLASH="V10_FLASH_BROWSER";
   const scripts=JSON.parse(fs.readFileSync(path.join(ROOT,"package.json"),"utf8")).scripts;
   assert.equal(scripts["test:v10-flash:clubhouses"],"node tests/browser/v10-screen-flash-clubhouses.cjs");
   const wrapper=fs.readFileSync(path.join(ROOT,"tests/browser/v10-screen-flash-clubhouses.cjs"),"utf8");
-  assert.match(wrapper,/\["silver","black","matte","ruby","emerald"\]/,"the wrapper runs every new clubhouse");
+  assert.match(wrapper,/\["silver","black","matte","ruby","emerald","lapis"\]/,"the wrapper runs every new clubhouse");
   assert.doesNotMatch(wrapper,/\bbreak\b/,"the wrapper never stops at the first red clubhouse");
   assert.match(wrapper,/if\(failed\.length\)/,"the wrapper fails at the end if any clubhouse failed");
   const clubRoutes={
