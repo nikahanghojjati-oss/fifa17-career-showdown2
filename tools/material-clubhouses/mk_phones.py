@@ -263,6 +263,22 @@ def prompt(key, rm):
                      ("a gentle warm glow", "a gentle warm wash of light"), ("niches glow clearly bright", "niches are lit clearly bright"),
                      ("Finish: real materials as a set builder would make them, handcrafted,", "Finish: real materials as a stonemason and a cabinet maker would make them, brand new and immaculate, like a photograph of a real seven-star hotel lobby, never a render or an AI image,")):
             out = out.replace(o, n)
+        if rm == "OFFICE":  # Office palace T1 (desktop, 28 Nov): "a row of blocks like the counter" stood the flat desk top up as blocks
+            m0 = out.index("Counter: a row of large"); m1 = out.index("nothing is reflected in it.", m0) + len("nothing is reflected in it.")
+            out = out[:m0] + ("Desk top: one wide, flat, level surface of two big hand-cut rose quartz slabs lying flat and meeting at one fine straight joint, "
+                              "seen from above exactly as the dark stone desk top in image 1: its flat top runs from behind the blotters all the way down to the "
+                              "bottom edge of the picture, with no front face, no step, no ledge and no upright blocks; each slab an even dusty rose with only a few "
+                              "soft misty milky clouds and no lines of any kind; the lamp throws a soft warm wash of light onto the desk near it and the stone "
+                              "deepens gradually, step by step, away from it toward the bottom edge, never near-black; lamps show in it only as soft, blurred warm "
+                              "patches of light and nothing is reflected in it.") + out[m1:]
+            for o, n in (("The counter edge stays exactly where it is, 40% of the way down the picture, with no extra panel rows above or below it.",
+                          "The desk's far edge stays exactly where it is, 40% of the way down the picture, and the flat desk top fills everything below it."),
+                         ("Everything below the counter edge is one plain, calm slab of the same honed rose quartz as the counter.",
+                          "Everything below the desk's far edge is the flat top of the desk, seen from above exactly as in image 1, with the two blotters on it."),
+                         ("soft, blurred warm patches of light on the honed front of the counter", "a soft, blurred warm patch of light on the honed desk top near it"),
+                         ("the warm wash along the top of the counter is clearly bright", "the warm wash on the desk top near the lamp is clearly bright")):
+                assert o in out, o
+                out = out.replace(o, n)
     return out
 
 
