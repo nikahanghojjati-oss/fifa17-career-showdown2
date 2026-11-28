@@ -16,6 +16,7 @@
 //   B4 the read hangs: loading at most 6 s, then the notice; its late answer still shows, and is kept
 //   B5 once per open: redraws and a second open while it runs make no second read; a failed open's next open tries once more
 //   B6 a phone with a copy, or in the game: no verified read at all
+//   B8 a copy behind (Verify F1): the same open makes the verified read; a late answer never replaces a newer copy
 //   B7 the real reader: an ACTIVE root only (closed, pending, test or Terminal-Closed roots read nothing more), managers bound,
 //      the setup ledger required; exact gets only, never a session, transaction, list, write or browser storage
 const assert=require("node:assert/strict");
@@ -124,11 +125,26 @@ const NOTICE={status:"unavailable",notice:"continue"};
   // B6
   {const copy={schemaVersion:1,rivalryId:p1.rivalryId,history:J(F.history(p1))};
     const pg=page({snapshot:home(p1),copy,commit:null,reader:active(p1,setup)});const v=await pg.open();assert.equal(v.status,"ready");assert.equal(pg.calls.length,0,"a kept copy: PR A's one check, never the full read");assert.equal(pg.reads.length,1);
-    const behind=page({snapshot:home(p1),copy,commit:{phase:"ACKNOWLEDGED",revision:3,seasonNumber:2},reader:active(p2,setup)});assert.deepEqual(await behind.open(),NOTICE,"a copy behind keeps the notice (PR A)");assert.equal(behind.calls.length,0);
     const live={identity:F.identity(),pair:F.pair(p1.rivalryId),multiSeason:F.multiFor(p1),history:F.history(p1),terminalClose:null};
     const game=page({snapshot:live,reader:active(p1,setup),liveCanArrive:true});assert.equal((await game.open()).status,"ready");assert.equal(game.calls.length,0,"in the game: no verified read");
     const closed=page({snapshot:{...home(p1),pair:F.pair(p1.rivalryId,{status:"waiting",connectionState:"closed"})},reader:active(p1,setup)});await closed.open();assert.equal(closed.calls.length,0,"a pair that is not active: no read");}
-  ok("B6","a phone with a kept copy, a pair not active, or the game itself: no verified read");
+  ok("B6","a phone with a current kept copy, a pair not active, or the game itself: no verified read");
+
+  // B8 (Verify F1 on #1650)
+  {const copy={schemaVersion:1,rivalryId:p1.rivalryId,history:J(F.history(p1))},acked={phase:"ACKNOWLEDGED",revision:3,seasonNumber:2};
+    const pg=page({snapshot:home(p1),copy,commit:acked,reader:active(p2,setup)});pg.api.sfStandingsShown("mainMenu");await pg.api.sfPrepareKeptStandings();
+    const v=J(pg.api.currentRivalry());assert.equal(v.status,"ready","the loading screen waits through the check and the verified read");assert.deepEqual(v.score,score(p2),"a copy behind: the newer accepted season, never the older standing");assert.equal(v.season,3);
+    assert.deepEqual(pg.reads,[`rivalries/${p1.rivalryId}/seasonCommits/season_2`],"the one check");assert.equal(pg.calls.length,1,"then one verified read in the same open");
+    assert.equal(pg.kept().history.projection.acceptedSeasons,2,"the newer numbers replace the copy");
+    for(let i=0;i<5;i++)pg.api.currentRivalry();await pg.flush();assert.equal(pg.calls.length,1);assert.equal(pg.reads.length,1,"redraws read nothing more");
+    const fail=page({snapshot:home(p1),copy,commit:acked,reader:async()=>{throw new Error("offline");}});assert.deepEqual(await fail.open(),NOTICE,"behind and the read fails: the notice");assert.equal(fail.kept().history.projection.acceptedSeasons,1,"the copy is left as it was");
+    const none=page({snapshot:home(p1),copy,commit:acked});assert.deepEqual(await none.open(),NOTICE,"behind and no reader: the notice");}
+  {let answer;const pg=page({snapshot:home(p2),reader:()=>new Promise(r=>{answer=r;}),commit:null});pg.api.sfStandingsShown("mainMenu");pg.api.sfPrepareKeptStandings();await pg.flush();
+    const newer=JSON.stringify({schemaVersion:1,rivalryId:p2.rivalryId,history:J(F.history(p2))});pg.storage.set(KEY,newer);
+    answer({status:"active",code:null,rivalryId:p1.rivalryId,managerRole:"playerOne",acceptedSeasons:1,projection:J(p1),setup});await pg.flush();
+    assert.equal(pg.storage.get(KEY),newer,"a late answer with fewer seasons never replaces a newer copy");
+    pg.api.currentRivalry();await pg.flush();const v=J(pg.api.currentRivalry());assert.equal(v.status,"ready");assert.deepEqual(v.score,score(p2),"the newer copy shows, after its own check");}
+  ok("B8","a copy behind: the same open makes the verified read (newer season shown and kept, or the notice); a late answer never replaces a newer copy");
 
   // B7
   {const RID=p1.rivalryId,A1="acct_daniel",B1="acct_nik";

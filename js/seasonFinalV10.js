@@ -451,7 +451,8 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   // Showdown as active, and (2) one read of the next season's commit (rivalries/{id}/seasonCommits/season_{n+1}) shows it
   // is not ACKNOWLEDGED: so the copy holds every accepted season and no older standing is ever shown. A finished last season
   // needs no read. The read is made once per Standings open (no listener, no retry) and gives up after SF_COPY_READ_MS:
-  // anything unread, failed or newer than the copy keeps the "continue it from Home" notice. CAREER is not touched.
+  // anything unread or failed keeps the "continue it from Home" notice; a copy found behind goes on to the verified read
+  // below (PR B), never to an older standing. CAREER is not touched.
   const SF_LIVE_COPY_KEY="cms.liveStandings.v1",SF_LIVE_WAIT_MS=8000,SF_COPY_READ_MS=6000;
   let sfLoadingSince=0,sfLoadingRid="",sfCopyCheck=null,sfCopyOpen=0;
   function sfWakeAfter(ms){try{root.setTimeout(()=>{signature="";wake();},ms);}catch(_){}}
@@ -476,12 +477,18 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
   function sfKeptView(snapshot,rid){
     const pair=snapshot.pair;
     if(!pair||pair.initialized!==true||pair.connectionState!=="active"||pair.rivalryId!==rid)return null;
+    // this open's verified read (no copy, or a copy found behind) answers first: the read is its own freshness
+    const done=sfFresh&&sfFresh.rid===rid&&sfFresh.open===sfCopyOpen&&sfFresh.status==="done"?sfFresh:null;
+    if(done)return sfVerifiedView(snapshot,done.copy);
     const copy=sfKeptCopy(rid);if(!copy)return sfFreshView(snapshot,rid);
     // this open's check; one still in flight from a moment ago is taken over rather than read twice
     const key=sfCopyKey(copy);let check=sfCopyCheck&&sfCopyCheck.key===key?sfCopyCheck:null;
     if(check&&check.open!==sfCopyOpen){if(check.status==="checking")check.open=sfCopyOpen;else check=null;}
     if(!check)check=sfStartCopyCheck(copy,key);
     if(check.status==="checking")return {status:"loading"};
+    // r100 Verify F1 on #1650: a copy BEHIND (this phone committed the next season and the app closed before the other phone
+    // acknowledged it, so a newer season is accepted) is no worse than no copy: the same open makes the verified read.
+    if(check.status==="behind")return sfFreshView(snapshot,rid);
     if(check.status!=="current")return null;
     return sfVerifiedView(snapshot,copy);
   }
@@ -543,6 +550,9 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
       const copy=read.projection?sfFreshHistory(read,rid):sfFreshZero(read,rid);
       // kept only when the adapter takes it exactly as it would take live numbers
       if(!copy||!sfVerifiedView(sfSnapshot(),copy))throw new Error("STANDINGS_FRESH_UNVERIFIED");
+      // r100 Verify F1: a late answer never replaces a newer copy kept meanwhile (the live progression's, with more seasons
+      // accepted, or a finished last season); that copy is shown after its own check instead.
+      const kept=sfKeptCopy(rid);if(kept&&(kept.accepted>copy.accepted||kept.terminal===true&&copy.terminal!==true))throw new Error("STANDINGS_FRESH_SUPERSEDED");
       fresh.copy=copy;fresh.status="done";
       // this open's freshness is the read itself: the kept copy is current for this open with no second read
       sfCopyCheck={key:sfCopyKey(copy),open:fresh.open,status:"current"};
@@ -577,8 +587,11 @@ html[data-v10-screen="standings"] #app #standings.standingsScreenV10{position:re
       const snapshot=sfSnapshot(),view=root.CareerModeSharedActiveShowdownAdapter?.rivalryView(snapshot);
       if(!view||view.status!=="loading"||sfLiveCanArrive())return Promise.resolve();
       sfKeptView(snapshot,typeof snapshot.pair?.rivalryId==="string"?snapshot.pair.rivalryId:"");// starts this open's one read when a copy is kept
-      const check=sfCopyCheck,fresh=sfFresh;
-      const pending=check&&check.open===sfCopyOpen&&check.status==="checking"&&check.promise?check.promise:fresh&&fresh.open===sfCopyOpen&&fresh.status==="reading"&&fresh.promise?fresh.promise:null;
+      const rid=typeof snapshot.pair?.rivalryId==="string"?snapshot.pair.rivalryId:"",open=sfCopyOpen;
+      const freshPending=()=>{const f=sfFresh;return f&&f.open===open&&f.status==="reading"&&f.promise?f.promise:null;};
+      const check=sfCopyCheck;
+      // a copy found behind goes on to this open's verified read, still behind the loading screen (Verify F1)
+      const pending=check&&check.open===open&&check.status==="checking"&&check.promise?check.promise.then(()=>{if(check.status!=="behind"||sfCopyOpen!==open)return null;sfKeptView(sfSnapshot(),rid);return freshPending();}):freshPending();
       return pending?Promise.race([pending,new Promise(r=>root.setTimeout(r,SF_COPY_READ_MS))]).catch(()=>{}):Promise.resolve();
     }catch(_){return Promise.resolve();}
   }
