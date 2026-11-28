@@ -227,9 +227,11 @@
         // r87 career fixes (A-08): a screen left on "unavailable" (a timeout after a phone lock or bad signal) loads again by
         // itself when the page is shown again or the connection comes back, as TRY AGAIN would. Nothing loads while hidden.
         // Codex #1103: by status, so the loader's own "unavailable" career (a failed career-index read) retries too.
+        // r100 Verify on #1651: THIS SHOWDOWN's "continue it from Home" notice is retried by itself once per open at most (with
+        // no copy that is the 3 + 4n verified read); any further try is the player's (leave and enter again).
         const retryUnavailable=()=>{
           if(root.document?.visibilityState==="hidden")return;
-          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&(sources[screen]===UNAVAILABLE||sources[screen]?.status==="unavailable")&&!reloads[screen]?.flight)void refresh(screen,false,true).catch(report);
+          for(const screen of Object.keys(APP))if(screens().isMounted(APP[screen])&&(sources[screen]===UNAVAILABLE||sources[screen]?.status==="unavailable")&&!reloads[screen]?.flight&&!(screen==="rivalryStatistics"&&sources[screen]?.notice==="continue"&&rlKeptOpen.auto>=RL_KEPT_AUTO_MAX))void refresh(screen,false,true,true).catch(report);
         };
         root.addEventListener?.("online",retryUnavailable);
         root.document?.addEventListener?.("visibilitychange",retryUnavailable);
@@ -357,7 +359,29 @@
       return Boolean(history?.isActive?.()&&setup?.sessionId);
     }catch(_){return false;}
   }
-  function rlLiveOrContinue(rivalry){return rivalry?.status==="loading"&&!rlLiveCanArrive()?{...rivalry,status:"unavailable",notice:"continue"}:rivalry;}
+  // r100 H2-1 PR C (Nik: "Standings opened in the middle of a Showdown must always show the scores"): out of the game (an app
+  // reopened on Home) Rivalry Statistics shows THIS SHOWDOWN the way Standings does, from js/seasonFinalV10.js: the phone's
+  // kept verified copy after one check that no later season was accepted, or, with no copy, the one session-free verified
+  // read; anything else (and every failure) is the "continue it from Home" notice, as before. No listener, no retry.
+  // r100 Verify on #1651 (Spark): an open is an entry to the screen; the reloads that come by themselves (the connection back,
+  // the page shown again, a provider change) ask seasonFinalV10 once per open at most, then keep this open's answer.
+  const RL_KEPT_AUTO_MAX=1;
+  let rlKeptOpen={auto:0,key:null,last:null};
+  async function rlLiveOrContinue(rivalry,mode="open"){
+    if(rivalry?.status!=="loading"||rlLiveCanArrive())return rivalry;
+    const notice={...rivalry,status:"unavailable",notice:"continue"},key=context();
+    if(mode==="open")rlKeptOpen={auto:0,key:null,last:null};
+    else if(mode==="auto"){if(rlKeptOpen.auto>=RL_KEPT_AUTO_MAX)return rlKeptOpen.key===key&&rlKeptOpen.last?rlKeptOpen.last:notice;rlKeptOpen.auto+=1;}
+    const kept=await rlKeptShowdownView();
+    const result=kept&&["ready","empty"].includes(kept.status)?{...kept,lifecycle:"active"}:notice;
+    rlKeptOpen.key=key;rlKeptOpen.last=result;return result;
+  }
+  async function rlKeptShowdownView(){
+    try{
+      if(!root.CareerModeSeasonFinalV10)await load("v10-season-final","js/seasonFinalV10.js","CareerModeSeasonFinalV10");
+      return typeof root.CareerModeSeasonFinalV10?.keptShowdownView==="function"?await root.CareerModeSeasonFinalV10.keptShowdownView():null;
+    }catch(_error){return null;}
+  }
   // r87 H4 (Reus Gate, Nik): a first entry, TRY AGAIN, or the connection coming back on "unavailable" keeps the screen covered
   // under Reus while its career is read, then reveals it once. Only a read still running after HOLD_MAX_MS shows the loading
   // frame with its "n of N" progress (inside js/v10Screens.js's LOAD_HOLD_MAX_MS, so the cover never ends first).
@@ -365,7 +389,17 @@
   const held=new Set();
   const rlCachedCareerModel=()=>careerCache&&careerCache.key===context()?careerCache.model:null;
   const rlOwner=key=>{try{return JSON.stringify(JSON.parse(key).slice(0,2));}catch(_){return null;}};
-  function refresh(screen,event=false,retry=false){
+  // H1 F2 (2026-11-27, Nik: Career and History include a finished Showdown right away): a Showdown closed since this History
+  // frame was drawn (the pair now names it closed) and the frame does not list it as finished. That frame is older than the
+  // close, so it is never shown again: the screen loads (covered on entry) until the read this key change starts anyway lands.
+  // No extra read. A frame that already lists it (the career read after the close) is kept, so nothing flashes.
+  const rlClosedOf=key=>{try{const id=JSON.parse(key)[3];return typeof id==="string"&&id?id:null;}catch(_){return null;}};
+  function rlOlderThanClose(model,oldKey,key){
+    const closed=rlClosedOf(key);if(!closed||closed===rlClosedOf(oldKey)||!model||model===LOADING||model===UNAVAILABLE)return false;
+    const rows=model.history?.showdowns;
+    return !(Array.isArray(rows)&&rows.some(row=>row?.rivalryId===closed&&["completed","abandoned"].includes(row.status)));
+  }
+  function refresh(screen,event=false,retry=false,auto=false){
     let key=context();const reload=reloads[screen]??(reloads[screen]={flight:null,timer:null,dirty:false,lastStarted:-Infinity});
     const supplied=getters[screen]?.();
     if(supplied!=null){screens().invalidate(APP[screen]);return screens().show(APP[screen]);}
@@ -373,8 +407,9 @@
     // load again): the same account and manager keep their frame while the pair or marker settles; the reload replaces it.
     if(sourceKeys[screen]!==key){
       const sameOwner=sourceKeys[screen]!=null&&rlOwner(sourceKeys[screen])===rlOwner(key);
+      const olderThanClose=sameOwner&&screen==="legacy"&&rlOlderThanClose(sources[screen],sourceKeys[screen],key);
       sourceKeys[screen]=key;
-      if(!sameOwner){
+      if(!sameOwner||olderThanClose){
         sources[screen]=LOADING;
         if(reload.flight||event&&Date.now()-reload.lastStarted<RELOAD_INTERVAL)void screens().show(APP[screen]).catch(report);
       }
@@ -409,7 +444,7 @@
             await modelDependencies();
             const active=root.CareerModeSharedActiveShowdownAdapter.buildActiveShowdownViews(rlSnapshot());
             if(["none","abandoned","completed"].includes(active.classification)&&(active.rivalry.status!=="ready"||await rlCurrentHidden(active.careerInput?.showdowns?.[0]?.rivalryId)))return rlLoadCareerModel(()=>flight.alive&&!flight.left,active.classification==="completed"?{expect:active.careerInput?.showdowns?.[0]?.rivalryId}:true,progress,retrying);
-            return rlLiveOrContinue({...active.rivalry,lifecycle:active.classification});
+            return rlLiveOrContinue({...active.rivalry,lifecycle:active.classification},event||auto?"auto":retry?"tap":"open");
           }
           return rlLoadCareerModel(()=>flight.alive&&!flight.left,false,progress,retrying);
         })();

@@ -162,6 +162,29 @@ LOOK = {
   tilelight="border-color: rgba(255, 220, 190, .2) !important; border-bottom-color: rgba(0, 0, 0, .3) !important; "
             "background: linear-gradient(180deg, rgba(255, 230, 220, .07) 0, transparent 18%) !important;",
   title="", gold=False),
+ "emerald": dict(  # P3 Emerald (Nik's name 2026-11-26; colour study #145A3C / #0B2E22 / #241A12): deep bottle-green panels like the
+                   # malachite slab, a thin satin-brass edge, warm ivory words; gold keeps its meaning but is softened, never bright
+  tokens="""
+  --sd-edge: rgba(190, 158, 92, .66); --sd-edge-inner: rgba(236, 222, 170, .14);
+  --sd-glass: rgba(8, 26, 18, .86); --sd-glass-strong: rgba(6, 20, 14, .96); --sd-black: #04100b;
+  --sd-shadow-glow: 0 0 0 transparent;
+  --sd-text-primary: #eef0e6; --sd-text-secondary: #b3c2b4; --sd-text-warm: #e6e0cc;
+  --r95-ink: #eef0e6; --r95-ink-2: #b3c2b4; --r95-gold-ink: #dcbf72; --r95-kicker-ink: #ead08a;
+  --r78-ivory: #eef0e6; --r78-ivory-2: #b3c2b4; --r78-gold: #dcbf72; --r78-gold-strong: #ead08a; --r78-panel: #0f2e20;
+  --h95-smoke: linear-gradient(180deg, #0f2e20, #08190f);""",
+  panel="background: linear-gradient(104deg, transparent 0 56%, rgba(210, 240, 220, .035) 66%, transparent 76%), linear-gradient(180deg, #17402d 0%, #0f2e20 44%, #0a2016 100%) !important; "
+        "border-color: #061710 !important; border-image: none !important; box-shadow: 0 0 0 1px rgba(190, 158, 92, .78), 0 14px 32px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(214, 236, 200, .18), inset 0 0 0 1px rgba(190, 158, 92, .18) !important;",
+  card="border-color: rgba(190, 158, 92, .5) !important; box-shadow: inset 0 1px 0 rgba(214, 236, 200, .1) !important;",
+  label="",
+  bevel="filter: saturate(.78) brightness(.9);",
+  second="filter: saturate(.85) brightness(.94);",
+  chrome="filter: saturate(.85) brightness(.94);",
+  tile="background: linear-gradient(104deg, transparent 0 56%, rgba(210, 240, 220, .04) 66%, transparent 76%), linear-gradient(180deg, rgba(23, 64, 45, .94) 0%, rgba(15, 46, 32, .96) 46%, rgba(10, 32, 22, .98) 100%) !important; "
+       "box-shadow: 0 12px 26px rgba(0, 0, 0, .62), 0 0 0 1px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(214, 236, 200, .18) !important;",
+  tilebevel="",
+  tilelight="border-color: rgba(220, 236, 200, .2) !important; border-bottom-color: rgba(0, 0, 0, .3) !important; "
+            "background: linear-gradient(180deg, rgba(226, 240, 228, .07) 0, transparent 18%) !important;",
+  title="", gold=False),
 }
 GOLD_TOKENS = """--sd-gold-100: #fff3b0; --sd-gold-200: #fff1b8; --sd-gold-300: #ffd34d; --sd-gold-400: #f2c45b; --sd-gold-500: #f5c518;
   --sd-gold-600: #e0ae3a; --sd-gold-700: #d4a017; --sd-gold-800: #8a6a12; --sd-gold-900: #493708;
@@ -175,6 +198,7 @@ def block():
            "   platinum frames, gold only where it means something (main button, winner, totals). Black Steel: polished black\n"
            "   steel panels, thin sharp gold. Graphite: neutral graphite velvet, satin titanium hairlines, satin graphite main button,\n"
            "   cool ivory titles, nothing glints. Ruby: deep oxblood marble panels, thin antique gold, warm ivory words.\n"
+           "   Emerald: deep bottle-green malachite panels, thin satin brass, warm ivory words.\n"
            "   Colour and finish only; Wooden matches none of this. */\n"]
     for t, L in LOOK.items():
         out.append(f"\n/* ---- {t} ---- */\n")

@@ -61,6 +61,12 @@
   // only where this phone has a note. 2.0.0 notes season 1 the moment it sees a Showdown with no season accepted yet,
   // so every Showdown played on 2.0.0 keeps F1's hold exactly. Storage only, no read.
   function pmspNoteLiveSeason(rivalryId,accepted){if(accepted===0)pmspMarkContinued(rivalryId,1);}
+  // r100 H2-1: the last authoritative view this phone read, for Standings after an app reopen (js/seasonFinalV10.js shows it
+  // only after one read proves no later season was accepted). One key: the newest Showdown's view replaces the one before, and
+  // a copy naming another Showdown is never used. Written only when the view changes (not on every 15 s poll). Storage only, no read.
+  const PMSP_STANDINGS_KEY="cms.liveStandings.v1";
+  let pmspKeptKey="";
+  function pmspKeepForStandings(rivalryId,result){try{const key=`${rivalryId}|${result.phase}|${result.state.acceptedSeasons}|${result.state.acceptedRevisionKey||""}|${result.state.terminal===true}`;if(key===pmspKeptKey||typeof root.writeStorageValue!=="function")return;if(root.writeStorageValue(PMSP_STANDINGS_KEY,JSON.stringify({schemaVersion:1,rivalryId,view:result}),true)!==false)pmspKeptKey=key;}catch(_error){}}
   function pmspHoldsForReview(rivalryId,accepted,total,terminal){const into=pmspContinuedInto(rivalryId);return terminal!==true&&Number.isInteger(accepted)&&accepted>=1&&accepted<total&&into>=1&&into<accepted+1;}
   function pmspFallbackSeason(value){const n=Number(value);return Number.isInteger(n)&&n>=1&&n<=10?n:null;}
   function pmspResolveSeason(fallback=null){
@@ -190,7 +196,7 @@
     await setupApi.refresh();if(!pmspContextMatches(request))return null;
     const result=pmspResult(await provider.read(await pmspProviderOptions(request)));if(!pmspContextMatches(request))return null;
     if(result.runtimeRevision!=="1.9.1-r13"||String(result.rivalryId)!==request.rivalryId||!["SEASON_READY","SHOWDOWN_COMPLETE"].includes(result.phase)||result.state.runtimeRevision!=="1.9.1-r13"||result.state.rivalryId!==request.rivalryId)pmspFail("MULTI_SEASON_PROJECTION_INVALID");
-    view=result;contextKey=request.key;pmspNoteLiveSeason(request.rivalryId,Number(result.state.acceptedSeasons));const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();pmspAnnounce(request);return view;
+    view=result;contextKey=request.key;pmspNoteLiveSeason(request.rivalryId,Number(result.state.acceptedSeasons));pmspKeepForStandings(request.rivalryId,result);const cursor=pmspEnsureCursor();if(cursor>result.state.acceptedSeasons+1)pmspFail("MULTI_SEASON_CURSOR_AHEAD_OF_AUTHORITY");pmspRender();pmspDecorateDashboard();pmspAnnounce(request);return view;
   }
   // r75: once the accepted count or terminal state changes, ask Local Reconciliation to run its automatic final check now. It
   // used to learn about the last accepted season only from unrelated repeated events, which stopped once those cascades

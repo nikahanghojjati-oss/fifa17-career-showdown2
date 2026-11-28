@@ -3,6 +3,7 @@
  "max_mean": 20.0,
  "clubhouses": [
   "black",
+  "emerald",
   "matte",
   "ruby",
   "silver"
@@ -25,6 +26,24 @@
    "band_px": 26624,
    "band_mean": 6.67,
    "band_p90": 16.0
+  },
+  "visual-assets/v10_1/plates-hc/emerald/ENV_BOX_PLATE_HC_V4_1920.webp": {
+   "sha256": "59c433734ce800abac810f92116350e152da6bb760e8391ba8e7c4cecef7e07e",
+   "band_px": 10283,
+   "band_mean": 6.93,
+   "band_p90": 15.0
+  },
+  "visual-assets/v10_1/plates-hc/emerald/ENV_BOX_PLATE_HC_V4_1X.webp": {
+   "sha256": "165f311724c537b8817429e6f2430b9b0ba361fd66a0fc30d1a4699b7d0f08db",
+   "band_px": 5852,
+   "band_mean": 7.64,
+   "band_p90": 16.0
+  },
+  "visual-assets/v10_1/plates-hc/emerald/ENV_BOX_PLATE_HC_V4_2X.webp": {
+   "sha256": "200b0636f79d020992d14e64828f13c50f0022cadab5fa8a0342683487a82955",
+   "band_px": 26624,
+   "band_mean": 7.16,
+   "band_p90": 17.0
   },
   "visual-assets/v10_1/plates-hc/matte/ENV_BOX_PLATE_HC_V4_1920.webp": {
    "sha256": "0ad7c9604bd8347f72cc8bc2569205f92460a0f4218c48c308f6b43773648652",

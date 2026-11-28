@@ -29,11 +29,11 @@ const baseUrl = new URL(process.env.CMS_BASE_URL || "http://127.0.0.1:4173/");
 const shotDir = process.env.CMS_OLD_ART_SHOTS || "";
 const reportFile = process.env.CMS_OLD_ART_REPORT || "";
 const touchSize = (w, h, pointer) => pointer ? pointer === "touch" : w < 900 || h < 500;
-// R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte|ruby opens every screen in that clubhouse (this device's pick, localStorage).
+// R99-01 clubhouse themes: CMS_CLUBHOUSE=silver|black|matte|ruby|emerald opens every screen in that clubhouse (this device's pick, localStorage).
 // Every room drawn must then be that theme's copy (plates-hc/<theme>/), and no plain room may even be downloaded: a plain room
 // fetched first could paint for a moment before the themed one (A3, A4).
 // No clubhouse draws or downloads another clubhouse's room or loading room, on any screen (A5; Wooden included).
-const THEME = /^(silver|black|matte|ruby)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
+const THEME = /^(silver|black|matte|ruby|emerald)$/.test(process.env.CMS_CLUBHOUSE || "") ? process.env.CMS_CLUBHOUSE : "";
 const PLAIN_ROOM = /visual-assets\/v10_1\/plates-hc\/(?:ENV|TILE)_/;
 
 // ---------- window shapes ----------
@@ -150,9 +150,9 @@ const RETIRED_NEVER = new RegExp([
 ].join("|"));
 // r100 B7 (Verify nit on #1632): premium only also means one clubhouse never draws or downloads another clubhouse's room, on
 // any screen (A5), not only the loading room.
-const otherRoom = theme => theme ? new RegExp(`plates-hc/(?!${theme}/)(?:silver|black|matte|ruby)/`) : /plates-hc\/(?:silver|black|matte|ruby)\//;
+const otherRoom = theme => theme ? new RegExp(`plates-hc/(?!${theme}/)(?:silver|black|matte|ruby|emerald)/`) : /plates-hc\/(?:silver|black|matte|ruby|emerald)\//;
 const OTHER_ROOM = otherRoom(THEME);
-const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte|ruby)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte|ruby)\/ENV_LOADING_/;
+const OTHER_LOADING = THEME ? new RegExp(`assets/loading/(?:(?!${THEME}/)(?:silver|black|matte|ruby|emerald)/)?ENV_LOADING_`) : /assets\/loading\/(?:silver|black|matte|ruby|emerald)\/ENV_LOADING_/;
 function drawnPictures(){
     const vw = innerWidth, vh = innerHeight, out = [];
     const urls = s => [...String(s || "").matchAll(/url\(["']?([^"')]+)["']?\)/g)].map(m => m[1]);
